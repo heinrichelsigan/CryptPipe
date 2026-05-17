@@ -7,6 +7,7 @@ using EU.CqrXs.Gui.Properties;
 using EU.CqrXs.Gui.Sound;
 using EU.CqrXs.Util;
 using EU.CqrXs.Zip;
+using System.Security.Cryptography;
 
 
 namespace EU.CqrXs.Gui.Forms
@@ -23,6 +24,7 @@ namespace EU.CqrXs.Gui.Forms
         protected internal CipherPipe? cPipe = null;
         protected internal string simg = "";
         protected internal ToolStripMenuItem[] menuEncodings;
+        ToolStripMenuItem[] mCipherModes = new List<ToolStripMenuItem>().ToArray();
 
         #region ctor and load
 
@@ -34,6 +36,8 @@ namespace EU.CqrXs.Gui.Forms
         public OneTwoThreeFish()
         {
             InitializeComponent();
+            mCipherModes = new ToolStripMenuItem[] { menuCipherModeItemCBC, menuCipherModeItemCFB, menuCipherModeItemECB };
+
 
             tabControlWithHexDest.AsciiTextReadonly = true;
             buttonEncrypt.Click += new System.EventHandler(async (sender, e)
@@ -59,8 +63,14 @@ namespace EU.CqrXs.Gui.Forms
                 => await menuAbout_Click(sender, e));
             menuHelpHelp.Click += new System.EventHandler(async (sender, e)
                 => await menuHelp_Click(sender, e));
-            menuMainComplex.Click += menuMainComplex_Click;
-            
+
+            menuOptionsModesComplex.Click += menuOptionsModesComplex_Click;
+            menuOptionsModesSimple.Click += new System.EventHandler(async (sender, e)
+                 => await menuOptionsModesSimple_Click(sender, e));
+
+            foreach (var cipherModeItem in mCipherModes)
+                cipherModeItem.Click += menuCipherMode_Click;
+
             menuEncodings = new ToolStripMenuItem[] { menuEncNone, menuEncBase16, menuEncHex16, menuEncHex32, menuEncBase32, menuEncBase64, menuEncUu, menuEncXx, menuEncAscii85 };
             foreach (ToolStripMenuItem encodingMenu in menuEncodings)
                 encodingMenu.Click += new System.EventHandler(async (sender, e) => await menuEncodingKind_Click(sender, e));
@@ -68,8 +78,6 @@ namespace EU.CqrXs.Gui.Forms
             ToolStripMenuItem[] menuZips = new ToolStripMenuItem[] { zmenu7z, zmenuBZip2, zmenuGZip, zmenuZip, zmenuNone };
             foreach (var zipMenuItem in menuZips)
                 zipMenuItem.Click += new System.EventHandler(async (sender, e) => await menuCompression_Click(sender, e));
-
-
            
             this.comboBoxCompression.Items.Clear();
             foreach (ZipType zipType in ZipTypeExtensions.GetZipTypes())
@@ -80,6 +88,15 @@ namespace EU.CqrXs.Gui.Forms
             foreach (EncodingType encodingType in EncodingTypesExtensions.GetEncodingTypes())
                 this.comboBoxEncoding.Items.Add(encodingType.ToString());
             comboBoxEncoding.SelectedItem = EncodingType.Base64.ToString();
+            
+            this.comboBoxCipherModes.Items.Clear();
+            this.comboBoxCipherModes.Items.Add("CBC");
+            this.comboBoxCipherModes.Items.Add("CFB");            
+            this.comboBoxCipherModes.Items.Add("ECB");
+            this.comboBoxCipherModes.SelectedIndex = 1;
+
+
+            comboBoxCipherModes.SelectedIndexChanged += comboCipherMode_Changed;
 
         }
 
@@ -93,6 +110,8 @@ namespace EU.CqrXs.Gui.Forms
             this.labelInfoMessage.Visible = false;
             this.textBoxKey.Text = GetEmailFromRegistry();
 
+
+            menuCipherMode_Click(menuCipherModeItemCFB, e);
             SetPictureBoxImage(groupBoxFiles.pictureBoxRunningPipe, Resources.BlankEncrypt_640x108, "", true);
             SetStatusLabelText(this.statusLabelMsg, $"{this.Name} started...");
 
@@ -281,7 +300,77 @@ namespace EU.CqrXs.Gui.Forms
             return EncodingType.Base64;
 
         }
-        
+
+
+        protected internal void menuCipherMode_Click(object sender, EventArgs e)
+        {
+            int ix = 0;
+
+            foreach (var cipherModeItem in mCipherModes)
+                cipherModeItem.Checked = false;
+
+            if (sender is ToolStripMenuItem mi && mi.Name != null &&
+                (mi.Name.StartsWith("menuCipherModeItem") || mi.Name.StartsWith("menuMode")))
+            {
+                mi.Checked = true;
+                string cipherModeString = mi.Name.Replace("menuCipherModeItem", "").Replace("menuMode", "");
+
+                for (ix = 0; ix < comboBoxCipherModes.Items.Count; ix++)
+                {
+                    if (comboBoxCipherModes.Items[ix].ToString() == cipherModeString)
+                        break;
+                }
+                comboBoxCipherModes.SelectedIndex = ix;
+
+                CipherMode2 cmode2 = CipherModeExtensions.ParseText(cipherModeString);
+                CipherMode cmode = cmode2.ToCipherMode();
+                if (cPipe != null)
+                {
+                    cPipe.CMode2 = cmode2;
+                    groupBoxFiles.pictureBoxRunningPipe.Image = cPipe?.GenerateEncryptPipeImage();
+                    groupBoxFiles.pictureBoxRunningPipe.Visible = true;
+                }
+                SetInfoMessage($"CipherMode {cmode2.ToString()} set.", ToolTipIcon.Info, 2000);
+            }
+        }
+
+
+        protected internal void comboCipherMode_Changed(object sender, EventArgs e)
+        {
+            switch (comboBoxCipherModes.SelectedItem)
+            {
+                case "CBC": menuCipherMode_Click(menuCipherModeItemCBC, e); return;
+                case "ECB": menuCipherMode_Click(menuCipherModeItemECB, e); return;
+                case "CFB": menuCipherMode_Click(menuCipherModeItemCFB, e); return;
+                default: break;
+            }
+            switch (comboBoxCipherModes.Items[comboBoxCipherModes.SelectedIndex])
+            {
+                case "CBC": menuCipherMode_Click(menuCipherModeItemCBC, e); return;
+                case "ECB": menuCipherMode_Click(menuCipherModeItemECB, e); return;
+                case "CFB":
+                default: menuCipherMode_Click(menuCipherModeItemCFB, e); break;
+            }
+        }
+
+
+        public CipherMode2 GetCipherMode2()
+        {
+            foreach (var cipherModeItem in mCipherModes)
+            {
+                if (cipherModeItem.Checked)
+                {
+                    string cipherModeString = cipherModeItem.Name.Replace("menuCipherModeItem", "");
+                    CipherMode2 cmode2 = CipherModeExtensions.ParseText(cipherModeString);
+                    return cmode2;
+                }
+            }
+
+            menuCipherModeItemCFB.Checked = true;
+            return CipherMode2.CFB;
+        }
+
+
 
         #endregion MenuCompressionEncodingZipHash
 
@@ -365,6 +454,7 @@ namespace EU.CqrXs.Gui.Forms
                 return;
             }
 
+            cmode2 = GetCipherMode2();
             this.textBoxPipe.Text = string.Empty;
             Hash_Click(sender, e);
         }
@@ -382,6 +472,7 @@ namespace EU.CqrXs.Gui.Forms
                 return;
             }
 
+            cmode2 = GetCipherMode2();
             this.textBoxPipe.Text = string.Empty;            
             Hash_Click(sender, e);            
         }
@@ -419,6 +510,7 @@ namespace EU.CqrXs.Gui.Forms
 
             await this.SetEncodingAsync(menuEncBase64);
             await this.SetCompressionAsync(null, "None");
+            this.menuCipherMode_Click(menuCipherModeItemCFB, e);
             await this.statusLabelSource.SetTextAsync("");
             await this.statusLabelDestination.SetTextAsync("");
             await this.statusLabelMsg.SetTextAsync("");
@@ -456,6 +548,7 @@ namespace EU.CqrXs.Gui.Forms
                 if (result == DialogResult.Cancel)
                     return;
             }
+            cmode2 = GetCipherMode2();
             CipherEnum[] pipeAlgos = new CipherEnum[] { CipherEnum.BlowFish, CipherEnum.Fish2, CipherEnum.Fish3 };
             cPipe = new CipherPipe(pipeAlgos, 8, GetEncoding(), GetZip());
 
@@ -464,6 +557,7 @@ namespace EU.CqrXs.Gui.Forms
             DateTime start = DateTime.Now;
             if (!string.IsNullOrEmpty(this.tabControlWithHexSrc.AsciiText))
             {
+                cmode2 = GetCipherMode2();
                 this.tabControlWithHexDest.AsciiText = "";
                 Cursor.Current = new Cursor(iconSandClock.Handle);
                 await SetInfoMessageAsync("Starting encryption plain text", ToolTipIcon.Info, -1);
@@ -537,7 +631,7 @@ namespace EU.CqrXs.Gui.Forms
                 }
 
                 await SetInfoMessageAsync("Starting encryption for file " + groupBoxFiles.labelFileIn.Text, ToolTipIcon.Info, -1);
-
+                cmode2 = GetCipherMode2();
                 Cursor.Current = new Cursor(iconSandClock.Handle);
                 try
                 {
@@ -654,6 +748,7 @@ namespace EU.CqrXs.Gui.Forms
                 Cursor.Current = new Cursor(iconSandClock.Handle);
                 await SetInfoMessageAsync("Starting decryption of cipher text", ToolTipIcon.Info, -1);
 
+                cmode2 = GetCipherMode2();
                 try
                 {
                     await this.statusLabelSource.SetTextAsync($"source chars: {tabControlWithHexSrc.AsciiText.Length}");
@@ -716,6 +811,7 @@ namespace EU.CqrXs.Gui.Forms
                     return;
                 }
 
+                cmode2 = GetCipherMode2();
                 Cursor.Current = new Cursor(iconSandClock.Handle);
                 await SetInfoMessageAsync("Starting decryption file " + groupBoxFiles.labelFileIn.Text, ToolTipIcon.Info, -1);
 
@@ -1105,23 +1201,75 @@ namespace EU.CqrXs.Gui.Forms
         }
 
         #endregion OpenSave    
+            
 
         /// <summary>
         /// Switches to complex WinForm <see cref="EncryptFormMultiControls"/>
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <returns><see cref="Task"/></returns>
-        protected internal virtual void menuMainComplex_Click(object sender, EventArgs e)
+        /// <param name="e"></param>              
+        protected internal virtual void menuOptionsModesComplex_Click(object sender, EventArgs e)
         {
-            if (Program.formComplex == null)
+            if (Program.formComplex == null || Program.formComplex.Disposing)
                 Program.formComplex = new EncryptFormMultiControls();
-
+            try
+            {
+                Program.formComplex.Show();
+            }
+            catch (Exception exShow)
+            {
+                Program.formComplex = new EncryptFormMultiControls();
+                Program.formComplex.Show();
+            }
+            try
+            {
+                if (Program.form123Fish != null && !Program.form123Fish.Disposing)
+                    Program.form123Fish.Hide();
+                if (Program.formSimple != null && !Program.formSimple.Disposing)
+                    Program.formSimple.Hide();
+            }
+            catch (Exception exShow)
+            {
+            }
             this.Hide();
-            // Program.formSimple.Hide();
-            Program.formComplex.Show();
+            Program.formComplex.Focus();
         }
 
+
+
+        /// <summary>
+        /// menuOptionsModesSimple_Click - Shows menuMainSimple 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <returns><see cref="T:Task"</returns>
+        protected internal virtual async Task menuOptionsModesSimple_Click(object sender, EventArgs e)
+        {
+            if (Program.formSimple == null || Program.formSimple.Disposing)
+                Program.formSimple = new EncryptFormSimple();
+            try
+            {
+                Program.formSimple.Show();
+            }
+            catch (Exception exShow)
+            {
+                Program.formSimple = new EncryptFormSimple();
+                await Program.formSimple.ShowAsync();
+            }
+            try
+            {                
+                if (Program.form123Fish != null && !Program.form123Fish.Disposing)
+                    Program.form123Fish.Hide();
+                if (Program.formComplex != null && !Program.formComplex.Disposing)
+                    Program.formComplex.Hide();                
+            }
+            catch (Exception exShow)
+            {
+            }
+            this.Hide();
+
+            Program.formSimple.Focus();
+        }
 
         #region Media Methods
 

@@ -28,6 +28,7 @@ namespace EU.CqrXs.Gui
         internal static Mutex? mutex;
         internal static EncryptFormMultiControls formComplex;
         internal static EncryptFormSimple formSimple;
+        internal static OneTwoThreeFish form123Fish;
         internal static ApplicationContext applicationContext;
         internal static SystemColorMode colorMode = SystemColorMode.System;
         internal static FormMode formMode = FormMode.MultiComponent;
@@ -76,13 +77,13 @@ namespace EU.CqrXs.Gui
             if (formMode == FormMode.Simple) 
             {
                 Program.formSimple = new EncryptFormSimple();
-                applicationContext.MainForm = formSimple;
+                applicationContext.MainForm = Program.formSimple;
                 applicationContext.Tag = formSimple.Name;
             }
             else 
             {
                 Program.formComplex = new EncryptFormMultiControls();
-                applicationContext.MainForm = formComplex;
+                applicationContext.MainForm = Program.formComplex;
                 applicationContext.Tag = formComplex.Name;
             }
 

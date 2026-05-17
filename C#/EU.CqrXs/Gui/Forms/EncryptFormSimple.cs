@@ -61,7 +61,9 @@ namespace EU.CqrXs.Gui.Forms
                 => await menuAbout_Click(sender, e));
             menuHelpHelp.Click += new System.EventHandler(async (sender, e)
                 => await menuHelp_Click(sender, e));
-            menuMainComplex.Click += menuMainComplex_Click;           
+            menuMainComplex.Click += menuMainComplex_Click;   
+            menuMainItemOneTwoThreeFish.Click += new System.EventHandler(async (sender, e)
+                 => await menuMainItemOneTwoThreeFish_Click(sender, e));
 
             foreach (var cipherModeItem in mCipherModes)
                 cipherModeItem.Click += new System.EventHandler(async (sender, e) => await menuCipherMode_Click(sender, e));
@@ -796,6 +798,38 @@ namespace EU.CqrXs.Gui.Forms
             await base.menuHelp_Click(sender, e);
         }
 
+
+        /// <summary>
+        /// Shows OneTwoThreeFish Demo form 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <returns><see cref="T:Task"</returns>
+        protected internal virtual async Task menuMainItemOneTwoThreeFish_Click(object sender, EventArgs e)
+        {
+            if (Program.form123Fish == null || Program.form123Fish.Disposing)
+                Program.form123Fish = new OneTwoThreeFish();
+            try
+            {
+                Program.form123Fish.Show();
+            }
+            catch (Exception exShow)
+            {
+                Program.form123Fish = new OneTwoThreeFish();
+                await Program.form123Fish.ShowAsync();
+            }
+            try
+            {
+                if (Program.formSimple != null && !Program.formSimple.Disposing)
+                    Program.formSimple.Hide();
+                if (Program.formComplex != null && !Program.formComplex.Disposing)
+                    Program.formComplex.Hide();
+            }
+            catch (Exception exHide) { }
+            this.Hide();
+            Program.form123Fish.Focus();
+        }
+
         /// <summary>
         /// Switches to complex WinForm <see cref="EncryptFormMultiControls"/>
         /// </summary>
@@ -804,55 +838,30 @@ namespace EU.CqrXs.Gui.Forms
         /// <returns><see cref="Task"/></returns>
         protected internal virtual void menuMainComplex_Click(object sender, EventArgs e)
         {
-            if (Program.formComplex == null)
+            if (Program.formComplex == null || Program.formComplex.Disposing)
                 Program.formComplex = new EncryptFormMultiControls();
-
-            this.Hide();
-            Program.formSimple.Hide();
-            Program.formComplex.Show();
-        }
-
-        protected internal override void menuFileExit_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Program.formSimple.Hide(); 
-            }
-            catch (Exception ex)
-            {
-                Area23Log.LogOriginMsgEx("EncryptFormSimple", "menuFileExit_Click", ex);
-            }
             try
             {
                 Program.formComplex.Show();
-                // this.Close();
             }
-            catch (Exception ex)
+            catch (Exception exShow)
             {
-                Area23Log.LogOriginMsgEx("EncryptFormSimple", "menuFileExit_Click", ex);
-            }
-
-        }
-
-
-        protected internal override void menuFileExit_Close(object sender, FormClosedEventArgs e)
-        {
-            try
-            {
-                Program.formComplex.Show(); 
-            }
-            catch (Exception ex)
-            {
-                Area23Log.LogOriginMsgEx("EncryptFormSimple", "menuFileExit_Click", ex);
+                Program.formComplex = new EncryptFormMultiControls();
+                Program.formComplex.Show();
             }
             try
             {
-                Program.formSimple.Hide();
+                if (Program.formSimple != null && !Program.formSimple.Disposing)
+                    Program.formSimple.Hide();
+                if (Program.form123Fish != null && !Program.form123Fish.Disposing)
+                    Program.form123Fish.Hide();                
             }
-            catch (Exception ex)
+            catch (Exception exShow)
             {
-                Area23Log.LogOriginMsgEx("EncryptFormSimple", "menuFileExit_Click", ex);
             }
+
+            this.Hide();
+            Program.formComplex.Focus();
         }
 
 

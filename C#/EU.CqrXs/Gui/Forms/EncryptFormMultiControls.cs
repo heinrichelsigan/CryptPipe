@@ -68,12 +68,11 @@ namespace EU.CqrXs.Gui.Forms
             menuAbout.Click += new System.EventHandler(async (sender, e)
                 => await menuAbout_Click(sender, e));
             menuHelpHelp.Click += new System.EventHandler(async (sender, e)
-                => await menuHelp_Click(sender, e));
-            menuMainItemOneTwoThreeFish.Click += new System.EventHandler(async (sender, e)
-                 => await menuMainItemOneTwoThreeFish_Click(sender, e));
+                => await menuHelp_Click(sender, e));            
             menuMainItemExperimental.Click += new System.EventHandler(async (sender, e)
                  => await menuMainFormExperimental_Click(sender, e));
 
+            menuMainItemOneTwoThreeFish.Click += menuMainItemOneTwoThreeFish_Click;
             menuMainItemSimple.Click += menuMainFormSimple_Click;
 
             foreach (ToolStripMenuItem encodingMenu in menuEncodings)
@@ -691,6 +690,7 @@ namespace EU.CqrXs.Gui.Forms
             await this.SetEncodingAsync(menuEncBase64);
             await this.SetCompressionAsync(null, "None");
             await this.SetHashAsync(menuHashHex, radioButtonListHash);
+            await this.menuCipherMode_Click(menuCipherModeItemCFB, e);
             await this.statusLabelSource.SetTextAsync("");
             await this.statusLabelDestination.SetTextAsync("");
             await this.statusLabelMsg.SetTextAsync("");
@@ -1114,26 +1114,42 @@ namespace EU.CqrXs.Gui.Forms
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <returns><see cref="T:Task"</returns>
-        protected internal virtual async Task menuMainItemOneTwoThreeFish_Click(object sender, EventArgs e)
+        protected internal virtual void menuMainItemOneTwoThreeFish_Click(object sender, EventArgs e)
         {
-            OneTwoThreeFish oneTwoThreeFish = new OneTwoThreeFish();
-            this.Hide();
-            Program.formComplex.Hide();
-            DialogResult result = await oneTwoThreeFish.ShowDialogAsync();
-            if (result == DialogResult.Cancel || result == DialogResult.No || result == DialogResult.Abort ||
-                result == DialogResult.Ignore)
+                            
+            try
             {
-                try { oneTwoThreeFish.Close(); } catch { }
+                if (Program.form123Fish == null || Program.form123Fish.Disposing)
+                {
+                    OneTwoThreeFish ofish = new OneTwoThreeFish();
+                    Program.form123Fish = ofish;
+                    ofish.Show();
+                }
             }
+            catch (Exception exShow)
+            {
+                Program.form123Fish = new OneTwoThreeFish();
+                Program.form123Fish.Show();
+            }
+            try
+            {                
+                if (Program.formSimple != null && !Program.formSimple.Disposing)
+                    Program.formSimple.Hide();
+                if (Program.formComplex != null && !Program.formComplex.Disposing)
+                    Program.formComplex.Hide();
+            } 
+            catch (Exception exHide) { }
+            this.Hide();
+
+            Program.form123Fish.Focus();
         }
 
         internal async Task menuMainFormExperimental_Click(object sender, EventArgs e)
         {
             EncryptFormMultiControls encryptFormExperimental = new EncryptFormMultiControls();
-            this.Hide();
-            Program.formComplex.Hide();
-            await encryptFormExperimental.ShowAsync(this);
-            
+            this.Show();
+            await Program.formComplex.ShowAsync(this);
+            Program.formComplex.Focus();
         }
 
         internal void menuMainFormSimple_Click(object sender, EventArgs e)
@@ -1149,8 +1165,18 @@ namespace EU.CqrXs.Gui.Forms
                 Program.formSimple = new EncryptFormSimple();
                 Program.formSimple.Show();
             }
+            try
+            {
+                if (Program.formComplex != null && !Program.formComplex.Disposing)
+                    Program.formComplex.Hide();
+                if (Program.form123Fish != null && !Program.form123Fish.Disposing)
+                    Program.form123Fish.Hide();
+            } 
+            catch (Exception exShow) 
+            { 
+            }
             this.Hide();
-            Program.formComplex.Hide();
+
             Program.formSimple.Focus();
         }
 

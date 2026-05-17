@@ -11,10 +11,11 @@ namespace EU.CqrXs.Gui.Forms
 {
     public class EncryptFormBase : System.Windows.Forms.Form, IPlayable
     {
+        protected internal static bool isClosing = false;
         protected internal Cursor NormalCursor, NoDropCursor;
         protected internal System.Windows.Forms.DragDropEffects _dragDropEffect = System.Windows.Forms.DragDropEffects.None;
         protected internal bool isDragMode = false;
-        protected internal readonly Lock _Lock = new Lock();
+        internal static readonly Lock _Lock = new Lock();
         protected internal CipherPipe? CPipe;
         protected internal SecureCipherPipe? SPipe;
 
@@ -324,11 +325,19 @@ namespace EU.CqrXs.Gui.Forms
 
         protected internal virtual void menuFileExit_Click(object sender, EventArgs e)
         {
-            menuFileExit_Click(sender, e);
+            menuFileExit_Close(sender, new FormClosedEventArgs(CloseReason.UserClosing));
         }
 
         protected internal virtual void menuFileExit_Close(object sender, FormClosedEventArgs e)
-        {
+        {            
+            lock (EncryptFormBase._Lock)
+            {
+                if (isClosing == true)
+                    return;
+                
+                isClosing = true;
+            }
+
             try
             {
                 Program.ReleaseCloseDisposeMutex();
@@ -336,7 +345,30 @@ namespace EU.CqrXs.Gui.Forms
             catch (Exception ex)
             {
                 Area23Log.LogOriginMsgEx("BaseChatForm", "menuFileExit_Click", ex);
-            }           
+            }
+
+            try
+            {
+                if (Program.form123Fish != null && this.Name != Program.form123Fish.Name)
+                {
+                    if (Program.form123Fish != null && !Program.form123Fish.Disposing)
+                        Program.form123Fish.Dispose();
+                }
+                if (Program.formSimple != null && this.Name != Program.formSimple.Name)
+                {
+                    if (Program.formSimple != null && !Program.formSimple.Disposing)
+                        Program.formSimple.Dispose();
+                }
+                if (Program.formComplex != null && this.Name != Program.formComplex.Name)
+                {
+                    if (Program.formComplex != null && !Program.formComplex.Disposing)
+                        Program.formComplex.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                Area23Log.LogOriginMsgEx("BaseChatForm", "program forms disposing", ex);
+            }
 
             Application.ExitThread();
             Dispose();
