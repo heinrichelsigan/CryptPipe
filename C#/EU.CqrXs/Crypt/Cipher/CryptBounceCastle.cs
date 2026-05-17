@@ -62,6 +62,8 @@ namespace EU.CqrXs.Crypt.Cipher
         /// </summary>
         public int KeyLen { get; private set; }
 
+        public int IvLen { get; private set; }
+
         /// <summary>
         /// Base symmetric key block cipher interface, contains at runtime block cipher instance to constructor
         /// </summary>
@@ -84,6 +86,27 @@ namespace EU.CqrXs.Crypt.Cipher
 
         #region ctor_init_gen
 
+        protected void InitKeys()
+        {
+            privateKey = string.Empty;
+            privateHash = string.Empty;
+            tmpKey = new byte[KeyLen];
+            tmpIv = new byte[KeyLen];
+
+            Key = new byte[KeyLen];
+            Iv = new byte[KeyLen];
+            for (int i = 0; i < KeyLen; i++)
+            {
+                tmpKey[i] = (byte)0;
+                Key[i] = (byte)0;
+                if (i < IvLen)
+                {
+                    Iv[i] = (byte)0;
+                    tmpIv[i] = (byte)0;
+                }
+            }
+        }
+
         /// <summary>
         /// parameterless default constructor
         /// </summary>
@@ -95,18 +118,7 @@ namespace EU.CqrXs.Crypt.Cipher
             Size = 256;
             Mode = "CFB";
 
-            privateKey = string.Empty;
-            privateHash = string.Empty;
-            tmpKey = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCEK));
-            tmpIv = Convert.FromBase64String(ResReader.GetValue(Constants.BOUNCE4));
-
-            Key = new byte[KeyLen];
-            Iv = new byte[KeyLen];
-            Array.Copy(tmpIv, Iv, KeyLen);
-            Array.Copy(tmpKey, Key, KeyLen);
-
-            tmpKey = null;
-            tmpIv = null;
+            InitKeys();
         }
 
        
@@ -127,24 +139,22 @@ namespace EU.CqrXs.Crypt.Cipher
 
             if (init)
             {
-                tmpKey = new byte[KeyLen];
-                tmpIv = new byte[KeyLen];
+                InitKeys();
                 
                 if (string.IsNullOrEmpty(cparams.Key))
                     throw new ArgumentNullException("cparams.Key");
 
                 privateKey = cparams.Key;
-                privateHash = (string.IsNullOrEmpty(cparams.Hash)) ? EnDeCodeHelper.KeyToHex(cparams.Key) : cparams.Hash;
+                privateHash = (string.IsNullOrEmpty(cparams.Hash)) ? "": cparams.Hash;
 
-                tmpKey = GetUserKeyBytes(privateKey, privateHash);
-                // tmpKey = (privateKey.Length >= KeyLen) ? Encoding.UTF8.GetBytes(privateKey) : Encoding.UTF8.GetBytes(privateKey + privateHash);
-                tmpIv = GetUserKeyBytes(privateHash, privateKey);
-                // tmpIv = (privateHash.Length >= KeyLen) ? Encoding.UTF8.GetBytes(privateHash) : Encoding.UTF8.GetBytes(privateHash + privateKey);
+                tmpKey = System.Text.Encoding.UTF8.GetBytes(privateKey);
+                tmpIv = System.Text.Encoding.UTF8.GetBytes(privateHash);
 
-                Key = new byte[KeyLen];
-                Iv = new byte[KeyLen];
-                Array.Copy(tmpIv, Iv, KeyLen);
-                Array.Copy(tmpKey, Key, KeyLen);
+                int maxKeyLen = (tmpKey.Length < KeyLen) ? tmpKey.Length : KeyLen;
+                int maxIvLen = (tmpIv.Length < IvLen) ? tmpIv.Length : IvLen;
+
+                Array.Copy(tmpKey, Key, maxKeyLen);
+                Array.Copy(tmpIv, Iv, maxIvLen);
             }
             else
             {
@@ -166,19 +176,30 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="secretKey">user secret key, default email address</param>
         /// <param name="secretHash">user host ip address</param>
         /// <returns>Array of byte with length KeyLen</returns>
-        internal byte[] GetUserKeyBytes(string secretKey = "postmaster@localhost", string secretHash = "127.0.0.1")
+        internal byte[] GetUserKeyBytes(string secretKey, string secretHash)
         {
+            if (!string.IsNullOrEmpty(secretKey))
+                throw new ArgumentNullException(secretKey);
+            
             privateKey = secretKey;
-            privateHash = secretHash;
+            privateHash = string.IsNullOrEmpty(secretHash) ? "" : secretHash;
 
-            string keyByteHashString = privateKey;
             tmpKey = new byte[KeyLen];
-            tmpKey = CryptHelper.GetUserKeyBytes(privateKey, privateHash, KeyLen);
-            if (tmpKey.Length < KeyLen)
-                throw new ApplicationException($"key {tmpKey.ToHexString()} is shorten then KeyLen {KeyLen}");
+            tmpIv = new byte[IvLen];
+            for (int i = 0; i < KeyLen; i++)
+            {
+                tmpKey[i] = (byte)0;
+                if (i < IvLen)
+                    tmpIv[i] = (byte)0;
+            }
 
-            return tmpKey;
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(privateKey);
+            Array.Copy(bytes, 0, tmpKey, 0, Math.Min(bytes.Length, KeyLen));
+            
+            bytes = System.Text.Encoding.UTF8.GetBytes(privateHash);
+            Array.Copy(bytes, 0, tmpIv, 0, Math.Min(bytes.Length, IvLen));
 
+            return tmpKey.TarBytes(tmpIv);
         }
 
         /// <summary>

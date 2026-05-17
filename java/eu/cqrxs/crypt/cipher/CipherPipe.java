@@ -264,6 +264,7 @@ public class CipherPipe {
         */
 
 
+
     /**
      *  Generic encrypt bytes to bytes
      * @param inBytes array of bytes
@@ -283,7 +284,8 @@ public class CipherPipe {
         if (secretKey == null || secretKey.length() < 1)
             throw new IllegalArgumentException("seretkey");
         if (hashedKey == null || hashedKey.length() == 0)
-            throw new IllegalArgumentException("hashedKey");
+            hashedKey = "";
+            // throw new IllegalArgumentException("hashedKey");
 
         byte[] encryptBytes = inBytes;
         CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hashedKey, cmode2);
@@ -356,8 +358,8 @@ public class CipherPipe {
         if (secretKey == null || secretKey.length() == 0)
             throw new IllegalArgumentException("seretkey");
         if (hash == null || hash.length() == 0)
-            throw new IllegalArgumentException("hash");
-        // bool sameKey = true;
+            hash = "";
+            // throw new IllegalArgumentException("hash");
 
         byte[] decryptBytes = cipherBytes; 
         CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hash, cmode2);
@@ -524,50 +526,6 @@ public class CipherPipe {
         return encrypted;
     }
 
-
-    /**
-     * encrpytFileBytesGoRounds encrypts a data byte[] array
-     * @param inBytes binary data
-     * @param cryptKey prviate key for encryption
-     * @param hashIv hashed private key
-     * @param encoding {@link EncodeEnum}
-     * @param zipBefore {@link ZipType}
-     * @param keyHash {@link KeyHash}
-     * @param cmode2 {@link CipherMode2}
-     * @return binary data
-     */
-    public byte[] encrpytFileBytesGoRounds(
-                byte[] inBytes,
-                String cryptKey,
-                String hashIv,
-                EncodeEnum encoding,
-                ZipType zipBefore,
-                KeyHash keyHash,
-                CipherMode2 cmode2)
-            throws InvalidCipherTextException {
-
-        // hashIv if empty hash secretKey with keyHash hashing variant
-        hashIv = (hashIv == null || hashIv.length() == 0) ? keyHash.hash(cryptKey) : hashIv;
-        cipherKey = cryptKey;
-        cipherHash = hashIv;
-        kHash = keyHash;
-        zType = zipBefore;
-        encodeType = encoding;
-		cMode2 = cmode2;
-		
-        try {
-            byte[] zippedBytes = (zipBefore != ZipType.None) ? zipBefore.zip(inBytes) : inBytes;
-            inBytes = zippedBytes;
-        } catch (Exception exZip) {
-            DbgWriter.msgex(exZip, true);
-        }
-        // perform multi crypt pipe stages
-        byte[] encryptedBytes = merryGoRoundEncrpyt(inBytes, cryptKey, hashIv, cMode2);
-
-        return encryptedBytes;
-    }
-
-
 	/**
      *  decryptTextRoundsGo
      * @param cryptedEncodedMsg encoded byte array
@@ -615,6 +573,50 @@ public class CipherPipe {
         return decrypted;
     }
 
+
+    /**
+     * encrpytFileBytesGoRounds encrypts a data byte[] array
+     * @param inBytes binary data
+     * @param cryptKey prviate key for encryption
+     * @param hashIv hashed private key
+     * @param encoding {@link EncodeEnum}
+     * @param zipBefore {@link ZipType}
+     * @param keyHash {@link KeyHash}
+     * @param cmode2 {@link CipherMode2}
+     * @return binary data
+     */
+    public byte[] encrpytFileBytesGoRounds(
+                byte[] inBytes,
+                String cryptKey,
+                String hashIv,
+                EncodeEnum encoding,
+                ZipType zipBefore,
+                KeyHash keyHash,
+                CipherMode2 cmode2)
+            throws InvalidCipherTextException {
+
+        // hashIv if empty hash secretKey with keyHash hashing variant
+        hashIv = (hashIv == null || hashIv.length() == 0) ? keyHash.hash(cryptKey) : hashIv;
+        cipherKey = cryptKey;
+        cipherHash = hashIv;
+        kHash = keyHash;
+        zType = zipBefore;
+        encodeType = encoding;
+		cMode2 = cmode2;
+		
+        try {
+            byte[] zippedBytes = (zipBefore != ZipType.None) ? zipBefore.zip(inBytes) : inBytes;
+            inBytes = zippedBytes;
+        } catch (Exception exZip) {
+            DbgWriter.msgex(exZip, true);
+        }
+        // perform multi crypt pipe stages
+        byte[] encryptedBytes = merryGoRoundEncrpyt(inBytes, cryptKey, hashIv, cMode2);
+
+        return encryptedBytes;
+    }
+
+
     /**
      *  decodeDecrpytBytes
      * @param cipherBytes encoded byte array
@@ -658,6 +660,7 @@ public class CipherPipe {
         return decryptedBytes;
     }
 
+
 	/**
      * encrpytGoRounds encrypts a data byte[] array
      * @param inBytes binary data
@@ -691,7 +694,6 @@ public class CipherPipe {
         }
         return merryGoRoundEncrpyt(inBytes, cipherKey, cipherHash, cMode2);
     }
-
 
 	/**
      * decrpytRoundsGo decrypts encrypted bytes
@@ -811,7 +813,6 @@ public class CipherPipe {
 
         return encryptedBytes;
     }
-
 
     /**
      *  decodeDecrpytBytes

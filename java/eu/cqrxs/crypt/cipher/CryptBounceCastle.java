@@ -11,6 +11,7 @@
 package eu.cqrxs.crypt.cipher;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 import eu.cqrxs.crypt.encoding.EncodeEnum;
@@ -49,8 +50,7 @@ public class CryptBounceCastle  {
     byte[] key;
     byte[] iv;
 
-    public int size;
-    public int keyLen;
+    public int size, keyLen, ivLen;
     public String mode;
 
     public BlockCipher CryptoBlockCipher;
@@ -67,23 +67,31 @@ public class CryptBounceCastle  {
         CryptoBlockCipher = null;
         CryptoBlockCipherPadding = null;
         keyLen = 32;
+		ivLen = 32;
         size = 256;
         mode = "CFB";
 
-        privateKey = "";
-        privateHash = "";
-        tmpKey = Constants.AES_ENVIROMENT_KEY.getBytes(StandardCharsets.UTF_8);
-        tmpIv = Constants.AUTHOR_IV.getBytes(StandardCharsets.UTF_8);
-
-        key = new byte[keyLen];
-        iv = new byte[keyLen];
-        System.arraycopy(tmpIv, 0, iv, 0, keyLen);
-        System.arraycopy(tmpKey, 0, key, 0, keyLen);
-
-        tmpKey = null;
-        tmpIv = null;
+        initKeys();
     }
 
+	public void initKeys() {
+		
+		privateKey = "";
+        privateHash = "";
+		tmpKey = new byte[keyLen];
+		tmpIv = new byte[keyLen];
+
+		key = new byte[keyLen];
+		iv = new byte[keyLen];
+		for (int i = 0; i < keyLen; i++) {
+			key[i] = (byte)0;
+			tmpKey[i] = (byte)0;			
+			if (i < ivLen) {
+				iv[i] = (byte)0;
+				tmpIv[i] = (byte)0;
+			}
+		}
+	}
 
     /**
      * Generic CryptBounceCastle constructor
@@ -92,45 +100,43 @@ public class CryptBounceCastle  {
      */
     @SuppressWarnings("deprecation")
     public CryptBounceCastle(CryptParams cparams, boolean init)  {
+
         CryptoBlockCipher = (cparams.blockCipher == null) ? new AESEngine() : cparams.blockCipher;
         if (CryptoBlockCipher.getAlgorithmName() == "RC564" || CryptoBlockCipher.getAlgorithmName() == "RC5-64")
             CryptoBlockCipher = new RC564Engine();
+
         CryptoBlockCipherPadding = new org.bouncycastle.crypto.paddings.ZeroBytePadding();
         keyLen = cparams.keyLen;
+        ivLen = keyLen;
         size = Math.min(cparams.size, CryptoBlockCipher.getBlockSize());
         mode = cparams.getMode();
 
         if (init)
         {
-            tmpKey = new byte[keyLen];
-            tmpIv = new byte[keyLen];
+			initKeys();
 
+            if (cparams.key == null || cparams.key.isEmpty())
+                throw new IllegalArgumentException("cparams.Key");
 
-            // throw new IllegalArgumentException("cparams.Key");
+            privateKey = cparams.key;
+            privateHash = (cparams.hash == null || cparams.hash.isEmpty()) ? "" : cparams.hash;
 
-            privateKey = (cparams.key != null && cparams.key.length() > 0) ?
-                    cparams.key :  Constants.AUTHOR_EMAIL;
-            privateHash = (cparams.hash != null && cparams.hash.length() > 0) ?
-                    cparams.hash : cparams.keyHashing.hash(cparams.key);
+            tmpKey = privateKey.getBytes(Charset.forName("UTF-8"));
+            tmpIv = privateHash.getBytes(Charset.forName("UTF-8"));
 
-            tmpKey = getUserKeyBytes(privateKey, privateHash);
-            // tmpKey = (privateKey.Length >= KeyLen) ? Encoding.UTF8.GetBytes(privateKey) : Encoding.UTF8.GetBytes(privateKey + privateHash);
-            tmpIv = getUserKeyBytes(privateHash, privateKey);
-            // tmpIv = (privateHash.Length >= KeyLen) ? Encoding.UTF8.GetBytes(privateHash) : Encoding.UTF8.GetBytes(privateHash + privateKey);
-
-            key = new byte[keyLen];
-            iv = new byte[keyLen];
-            System.arraycopy(tmpIv, 0, iv, 0, keyLen);
-            System.arraycopy(tmpKey, 0, key, 0, keyLen);
+			int maxKeyLen = (keyLen > tmpKey.length) ? tmpKey.length : keyLen;
+            int maxIvLen = (ivLen > tmpIv.length) ? tmpIv.length : ivLen;
+            System.arraycopy(tmpKey, 0, key, 0, maxKeyLen);
+            System.arraycopy(tmpIv, 0, iv, 0, maxIvLen);
         }
         else
         {
             if (tmpKey == null || tmpIv == null || tmpKey.length <= 1 || tmpIv.length <= 1)
             {
                 tmpKey = new byte[keyLen];
-                tmpIv = new byte[keyLen];
-                System.arraycopy(iv, 0, tmpIv, 0, keyLen);
+                tmpIv = new byte[ivLen];
                 System.arraycopy(key, 0, tmpKey, 0, keyLen);
+                System.arraycopy(iv, 0, tmpIv, 0, ivLen);
             }
         }
     }
@@ -146,14 +152,32 @@ public class CryptBounceCastle  {
         privateKey = secretKey;
         privateHash = secretHash;
 
-        String keyByteHashString = privateKey;
         tmpKey = new byte[keyLen];
-        tmpKey = CryptHelper.getUserKeyBytes(privateKey, privateHash, keyLen);
+        tmpKey = secretKey.getBytes(Charset.forName("UTF-8"));
+
         if (tmpKey.length < keyLen)
             throw new IllegalArgumentException("key tmpKey.ToHexString() is shorten then KeyLen " + keyLen);
 
-        return tmpKey;
+        tmpIv = new byte[ivLen];
+        tmpIv = secretHash.getBytes(Charset.forName("UTF-8"));
 
+		int maxKeyLen = (keyLen > tmpKey.length) ? tmpKey.length : keyLen;
+        int maxIvLen = (ivLen > tmpIv.length) ? tmpIv.length : ivLen;
+		
+        key = new byte[keyLen];
+        iv = new byte[ivLen];
+		for (int i = 0; i < keyLen; i++) {
+			key[i] = (byte)0;
+			if (i < ivLen) {
+				iv[i] = (byte)0;
+			}
+		}
+		
+        System.arraycopy(tmpKey, 0, key, 0, maxKeyLen);
+        System.arraycopy(tmpIv, 0, iv, 0, maxIvLen);
+
+        byte[] keyBytes = CryptHelper.tarBytes(key, iv);
+        return keyBytes;
     }
 	
 	
@@ -181,7 +205,6 @@ public class CryptBounceCastle  {
 			return false;
 		return true;
 	}
-
 
 
     /***
@@ -353,12 +376,14 @@ public class CryptBounceCastle  {
      *                                       that brackets are HTML, XML injection
      * @return encoded encrypted String, default base64 encoded
      */
-    public String encryptString(String inString, EncodeEnum encodingType) throws InvalidCipherTextException, IOException {
+    public String encryptString(String inString, EncodeEnum encodingType)
+            throws InvalidCipherTextException, IOException {
+
         byte[] plainTextData = inString.getBytes(StandardCharsets.UTF_8);
         byte[] encryptedBytes = encrypt(plainTextData);
-        String encryptedString = encodingType.encodeBytesToString(encryptedBytes);
+        String crypteds = encodingType.encodeBytesToString(encryptedBytes);
 
-        return encryptedString;
+        return crypteds;
     }
 
 
@@ -368,13 +393,15 @@ public class CryptBounceCastle  {
      * @param encodingType {@link EncodeEnum}
      * @return plain text decrypted String
      */
-    public String decryptString(String inCryptString, EncodeEnum encodingType) throws InvalidCipherTextException, IOException {
+    public String decryptString(String inCryptString, EncodeEnum encodingType)
+            throws InvalidCipherTextException, IOException {
+
         byte[] cipherBytes = encodingType.decodeStringToBytes(inCryptString);
         byte[] plainData = decrypt(cipherBytes);
-        String plainTextString = plainData.toString();
+        String plaintexts = plainData.toString();
         // nDeCodeHelper.GetString(plainData).TrimEnd('\0');
 
-        return plainTextString;
+        return plaintexts;
     }
 
 

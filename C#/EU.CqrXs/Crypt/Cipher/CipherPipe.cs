@@ -329,7 +329,8 @@ namespace EU.CqrXs.Crypt.Cipher
             if (string.IsNullOrEmpty(secretKey))
                 throw new ArgumentNullException("seretkey");
             if (string.IsNullOrEmpty(hash))
-                throw new ArgumentNullException("hash");
+                // throw new ArgumentNullException("hash");
+                hash = "";
 
             CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hash) { CMode2 = cmode2 };
             byte[] encryptBytes = inBytes;
@@ -403,7 +404,7 @@ namespace EU.CqrXs.Crypt.Cipher
             if (string.IsNullOrEmpty(secretKey))
                 throw new ArgumentNullException("seretkey");
             if (string.IsNullOrEmpty(hash))
-                throw new ArgumentNullException("hash");
+                hash = "";
             // bool sameKey = true;
             CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hash) { CMode2 = cmode2 };
             byte[] decryptBytes = cipherBytes;
