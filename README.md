@@ -6,6 +6,14 @@ The following image shows you an example of a symmetric cipher **8 staged encryp
 
 <img src="https://raw.githubusercontent.com/heinrichelsigan/PermAgainCrypt/refs/heads/main/docu/Symmetric_Cipher_Pipeline.png" />
 
+## Cloned from https://github.com/heinrichelsigan/PermAgainCrypt
+
+## New approach
+
+Avoid dirty merging of Key and KeyHash, as we did in the past,
+go to cipher algorithm in Bouncy Castle with key => key, hash => hash.
+Allow empty hashes.
+
 Before entering the encryption pipe, the file can be zipped to avoid huge amount of symmetric cipher blocks 
 and after exiting the encryption pipe the file can be ascii encoded with base64 mime, uuencode, xxencode or hex16, because symmetric chiphered binary files might lose their block padding.
 
