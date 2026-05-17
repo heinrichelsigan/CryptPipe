@@ -3,10 +3,6 @@
 phases:
   install:
     commands:
-      # Below is the URL for the MSI linked from https://www.iis.net/downloads/microsoft/web-deploy
-      #- Invoke-WebRequest -OutFile WebDeploy_amd64_en-US.msi https://download.microsoft.com/download/0/1/D/01DC28EA-638C-4A22-A57B-4CEF97755C6C/WebDeploy_amd64_en-US.msi
-      # - msiexec /i WebDeploy_amd64_en-US.msi /quiet
-      # MSIExec will return before it is actually done - 30s seems to work...
       - Start-Sleep 30
   pre_build:
     commands:
