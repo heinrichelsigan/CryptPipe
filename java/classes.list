@@ -544,7 +544,6 @@ eu/cqrxs/crypt/encoding/uu/UUEncoder.class
 eu/cqrxs/crypt/encoding/Base16Coder.class
 eu/cqrxs/crypt/encoding/Hex64Coder.class
 eu/cqrxs/crypt/encoding/XxEncoder.class
-eu/cqrxs/net/server6/EchoClient.class
 eu/cqrxs/gui/CqrJdFrame$SymAction.class
 eu/cqrxs/gui/CqrJFrameSimple$SymMouse.class
 eu/cqrxs/gui/CqrJFrameSimple$CipherChangeListener.class
