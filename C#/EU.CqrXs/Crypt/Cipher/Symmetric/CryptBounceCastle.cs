@@ -6,15 +6,15 @@ using Org.BouncyCastle.Crypto.Modes;
 using Org.BouncyCastle.Crypto.Paddings;
 using Org.BouncyCastle.Crypto.Parameters;
 
-namespace EU.CqrXs.Crypt.Cipher
+namespace EU.CqrXs.Crypt.Cipher.Symmetric
 {
 
     /// <summary>
     /// Generic CryptBounceCastle Encryption / Decryption class
-    /// supports <see cref="Org.BouncyCastle.Crypto.Engines.CamelliaEngine"/>, <see cref="Org.BouncyCastle.Crypto.Engines.Gost28147Engine"/>, <see cref="Org.BouncyCastle.Crypto.Engines.RC2Engine"/>,
-    /// <see cref="Org.BouncyCastle.Crypto.Engines.RC532Engine"/>, <see cref="Org.BouncyCastle.Crypto.Engines.RC6Engine"/>, <see cref="Org.BouncyCastle.Crypto.Engines.RijndaelEngine">RijndaelEngine is standard AES</see>, 
-    /// <see cref="Org.BouncyCastle.Crypto.Engines.SkipjackEngine"/>, <see cref="Org.BouncyCastle.Crypto.Engines.TeaEngine"/>, <see cref="Org.BouncyCastle.Crypto.Engines.TnepresEngine"/>,
-    /// <see cref="Org.BouncyCastle.Crypto.Engines.XteaEngine"/>, ... and many more
+    /// supports <see cref="CamelliaEngine"/>, <see cref="Gost28147Engine"/>, <see cref="RC2Engine"/>,
+    /// <see cref="RC532Engine"/>, <see cref="RC6Engine"/>, <see cref="RijndaelEngine">RijndaelEngine is standard AES</see>, 
+    /// <see cref="SkipjackEngine"/>, <see cref="TeaEngine"/>, <see cref="TnepresEngine"/>,
+    /// <see cref="XteaEngine"/>, ... and many more
     /// </summary>
     /// <remarks>
     /// <list type="bullet">
@@ -86,27 +86,6 @@ namespace EU.CqrXs.Crypt.Cipher
 
         #region ctor_init_gen
 
-        protected void InitKeys()
-        {
-            privateKey = string.Empty;
-            privateHash = string.Empty;
-            tmpKey = new byte[KeyLen];
-            tmpIv = new byte[KeyLen];
-
-            Key = new byte[KeyLen];
-            Iv = new byte[KeyLen];
-            for (int i = 0; i < KeyLen; i++)
-            {
-                tmpKey[i] = (byte)0;
-                Key[i] = (byte)0;
-                if (i < IvLen)
-                {
-                    Iv[i] = (byte)0;
-                    tmpIv[i] = (byte)0;
-                }
-            }
-        }
-
         /// <summary>
         /// parameterless default constructor
         /// </summary>
@@ -129,10 +108,10 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="init">init <see cref="CryptBounceCastle"/> first time with a new key</param>
         public CryptBounceCastle(CryptParams cparams, bool init = true)
         {
-            CryptoBlockCipher = (cparams.BlockCipher == null) ? new Org.BouncyCastle.Crypto.Engines.AesEngine() : cparams.BlockCipher;
+            CryptoBlockCipher = cparams.BlockCipher == null ? new AesEngine() : cparams.BlockCipher;
             if (CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64")
                 CryptoBlockCipher = new RC564Engine();
-            CryptoBlockCipherPadding = new Org.BouncyCastle.Crypto.Paddings.ZeroBytePadding();
+            CryptoBlockCipherPadding = new ZeroBytePadding();
             KeyLen = cparams.KeyLen;
             Size = Math.Min(cparams.Size, CryptoBlockCipher.GetBlockSize());
             Mode = cparams.Mode;
@@ -145,13 +124,13 @@ namespace EU.CqrXs.Crypt.Cipher
                     throw new ArgumentNullException("cparams.Key");
 
                 privateKey = cparams.Key;
-                privateHash = (string.IsNullOrEmpty(cparams.Hash)) ? "": cparams.Hash;
+                privateHash = string.IsNullOrEmpty(cparams.Hash) ? "": cparams.Hash;
 
                 tmpKey = System.Text.Encoding.UTF8.GetBytes(privateKey);
                 tmpIv = System.Text.Encoding.UTF8.GetBytes(privateHash);
 
-                int maxKeyLen = (tmpKey.Length < KeyLen) ? tmpKey.Length : KeyLen;
-                int maxIvLen = (tmpIv.Length < IvLen) ? tmpIv.Length : IvLen;
+                int maxKeyLen = tmpKey.Length < KeyLen ? tmpKey.Length : KeyLen;
+                int maxIvLen = tmpIv.Length < IvLen ? tmpIv.Length : IvLen;
 
                 Array.Copy(tmpKey, Key, maxKeyLen);
                 Array.Copy(tmpIv, Iv, maxIvLen);
@@ -169,6 +148,28 @@ namespace EU.CqrXs.Crypt.Cipher
         }
 
         #endregion ctor_init_gen
+
+        protected void InitKeys()
+        {
+            privateKey = string.Empty;
+            privateHash = string.Empty;
+            tmpKey = new byte[KeyLen];
+            tmpIv = new byte[KeyLen];
+
+            Key = new byte[KeyLen];
+            Iv = new byte[KeyLen];
+            for (int i = 0; i < KeyLen; i++)
+            {
+                tmpKey[i] = 0;
+                Key[i] = 0;
+                if (i < IvLen)
+                {
+                    Iv[i] = 0;
+                    tmpIv[i] = 0;
+                }
+            }
+        }
+
 
         /// <summary>
         /// GetUserKeyBytes gets symetric chiffer private byte[KeyLen] encryption / decryption key
@@ -188,9 +189,9 @@ namespace EU.CqrXs.Crypt.Cipher
             tmpIv = new byte[IvLen];
             for (int i = 0; i < KeyLen; i++)
             {
-                tmpKey[i] = (byte)0;
+                tmpKey[i] = 0;
                 if (i < IvLen)
-                    tmpIv[i] = (byte)0;
+                    tmpIv[i] = 0;
             }
 
             byte[] bytes = System.Text.Encoding.UTF8.GetBytes(privateKey);
@@ -237,7 +238,7 @@ namespace EU.CqrXs.Crypt.Cipher
         public byte[] Encrypt(byte[] plainData)
         {
             var cipher = CryptoBlockCipher;
-            plainData = (CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64") ? 
+            plainData = CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64" ? 
                 EnDeCodeHelper.GetBytesFromBytes(plainData) : plainData;
             PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
 
@@ -253,26 +254,26 @@ namespace EU.CqrXs.Crypt.Cipher
                     cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(CryptoBlockCipher, Size), CryptoBlockCipherPadding);
                     break;
                 case "CCM":
-                    Org.BouncyCastle.Crypto.Modes.CcmBlockCipher ccmCipher = new CcmBlockCipher(CryptoBlockCipher);
+                    CcmBlockCipher ccmCipher = new CcmBlockCipher(CryptoBlockCipher);
                     cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)ccmCipher, CryptoBlockCipherPadding);
                     break;
                 case "CTS":
-                    Org.BouncyCastle.Crypto.Modes.CbcBlockCipher ctsCipher = new CbcBlockCipher(CryptoBlockCipher);
+                    CbcBlockCipher ctsCipher = new CbcBlockCipher(CryptoBlockCipher);
                     cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)new CtsBlockCipher((IBlockCipher)ctsCipher), CryptoBlockCipherPadding);
                     break;
                 case "EAX":
-                    Org.BouncyCastle.Crypto.Modes.EaxBlockCipher eaxCipher = new EaxBlockCipher(CryptoBlockCipher);
+                    EaxBlockCipher eaxCipher = new EaxBlockCipher(CryptoBlockCipher);
                     cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)eaxCipher, CryptoBlockCipherPadding);
                     break;
                 case "GOFB":
-                    Org.BouncyCastle.Crypto.Modes.GOfbBlockCipher gOfbCipher = new GOfbBlockCipher(CryptoBlockCipher);
+                    GOfbBlockCipher gOfbCipher = new GOfbBlockCipher(CryptoBlockCipher);
                     cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)gOfbCipher, CryptoBlockCipherPadding);
                     break;
                 default:
                     break;
             }
 
-            KeyParameter keyParam = (CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64") ?
+            KeyParameter keyParam = CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64" ?
                 new RC5Parameters(Key, 2) : // RC5-64 with 2 rounds key initialization
                 new KeyParameter(Key);      // default KeyParameter
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv); // KeyParameter with init vector
@@ -319,19 +320,19 @@ namespace EU.CqrXs.Crypt.Cipher
                     cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(CryptoBlockCipher, Size), CryptoBlockCipherPadding);
                     break;
                 case "CCM":
-                    Org.BouncyCastle.Crypto.Modes.CcmBlockCipher ccmCipher = new CcmBlockCipher(CryptoBlockCipher);
+                    CcmBlockCipher ccmCipher = new CcmBlockCipher(CryptoBlockCipher);
                     cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)ccmCipher, CryptoBlockCipherPadding);
                     break;
                 case "CTS":
-                    Org.BouncyCastle.Crypto.Modes.CbcBlockCipher ctsCipher = new CbcBlockCipher(CryptoBlockCipher);
+                    CbcBlockCipher ctsCipher = new CbcBlockCipher(CryptoBlockCipher);
                     cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)new CtsBlockCipher((IBlockCipher)ctsCipher), CryptoBlockCipherPadding);
                     break;
                 case "EAX":
-                    Org.BouncyCastle.Crypto.Modes.EaxBlockCipher eaxCipher = new EaxBlockCipher(CryptoBlockCipher);
+                    EaxBlockCipher eaxCipher = new EaxBlockCipher(CryptoBlockCipher);
                     cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)eaxCipher, CryptoBlockCipherPadding);
                     break;
                 case "GOFB":
-                    Org.BouncyCastle.Crypto.Modes.GOfbBlockCipher gOfbCipher = new GOfbBlockCipher(CryptoBlockCipher);
+                    GOfbBlockCipher gOfbCipher = new GOfbBlockCipher(CryptoBlockCipher);
                     cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)gOfbCipher, CryptoBlockCipherPadding);
                     break;
                 default:
@@ -340,9 +341,9 @@ namespace EU.CqrXs.Crypt.Cipher
             // cipherMode.Reset()                
 
             
-            KeyParameter keyParam = (CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64") ? 
-                                        new Org.BouncyCastle.Crypto.Parameters.RC5Parameters(Key, 2) :
-                                        new Org.BouncyCastle.Crypto.Parameters.KeyParameter(Key);
+            KeyParameter keyParam = CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64" ? 
+                                        new RC5Parameters(Key, 2) :
+                                        new KeyParameter(Key);
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv);
 
 
@@ -380,7 +381,7 @@ namespace EU.CqrXs.Crypt.Cipher
                 }
             }
 
-            return (CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64") ? 
+            return CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64" ? 
                 EnDeCodeHelper.GetBytesTrimNulls(plainData) : plainData;
 
             // return plainData;

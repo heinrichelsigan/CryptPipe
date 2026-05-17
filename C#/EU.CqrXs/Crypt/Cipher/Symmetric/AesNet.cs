@@ -4,7 +4,7 @@ using EU.CqrXs.Util;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace EU.CqrXs.Crypt.Cipher
+namespace EU.CqrXs.Crypt.Cipher.Symmetric
 {
 
     /// <summary>
@@ -235,7 +235,7 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <returns>Base64 encoded encrypted byte[]</returns>
         public string EncryptString(string inPlainString, EncodingType encType = EncodingType.Base64)
         {
-            byte[] plainTextData = System.Text.Encoding.UTF8.GetBytes(inPlainString);
+            byte[] plainTextData = Encoding.UTF8.GetBytes(inPlainString);
             byte[] encryptedData = Encrypt(plainTextData);
             string encryptedString = encType.GetEnCoder().Encode(encryptedData); // Convert.ToBase64String(encryptedData);
                                                                                  // System.Text.Encoding.ASCII.GetString(encryptedData).TrimEnd('\0');
@@ -253,7 +253,7 @@ namespace EU.CqrXs.Crypt.Cipher
             byte[] cryptData = encType.GetEnCoder().Decode(inCryptString); // Convert.FromBase64String(inCryptString);
             //  System.Text.Encoding.UTF8.GetBytes(inCryptString);
             byte[] plainTextData = Decrypt(cryptData);
-            string plainTextString = System.Text.Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
+            string plainTextString = Encoding.ASCII.GetString(plainTextData).TrimEnd('\0');
             return plainTextString;
         }
 

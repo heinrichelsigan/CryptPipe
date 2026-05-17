@@ -1,4 +1,5 @@
-﻿using EU.CqrXs.Crypt.Hash;
+﻿using EU.CqrXs.Crypt.Cipher.Symmetric;
+using EU.CqrXs.Crypt.Hash;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Engines;
 
@@ -59,6 +60,8 @@ namespace EU.CqrXs.Crypt.Cipher
 
         public int KeyLen { get; set; }
 
+        public int IvLen { get; set; }
+
         public IBlockCipher BlockCipher { get; set; }
 
         public KeyHash KeyHashing { get; set; }
@@ -75,6 +78,7 @@ namespace EU.CqrXs.Crypt.Cipher
             Cipher = CipherEnum.Aes;
             Size = 256;
             KeyLen = 32;
+            IvLen = 32;
             Mode = "CFB";
             BlockCipher = new AesEngine();
             KeyHashing = KeyHash.Hex;
@@ -90,6 +94,7 @@ namespace EU.CqrXs.Crypt.Cipher
             Cipher = cipherAlgo;
             Size = 256;
             KeyLen = 32;
+            IvLen = 32;
             Mode = "CFB";
 
             switch (Cipher)
@@ -241,6 +246,8 @@ namespace EU.CqrXs.Crypt.Cipher
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
                     break;
             }
+            
+            IvLen = KeyLen;
 
         }
 

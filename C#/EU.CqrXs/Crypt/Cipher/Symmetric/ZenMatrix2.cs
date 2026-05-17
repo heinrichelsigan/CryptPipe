@@ -2,7 +2,7 @@
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 
-namespace EU.CqrXs.Crypt.Cipher
+namespace EU.CqrXs.Crypt.Cipher.Symmetric
 {
 
     /// <summary>
@@ -45,8 +45,8 @@ namespace EU.CqrXs.Crypt.Cipher
             {
                 if (_inverseMatrix2 == null ||
                     _inverseMatrix2.Length < 0x10 ||
-                    (_inverseMatrix2[0] == (byte)0x0 && _inverseMatrix2[1] == (byte)0x0 && _inverseMatrix2[0xf] == (byte)0x0) ||
-                    (_inverseMatrix2[0] == (byte)0x0 && _inverseMatrix2[1] == (byte)0x1 && _inverseMatrix2[0xf] == (byte)0xf))
+                    _inverseMatrix2[0] == 0x0 && _inverseMatrix2[1] == 0x0 && _inverseMatrix2[0xf] == 0x0 ||
+                    _inverseMatrix2[0] == 0x0 && _inverseMatrix2[1] == 0x1 && _inverseMatrix2[0xf] == 0xf)
                 {
                     _inverseMatrix2 = BuildInverseMatrix(MatrixPermutationKey2);
                 }
@@ -84,21 +84,21 @@ namespace EU.CqrXs.Crypt.Cipher
 
             if (parameters is KeyParameter)
             {
-                this.privateBytes = ((KeyParameter)parameters).GetKey();
+                privateBytes = ((KeyParameter)parameters).GetKey();
             }
             if (parameters is ParametersWithIV)
             {
                 byte[] bKey = new byte[0];
                 if (((ParametersWithIV)parameters).Parameters is KeyParameter)
-                    bKey = ((KeyParameter)(((ParametersWithIV)parameters).Parameters)).GetKey();
+                    bKey = ((KeyParameter)((ParametersWithIV)parameters).Parameters).GetKey();
                 byte[] bIv = ((ParametersWithIV)parameters).GetIV();
 
-                bKey = (bKey == null || bKey.Length == 0) ? new byte[0] : bKey;
-                bIv = (bIv == null || bIv.Length == 0) ? new byte[0] : bIv;
+                bKey = bKey == null || bKey.Length == 0 ? new byte[0] : bKey;
+                bIv = bIv == null || bIv.Length == 0 ? new byte[0] : bIv;
                 if (bKey.Length == 0 && bIv.Length == 0)
                     throw new ArgumentNullException("parameters", "KeyParameter and/or ParametersWithIV contain a null or empty key or iv.");
 
-                this.privateBytes = CryptHelper.GetKeyHashBytes(bKey, bIv, 0x10);
+                privateBytes = CryptHelper.GetKeyHashBytes(bKey, bIv, 0x10);
             }
             this.forEncryption = forEncryption;
 
@@ -119,7 +119,7 @@ namespace EU.CqrXs.Crypt.Cipher
             MatrixPermutationKey2 = new byte[0x10];
             foreach (byte s in MatrixPermutationBase)
             {
-                privateBytes2[sbcnt % 0x10] = (byte)0x0;
+                privateBytes2[sbcnt % 0x10] = 0x0;
                 MatrixPermutationKey2[sbcnt++] = s;
             }
             PermutationKeyHash2 = new HashSet<byte>(MatrixPermutationBase);
@@ -135,7 +135,7 @@ namespace EU.CqrXs.Crypt.Cipher
             MatrixPermutationKey2 = new byte[0x10];
             foreach (byte s in MatrixPermutationBase)
             {
-                privateBytes2[sbcnt % 0x10] = (byte)0x0;
+                privateBytes2[sbcnt % 0x10] = 0x0;
                 MatrixPermutationKey2[sbcnt++] = s;
             }
             PermutationKeyHash2 = new HashSet<byte>(MatrixPermutationBase);
@@ -182,8 +182,8 @@ namespace EU.CqrXs.Crypt.Cipher
             MatrixPermutationKey2 = new byte[0x10];
             foreach (byte s in MatrixPermutationBase)
             {
-                privateBytes[sbcnt % 0x10] = (byte)0x0;
-                privateBytes2[sbcnt % 0x10] = (byte)0x0;
+                privateBytes[sbcnt % 0x10] = 0x0;
+                privateBytes2[sbcnt % 0x10] = 0x0;
                 MatrixPermutationKey[sbcnt] = s;
                 MatrixPermutationKey2[sbcnt++] = s;
             }
@@ -207,7 +207,7 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <exception cref="ApplicationException"></exception>
         protected internal virtual void ZenMatrixGenWithBytes2(byte[] keyBytes2, bool fullSymmetric = false)
         {
-            if ((keyBytes2 == null || keyBytes2.Length < 4))
+            if (keyBytes2 == null || keyBytes2.Length < 4)
                 throw new ApplicationException("byte[] keyBytes is null or keyBytes.Length < 4");
 
             base.ZenMatrixGenWithBytes(keyBytes2, fullSymmetric);
@@ -223,16 +223,16 @@ namespace EU.CqrXs.Crypt.Cipher
                 for (int i = keyBytes2.Length; i < 0x10; i++)
                 {
                     if (i < 0x08)
-                        privateBytes2[i] = (byte)keyBytes2[i % keyBytes2.Length];
+                        privateBytes2[i] = keyBytes2[i % keyBytes2.Length];
                     else
-                        privateBytes2[i] = (byte)keyBytes2[0x08 - (i - 0x07)];
+                        privateBytes2[i] = keyBytes2[0x08 - (i - 0x07)];
                 }
             }
             else
             {
-                for (int l = 0, k = keyBytes2.Length - 1; (k >= 0 && l < 0x10); k--, l++)
+                for (int l = 0, k = keyBytes2.Length - 1; k >= 0 && l < 0x10; k--, l++)
                 {
-                    privateBytes2[l] = (byte)keyBytes2[k];
+                    privateBytes2[l] = keyBytes2[k];
                 }
             }
 
@@ -242,19 +242,19 @@ namespace EU.CqrXs.Crypt.Cipher
                 byte b = (byte)(keyByte % 0x10);
                 for (int i = 0; i < 32; i++)
                 {
-                    if (PermutationKeyHash2.Contains(b) || ((int)b) == ba)
+                    if (PermutationKeyHash2.Contains(b) || b == ba)
                     {
                         if (i < 0x10)
-                            b = ((byte)((Convert.ToInt32(keyByte) + MagicOrder[i]) % 0x10));
+                            b = (byte)((Convert.ToInt32(keyByte) + MagicOrder[i]) % 0x10);
                         if (i >= 0x10)
-                            b = ((byte)((Convert.ToInt32(keyByte) + i) % 0x10));
+                            b = (byte)((Convert.ToInt32(keyByte) + i) % 0x10);
                     }
                     else break;
                 }
 
                 if (!PermutationKeyHash2.Contains(b))
                 {
-                    bb = (int)b;
+                    bb = b;
                     if (ba != bb)
                     {
                         if (fullSymmetric)
@@ -267,7 +267,7 @@ namespace EU.CqrXs.Crypt.Cipher
                         }
 
                         PermutationKeyHash2.Add(b);
-                        MatrixPermutationKey2 = MatrixPermutationKey2.SwapTPositions<byte>(ba, bb);
+                        MatrixPermutationKey2 = MatrixPermutationKey2.SwapTPositions(ba, bb);
                         ba++;
                     }
                 }
@@ -302,10 +302,10 @@ namespace EU.CqrXs.Crypt.Cipher
                     for (int n = 0; n < 0x10; n++)
                     {
                         bKey = (byte)n;
-                        bValue = (byte)MatrixDict2[bKey];
+                        bValue = MatrixDict2[bKey];
                         PermutationKeyHash2.Add(bValue);
-                        MatrixPermutationKey2[(int)bKey] = bValue;
-                        MatrixPermutationKey2[(int)bValue] = bKey;
+                        MatrixPermutationKey2[bKey] = bValue;
+                        MatrixPermutationKey2[bValue] = bKey;
                     }
                 }
                 #endregion fullSymmetric => InverseMatrix2 = MatrixPermutationKey2;
@@ -315,8 +315,8 @@ namespace EU.CqrXs.Crypt.Cipher
             else
             {
                 #region bugfix for missing permutations
-                byte[] strikeBytes = {  (byte)0x0, (byte)0x1, (byte)0x2, (byte)0x3, (byte)0x4, (byte)0x5, (byte)0x6, (byte)0x7,
-                                        (byte)0x8, (byte)0x9, (byte)0xa, (byte)0xb, (byte)0xc, (byte)0xd, (byte)0xe, (byte)0xf  };
+                byte[] strikeBytes = {  0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7,
+                                        0x8, 0x9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf  };
                 HashSet<byte> strikeList = new HashSet<byte>(strikeBytes);
                 int cancelationCounter = 0;
                 if (PermutationKeyHash.Count < 0x10)
@@ -336,7 +336,7 @@ namespace EU.CqrXs.Crypt.Cipher
                                 Area23Log.LogOriginMsgEx("ZenMatrix", $"Error when loading PermutationKeyHash.ElementAt({k});", exByte);
                                 if (strikeList.Count > 0)
                                 {
-                                    byte addedFromStrikeList = (byte)strikeList.ElementAt(0);
+                                    byte addedFromStrikeList = strikeList.ElementAt(0);
                                     strikeList.Remove(addedFromStrikeList);
                                     PermutationKeyHash.Add(addedFromStrikeList);
                                 }
@@ -347,7 +347,7 @@ namespace EU.CqrXs.Crypt.Cipher
                 #endregion bugfix for missing permutations
                 for (int i = 0; i < 0x10; i++)
                 {
-                    if ((int)PermutationKeyHash2.ElementAt(i) != i)
+                    if (PermutationKeyHash2.ElementAt(i) != i)
                     {
                         MatrixPermutationKey2[i] = PermutationKeyHash2.ElementAt(i);
                     }
@@ -388,8 +388,8 @@ namespace EU.CqrXs.Crypt.Cipher
                 {
                     byte b = inBytes[bCnt];
                     MapByteValue2(ref b, out byte mappedByte, forEncryption);
-                    byte sm = (forEncryption) ? MatrixPermutationKey[aCnt] : InverseMatrix[aCnt];
-                    processed[(int)sm] = mappedByte;
+                    byte sm = forEncryption ? MatrixPermutationKey[aCnt] : InverseMatrix[aCnt];
+                    processed[sm] = mappedByte;
                 }
             }
 
@@ -399,14 +399,14 @@ namespace EU.CqrXs.Crypt.Cipher
         protected internal virtual byte[] ProcessBlocks2(byte[] inBytes)
         {
             int aCnt = 0, bCnt = 0;
-            byte[] processed = new byte[(int)inBytes.Length];
+            byte[] processed = new byte[inBytes.Length];
             Array.Copy(inBytes, processed, inBytes.Length);
             for (int bs = 0; bs < inBytes.Length; bs += 0x100)
             {
-                for (int cs = 0, ds = 0; cs < 0x100 && (bs + cs) < inBytes.Length; cs += 0x10)
+                for (int cs = 0, ds = 0; cs < 0x100 && bs + cs < inBytes.Length; cs += 0x10)
                 {
 
-                    int sm = (int)(0x10 * (int)((forEncryption) ? MatrixPermutationKey2[ds] : InverseMatrix2[ds]));
+                    int sm = 0x10 * (forEncryption ? MatrixPermutationKey2[ds] : InverseMatrix2[ds]);
                     Array.Copy(inBytes, bs + cs, processed, bs + sm, 0x10);
                     ds++;
                 }
@@ -431,9 +431,9 @@ namespace EU.CqrXs.Crypt.Cipher
             forEncryption = true;
 
             int dlen = pdata.Length;                        // length of data bytes
-            int reverseset = 256 - (dlen % 256);
+            int reverseset = 256 - dlen % 256;
             int oSize = dlen + reverseset;                  // oSize is rounded up to next number % 16 == 0
-            long olen = ((long)(oSize / 0x100)) * 0x100;    // olen is (long)oSize
+            long olen = (long)(oSize / 0x100) * 0x100;    // olen is (long)oSize
             byte[] rndbuf = new byte[olen - dlen];          // random padding buffer 
             byte[] obytes = new byte[olen];                 // out bytes with random padding bytes at end            
 
@@ -446,11 +446,11 @@ namespace EU.CqrXs.Crypt.Cipher
                 if (i < dlen)
                     obytes[i] = pdata[i];                    // copy full data to obytes
                 else if (i == dlen)
-                    obytes[i] = (byte)0x0;                  // write 0x0 at end of data bytes
+                    obytes[i] = 0x0;                  // write 0x0 at end of data bytes
                 else if (i == dlen + 1)
-                    obytes[i] = (byte)0xff;                  // write 0xff as stop byte beginning padding buffer
-                else if (i == (olen - 1))
-                    obytes[i] = (byte)0x0;                  // terminate end of obytes with 0x0                                    
+                    obytes[i] = 0xff;                  // write 0xff as stop byte beginning padding buffer
+                else if (i == olen - 1)
+                    obytes[i] = 0x0;                  // terminate end of obytes with 0x0                                    
                 else if (i > dlen)
                     obytes[i] = rndbuf[j++];                // fill rest with random hash padding 
             }
@@ -487,7 +487,7 @@ namespace EU.CqrXs.Crypt.Cipher
             forEncryption = false;
 
             int eclen = ecdata.Length;
-            int ecSize = (eclen % 0x100 == 0) ? eclen : (eclen + (0x100 - (eclen % 0x100)));
+            int ecSize = eclen % 0x100 == 0 ? eclen : eclen + (0x100 - eclen % 0x100);
             if (ecSize > eclen) {; } // something went wrong                            
 
             byte[] processed2 = ecdata;
@@ -507,20 +507,20 @@ namespace EU.CqrXs.Crypt.Cipher
 
             int olen = outBytes.Count;
             int dlen = olen;
-            bool first0 = false, last0 = (outBytes.ElementAt(olen - 1) == (byte)0x0);
+            bool first0 = false, last0 = outBytes.ElementAt(olen - 1) == 0x0;
 
             for (dlen = olen; dlen > 1 && !first0; dlen--)
             {
                 if (dlen <= olen &&
-                    (outBytes.ElementAt(dlen - 1) == (byte)0xff) &&
+                    outBytes.ElementAt(dlen - 1) == 0xff &&
                     // || outBytes.ElementAt(dlen - 1) == (byte)0x00) &&
-                    outBytes.ElementAt(dlen - 2) == (byte)0x0)
+                    outBytes.ElementAt(dlen - 2) == 0x0)
                 {
                     first0 = true;
                     break;
                 }
             }
-            byte[] obytes = (dlen > 1) ? new byte[dlen] : new byte[olen];
+            byte[] obytes = dlen > 1 ? new byte[dlen] : new byte[olen];
             Array.Copy(outBytes.ToArray(), 0, obytes, 0, obytes.Length);
 
             return obytes;
@@ -553,19 +553,19 @@ namespace EU.CqrXs.Crypt.Cipher
             byte lsbOut, msbOut;
             if (encrypt)
             {
-                lsbOut = MatrixPermutationKey2[(int)lsbIn];
-                msbOut = MatrixPermutationKey2[(int)msbIn];
+                lsbOut = MatrixPermutationKey2[lsbIn];
+                msbOut = MatrixPermutationKey2[msbIn];
                 outBytes.Add(lsbOut);
                 outBytes.Add(msbOut);
-                outByte = (byte)((msbOut * 0x10) + lsbOut);
+                outByte = (byte)(msbOut * 0x10 + lsbOut);
             }
             else // if decrypt
             {
-                lsbOut = _inverseMatrix2[(int)lsbIn];
-                msbOut = _inverseMatrix2[(int)msbIn];
+                lsbOut = _inverseMatrix2[lsbIn];
+                msbOut = _inverseMatrix2[msbIn];
                 outBytes.Add(lsbOut);
                 outBytes.Add(msbOut);
-                outByte = (byte)((msbOut * 0x10) + lsbOut);
+                outByte = (byte)(msbOut * 0x10 + lsbOut);
             }
 
             return outBytes.ToArray();

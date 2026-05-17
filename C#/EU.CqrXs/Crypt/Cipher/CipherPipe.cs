@@ -1,4 +1,5 @@
-﻿using EU.CqrXs.Crypt.EnDeCoding;
+﻿using EU.CqrXs.Crypt.Cipher.Symmetric;
+using EU.CqrXs.Crypt.EnDeCoding;
 using EU.CqrXs.Crypt.Hash;
 using EU.CqrXs.Util;
 using EU.CqrXs.Zip;

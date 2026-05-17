@@ -127,6 +127,7 @@ namespace EU.CqrXs.Crypt.Hash
         /// <param name="keyLen">length of keyBytes array</param>
         /// <returns><see cref="T:byte[]">byte[] bytesKey</see></returns>
         /// <exception cref="ArgumentNullException"></exception>
+        [Obsolete("byte[] GetKeyFromBaseBytes(this byte[] baseBytes, int keyLen = 32) is obsolete", true)]
         public static byte[] GetKeyFromBaseBytes(this byte[] baseBytes, int keyLen = 32)
         {
             if (baseBytes == null || baseBytes.Length == 0)
@@ -233,7 +234,7 @@ namespace EU.CqrXs.Crypt.Hash
                     return Hex.ToHexString(resBuf);
 
                 case KeyHash.CShake:
-                    digest = new Org.BouncyCastle.Crypto.Digests.CShakeDigest(256, inBytes, GetKeyFromBaseBytes(inBytes, 32));
+                    digest = new Org.BouncyCastle.Crypto.Digests.CShakeDigest(256, null, null);
                     resBuf = new byte[digest.GetDigestSize()];
                     digest.BlockUpdate(inBytes, 0, inBytes.Length);
                     digest.DoFinal(resBuf, 0);

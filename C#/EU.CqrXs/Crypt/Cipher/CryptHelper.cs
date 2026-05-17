@@ -1,5 +1,6 @@
 ﻿using EU.CqrXs.Crypt.EnDeCoding;
 using EU.CqrXs.Util;
+using System.Text;
 
 namespace EU.CqrXs.Crypt.Cipher
 {
@@ -17,6 +18,7 @@ namespace EU.CqrXs.Crypt.Cipher
         /// </summary>
         /// <param name="secretKey">users private secret key</param>
         /// <returns>doubled concatendated string of secretKey</returns>
+        [Obsolete("PrivateUserKey(string secretKey) is obsolete.", false)]
         internal static string PrivateUserKey(string secretKey)
         {
             return string.IsNullOrEmpty(secretKey) ? Constants.AUTHOR_EMAIL : secretKey;
@@ -29,6 +31,7 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="hashedKey">users private secret key hash</param>
         /// <returns>doubled concatendated string of (secretKey + hash)</returns>
         /// <exception cref="ArgumentNullException"></exception>
+        [Obsolete("PrivateKeyWithUserHash((string secKey, string hashedKey) is obsolete.", false)]
         internal static string PrivateKeyWithUserHash(string secKey, string hashedKey)
         {
             if (string.IsNullOrEmpty(secKey))
@@ -49,18 +52,8 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <returns>doubled concatendated string of (secretKey + hash)</returns>
         /// <exception cref="ArgumentNullException"></exception>
         [Obsolete("Use KeyHashBytes(byte[] keyBytes, byte[] hashBytes, bool mergeKeyHash = true) instead.", false)]
-        internal static byte[] KeyUserHashBytes(string key, string keyHash, bool merge = true)
-        {
-            if (string.IsNullOrEmpty(key))
-                throw new ArgumentNullException("key");
-
-            keyHash = (string.IsNullOrEmpty(keyHash)) ? EnDeCodeHelper.KeyToHex(key) : keyHash;
-
-            byte[] keyBytes = EnDeCodeHelper.GetBytes(key);
-            byte[] hashBytes = EnDeCodeHelper.GetBytes(keyHash);
-
-            return KeyHashBytes(keyBytes, hashBytes, merge);
-        }
+        internal static byte[] KeyUserHashBytes(string key, string keyHash, bool merge = true) => 
+                                KeyHashBytes(Encoding.UTF8.GetBytes(key), Encoding.UTF8.GetBytes(keyHash), true);        
 
         /// <summary>
         /// KeyHashBytes
@@ -101,39 +94,24 @@ namespace EU.CqrXs.Crypt.Cipher
             return outBytes.ToArray();
         }
 
-        public static byte[] GetKeyBytesSingle(string keyHash, int keyLen = 16)
-        {
-            if (string.IsNullOrEmpty(keyHash))
-                throw new ArgumentNullException("keyHash");
-            byte[] keyBytes = EnDeCodeHelper.GetBytes(keyHash);
-            return GetKeyBytesSingle(keyBytes, keyLen);
-        }
+        public static byte[] GetKeyBytesSingle(string keyHash, int keyLen = 16) => GetKeyBytesSingle(Encoding.UTF8.GetBytes(keyHash), keyLen);
+        
 
         public static byte[] GetKeyBytesSingle(byte[] keyBytes, int keyLen = 16)
         { 
+            if (keyBytes == null || keyBytes.Length == 0)
+                throw new ArgumentNullException("keyBytes");
 
             byte[] outBytes = new byte[keyLen];
+            for (int kb = 0; kb < keyLen; kb++)
+                outBytes[kb] = (byte)0;
+
             if (keyBytes.Length >= keyLen)
-            {
                 Array.Copy(keyBytes, 0, outBytes, 0, keyLen);
-                return outBytes;
-            }
+            else
+                Array.Copy(keyBytes, 0, outBytes, 0, keyBytes.Length);
 
-            byte[] smallBytes = KeyHashBytes(keyBytes, keyBytes);
-            if (smallBytes.Length >= keyLen)
-            {
-                Array.Copy(smallBytes, 0, outBytes, 0, keyLen);
-                return outBytes;
-            }
-            
-            byte[] bigBytes = smallBytes.TarBytes(keyBytes);
-            if (bigBytes.Length >= keyLen)
-            {
-                Array.Copy(bigBytes, 0, outBytes, 0, keyLen);
-                return outBytes;
-            }
-
-            return GetKeyHashBytes(smallBytes, bigBytes, keyLen);
+            return outBytes;
         }
 
 
@@ -141,30 +119,23 @@ namespace EU.CqrXs.Crypt.Cipher
         {
             if (string.IsNullOrEmpty(key))
                 throw new ArgumentNullException("key");
-            byte[] keyBytes = EnDeCodeHelper.GetBytes(key);
-            byte[] hashBytes = EnDeCodeHelper.GetBytes(keyHash);
+
             byte[] outBytes = new byte[keyLen];
-            if (keyBytes.Length >= keyLen)
-            {
-                Array.Copy(keyBytes, 0, outBytes, 0, keyLen);
-                return outBytes;
-            }            
+            for (int kb = 0; kb < keyLen; kb++)
+                outBytes[kb] = (byte)0;
 
-            byte[] smallBytes = KeyHashBytes(keyBytes, hashBytes);
-            if (smallBytes.Length >= keyLen)
-            {
-                Array.Copy(smallBytes, 0, outBytes, 0, keyLen);
-                return outBytes;
-            }
-            byte[] bigBytes = smallBytes.TarBytes(hashBytes, keyBytes);
-            if (bigBytes.Length >= keyLen)
-            {
-                Array.Copy(bigBytes, 0, outBytes, 0, keyLen);
-                return outBytes;
-            }
+            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
+            byte[] hashBytes = Encoding.UTF8.GetBytes(keyHash);
+            byte[] keyHashBytes = keyBytes.TarBytes(hashBytes);
 
-            return GetKeyHashBytes(smallBytes, bigBytes, keyLen);
+            if (keyHashBytes.Length >= keyLen)
+                Array.Copy(keyHashBytes, 0, outBytes, 0, keyLen);
+            else
+                Array.Copy(keyHashBytes, 0, outBytes, 0, keyHashBytes.Length);
+
+            return outBytes;
         }
+
 
 
         /// <summary>
@@ -175,70 +146,32 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="keyLen">length of user key bytes, maximum length <see cref="Constants.MAX_KEY_LEN"/></param> 
         /// <returns>Array of byte with length KeyLen</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static byte[] GetUserKeyBytes(string key, string keyHash, int keyLen = 32)
-        {
-            if (string.IsNullOrEmpty(key))
-                throw new ArgumentNullException("key");
-
-            byte[] keyBytes = EnDeCodeHelper.GetBytes(key);
-            // keyHash = (string.IsNullOrEmpty(keyHash)) ? EnDeCodeHelper.KeyToHex(key) : keyHash;
-            byte[] hashBytes = string.IsNullOrEmpty(keyHash) ? EnDeCodeHelper.GetBytes(Hex16.ToHex16(keyBytes)) : EnDeCodeHelper.GetBytes(keyHash);
-
-            return GetKeyHashBytes(keyBytes, hashBytes, keyLen);
-        }
-
+        public static byte[] GetUserKeyBytes(string key, string keyHash, int keyLen = 32) => 
+                                GetKeyHashBytes(
+                                    Encoding.UTF8.GetBytes(key),
+                                    string.IsNullOrEmpty(keyHash) ? new byte[0] : Encoding.UTF8.GetBytes(keyHash),
+                                    keyLen);
+        
 
         public static byte[] GetKeyHashBytes(byte[] keyBytes, byte[] hashBytes, int keyLen = 32)
         { 
             if (keyBytes == null || keyBytes.Length == 0)
                 throw new ArgumentNullException("keyBytes");
-            if (hashBytes == null || hashBytes.Length == 0)
-                hashBytes = EnDeCodeHelper.GetBytes(Hex16.ToHex16(keyBytes));
+            
+            byte[] outBytes = new byte[keyLen];
+            for (int kb = 0; kb < keyLen; kb++)
+                outBytes[kb] = (byte)0;
 
-            int keyByteCnt = -1;
-            keyLen = (keyLen > Constants.MAX_KEY_LEN) ? Constants.MAX_KEY_LEN : keyLen;
-            byte[] tmpKey = new byte[keyLen];
+            byte[] keyHashBytes = keyBytes.TarBytes(hashBytes);
 
-            byte[] keyHashBytes = KeyHashBytes(keyBytes, hashBytes);
-            keyByteCnt = keyHashBytes.Length;
-            byte[] keyHashTarBytes = new byte[keyByteCnt * 2 + 1];
+            if (keyHashBytes.Length >= keyLen)
+                Array.Copy(keyHashBytes, 0, outBytes, 0, keyLen);
+            else
+                Array.Copy(keyHashBytes, 0, outBytes, 0, keyHashBytes.Length);
 
-            if (keyByteCnt < keyLen)
-            {
-                keyHashTarBytes = keyHashBytes.TarBytes(KeyHashBytes(hashBytes, keyBytes));
-                keyByteCnt = keyHashTarBytes.Length;
-                keyHashBytes = new byte[keyByteCnt];
-                Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
-            }
-            if (keyByteCnt < keyLen)
-            {
-                keyHashTarBytes = keyHashBytes.TarBytes(
-                    KeyHashBytes(hashBytes, keyBytes),
-                    KeyHashBytes(keyBytes, hashBytes)
-                );
-                keyByteCnt = keyHashTarBytes.Length;
-                keyHashBytes = new byte[keyByteCnt];
-                Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
-            }
-
-            while (keyByteCnt < keyLen)
-            {
-                keyHashTarBytes = keyHashBytes.TarBytes(keyHashBytes);
-                keyByteCnt = keyHashTarBytes.Length;
-                keyHashBytes = new byte[keyByteCnt];
-                Array.Copy(keyHashTarBytes, 0, keyHashBytes, 0, keyByteCnt);
-            }
-
-            if (keyLen <= keyByteCnt)
-            {
-                // Array.Copy(keyHashBytes, 0, tmpKey, 0, keyLen);
-                for (int bytIdx = 0; bytIdx < keyLen; bytIdx++)
-                    tmpKey[bytIdx] = keyHashBytes[bytIdx];
-            }
-
-            return tmpKey;
-
-        }       
+            return outBytes;
+        }
+       
 
         #endregion GetUserKeyBytes
 

@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace EU.CqrXs.Crypt.Cipher
+namespace EU.CqrXs.Crypt.Cipher.Symmetric
 {
 
     /// <summary>
@@ -225,7 +225,7 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <returns>Base64 encoded encrypted byte array</returns>
         public string EncryptString(string inString)
         {
-            byte[] inBytes = System.Text.Encoding.UTF8.GetBytes(inString);
+            byte[] inBytes = Encoding.UTF8.GetBytes(inString);
             byte[] encryptedBytes = Encrypt(inBytes);
             string encryptedText = Convert.ToBase64String(encryptedBytes);
             return encryptedText;
@@ -240,7 +240,7 @@ namespace EU.CqrXs.Crypt.Cipher
         {
             byte[] cipherBytes = Convert.FromBase64String(cipherText);
             byte[] decryptedBytes = Decrypt(cipherBytes);
-            string plaintext = System.Text.Encoding.UTF8.GetString(decryptedBytes);
+            string plaintext = Encoding.UTF8.GetString(decryptedBytes);
             return plaintext;
         }
 

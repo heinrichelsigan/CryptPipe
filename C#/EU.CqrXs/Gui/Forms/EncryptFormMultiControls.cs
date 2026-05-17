@@ -1127,7 +1127,7 @@ namespace EU.CqrXs.Gui.Forms
 
         internal async Task menuMainFormExperimental_Click(object sender, EventArgs e)
         {
-            EncryptFormExperimental encryptFormExperimental = new EncryptFormExperimental();
+            EncryptFormMultiControls encryptFormExperimental = new EncryptFormMultiControls();
             this.Hide();
             Program.formComplex.Hide();
             await encryptFormExperimental.ShowAsync(this);
