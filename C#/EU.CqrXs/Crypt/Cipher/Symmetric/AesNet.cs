@@ -65,13 +65,14 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
         public AesNet(string key, string hash, EncodingType encodeType = EncodingType.None, 
             CipherMode cipherMode = CipherMode.CFB)
         {
-            if (string.IsNullOrEmpty(key) && string.IsNullOrEmpty(hash))
-            {
-                key = Constants.AES_KEY;
-                hash = Constants.AES_IV;
-            }
-            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
-            byte[] hashBytes = Encoding.UTF8.GetBytes(hash);
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentNullException("key");
+
+            if (string.IsNullOrEmpty(hash))
+                hash = "";
+
+            byte[] keyBytes = Encoding.UTF8.GetBytes(key).FillWithZeros(AesKeyLen);
+            byte[] hashBytes = Encoding.UTF8.GetBytes(hash).FillWithZeros(AesKeyLen);
 
             try
             {
@@ -82,7 +83,7 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
                 Area23Log.LogOriginEx("AesNet.ctor", e, 2);
                 // TODO: what shell we do with the drunken sailor
                 AesKey = Convert.FromBase64String(Constants.AES_KEY);
-                AesIv = Encoding.UTF8.GetBytes(Constants.AES_IV);
+                AesIv = (new byte[0]).FillWithZeros(AesKeyLen);
             }
 
             CMode = cipherMode;

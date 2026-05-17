@@ -39,7 +39,7 @@ namespace EU.CqrXs.Gui.Forms
             InitializeComponent();
             menuEncodings = new ToolStripMenuItem[] { menuEncNone, menuEncBase16, menuEncHex16, menuEncHex32, menuEncBase32, menuEncHex64, menuEncBase64, menuEncUu, menuEncXx, menuEncAscii85 };
             menuZips = new ToolStripMenuItem[] { zmenu7z, zmenuBZip2, zmenuGZip, zmenuZip, zmenuNone };
-            mHashes = new ToolStripMenuItem[] { menuHashBCrypt, menuHashBlake2xs, menuHashCShake, menuHashDstu7564, menuHashHex, menuHashMD5, menuHashOct, menuHashOpenBSDCrypt, menuHashRipeMD256, menuHashSCrypt, menuHashSha1, menuHashSha256, menuHashSha384, menuHashSha512, menuHashTupleHash, menuHashWhirlpool };
+            mHashes = new ToolStripMenuItem[] { menuHashEmpty, menuHashBCrypt, menuHashBlake2xs, menuHashCShake, menuHashDstu7564, menuHashHex, menuHashMD5, menuHashOct, menuHashOpenBSDCrypt, menuHashRipeMD256, menuHashSCrypt, menuHashSha1, menuHashSha256, menuHashSha384, menuHashSha512, menuHashTupleHash, menuHashWhirlpool };
             // mCipherModes = new ToolStripMenuItem[] { menuCipherModeItemCBC, menuCipherModeItemCCM, menuCipherModeItemCFB, menuCipherModeItemCTS, menuCipherModeItemEAX, menuCipherModeItemECB, menuCipherModeItemGOFB };
             mCipherModes = new ToolStripMenuItem[] { menuCipherModeItemCBC, menuCipherModeItemCFB, menuCipherModeItemECB };
 
@@ -345,6 +345,7 @@ namespace EU.CqrXs.Gui.Forms
                             KeyHash_Extensions.GetKeyHashFromString(radioButtonList.SelectedItem.ToString());
                 switch (aKeyHash)
                 {
+                    case KeyHash.Empty: menuHashEmpty.Checked = true; break;
                     case KeyHash.BCrypt: menuHashBCrypt.Checked = true; break;
                     case KeyHash.MD5: menuHashMD5.Checked = true; break;
                     case KeyHash.OpenBSDCrypt: menuHashOpenBSDCrypt.Checked = true; break;
@@ -363,7 +364,7 @@ namespace EU.CqrXs.Gui.Forms
                     case KeyHash.Hex: menuHashHex.Checked = true; break;
                     default:
                         Area23Log.LogOriginMsg("EncryptForm Hash", $"RadioButtonList: {radioButtonList.SelectedItem.ToString()} => KeyHash = {aKeyHash.ToString()}.");
-                        menuHashHex.Checked = true;
+                        menuHashEmpty.Checked = true;
                         break;
                 }
             }
@@ -383,6 +384,7 @@ namespace EU.CqrXs.Gui.Forms
         /// <returns></returns>
         protected internal KeyHash GetHash()
         {
+            if (menuHashEmpty.Checked) return KeyHash.Empty;
             if (menuHashBCrypt.Checked) return KeyHash.BCrypt;
             if (menuHashBlake2xs.Checked) return KeyHash.Blake2xs;
             if (menuHashHex.Checked) return KeyHash.Hex;

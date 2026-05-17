@@ -5,7 +5,6 @@ using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Utilities.Encoders;
 using System.ComponentModel;
 using System.Security.Cryptography;
-using System.Security.Policy;
 using System.Text;
 
 namespace EU.CqrXs.Crypt.Hash
@@ -15,31 +14,32 @@ namespace EU.CqrXs.Crypt.Hash
     /// KeyHash 
     /// </summary>
     [Serializable]
-    [DefaultValue(KeyHash.Hex)]
+    [DefaultValue(KeyHash.Empty)]
     public enum KeyHash : short
     {
-        Hex = 0x0,
-        Sha1 = 0x1,
-        OpenBSDCrypt = 0x2,
-        BCrypt = 0x3,
-        SCrypt = 0x4,
-        MD5 = 0x5,
-        Sha256 = 0x6,
-        Sha384 = 0x7,
-        Oct = 0x8,
-        Sha512 = 0x9,
-        Whirlpool = 0xa,
-        Blake2xs = 0xb,
-        CShake = 0xc,
-        Dstu7564 = 0xd,
-        RipeMD256 = 0xe,
-        TupleHash = 0xf            
+        Empty = 0x00,
+        Hex = 0x01,
+        Sha1 = 0x02,
+        OpenBSDCrypt = 0x03,
+        BCrypt = 0x04,
+        SCrypt = 0x05,
+        MD5 = 0x06,
+        Sha256 = 0x07,
+        Sha384 = 0x08,
+        Oct = 0x09,
+        Sha512 = 0x0a,
+        Whirlpool = 0x0b,
+        Blake2xs = 0x0c,
+        CShake = 0x0d,
+        Dstu7564 = 0x0e,
+        RipeMD256 = 0x0f,
+        TupleHash = 0x11            
     }
 
     public static class KeyHash_Extensions
     {
 
-        private static readonly KeyHash[] keyHashes = {
+        private static readonly KeyHash[] keyHashes = { KeyHash.Empty,
                 KeyHash.BCrypt, KeyHash.Blake2xs, KeyHash.CShake, KeyHash.Dstu7564,
                 KeyHash.MD5, KeyHash.Hex, KeyHash.Oct, KeyHash.OpenBSDCrypt,
                 KeyHash.SCrypt, KeyHash.Sha1, KeyHash.Sha256, KeyHash.Sha384, KeyHash.Sha512,
@@ -80,6 +80,9 @@ namespace EU.CqrXs.Crypt.Hash
             {
                 switch (stringToHash.ToLower())
                 {
+                    case "empty": return KeyHash.Empty;
+                    case "null": return KeyHash.Empty;
+                    case "none": return KeyHash.Empty;
                     case "scrypt": return KeyHash.SCrypt;
                     case "bcrypt": return KeyHash.BCrypt;
                     case "openbsd": 
@@ -185,6 +188,7 @@ namespace EU.CqrXs.Crypt.Hash
             int xval = (int)khash;
             switch (khash)
             {
+                case KeyHash.Empty: return "";
                 case KeyHash.Hex: return ".hex";
                 case KeyHash.Sha1: return ".sha1";
                 case KeyHash.OpenBSDCrypt: return ".openbsdcrypt";
@@ -216,6 +220,9 @@ namespace EU.CqrXs.Crypt.Hash
             IDigest digest = new Org.BouncyCastle.Crypto.Digests.NullDigest();
             switch (hash)
             {
+                case KeyHash.Empty:
+                    return "";
+
                 //case KeyHash.Ascon:
                 //    digest = new Org.BouncyCastle.Crypto.Digests.AsconHash256();
                 //    resBuf = new byte[digest.GetDigestSize()];

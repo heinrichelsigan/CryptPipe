@@ -1,20 +1,27 @@
-# Crypt namespace
+# namespace EU.CqrXs.Crypt
 
-## Cipher namespace
+## namespaces
+
+### EU.CqrXs.Crypt.Cipher 
 
 contains various cipher implementations 
 
-## EnDeCoding namespace
+#### EU.CqrXs.Crypt.Cipher.Symmetric
+
+contains symmetric cipher algorithms
+
+### EU.CqrXs.Crypt.EnDeCoding
 
 contains various encoding and decoding implementations
 
-## Hash namespace
+### EU.CqrXs.Crypt.Hash
 
 contains various hashing implementations
 
-## 
 
-## CException.cs
+## classes
+
+### CException.cs
 
 an application specific exception, which also provides has a linked list to all former exceptions
 

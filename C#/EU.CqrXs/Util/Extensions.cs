@@ -466,6 +466,13 @@ namespace EU.CqrXs.Util
             return bytes.ToArray();
         }
 
+
+        public static byte[] FillWithZeros(this byte[] bytes, int length = 32) 
+        {
+            Span<byte> span = new Span<byte>(bytes, 0, length);
+            return span.ToArray();
+        }
+
         #endregion byteArray extensions
 
         #region string extensions

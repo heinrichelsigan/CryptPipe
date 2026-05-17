@@ -220,7 +220,7 @@
             <param name="json">serialized json</param>
             <returns><see cref="T:EU.CqrXs.Crypt.Cipher.CipherPipe"/></returns>
         </member>
-        <member name="M:EU.CqrXs.Crypt.Cipher.CipherPipe.EncryptBytesFast(System.Byte[],EU.CqrXs.Crypt.Cipher.CipherEnum,System.String,System.String,EU.CqrXs.Crypt.Cipher.CipherMode2)">
+        <member name="M:EU.CqrXs.Crypt.Cipher.CipherPipe.EncryptBytesFast(System.Byte[],EU.CqrXs.Crypt.Cipher.CipherEnum,System.String,System.String,EU.CqrXs.Crypt.Hash.KeyHash,EU.CqrXs.Crypt.Cipher.CipherMode2)">
             <summary>
             Generic encrypt bytes to bytes
             </summary>
@@ -232,7 +232,7 @@
             <returns>encrypted byte Array</returns>
             <exception cref="T:System.ArgumentNullException"></exception>
         </member>
-        <member name="M:EU.CqrXs.Crypt.Cipher.CipherPipe.DecryptBytesFast(System.Byte[],EU.CqrXs.Crypt.Cipher.CipherEnum,System.String,System.String,EU.CqrXs.Crypt.Cipher.CipherMode2)">
+        <member name="M:EU.CqrXs.Crypt.Cipher.CipherPipe.DecryptBytesFast(System.Byte[],EU.CqrXs.Crypt.Cipher.CipherEnum,System.String,System.String,EU.CqrXs.Crypt.Hash.KeyHash,EU.CqrXs.Crypt.Cipher.CipherMode2)">
             <summary>
             Generic decrypt bytes to bytes
             </summary>

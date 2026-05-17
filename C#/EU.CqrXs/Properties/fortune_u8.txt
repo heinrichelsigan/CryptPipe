@@ -1,3 +1,4 @@
+ 
 Debian Hint #1: You can report a bug in a package with the 'reportbug' command,
 which is available in the reportbug package, either from the command-line or
 with the new graphical frontend (available running 'reportbug --ui gtk' or in
@@ -19506,6 +19507,38 @@ means that we are not held hostage by anyone's support department.
 "What you end up with, after running an operating system concept through
 these many marketing coffee filters, is something not unlike plain hot
 water."
+(By Matt Welsh)
+%
+What's this script do?
+    unzip ; touch ; finger ; mount ; gasp ; yes ; umount ; sleep
+Hint for the answer: not everything is computer-oriented. Sometimes you're
+in a sleeping bag, camping out.
+(Contributed by Frans van der Zande.)
+%
+`When you say "I wrote a program that crashed Windows", people just stare at
+you blankly and say "Hey, I got those with the system, *for free*".'
+(By Linus Torvalds)
+%
+"Whip me.  Beat me.  Make me maintain AIX."
+(By Stephan Zielinski)
+%
+"Who is General Failure and why is he reading my hard disk ?"
+Microsoft spel chekar vor sail, worgs grate !!
+(By leitner@inf.fu-berlin.de, Felix von Leitner)
+%
+Who wants to remember that escape-x-alt-control-left shift-b puts you into
+super-edit-debug-compile mode?
+(Discussion in comp.os.linux.misc on the intuitiveness of commands, especially
+Emacs.)
+%
+Why use Windows, since there is a door?
+(By fachat@galileo.rhein-neckar.de, Andre Fachat)
+%
+"World domination.  Fast"
+(By Linus Torvalds)
+%
+..you could spend *all day* customizing the title bar.  Believe me.  I
+speak from experience."
 (By Matt Welsh)
 %
 What's this script do?

@@ -348,10 +348,10 @@ namespace EU.CqrXs.Util
 
         public static readonly char SEP_CHAR = Path.DirectorySeparatorChar;
 
-        public static readonly string AES_KEY = Convert.ToBase64String(Encoding.UTF8.GetBytes("AesKey"));
-        public static readonly string AES_IV = KeyHash.BCrypt.Hash(AES_KEY);
-        public static readonly string DES3_KEY = Convert.ToBase64String(Encoding.UTF8.GetBytes("DesKey"));
-        public static readonly string DES3_IV = KeyHash.OpenBSDCrypt.Hash(DES3_KEY);
+        public static readonly string AES_KEY = "AES_KEY";
+        public static readonly string AES_IV = "AES_IV";
+        public static readonly string DES3_KEY = "DES3_KEY";
+        public static readonly string DES3_IV = "DES3_IV";
         public static readonly string BOUNCEK = Convert.ToBase64String(Encoding.UTF8.GetBytes("BOUNCE"));
         public static readonly string BOUNCE4 = KeyHash.SCrypt.Hash(BOUNCEK);
 

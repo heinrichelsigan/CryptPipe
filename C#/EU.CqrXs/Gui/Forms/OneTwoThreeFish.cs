@@ -19,6 +19,7 @@ namespace EU.CqrXs.Gui.Forms
     public partial class OneTwoThreeFish : EncryptFormBase
     {
 
+        protected internal CipherMode2 cmode2 = CipherMode2.CFB;
         protected internal CipherPipe? cPipe = null;
         protected internal string simg = "";
         protected internal ToolStripMenuItem[] menuEncodings;
@@ -474,24 +475,30 @@ namespace EU.CqrXs.Gui.Forms
                     byte[] intermediateBytes = GetZip().Zip(System.Text.Encoding.UTF8.GetBytes(this.tabControlWithHexSrc.AsciiText));
                     string metaHash = KeyHash.OpenBSDCrypt.Hash(this.textBoxKey.Text);
                     intermediateBytes = CipherPipe.EncryptBytesFast(
-                        intermediateBytes, 
+                        intermediateBytes,
                         CipherEnum.BlowFish,
-                        metaHash, 
-                        KeyHash.BCrypt.Hash(metaHash));
+                        metaHash,
+                        KeyHash.BCrypt.Hash(metaHash),
+                        KeyHash.BCrypt, 
+                        cmode2);
                     
                     metaHash = KeyHash.TupleHash.Hash(this.textBoxKey.Text);
                     intermediateBytes = CipherPipe.EncryptBytesFast(
                         intermediateBytes, 
                         CipherEnum.Fish2,
                         metaHash, 
-                        KeyHash.SCrypt.Hash(metaHash));
+                        KeyHash.SCrypt.Hash(metaHash),
+                        KeyHash.SCrypt,
+                        cmode2);
                     
                     metaHash = KeyHash.Sha384.Hash(this.textBoxKey.Text);
                     intermediateBytes = CipherPipe.EncryptBytesFast(
                         intermediateBytes, 
                         CipherEnum.Fish3,
                         metaHash, 
-                        KeyHash.Whirlpool.Hash(metaHash));
+                        KeyHash.Whirlpool.Hash(metaHash),
+                        KeyHash.Whirlpool,
+                        cmode2);
 
 
                     string encrypted = GetEncoding().EnCode(intermediateBytes);
@@ -542,21 +549,27 @@ namespace EU.CqrXs.Gui.Forms
                         intermediateBytes,
                         CipherEnum.BlowFish,
                         metaHash,
-                        KeyHash.BCrypt.Hash(metaHash));
+                        KeyHash.BCrypt.Hash(metaHash),
+                        KeyHash.BCrypt,
+                        cmode2);
 
                     metaHash = KeyHash.TupleHash.Hash(this.textBoxKey.Text);
                     intermediateBytes = CipherPipe.EncryptBytesFast(
                         intermediateBytes,
                         CipherEnum.Fish2,
                         metaHash,
-                        KeyHash.SCrypt.Hash(metaHash));
+                        KeyHash.SCrypt.Hash(metaHash),
+                        KeyHash.SCrypt,
+                        cmode2);
 
                     metaHash = KeyHash.Sha384.Hash(this.textBoxKey.Text);
                     intermediateBytes = CipherPipe.EncryptBytesFast(
                         intermediateBytes,
                         CipherEnum.Fish3,
                         metaHash,
-                        KeyHash.Whirlpool.Hash(metaHash));
+                        KeyHash.Whirlpool.Hash(metaHash),
+                        KeyHash.Whirlpool,
+                        cmode2);
 
                     byte[] encodedBytes = System.Text.Encoding.UTF8.GetBytes(GetEncoding().EnCode(intermediateBytes));
 
@@ -654,21 +667,27 @@ namespace EU.CqrXs.Gui.Forms
                         intermediateBytes,
                         CipherEnum.Fish3,
                         metaHash,
-                        KeyHash.Whirlpool.Hash(metaHash));
+                        KeyHash.Whirlpool.Hash(metaHash),
+                        KeyHash.Whirlpool,
+                        cmode2);
 
                     metaHash = KeyHash.TupleHash.Hash(this.textBoxKey.Text);
                     intermediateBytes = CipherPipe.DecryptBytesFast(
                         intermediateBytes,
                         CipherEnum.Fish2,
                         metaHash,
-                        KeyHash.SCrypt.Hash(metaHash));
+                        KeyHash.SCrypt.Hash(metaHash),
+                        KeyHash.SCrypt,
+                        cmode2);
 
                     metaHash = KeyHash.OpenBSDCrypt.Hash(this.textBoxKey.Text);
                     intermediateBytes = CipherPipe.DecryptBytesFast(
                         intermediateBytes,
                         CipherEnum.BlowFish,
                         metaHash,
-                        KeyHash.BCrypt.Hash(metaHash));
+                        KeyHash.BCrypt.Hash(metaHash),
+                        KeyHash.BCrypt,
+                        cmode2);
 
                     intermediateBytes = GetZip().Unzip(intermediateBytes);
                     string decrypted = System.Text.Encoding.UTF8.GetString(intermediateBytes);
@@ -709,21 +728,28 @@ namespace EU.CqrXs.Gui.Forms
                         intermediateBytes,
                         CipherEnum.Fish3,
                         metaHash,
-                        KeyHash.Whirlpool.Hash(metaHash));
+                        KeyHash.Whirlpool.Hash(metaHash),
+                        KeyHash.Whirlpool,
+                        cmode2);
 
                     metaHash = KeyHash.TupleHash.Hash(this.textBoxKey.Text);
                     intermediateBytes = CipherPipe.DecryptBytesFast(
                         intermediateBytes,
                         CipherEnum.Fish2,
                         metaHash,
-                        KeyHash.SCrypt.Hash(metaHash));
+                        KeyHash.SCrypt.Hash(metaHash),
+                        KeyHash.SCrypt,
+                        cmode2);
+
 
                     metaHash = KeyHash.OpenBSDCrypt.Hash(this.textBoxKey.Text);
                     intermediateBytes = CipherPipe.DecryptBytesFast(
                         intermediateBytes,
                         CipherEnum.BlowFish,
                         metaHash,
-                        KeyHash.BCrypt.Hash(metaHash));
+                        KeyHash.BCrypt.Hash(metaHash),
+                        KeyHash.BCrypt,
+                        cmode2);
 
                     byte[] outBytes = GetZip().Unzip(intermediateBytes);
 

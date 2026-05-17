@@ -325,7 +325,7 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <returns>encrypted byte Array</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static byte[] EncryptBytesFast(byte[] inBytes, CipherEnum cipherAlgo,
-            string secretKey, string hash, CipherMode2 cmode2 = CipherMode2.CFB)
+            string secretKey, string hash, KeyHash keyHash, CipherMode2 cmode2 = CipherMode2.CFB)
         {
             if (string.IsNullOrEmpty(secretKey))
                 throw new ArgumentNullException("seretkey");
@@ -333,7 +333,7 @@ namespace EU.CqrXs.Crypt.Cipher
                 // throw new ArgumentNullException("hash");
                 hash = "";
 
-            CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hash) { CMode2 = cmode2 };
+            CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hash) { KeyHashing = keyHash, CMode2 = cmode2 };
             byte[] encryptBytes = inBytes;
 
             switch (cipherAlgo)
@@ -399,7 +399,7 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="hash">key's hash</param>
         /// <returns>decrypted byte Array</returns>
         public static byte[] DecryptBytesFast(byte[] cipherBytes, CipherEnum cipherAlgo,
-            string secretKey, string hash,
+            string secretKey, string hash, KeyHash keyHash,
             CipherMode2 cmode2 = CipherMode2.CFB)
         {
             if (string.IsNullOrEmpty(secretKey))
@@ -407,7 +407,7 @@ namespace EU.CqrXs.Crypt.Cipher
             if (string.IsNullOrEmpty(hash))
                 hash = "";
             // bool sameKey = true;
-            CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hash) { CMode2 = cmode2 };
+            CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hash) { KeyHashing = keyHash, CMode2 = cmode2 };
             byte[] decryptBytes = cipherBytes;
 
             switch (cipherAlgo)
@@ -635,7 +635,7 @@ namespace EU.CqrXs.Crypt.Cipher
             byte[] encryptedBytes = new byte[inBytes.Length];
             foreach (CipherEnum cipher in InPipe)
             {
-                encryptedBytes = EncryptBytesFast(inBytes, cipher, cipherKey, cipherHash, CMode2);
+                encryptedBytes = EncryptBytesFast(inBytes, cipher, cipherKey, cipherHash, KHash, CMode2);
                 inBytes = encryptedBytes;
 #if STAGE_DICT_PIPE_DBG
                     stageDictionary.Add(cipher, encryptedBytes);
@@ -674,7 +674,7 @@ namespace EU.CqrXs.Crypt.Cipher
             byte[] decryptedBytes = new byte[cipherBytes.Length];
             foreach (CipherEnum cipher in OutPipe)
             {
-                decryptedBytes = DecryptBytesFast(cipherBytes, cipher, cipherKey, cipherHash, cmode2);
+                decryptedBytes = DecryptBytesFast(cipherBytes, cipher, cipherKey, cipherHash, KHash, cmode2);
                 cipherBytes = decryptedBytes;
 #if STAGE_DICT_PIPE_DBG
                     stageDictionary.Add(cipher, cipherBytes);
