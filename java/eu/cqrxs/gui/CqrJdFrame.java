@@ -83,7 +83,7 @@ public class CqrJdFrame extends JFrame {
 	protected static byte[] openFileBytes, saveFileBytes;
 	/// at/net/res/img/crypt/file.png");/
 	 		
-	public KeyHash keyHash = KeyHash.Hex;
+	public KeyHash keyHash = KeyHash.Empty;
 	public eu.cqrxs.zip.ZipType zipType = eu.cqrxs.zip.ZipType.None;
 	public CipherEnum cipherEnum = CipherEnum.Aes;
 	protected String cipherString, encodeString, openFileName, saveFileName, saveFileSuffix = "";
@@ -124,7 +124,7 @@ public class CqrJdFrame extends JFrame {
 			menuEncoding_itemHex64, menuEncoding_itemBase64, menuEncoding_itemAscii85;
 	
 	JMenuItem menuHash_Dstu7564, menuHash_Blake2xs, menuHash_BCrypt, menuHash_CShake, menuHash_MD5, menuHash_Hex, menuHash_OpenBSDCrypt,
-				menuHash_RipeMD256, menuHash_Sha1, menuHash_Sha256, menuHash_Sha512, menuHash_SCrypt, menuHash_Whirlpool, menuHash_TupleHash;
+				menuHash_RipeMD256, menuHash_Sha1, menuHash_Sha256, menuHash_Sha512, menuHash_SCrypt, menuHash_Whirlpool, menuHash_TupleHash, menuHash_Empty;
 
 	JMenuItem menuCMode2_ECB, menuCMode2_CBC, menuCMode2_CFB, menuCMode2_CCM, menuCMode2_CTS, menuCMode2_EAX, menuCMode2_GOFB;
 
@@ -557,6 +557,15 @@ public class CqrJdFrame extends JFrame {
 		menuHash_Whirlpool.addActionListener(aSymAction);
 		menuHash.add(menuHash_Whirlpool);
 
+
+		menuHash_Empty = new JMenuItem();
+		menuHash_Empty.setHorizontalTextPosition(SwingConstants.RIGHT);
+		menuHash_Empty.setText("Empty");
+		menuHash_Empty.setActionCommand("Empty");
+		menuHash_Empty.setFont(menuFont);
+		menuHash_Empty.addActionListener(aSymAction);
+		menuHash.add(menuHash_Empty);
+
 		menuCMode2 = new JMenu();
 		menuCMode2.setFont(menuFont);
 		menuCMode2.setText("CMode2");
@@ -724,11 +733,13 @@ public class CqrJdFrame extends JFrame {
 		getContentPane().add(jButton_setPipe);
 
 		jComboBox_Hash = new JComboBox<>(KeyHash.getNames());
+		jComboBox_Hash.setName("jComboBox_Hash");
 		jComboBox_Hash.setBounds(700, 30, 168, 25);
 		jComboBox_Hash.setFont(cryptFont);
 		jComboBox_Hash.addItemListener(new HashChangeListener());
 		getContentPane().add(jComboBox_Hash);
-		selectItemByString(jComboBox_Hash, menuHash, "Hex");
+		selectItemByString(jComboBox_Hash, menuHash, "Empty");
+
 
 		jLabelImgHash = new JLabel(ImageHelper.getImgHash());
 		jLabelImgHash.setBounds(12, 67, 40, 30);
@@ -1028,34 +1039,66 @@ public class CqrJdFrame extends JFrame {
 			else if (object == menuEncoding_itemAscii85)
 				selectItemByString(jComboBox_Encoding, menuEncoding, "Ascii85");
 			
-			else if (object == menuHash_BCrypt) 
-				selectItemByString(jComboBox_Hash, menuHash, "BCrypt"); 
-			else if (object == menuHash_Blake2xs) 
-				selectItemByString(jComboBox_Hash, menuHash, "Blake2xs");					
-			else if (object == menuHash_CShake) 
-				selectItemByString(jComboBox_Hash, menuHash, "CShake");	
-			else if (object == menuHash_Dstu7564) 
-				selectItemByString(jComboBox_Hash, menuHash, "Dstu7564");								
-			else if (object == menuHash_Hex) 
-				selectItemByString(jComboBox_Hash, menuHash, "Hex"); 	
-			else if (object == menuHash_MD5) 
-				selectItemByString(jComboBox_Hash, menuHash, "MD5"); 
-			else if (object == menuHash_OpenBSDCrypt) 	
-				selectItemByString(jComboBox_Hash, menuHash, "OpenBSDCrypt"); 
-			else if (object == menuHash_RipeMD256) 
-				selectItemByString(jComboBox_Hash, menuHash, "RipeMD256");	
-			else if (object == menuHash_SCrypt) 
-				selectItemByString(jComboBox_Hash, menuHash, "SCrypt"); 				
-			else if (object == menuHash_Sha1) 
-				selectItemByString(jComboBox_Hash, menuHash, "Sha1"); 
-			else if (object == menuHash_Sha256) 	
-				selectItemByString(jComboBox_Hash, menuHash, "Sha256"); 
-			else if (object == menuHash_Sha512) 
-				selectItemByString(jComboBox_Hash, menuHash, "Sha512");	
-			else if (object == menuHash_TupleHash) 	
-				selectItemByString(jComboBox_Hash, menuHash, "TupleHash"); 
-			else if (object == menuHash_Whirlpool) 	
+			else if (object == menuHash_BCrypt) {
+				keyHash = KeyHash.BCrypt;
+				selectItemByString(jComboBox_Hash, menuHash, "BCrypt");
+			}
+			else if (object == menuHash_Blake2xs) {
+				keyHash = KeyHash.Blake2xs;
+				selectItemByString(jComboBox_Hash, menuHash, "Blake2xs");
+			}
+			else if (object == menuHash_CShake) {
+				keyHash = KeyHash.CShake;
+				selectItemByString(jComboBox_Hash, menuHash, "CShake");
+			}
+			else if (object == menuHash_Dstu7564) {
+				keyHash = KeyHash.Dstu7564;
+				selectItemByString(jComboBox_Hash, menuHash, "Dstu7564");
+			}
+			else if (object == menuHash_Hex) {
+				keyHash = KeyHash.Hex;
+				selectItemByString(jComboBox_Hash, menuHash, "Hex");
+			}
+			else if (object == menuHash_MD5) {
+				keyHash = KeyHash.MD5;
+				selectItemByString(jComboBox_Hash, menuHash, "MD5");
+			}
+			else if (object == menuHash_OpenBSDCrypt) {
+				keyHash = KeyHash.OpenBSDCrypt;
+				selectItemByString(jComboBox_Hash, menuHash, "OpenBSDCrypt");
+			}
+			else if (object == menuHash_RipeMD256) {
+				keyHash = KeyHash.RipeMD256;
+				selectItemByString(jComboBox_Hash, menuHash, "RipeMD256");
+			}
+			else if (object == menuHash_SCrypt) {
+				keyHash = KeyHash.SCrypt;
+				selectItemByString(jComboBox_Hash, menuHash, "SCrypt");
+			}
+			else if (object == menuHash_Sha1) {
+				keyHash = KeyHash.Sha1;
+				selectItemByString(jComboBox_Hash, menuHash, "Sha1");
+			}
+			else if (object == menuHash_Sha256) {
+				keyHash = KeyHash.Sha256;
+				selectItemByString(jComboBox_Hash, menuHash, "Sha256");
+			}
+			else if (object == menuHash_Sha512) {
+				keyHash = KeyHash.Sha512;
+				selectItemByString(jComboBox_Hash, menuHash, "Sha512");
+			}
+			else if (object == menuHash_TupleHash) {
+				keyHash = KeyHash.TupleHash;
+				selectItemByString(jComboBox_Hash, menuHash, "TupleHash");
+			}
+			else if (object == menuHash_Whirlpool) {
+				keyHash = KeyHash.Whirlpool;
 				selectItemByString(jComboBox_Hash, menuHash, "Whirlpool");
+			}
+			else if (object == menuHash_Empty) {
+				keyHash = KeyHash.Empty;
+				selectItemByString(jComboBox_Hash, menuHash, "Empty");
+			}
 
 			else if (object == menuCMode2_ECB)
 				selectCipherMode2MenuItem(menuCMode2, CipherMode2.ECB);
@@ -1306,7 +1349,7 @@ public class CqrJdFrame extends JFrame {
 			
 			// TODO: reset JComboBoxes jComboBox_Algo
 			selectItemByString(jComboBox_Encoding, menuEncoding, "Base64");
-			selectItemByString(jComboBox_Hash, menuHash, "Hex");
+			selectItemByString(jComboBox_Hash, menuHash, "Empty");
 			selectItemByString(jComboBox_Zip, menuZip, "None");
 			// reset CipherMode2 to CFB
 			selectCipherMode2MenuItem(menuCMode2, CipherMode2.CFB);

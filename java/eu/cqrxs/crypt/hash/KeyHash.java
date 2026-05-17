@@ -32,22 +32,23 @@ import org.bouncycastle.crypto.Digest;
  */
 public enum KeyHash {
     
-	Hex(0x0),
-	Sha1(0x1),
-	OpenBSDCrypt(0x2),
-	BCrypt(0x3),
-	SCrypt(0x4),
-	MD5(0x5),	
-	Sha256(0x6),
-	Sha384(0x7),
-	Oct(0x8),
-	Sha512(0x9),
-	Whirlpool(0xa),
-	Blake2xs(0xb),
-	CShake(0xc),
-	Dstu7564(0xd),
-	RipeMD256(0xe),
-	TupleHash(0xf);
+	Hex(0x00),
+	Sha1(0x01),
+	OpenBSDCrypt(0x02),
+	BCrypt(0x03),
+	SCrypt(0x04),
+	MD5(0x05),
+	Sha256(0x06),
+	Sha384(0x07),
+	Oct(0x08),
+	Sha512(0x09),
+	Whirlpool(0x0a),
+	Blake2xs(0x0b),
+	CShake(0x0c),
+	Dstu7564(0x0d),
+	RipeMD256(0x0e),
+	TupleHash(0x0f),
+	Empty(0xff);
 	
 
     /**
@@ -65,9 +66,9 @@ public enum KeyHash {
      */
     public int getValue() { return value; }
 
-	final static KeyHash[] orderedHashes = { KeyHash.BCrypt, KeyHash.Blake2xs, KeyHash.CShake, KeyHash.Dstu7564, 
+	final static KeyHash[] orderedHashes = { KeyHash.BCrypt, KeyHash.Blake2xs, KeyHash.CShake, KeyHash.Dstu7564,
 		KeyHash.Hex, KeyHash.MD5, KeyHash.Oct, KeyHash.OpenBSDCrypt, KeyHash.RipeMD256, KeyHash.SCrypt, 
-		KeyHash.Sha1, KeyHash.Sha256, KeyHash.Sha384, KeyHash.Sha512, KeyHash.TupleHash,  KeyHash.Whirlpool };
+		KeyHash.Sha1, KeyHash.Sha256, KeyHash.Sha384, KeyHash.Sha512, KeyHash.TupleHash,  KeyHash.Whirlpool, KeyHash.Empty };
 
 	final static KeyHash[] secureHashes = {
 			KeyHash.BCrypt, KeyHash.Blake2xs,  KeyHash.CShake, KeyHash.Dstu7564,
@@ -80,26 +81,27 @@ public enum KeyHash {
     public String getName() {
 		int xval = getValue();
 		switch (xval) {
-			case 0x3: 	return "BCrypt";
-			case 0xb: 	return "Blake2xs";
-			case 0xc: 	return "CShake";
-			case 0xd: 	return "Dstu7564";
-			case 0x0: 	return "Hex";					
-			case 0x5: 	return "MD5";			
-			case 0x8: 	return "Oct";					
-			case 0x2: 	return "OpenBSDCrypt";					
-			case 0xe:  	return "RipeMD256";
-			case 0x4: 	return "SCrypt";
-			case 0x1: 	return "Sha1";
-			case 0x6: 	return "Sha256";
-			case 0x7: 	return "Sha384";
-			case 0x9: 	return "Sha512";
-			case 0xf: 	return "TupleHash";
-			case 0xa: 	return "Whirlpool";
+			case 0x03: 	return "BCrypt";
+			case 0x0b: 	return "Blake2xs";
+			case 0x0c: 	return "CShake";
+			case 0x0d: 	return "Dstu7564";
+			case 0x00: 	return "Hex";
+			case 0x05: 	return "MD5";
+			case 0x08: 	return "Oct";
+			case 0x02: 	return "OpenBSDCrypt";
+			case 0x0e: 	return "RipeMD256";
+			case 0x04: 	return "SCrypt";
+			case 0x001:	return "Sha1";
+			case 0x06: 	return "Sha256";
+			case 0x07: 	return "Sha384";
+			case 0x09: 	return "Sha512";
+			case 0x0f: 	return "TupleHash";
+			case 0x0a: 	return "Whirlpool";
+			case 0xff:
 			default:
 				break;
 		}
-		return toString();
+		return "Empty";
     }
 
 	public static String[] getNames() {
@@ -130,7 +132,7 @@ public enum KeyHash {
 			String hexs = "";
 
 			switch (getEnum(getName())) {
-				
+
 				case KeyHash.BCrypt:
 					return eu.cqrxs.crypt.hash.BCrypt.hashString(instr);
 					
@@ -246,13 +248,15 @@ public enum KeyHash {
 						hexs = (new Hex16Coder()).encodeBytesToString(resBuf);
 					}
 					return hexs;
-								
+
+				case KeyHash.Empty:
 				default:
 					break;
 			}
 		} catch (Exception exi) {
 			DbgWriter.msgex(exi, true);
 		}
+
 		return "";
     }
 
@@ -276,6 +280,9 @@ public enum KeyHash {
 	public static KeyHash getKeyHashFromString(String stringToHash) {
 		if (stringToHash != null && stringToHash != "") {
 			switch (stringToHash.toLowerCase()) {
+				case "null":
+				case "none":
+				case "empty":			return KeyHash.Empty;
 				case "scrypt":	 		return KeyHash.SCrypt;
 				case "bcrypt":			return KeyHash.BCrypt;
 				case "openbsd":
