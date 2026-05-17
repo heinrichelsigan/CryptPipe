@@ -3,12 +3,9 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - apt-get install mono-xbuild
-      - wget https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
-      - mono nuget.exe restore
+      - apt-get install mono-xbuild      
   build:
     commands:
-      - echo "Hello World"
       - msbuild C#/EU.CqrXs/EU.CqrXs.csproj  /P:Configuration=Release  /p:Platform="Any CPU"
       - msbuild C#/EU.CqrXs.sln /P:Configuration=Release  /p:Platform="Any CPU" 
       - msbuild C#\EU.CqrXs.sln /P:Configuration=Release  /p:Platform="Any CPU" 
