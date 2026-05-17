@@ -4,8 +4,6 @@ An eight staged symmetric block cipher crypto pipeline to improve advanced encry
 
 The following image shows you an example of a symmetric cipher **8 staged encryption pipe** and the corresponding **decryption** _inverse_ **pipe**.
 
-<img src="https://raw.githubusercontent.com/heinrichelsigan/PermAgainCrypt/refs/heads/main/docu/Symmetric_Cipher_Pipeline.png" />
-
 ## Cloned from https://github.com/heinrichelsigan/PermAgainCrypt
 
 ## New approach
@@ -13,6 +11,8 @@ The following image shows you an example of a symmetric cipher **8 staged encryp
 Avoid dirty merging of Key and KeyHash, as we did in the past,
 go to cipher algorithm in Bouncy Castle with key => key, hash => hash.
 Allow empty hashes.
+
+<img src="https://raw.githubusercontent.com/heinrichelsigan/PermAgainCrypt/refs/heads/main/docu/Symmetric_Cipher_Pipeline.png" />
 
 Before entering the encryption pipe, the file can be zipped to avoid huge amount of symmetric cipher blocks 
 and after exiting the encryption pipe the file can be ascii encoded with base64 mime, uuencode, xxencode or hex16, because symmetric chiphered binary files might lose their block padding.
