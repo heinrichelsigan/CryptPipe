@@ -1,9 +1,6 @@
+version: 0.2
 
-# Assumes the image is microsoft/dotnet-framework:4.7.2-sdk or similar
 phases:
-  install:
-    commands:
-      - Start-Sleep 30
   pre_build:
     commands:
       - apt-get install mono-complete
@@ -13,6 +10,7 @@ phases:
       - mono nuget.exe restore
   build:
     commands:
+      - echo "Hello World"
       - msbuild C#/EU.CqrXs/EU.CqrXs.csproj  /P:Configuration=Release  /p:Platform="Any CPU"
       - msbuild C#/EU.CqrXs/Console/EU.CqrXs.Console.csproj  /P:Configuration=Release  /p:Platform="Any CPU"
       - msbuild C#/EU.CqrXs/Spooler/EU.CqrXs.Spooler.csproj /P:Configuration=Release  /p:Platform="Any CPU"
