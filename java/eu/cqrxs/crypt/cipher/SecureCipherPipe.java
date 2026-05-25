@@ -162,7 +162,7 @@ public class SecureCipherPipe extends CipherPipe {
      * @param key only users secret key
      */
     public SecureCipherPipe(String key) {
-        this(key, CipherMode2.CFB);
+        this(key, CipherMode2.ECB);
         cipherKeyHash = key;
     }
 

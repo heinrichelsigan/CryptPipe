@@ -68,8 +68,8 @@ public class CryptBounceCastle  {
         keyLen = 32;
 		ivLen = 32;
         size = 256;
-        mode = "CFB";
-        cmode2 = CipherMode2.CFB;
+        mode = "ECB";
+        cmode2 = CipherMode2.ECB;
 
         initKeys();
     }
@@ -221,7 +221,7 @@ public class CryptBounceCastle  {
         var cipher = CryptoBlockCipher;
 		plainData = (CryptoBlockCipher.getAlgorithmName() == "RC564" || CryptoBlockCipher.getAlgorithmName() == "RC5-64") ?
 			EnDeCodeHelper.getBytesFromBytes(plainData, 64, true) : plainData;
-        PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CFBBlockCipher(CryptoBlockCipher, size), CryptoBlockCipherPadding);
+        PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(CryptoBlockCipher, CryptoBlockCipherPadding);
 
         switch (cmode2)
         {
@@ -254,9 +254,6 @@ public class CryptBounceCastle  {
                 if (IsNullByteArray(iv)) {
                     cipherMode = new PaddedBufferedBlockCipher(CryptoBlockCipher, CryptoBlockCipherPadding);
                     cmode2 = CipherMode2.ECB;
-                } else {
-                    cipherMode = new PaddedBufferedBlockCipher(new CFBBlockCipher(CryptoBlockCipher, size), CryptoBlockCipherPadding);
-                    cmode2 = CipherMode2.CFB;
                 }
                 break;
         }
@@ -295,7 +292,7 @@ public class CryptBounceCastle  {
     @SuppressWarnings("deprecation")
     public byte[] decrypt(byte[] cipherData) throws InvalidCipherTextException {
         var cipher = CryptoBlockCipher;
-        PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CFBBlockCipher(CryptoBlockCipher, size), CryptoBlockCipherPadding);
+        PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(CryptoBlockCipher, CryptoBlockCipherPadding);
 
         switch (cmode2)
         {
@@ -328,9 +325,6 @@ public class CryptBounceCastle  {
                 if (IsNullByteArray(iv)) {
                     cipherMode = new PaddedBufferedBlockCipher(CryptoBlockCipher, CryptoBlockCipherPadding);
                     cmode2 = CipherMode2.ECB;
-                } else {
-                    cipherMode = new PaddedBufferedBlockCipher(new CFBBlockCipher(CryptoBlockCipher, size), CryptoBlockCipherPadding);
-                    cmode2 = CipherMode2.CFB;
                 }
                 break;
         }

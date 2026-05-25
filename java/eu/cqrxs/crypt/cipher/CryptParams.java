@@ -87,7 +87,7 @@ public class CryptParams {
         size = 256;
         keyLen = 32;
 		ivLen = 32;
-        cmode2 = CipherMode2.CFB;
+        cmode2 = CipherMode2.ECB;
         //noinspection deprecation
         blockCipher = new AESEngine();
         keyHashing = KeyHash.Hex;
@@ -104,7 +104,7 @@ public class CryptParams {
         cipher = cipherAlgo;
         size = 256;
         keyLen = 32;
-        cmode2 = CipherMode2.CFB;
+        cmode2 = CipherMode2.ECB;
         keyHashing = KeyHash.Hex;
 
         switch (cipher) {
@@ -327,7 +327,7 @@ public class CryptParams {
     public CryptParams(CipherEnum cipherAlgo,
                        String secretKey,
                        String keyHashed) {
-        this(cipherAlgo, secretKey, keyHashed, CipherMode2.CFB);
+        this(cipherAlgo, secretKey, keyHashed, CipherMode2.ECB);
     }
 
     /***

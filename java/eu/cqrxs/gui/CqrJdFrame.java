@@ -88,7 +88,7 @@ public class CqrJdFrame extends JFrame {
 	public CipherEnum cipherEnum = CipherEnum.Aes;
 	protected String cipherString, encodeString, openFileName, saveFileName, saveFileSuffix = "";
 	protected EncodeEnum encodeType = EncodeEnum.Base64;
-	protected CipherMode2 cmode2 = CipherMode2.CFB;
+	protected CipherMode2 cmode2 = CipherMode2.ECB;
 
 	JButton jButton_setPipe, jButton_hashPipe, jButton_encrypt, jButton_decrypt, jButton_randomText, jButton_resetForm;
 	JComboBox<String> jComboBox, jComboBox_Hash, jComboBox_Zip, jComboBox_Algo, jComboBox_Encoding;
@@ -809,7 +809,7 @@ public class CqrJdFrame extends JFrame {
 		getContentPane().add(jComboBox_Encoding);
 		selectItemByString(jComboBox_Encoding, menuEncoding, "Base64");
 
-		selectCipherMode2MenuItem(menuCMode2, CipherMode2.CFB);
+		selectCipherMode2MenuItem(menuCMode2, CipherMode2.ECB);
 
 		if (cqrJdFrame == null)
 			cqrJdFrame = (CqrJdFrame)(getRootPane().getParent());
@@ -1352,7 +1352,7 @@ public class CqrJdFrame extends JFrame {
 			selectItemByString(jComboBox_Hash, menuHash, "Empty");
 			selectItemByString(jComboBox_Zip, menuZip, "None");
 			// reset CipherMode2 to CFB
-			selectCipherMode2MenuItem(menuCMode2, CipherMode2.CFB);
+			selectCipherMode2MenuItem(menuCMode2, CipherMode2.ECB);
 
 			dropPanel.setPipeImg(null, "");
 			dropPanel.resetFileLabels();			

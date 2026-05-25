@@ -657,7 +657,7 @@ public class CqrJFrameSimple extends JFrame {
 		getContentPane().add(jComboBox_Encoding);
 		selectItemByString(jComboBox_Encoding, menuEncoding, "Base64");
 
-		selectCipherMode2MenuItem(menuCMode2, CipherMode2.CFB);
+		selectCipherMode2MenuItem(menuCMode2, CipherMode2.ECB);
 
 		dropPanel = new DropPanel(cqrJFrameSimple);
 		dropPanel.setFont(cryptFont);
@@ -1085,8 +1085,8 @@ public class CqrJFrameSimple extends JFrame {
 			// TODO: reset JComboBoxes jComboBox_Algo
 			selectItemByString(jComboBox_Encoding, menuEncoding, "Base64");
 			selectItemByString(jComboBox_Zip, menuZip, "GZip");
-			// reset CipherMode2 to CFB
-			selectCipherMode2MenuItem(menuCMode2, CipherMode2.CFB);
+			// reset CipherMode2 to ECB
+			selectCipherMode2MenuItem(menuCMode2, CipherMode2.ECB);
 
 			dropPanel.setPipeImg(null, "");
 			dropPanel.resetFileLabels();	

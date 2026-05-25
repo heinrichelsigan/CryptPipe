@@ -42,7 +42,7 @@ public class CipherPipe {
     protected CipherEnum[] inPipe;
     protected EncodeEnum  encodeType = EncodeEnum.Base64;
     private KeyHash kHash = KeyHash.Hex;
-    protected CipherMode2 cMode2 = CipherMode2.CFB;
+    protected CipherMode2 cMode2 = CipherMode2.ECB;
 
 	public ZipType getZipType() { return zType; }
 
@@ -78,7 +78,7 @@ public class CipherPipe {
         encodeType = EncodeEnum.Base64;
         zType = ZipType.None;
         kHash = KeyHash.Hex;
-        cMode2 = CipherMode2.CFB;
+        cMode2 = CipherMode2.ECB;
     }
 
     /**
@@ -228,7 +228,7 @@ public class CipherPipe {
      * @param key only users secret key
      */
     public CipherPipe(String key) {
-        this(key, KeyHash.Hex.hash(key), EncodeEnum.Base64, ZipType.None, KeyHash.Hex, CipherMode2.CFB);
+        this(key, KeyHash.Hex.hash(key), EncodeEnum.Base64, ZipType.None, KeyHash.Hex, CipherMode2.ECB);
         cipherKey = key;
     }
     /*

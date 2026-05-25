@@ -229,11 +229,11 @@ public class CryptConsole  {
         // Create cipher pipe for en-/decryption
         if (passKey == null || passKey.isEmpty() || algos.length > 0) {
             pipe =  new CipherPipe(algos, Constants.MAX_PIPE_LEN,
-                    encodingType, zipType, keyHash, CipherMode2.CFB); 
+                    encodingType, zipType, keyHash, CipherMode2.ECB);
             verbout("Created pipe without passkey: " + pipe.getPipeString());
         } else {
             pipe = new CipherPipe(passKey, keyHash.hash(passKey),
-                    encodingType, zipType, keyHash, CipherMode2.CFB); // TODO: fix it!
+                    encodingType, zipType, keyHash, CipherMode2.ECB); // TODO: fix it!
             verbout("Created pipe with passkey=" + passKey + " pipe=" + pipe.getPipeString());
         }
 
@@ -246,7 +246,7 @@ public class CryptConsole  {
                 passKey = (passKey.length() == 0) ? " " : passKey;
                 outBytes = pipe.encryptEncodeBytes(inBytes,
                             passKey,  keyHash.hash(passKey),
-                        encodingType, zipType, keyHash, CipherMode2.CFB); // TODO: fix it
+                        encodingType, zipType, keyHash, CipherMode2.ECB); // TODO: fix it
             } catch (Exception exi) {
                 DbgWriter.msgex(exi, true);
             }
@@ -260,7 +260,7 @@ public class CryptConsole  {
                 passKey = (passKey == null || passKey.isEmpty()) ? "" : passKey;
                 outBytes = pipe.decodeDecrpytBytes(inBytes,
                         passKey, (passKey.isEmpty() ? "" : keyHash.hash(passKey)),
-                        encodingType, zipType, keyHash, CipherMode2.CFB); 
+                        encodingType, zipType, keyHash, CipherMode2.ECB);
             } catch (Exception exi) {
                 DbgWriter.msgex(exi, true);
             }
