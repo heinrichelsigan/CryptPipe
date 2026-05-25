@@ -71,8 +71,8 @@ namespace EU.CqrXs.Crypt.EnDeCoding
             foreach (var c in encoded)
             {
                 charValue = c.ToInt();
-                if (charValue < 0)
-                    throw new FormatException("Illegal character: `" + c + "`");
+                // if (charValue < 0)
+                //     throw new FormatException("Illegal character: `" + c + "`");
 
                 buffer <<= _shift;
                 buffer |= charValue & _mask;
