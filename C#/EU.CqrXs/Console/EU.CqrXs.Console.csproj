@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-	<TargetFramework>net10.0-windows</TargetFramework>
+	<TargetFramework>net10.0-windows10.0.22000.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PublishAot>False</PublishAot>
@@ -11,7 +11,7 @@
 	<StripSymbols>False</StripSymbols>
     <StartupObject>EU.CqrXs.Console.Program</StartupObject>
     <ApplicationIcon>SatIcon.ico</ApplicationIcon>
-    <PublishTrimmed>False</PublishTrimmed>
+    <PublishTrimmed>True</PublishTrimmed>
     <Title>EU.CqrXs.Console</Title>
     <Description>EU.CqrXs.Console</Description>
     <Copyright>Copyright © 2000-2040 Copyleft https://cqrxs.eu</Copyright>
@@ -20,6 +20,7 @@
     <AssemblyVersion>2.26.525</AssemblyVersion>
     <FileVersion>2.26.525</FileVersion>
     <PackageReadmeFile>README.MD</PackageReadmeFile>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

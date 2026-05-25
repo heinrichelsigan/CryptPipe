@@ -135,7 +135,7 @@ namespace EU.CqrXs.Zip
                     {
                         dbz2bytes = BZip2.BUnZip(compressedBytes);
                     }
-                    catch (Exception exBZ2)
+                    catch (Exception)
                     {
                         dbz2bytes = BZip2.BUnZip2Bytes(compressedBytes);
                     }

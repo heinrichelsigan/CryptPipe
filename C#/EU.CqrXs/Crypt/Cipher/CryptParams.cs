@@ -80,6 +80,7 @@ namespace EU.CqrXs.Crypt.Cipher
             KeyLen = 32;
             IvLen = 32;
             Mode = "CFB";
+            CMode2 = CipherMode2.CFB;
             BlockCipher = new AesEngine();
             KeyHashing = KeyHash.Hex;
         }
@@ -96,6 +97,7 @@ namespace EU.CqrXs.Crypt.Cipher
             KeyLen = 32;
             IvLen = 32;
             Mode = "CFB";
+            CMode2 = CipherMode2.CFB;
 
             switch (Cipher)
             {                
@@ -252,15 +254,21 @@ namespace EU.CqrXs.Crypt.Cipher
         }
 
 
-        public CryptParams(CipherEnum cipherAlgo, string key, string hash, KeyHash keyHash) : this(cipherAlgo)
+        public CryptParams(CipherEnum cipherAlgo, string key, string hash, KeyHash keyHash, CipherMode2 cmode = CipherMode2.CFB) : this(cipherAlgo)
         {
             Key = key;
             KeyHashing = keyHash;
             Hash = (string.IsNullOrEmpty(hash)) ? keyHash.Hash(key) : hash;
+            CMode2 = cmode;
+            Mode = cmode.ToString();
         }
 
 
-        public CryptParams(CipherEnum cipherAlgo, string key, KeyHash keyHash) : this(cipherAlgo, key, keyHash.Hash(key), keyHash) { }
+        public CryptParams(CipherEnum cipherAlgo, string key, KeyHash keyHash, CipherMode2 cmode = CipherMode2.CFB) : this(cipherAlgo, key, keyHash.Hash(key), keyHash)
+        { 
+            CMode2 = cmode;
+            Mode = cmode.ToString();
+        }
 
         /// <summary>
         /// constructs a <see cref="CryptParams"/> object by <see cref="CipherEnum"/>

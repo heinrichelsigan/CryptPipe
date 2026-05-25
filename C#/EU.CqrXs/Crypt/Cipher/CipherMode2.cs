@@ -85,19 +85,7 @@ namespace EU.CqrXs.Crypt.Cipher
     /// </remarks>
     public static partial class CipherModeExtensions
     {
-
-        //public static CipherMode ToCipherMode(this CipherMode2 cipherMode2)
-        //{
-        //    return cipherMode2 switch
-        //    {
-        //        CipherMode2.CBC => CipherMode.CBC,
-        //        CipherMode2.CFB => CipherMode.CFB,
-        //        CipherMode2.CTS => CipherMode.CTS,
-        //        CipherMode2.ECB => CipherMode.ECB,
-        //        _ => throw new NotSupportedException($"CipherMode2 '{cipherMode2}' is not supported in System.Security.Cryptography.CipherMode"),
-        //    };
-        //}
-
+        
         public static CipherMode ToCipherMode(this CipherMode2 mode)
         {
             return mode switch
@@ -105,10 +93,10 @@ namespace EU.CqrXs.Crypt.Cipher
                 CipherMode2.CBC => CipherMode.CBC,
                 CipherMode2.CCM => CipherMode.CBC,
                 CipherMode2.CFB => CipherMode.CFB,
-                CipherMode2.CTS => CipherMode.CTS,
+                CipherMode2.CTS => CipherMode.CTS,                
                 CipherMode2.EAX => CipherMode.CBC,
                 CipherMode2.ECB => CipherMode.ECB,
-                CipherMode2.GOFB => CipherMode.CBC,
+                CipherMode2.GOFB => CipherMode.OFB,
                 _ => CipherMode.CFB,
             };
         }
@@ -121,6 +109,8 @@ namespace EU.CqrXs.Crypt.Cipher
                 CipherMode.CFB => CipherMode2.CFB,
                 CipherMode.CTS => CipherMode2.CTS,
                 CipherMode.ECB => CipherMode2.ECB,
+                CipherMode.OFB => CipherMode2.GOFB,
+
                 _ => CipherMode2.CFB,
             };
         }

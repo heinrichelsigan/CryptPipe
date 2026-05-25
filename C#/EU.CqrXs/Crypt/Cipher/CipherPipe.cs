@@ -333,7 +333,7 @@ namespace EU.CqrXs.Crypt.Cipher
                 // throw new ArgumentNullException("hash");
                 hash = "";
 
-            CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hash) { KeyHashing = keyHash, CMode2 = cmode2 };
+            CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hash, keyHash, cmode2);
             byte[] encryptBytes = inBytes;
 
             switch (cipherAlgo)
@@ -407,7 +407,7 @@ namespace EU.CqrXs.Crypt.Cipher
             if (string.IsNullOrEmpty(hash))
                 hash = "";
             // bool sameKey = true;
-            CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hash) { KeyHashing = keyHash, CMode2 = cmode2 };
+            CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hash, keyHash, cmode2);
             byte[] decryptBytes = cipherBytes;
 
             switch (cipherAlgo)
@@ -824,7 +824,7 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="encType">encoding ascii type, e.g. base64, uu, xx</param>
         /// <param name="zipBefore">compression method to zip plain file before encrypting and encoding pipe processed</param>
         /// <param name="keyHash">hashing type of hashing method to hash key</param>
-        /// <param name="cmode2"><see cref="CipherMode2"</param>
+        /// <param name="cmode2"><see cref="CipherMode2" /></param>
         /// <returns>encrypted and encoded byte[] array</returns>
         public virtual byte[] EncryptEncodeBytes(byte[] inBytes, string secretKey, string hashIV,
                 EncodingType encType = EncodingType.Base64,
