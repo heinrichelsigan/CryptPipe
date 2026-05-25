@@ -12,6 +12,9 @@ Avoid dirty merging of Key and KeyHash, as we did in the past,
 go to cipher algorithm in Bouncy Castle with key => key, hash => hash.
 Allow empty hashes.
 
+Try to ensure compatibility with pure C libtom (linux, windows):
+[libtom.net](https://www.libtom.net/), git [libtom/libtomcrypt](https://github.com/libtom/libtomcrypt) 
+
 <img src="https://raw.githubusercontent.com/heinrichelsigan/PermAgainCrypt/refs/heads/main/docu/Symmetric_Cipher_Pipeline.png" />
 
 Before entering the encryption pipe, the file can be zipped to avoid huge amount of symmetric cipher blocks 
@@ -41,7 +44,9 @@ You need since 2025-11-15 Visual Studio 2026 and C# .NetCore 10.0 to compile C# 
 
 ## Download
 
-### Releases
+No new downloads
+
+### old releases
 https://github.com/heinrichelsigan/PermAgainCrypt/releases/
 
 ### [cqrxs.eu/download](https://cqrxs.eu/download/)
