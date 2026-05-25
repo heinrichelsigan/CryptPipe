@@ -7,16 +7,11 @@
  * <a href="https://heinrichelsigan.area23.at">heinrichelsigan.area23.at</a>
  */
 
-package eu.cqrxs.crypt.cipher;
+package eu.cqrxs.crypt.cipher.symmetric;
 
-import eu.cqrxs.crypt.encoding.EncodeEnum;
-import eu.cqrxs.crypt.encoding.Hex16Coder;
-import eu.cqrxs.crypt.hash.KeyHash;
+import eu.cqrxs.crypt.cipher.CryptHelper;
 import eu.cqrxs.util.CException;
-import eu.cqrxs.util.Constants;
 import eu.cqrxs.util.DbgWriter;
-import eu.cqrxs.util.NotImplementedError;
-import eu.cqrxs.zip.ZipType;
 import org.bouncycastle.crypto.BlockCipher;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.DataLengthException;
@@ -25,10 +20,7 @@ import org.bouncycastle.crypto.params.ParametersWithIV;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
-import java.util.List;
-import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 
 /**
  * JAes

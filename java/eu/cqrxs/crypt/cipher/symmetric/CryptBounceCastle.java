@@ -8,24 +8,23 @@
  * <a href="mailto:he@area23.at">Heinrich.Elsigan</a><a href="https://area23.at">area23.at</a>
  */
 
-package eu.cqrxs.crypt.cipher;
+package eu.cqrxs.crypt.cipher.symmetric;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
+import eu.cqrxs.crypt.cipher.CipherMode2;
+import eu.cqrxs.crypt.cipher.CryptHelper;
+import eu.cqrxs.crypt.cipher.CryptParams;
 import eu.cqrxs.crypt.encoding.EncodeEnum;
 import eu.cqrxs.crypt.encoding.EnDeCodeHelper;
-import eu.cqrxs.zip.ZipType;
-import eu.cqrxs.zip.GZ;
 import eu.cqrxs.util.DbgWriter;
-import eu.cqrxs.util.Constants;
 
 import org.bouncycastle.crypto.*;
 import org.bouncycastle.crypto.engines.*;
 import org.bouncycastle.crypto.BlockCipher;
 import org.bouncycastle.crypto.modes.CBCBlockCipher;
-import org.bouncycastle.crypto.modes.CCMBlockCipher;
 import org.bouncycastle.crypto.modes.CFBBlockCipher;
 import org.bouncycastle.crypto.modes.CTSBlockCipher;
 import org.bouncycastle.crypto.modes.EAXBlockCipher;
@@ -44,14 +43,14 @@ public class CryptBounceCastle  {
 
     private String privateHash = "";
 
-    private byte[] tmpIv;
-    private byte[] tmpKey;
+    private byte[] tmpKey, tmpIv;
 
-    byte[] key;
-    byte[] iv;
+    byte[] key, iv;
 
     public int size, keyLen, ivLen;
     public String mode;
+
+    public CipherMode2 cmode2;
 
     public BlockCipher CryptoBlockCipher;
 
@@ -70,6 +69,7 @@ public class CryptBounceCastle  {
 		ivLen = 32;
         size = 256;
         mode = "CFB";
+        cmode2 = CipherMode2.CFB;
 
         initKeys();
     }
@@ -112,6 +112,7 @@ public class CryptBounceCastle  {
         ivLen = cparams.ivLen;
         size = Math.min(cparams.size, CryptoBlockCipher.getBlockSize());
         mode = cparams.getMode();
+        cmode2 = cparams.cmode2;
 
         if (init)
         {
@@ -222,34 +223,41 @@ public class CryptBounceCastle  {
 			EnDeCodeHelper.getBytesFromBytes(plainData, 64, true) : plainData;
         PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CFBBlockCipher(CryptoBlockCipher, size), CryptoBlockCipherPadding);
 
-        switch (mode)
+        switch (cmode2)
         {
-            case "CBC":
+            case CipherMode2.CBC:
                 cipherMode = new PaddedBufferedBlockCipher(new CBCBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
                 break;
-            case "ECB":
+            case CipherMode2.ECB:
                 cipherMode = new PaddedBufferedBlockCipher(CryptoBlockCipher, CryptoBlockCipherPadding);
                 break;
-            case "CFB":
+            case CipherMode2.CFB:
                 cipherMode = new PaddedBufferedBlockCipher(new CFBBlockCipher(CryptoBlockCipher, size), CryptoBlockCipherPadding);
                 break;
             // case "CCM":
             //     org.bouncycastle.crypto.modes.CCMBlockCipher ccmCipher = new CCMBlockCipher(CryptoBlockCipher);
             //     cipherMode = new PaddedBufferedBlockCipher((BlockCipher)ccmCipher, CryptoBlockCipherPadding);
             //     break;
-            case "CTS":
+            case CipherMode2.CTS:
                 org.bouncycastle.crypto.modes.CTSBlockCipher ctsCipher = new CTSBlockCipher(CryptoBlockCipher);
                 cipherMode = new PaddedBufferedBlockCipher((BlockCipher)ctsCipher, CryptoBlockCipherPadding);
                 break;
-            case "EAX":
+            case CipherMode2.EAX:
                 org.bouncycastle.crypto.modes.EAXBlockCipher eaxCipher = new EAXBlockCipher(CryptoBlockCipher);
                 cipherMode = new PaddedBufferedBlockCipher((BlockCipher)eaxCipher, CryptoBlockCipherPadding);
                 break;
-            case "GOFB":
+            case CipherMode2.GOFB:
                 org.bouncycastle.crypto.modes.GOFBBlockCipher gOfbCipher = new GOFBBlockCipher(CryptoBlockCipher);
                 cipherMode = new PaddedBufferedBlockCipher((BlockCipher)gOfbCipher, CryptoBlockCipherPadding);
                 break;
             default:
+                if (IsNullByteArray(iv)) {
+                    cipherMode = new PaddedBufferedBlockCipher(CryptoBlockCipher, CryptoBlockCipherPadding);
+                    cmode2 = CipherMode2.ECB;
+                } else {
+                    cipherMode = new PaddedBufferedBlockCipher(new CFBBlockCipher(CryptoBlockCipher, size), CryptoBlockCipherPadding);
+                    cmode2 = CipherMode2.CFB;
+                }
                 break;
         }
 
@@ -260,7 +268,7 @@ public class CryptBounceCastle  {
 			keyParam = new org.bouncycastle.crypto.params.KeyParameter(key);
         CipherParameters keyParamIV = new org.bouncycastle.crypto.params.ParametersWithIV(keyParam, iv);
 
-        if (mode == "ECB" || !canAlgoKeyIV(CryptoBlockCipher) || IsNullByteArray(iv))			
+        if (cmode2 == CipherMode2.ECB || !canAlgoKeyIV(CryptoBlockCipher))
 			cipherMode.init(true, keyParam);
         else
 			cipherMode.init(true, keyParamIV);
@@ -289,34 +297,41 @@ public class CryptBounceCastle  {
         var cipher = CryptoBlockCipher;
         PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CFBBlockCipher(CryptoBlockCipher, size), CryptoBlockCipherPadding);
 
-        switch (mode)
+        switch (cmode2)
         {
-            case "CBC":
+            case CipherMode2.CBC:
                 cipherMode = new PaddedBufferedBlockCipher(new CBCBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
                 break;
-            case "ECB":
+            case CipherMode2.ECB:
                 cipherMode = new PaddedBufferedBlockCipher(CryptoBlockCipher, CryptoBlockCipherPadding);
                 break;
-            case "CFB":
+            case CipherMode2.CFB:
                 cipherMode = new PaddedBufferedBlockCipher(new CFBBlockCipher(CryptoBlockCipher, size), CryptoBlockCipherPadding);
                 break;
             // case "CCM":
             //     org.bouncycastle.crypto.modes.CCMBlockCipher ccmCipher = new CCMBlockCipher(CryptoBlockCipher);
             //     cipherMode = new PaddedBufferedBlockCipher((BlockCipher)ccmCipher, CryptoBlockCipherPadding);
             //     break;
-            case "CTS":
+            case CipherMode2.CTS:
                 org.bouncycastle.crypto.modes.CTSBlockCipher ctsCipher = new CTSBlockCipher(CryptoBlockCipher);
                 cipherMode = new PaddedBufferedBlockCipher((BlockCipher)ctsCipher, CryptoBlockCipherPadding);
                 break;
-            case "EAX":
+            case CipherMode2.EAX:
                 org.bouncycastle.crypto.modes.EAXBlockCipher eaxCipher = new EAXBlockCipher(CryptoBlockCipher);
                 cipherMode = new PaddedBufferedBlockCipher((BlockCipher)eaxCipher, CryptoBlockCipherPadding);
                 break;
-            case "GOFB":
+            case CipherMode2.GOFB:
                 org.bouncycastle.crypto.modes.GOFBBlockCipher gOfbCipher = new GOFBBlockCipher(CryptoBlockCipher);
                 cipherMode = new PaddedBufferedBlockCipher((BlockCipher)gOfbCipher, CryptoBlockCipherPadding);
                 break;
             default:
+                if (IsNullByteArray(iv)) {
+                    cipherMode = new PaddedBufferedBlockCipher(CryptoBlockCipher, CryptoBlockCipherPadding);
+                    cmode2 = CipherMode2.ECB;
+                } else {
+                    cipherMode = new PaddedBufferedBlockCipher(new CFBBlockCipher(CryptoBlockCipher, size), CryptoBlockCipherPadding);
+                    cmode2 = CipherMode2.CFB;
+                }
                 break;
         }
         // cipherMode.Reset()
@@ -330,7 +345,8 @@ public class CryptBounceCastle  {
         CipherParameters keyParamIV = new ParametersWithIV(keyParam, iv);
 
         // Decrypt with initialization vector only when !ECB + algorithm is IV capable
-		if (mode == "ECB" || !canAlgoKeyIV(CryptoBlockCipher) || IsNullByteArray(iv))
+
+        if (cmode2 == CipherMode2.ECB || !canAlgoKeyIV(CryptoBlockCipher))
 			cipherMode.init(false, keyParam);
         else
 			cipherMode.init(false, keyParamIV);

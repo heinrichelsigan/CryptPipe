@@ -11,7 +11,6 @@ package eu.cqrxs.crypt.cipher;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.nio.charset.StandardCharsets;
@@ -19,20 +18,19 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import eu.cqrxs.crypt.cipher.symmetric.CryptBounceCastle;
+import eu.cqrxs.crypt.cipher.symmetric.JAes;
+import eu.cqrxs.crypt.cipher.symmetric.ZenMatrix;
+import eu.cqrxs.crypt.cipher.symmetric.ZenMatrix3;
 import eu.cqrxs.crypt.encoding.EncodeEnum;
 import eu.cqrxs.crypt.hash.KeyHash;
 import eu.cqrxs.util.CException;
 import eu.cqrxs.util.Constants;
 import eu.cqrxs.util.DbgWriter;
 import eu.cqrxs.gui.ImageHelper;
-import eu.cqrxs.util.NotImplementedError;
 import eu.cqrxs.zip.ZipType;
 
 import org.bouncycastle.crypto.*;
-
-import javax.crypto.Cipher;
-import javax.imageio.ImageIO;
-import javax.swing.*;
 
 /**
  * CipherPipe is symmetric block cipher encryption and decryption pipe line
@@ -53,7 +51,6 @@ public class CipherPipe {
     public KeyHash getKeyHash() { return kHash; }
 
     public CipherEnum[] getInPipe() { return inPipe; }
-
 
     public CipherEnum[] getOutPipe() {
         CipherEnum[] outEnums = new CipherEnum[inPipe.length];
@@ -204,7 +201,6 @@ public class CipherPipe {
         zType = zpType;
         encodeType = encType;
         kHash = kh;
-
     }
 
     /**

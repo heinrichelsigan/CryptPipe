@@ -7,13 +7,12 @@
  * <a href="https://heinrichelsigan.area23.at">heinrichelsigan.area23.at</a>
  */
 
-package eu.cqrxs.crypt.cipher;
+package eu.cqrxs.crypt.cipher.symmetric;
 
+import eu.cqrxs.crypt.cipher.CryptHelper;
 import eu.cqrxs.crypt.hash.KeyHash;
-import eu.cqrxs.util.Constants;
 import eu.cqrxs.util.DbgWriter;
 import eu.cqrxs.util.NotImplementedError;
-import eu.cqrxs.zip.ZipType;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -9,6 +9,8 @@
 
 package eu.cqrxs.crypt.cipher;
 
+import eu.cqrxs.crypt.cipher.symmetric.JAes;
+import eu.cqrxs.crypt.cipher.symmetric.ZenMatrix;
 import org.bouncycastle.crypto.BlockCipher;
 import org.bouncycastle.crypto.engines.AESEngine;
 import org.bouncycastle.crypto.engines.AESLightEngine;
@@ -64,15 +66,11 @@ public class CryptParams {
      */
     public String getMode() { return cmode2.getName(); }
 
-    public String key;
-    public String hash;
-    // public String mode;
+    public String key, hash;
 
     public CipherMode2 cmode2;
 
-    public int size;
-
-    public int blockSize;
+    public int size, blockSize;
 
     public int keyLen, ivLen;
 
