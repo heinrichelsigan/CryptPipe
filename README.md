@@ -8,6 +8,8 @@ The following image shows you an example of a symmetric cipher **8 staged encryp
 
 ## Please still use https://github.com/heinrichelsigan/PermAgainCrypt until 1st release here
 
+## IF YOU USE THIS CODE, ONLY SET CIPHERMODE = ECB, BECAUSE OF BUG WITH IV
+
 ## New approach
 
 Avoid dirty merging of Key and KeyHash, as we did in the past,
