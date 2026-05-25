@@ -80,8 +80,8 @@ namespace EU.CqrXs.Crypt.Hash
             {
                 switch (stringToHash.ToLower())
                 {
-                    case "empty": return KeyHash.Empty;
-                    case "null": return KeyHash.Empty;
+                    case "empty": 
+                    case "null":
                     case "none": return KeyHash.Empty;
                     case "scrypt": return KeyHash.SCrypt;
                     case "bcrypt": return KeyHash.BCrypt;
