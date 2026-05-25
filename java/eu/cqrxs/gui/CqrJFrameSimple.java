@@ -427,7 +427,7 @@ public class CqrJFrameSimple extends JFrame {
 		menuEncoding_itemAscii85.setHorizontalTextPosition(SwingConstants.RIGHT);
 		menuEncoding_itemAscii85.setText("Ascii85");
 		menuEncoding_itemAscii85.setActionCommand("Ascii85");
-		menuEncoding_itemAscii85.setEnabled(true);
+		menuEncoding_itemAscii85.setEnabled(false);
 		menuEncoding_itemAscii85.setFont(menuFont);
 		menuEncoding_itemAscii85.addActionListener(aSymAction);
 		menuEncoding.add(menuEncoding_itemAscii85);
