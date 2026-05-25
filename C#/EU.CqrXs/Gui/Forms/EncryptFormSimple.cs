@@ -813,7 +813,7 @@ namespace EU.CqrXs.Gui.Forms
             {
                 Program.form123Fish.Show();
             }
-            catch (Exception exShow)
+            catch (Exception)
             {
                 Program.form123Fish = new OneTwoThreeFish();
                 await Program.form123Fish.ShowAsync();
@@ -825,7 +825,7 @@ namespace EU.CqrXs.Gui.Forms
                 if (Program.formComplex != null && !Program.formComplex.Disposing)
                     Program.formComplex.Hide();
             }
-            catch (Exception exHide) { }
+            catch (Exception) { }
             this.Hide();
             Program.form123Fish.Focus();
         }
@@ -844,7 +844,7 @@ namespace EU.CqrXs.Gui.Forms
             {
                 Program.formComplex.Show();
             }
-            catch (Exception exShow)
+            catch (Exception)
             {
                 Program.formComplex = new EncryptFormMultiControls();
                 Program.formComplex.Show();
@@ -856,7 +856,7 @@ namespace EU.CqrXs.Gui.Forms
                 if (Program.form123Fish != null && !Program.form123Fish.Disposing)
                     Program.form123Fish.Hide();                
             }
-            catch (Exception exShow)
+            catch (Exception)
             {
             }
 

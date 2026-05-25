@@ -1216,7 +1216,7 @@ namespace EU.CqrXs.Gui.Forms
             {
                 Program.formComplex.Show();
             }
-            catch (Exception exShow)
+            catch (Exception)
             {
                 Program.formComplex = new EncryptFormMultiControls();
                 Program.formComplex.Show();
@@ -1228,7 +1228,7 @@ namespace EU.CqrXs.Gui.Forms
                 if (Program.formSimple != null && !Program.formSimple.Disposing)
                     Program.formSimple.Hide();
             }
-            catch (Exception exShow)
+            catch (Exception)
             {
             }
             this.Hide();
@@ -1251,7 +1251,7 @@ namespace EU.CqrXs.Gui.Forms
             {
                 Program.formSimple.Show();
             }
-            catch (Exception exShow)
+            catch (Exception)
             {
                 Program.formSimple = new EncryptFormSimple();
                 await Program.formSimple.ShowAsync();
@@ -1263,7 +1263,7 @@ namespace EU.CqrXs.Gui.Forms
                 if (Program.formComplex != null && !Program.formComplex.Disposing)
                     Program.formComplex.Hide();                
             }
-            catch (Exception exShow)
+            catch (Exception)
             {
             }
             this.Hide();

@@ -9,6 +9,7 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
     /// Des3Net native .Net triple des without bouncy castle
     /// <see href="https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.tripledes.-ctor?view=net-8.0" />
     /// <seealso href="https://www.c-sharpcorner.com/article/tripledes-encryption-and-decryption-in-c-sharp/" />
+    /// [Obsolete("Des3Net pure .NET Core is obsolete (too few bits, too old) => use DESEde from https://bouncy-castle.org instead.", false)]
     /// </summary>
     /// <remarks>
     /// <list type="bullet">
@@ -26,8 +27,7 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
     /// fixed [vulnerability, code smell]: [Describe understandable precise in 1-2 setences]
     /// </item>
     /// </list>
-    /// </remarks>
-    [Obsolete("Des3Net pure .NET Core is obsolete (too few bits, too old) => use DESEde from https://bouncy-castle.org instead.", false)]
+    /// </remarks>    
     public class Des3Net
     {
 
@@ -41,7 +41,7 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
 
         public static CipherMode CMode = CipherMode.CFB;
 
-        public static TripleDESCryptoServiceProvider Des3;
+        public static System.Security.Cryptography.TripleDES Des3 { get; private set; }
 
         public static ICryptoTransform CryptTrans;
 
@@ -76,7 +76,7 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
         /// <param name="ivBytes">ref parameter to pass ivBytes</param>
         protected internal void GenDes3Iv(byte[] keyBytes, ref byte[] ivBytes)
         {
-            TripleDESCryptoServiceProvider desHelper = new TripleDESCryptoServiceProvider();
+            TripleDES desHelper = System.Security.Cryptography.TripleDES.Create();
             desHelper.Key = keyBytes;
             desHelper.GenerateIV();
             int iVLenght = desHelper.IV.Length;
@@ -126,8 +126,9 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
 
             // MD5 md5 = new MD5CryptoServiceProvider();
             // DesKey = md5.ComputeHash(desKey);
-            Des3 = new TripleDESCryptoServiceProvider();
-            // Des3.KeySize = DesKeyLen;
+
+            Des3 = TripleDES.Create();
+            Des3.KeySize = DesKeyLen;
             Des3.Key = DesKey;
             Des3.IV = DesIv;
             Des3.Mode = cipherMode;
@@ -144,14 +145,15 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
                 desKey = Convert.FromBase64String(Constants.DES3_KEY);
                 desIv = Encoding.UTF8.GetBytes(Constants.DES3_IV);
             }
+            CMode = cipherMode;
 
             // MD5 md5 = new MD5CryptoServiceProvider(); // DesKey = md5.ComputeHash(desKey);
             GenDes3Key(ref desKey);
             GenDes3Iv(DesKey, ref desIv);
-            Des3 = new TripleDESCryptoServiceProvider();
+            Des3 = TripleDES.Create();
+            Des3.KeySize = DesKeyLen;
             Des3.Key = DesKey;
             Des3.IV = DesIv;
-            CMode = cipherMode;
             Des3.Mode = cipherMode;
             Des3.Padding = PaddingMode.PKCS7;
         }
@@ -178,9 +180,16 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
         {
 			if (inBytes == null || inBytes.Length == 0)
 				throw new ArgumentNullException("inBytes");
-			
-			if (Des3 == null)
-				Des3 = new TripleDESCryptoServiceProvider() { Key = DesKey, IV = DesIv, Mode = CMode, Padding = PaddingMode.PKCS7 };
+
+            if (Des3 == null)
+            {
+                Des3 = TripleDES.Create();
+                Des3.KeySize = DesKeyLen;
+                Des3.Key = DesKey;
+                Des3.IV = DesIv;
+                Des3.Mode = CMode;
+                Des3.Padding = PaddingMode.PKCS7;
+            }
             
 			CryptTrans = Des3.CreateEncryptor();
 			
@@ -201,10 +210,17 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
             if (cipherBytes == null || cipherBytes.Length <= 0)
                 throw new ArgumentNullException("cipherBytes");
 
-			if (Des3 == null)
-				Des3 = new TripleDESCryptoServiceProvider() { Key = DesKey, IV = DesIv, Mode = CMode, Padding = PaddingMode.Zeros };         
-            
-			CryptTrans = Des3.CreateDecryptor();
+            if (Des3 == null)
+            {
+                Des3 = TripleDES.Create();
+                Des3.KeySize = DesKeyLen;
+                Des3.Key = DesKey;
+                Des3.IV = DesIv;
+                Des3.Mode = CMode;
+                Des3.Padding = PaddingMode.PKCS7;
+            }
+
+            CryptTrans = Des3.CreateDecryptor();
 			            
             byte[] decryptedBytes = CryptTrans.TransformFinalBlock(cipherBytes, 0, cipherBytes.Length);        
             Des3.Clear();

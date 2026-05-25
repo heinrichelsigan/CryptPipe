@@ -824,7 +824,7 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="encType">encoding ascii type, e.g. base64, uu, xx</param>
         /// <param name="zipBefore">compression method to zip plain file before encrypting and encoding pipe processed</param>
         /// <param name="keyHash">hashing type of hashing method to hash key</param>
-        /// <param name="cmode2"><see cref="CipherMode2"</param>
+        /// <param name="cmode2"><see cref="CipherMode2" /></param>
         /// <returns>encrypted and encoded byte[] array</returns>
         public virtual byte[] EncryptEncodeBytes(byte[] inBytes, string secretKey, string hashIV,
                 EncodingType encType = EncodingType.Base64,
