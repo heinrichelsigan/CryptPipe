@@ -302,7 +302,7 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
             if (CMode == CipherMode2.ECB || !CanAlgoKeyIV(CryptoBlockCipher))
                 cipherMode.Init(true, keyParam);
             else
-                cipherMode.Init(false, keyParamIV);
+                cipherMode.Init(true, keyParamIV);
 
             if (PadBufBChipger == null && cipherMode != null)
                 PadBufBChipger = cipherMode;
