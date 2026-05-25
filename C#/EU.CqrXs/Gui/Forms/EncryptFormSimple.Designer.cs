@@ -281,8 +281,6 @@ namespace EU.CqrXs.Gui.Forms
             // menuCipherModeItemCFB
             // 
             menuCipherModeItemCFB.BackColor = SystemColors.Menu;
-            menuCipherModeItemCFB.Checked = true;
-            menuCipherModeItemCFB.CheckState = CheckState.Checked;
             menuCipherModeItemCFB.ForeColor = SystemColors.MenuText;
             menuCipherModeItemCFB.Name = "menuCipherModeItemCFB";
             menuCipherModeItemCFB.Size = new Size(180, 22);
@@ -310,6 +308,8 @@ namespace EU.CqrXs.Gui.Forms
             // 
             menuCipherModeItemECB.BackColor = SystemColors.Menu;
             menuCipherModeItemECB.ForeColor = SystemColors.MenuText;
+            menuCipherModeItemECB.Checked = true;
+            menuCipherModeItemCFB.CheckState = CheckState.Checked;
             menuCipherModeItemECB.Name = "menuCipherModeItemECB";
             menuCipherModeItemECB.Size = new Size(180, 22);
             menuCipherModeItemECB.Text = "ECB";

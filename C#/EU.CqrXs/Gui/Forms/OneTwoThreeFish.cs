@@ -111,7 +111,7 @@ namespace EU.CqrXs.Gui.Forms
             this.textBoxKey.Text = GetEmailFromRegistry();
 
 
-            menuCipherMode_Click(menuCipherModeItemCFB, e);
+            menuCipherMode_Click(menuCipherModeItemECB, e);
             SetPictureBoxImage(groupBoxFiles.pictureBoxRunningPipe, Resources.BlankEncrypt_640x108, "", true);
             SetStatusLabelText(this.statusLabelMsg, $"{this.Name} started...");
 
@@ -366,8 +366,8 @@ namespace EU.CqrXs.Gui.Forms
                 }
             }
 
-            menuCipherModeItemCFB.Checked = true;
-            return CipherMode2.CFB;
+            menuCipherModeItemECB.Checked = true;
+            return CipherMode2.ECB;
         }
 
 

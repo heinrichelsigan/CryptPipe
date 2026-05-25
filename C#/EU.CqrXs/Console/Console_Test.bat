@@ -9,10 +9,10 @@ del /q README_MD.base16 README.MD.gz.BfF.ascii85 README.MD.Whirlpool.bz.Hex32 RE
 EU.CqrXs.Console.exe -V -i=.\README.MD -e=base16 -o=.\README_MD.base16 
 EU.CqrXs.Console.exe -V -D  -i=.\README_MD.base16 -e=base16 -o=.\READ_MD.txt 
 
-EU.CqrXs.Console.exe -V -i=.\README.MD -k=Hallo -z=gzip  -C=BlowFish,Fish2,Fish3 -e=ascii85 -o=.\README.MD.gz.BfF.ascii85
-EU.CqrXs.Console.exe -V -D -i=.\README.MD.gz.BfF.ascii85 -k=Hallo -e=ascii85 -C=BlowFish,Fish2,Fish3 -z=gzip -o=.\READ_GUNZIP.txt 
+EU.CqrXs.Console.exe -V -i=.\README.MD -k=heinrich.elsigan@heinrichelsigan.area23.at  -H=Sha256  -z=gzip  -C=BlowFish,Fish2,Fish3 -e=ascii85 -o=.\README.MD.gz.BfF.ascii85
+EU.CqrXs.Console.exe -V -D -i=.\README.MD.gz.BfF.ascii85 -k=heinrich.elsigan@heinrichelsigan.area23.at -H=Sha256 -e=ascii85 -C=BlowFish,Fish2,Fish3 -z=gzip -o=.\READ_GUNZIP.txt 
  
-EU.CqrXs.Console.exe -V -i=.\README.MD -z=bz -k=heinrichelsigan.area23.at -H=Whirlpool -e=hex32 -o=.\README.MD.Whirlpool.bz.Hex32 
+EU.CqrXs.Console.exe -V -i=.\README.MD -z=bz -k=heinrich.elsigan@heinrichelsigan.area23.at -H=Whirlpool -e=hex32 -o=.\README.MD.Whirlpool.bz.Hex32 
 EU.CqrXs.Console.exe -V -D -i=.\README.MD.Whirlpool.bz.Hex32 -e=hex32 -k=heinrichelsigan.area23.at -H=Whirlpool -z=bz -o=.\READ_BUNZIP.txt 
 
 EU.CqrXs.Console.exe -i=.\README.MD  -k=io.cqrxs.eu -H=SCrypt -z=zip -C=Aes,Blowfish,Des3,Fish2,Fish3,Seed,Serpent,SM4  -e=uu -o=.\README.MD.SCrypt.zip.uu

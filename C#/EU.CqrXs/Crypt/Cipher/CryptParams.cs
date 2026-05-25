@@ -79,8 +79,8 @@ namespace EU.CqrXs.Crypt.Cipher
             Size = 256;
             KeyLen = 32;
             IvLen = 32;
-            Mode = "CFB";
-            CMode2 = CipherMode2.CFB;
+            Mode = "ECB";
+            CMode2 = CipherMode2.ECB;
             BlockCipher = new AesEngine();
             KeyHashing = KeyHash.Hex;
         }
@@ -96,8 +96,8 @@ namespace EU.CqrXs.Crypt.Cipher
             Size = 256;
             KeyLen = 32;
             IvLen = 32;
-            Mode = "CFB";
-            CMode2 = CipherMode2.CFB;
+            Mode = "ECB";
+            CMode2 = CipherMode2.ECB;
 
             switch (Cipher)
             {                
@@ -127,9 +127,13 @@ namespace EU.CqrXs.Crypt.Cipher
                 case CipherEnum.Fish2:
                     Size = 128;
                     KeyLen = 16;
+                    IvLen = 16;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.TwofishEngine();
                     break;
                 case CipherEnum.Fish3:
+                    Size = 256;
+                    KeyLen = 32;
+                    IvLen = 32;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(Size);
                     break;                
                 case CipherEnum.Camellia:
@@ -254,7 +258,7 @@ namespace EU.CqrXs.Crypt.Cipher
         }
 
 
-        public CryptParams(CipherEnum cipherAlgo, string key, string hash, KeyHash keyHash, CipherMode2 cmode = CipherMode2.CFB) : this(cipherAlgo)
+        public CryptParams(CipherEnum cipherAlgo, string key, string hash, KeyHash keyHash, CipherMode2 cmode = CipherMode2.ECB) : this(cipherAlgo)
         {
             Key = key;
             KeyHashing = keyHash;
@@ -264,7 +268,7 @@ namespace EU.CqrXs.Crypt.Cipher
         }
 
 
-        public CryptParams(CipherEnum cipherAlgo, string key, KeyHash keyHash, CipherMode2 cmode = CipherMode2.CFB) : this(cipherAlgo, key, keyHash.Hash(key), keyHash)
+        public CryptParams(CipherEnum cipherAlgo, string key, KeyHash keyHash, CipherMode2 cmode = CipherMode2.ECB) : this(cipherAlgo, key, keyHash.Hash(key), keyHash)
         { 
             CMode2 = cmode;
             Mode = cmode.ToString();

@@ -1378,7 +1378,7 @@ namespace EU.CqrXs.Util
 
             if (cipherEnums.Count > 0)
             {
-                cipherPipe = new CipherPipe(cipherEnums.ToArray(), 8, eType, zipTyp, kHash, CipherMode2.CFB);
+                cipherPipe = new CipherPipe(cipherEnums.ToArray(), 8, eType, zipTyp, kHash, CipherMode2.ECB);
                 if (strippedFileName.Contains("." + cipherPipe.PipeString))
                 {
                     strippedFileName = strippedFileName.Replace("." + cipherPipe.PipeString, "");
@@ -1386,7 +1386,7 @@ namespace EU.CqrXs.Util
             }
 
             if (cipherPipe == null || cipherPipe.InPipe.Length == 0)
-                cipherPipe = new CipherPipe(cipherEnums.ToArray(), 8, eType, zipTyp, kHash, CipherMode2.CFB);
+                cipherPipe = new CipherPipe(cipherEnums.ToArray(), 8, eType, zipTyp, kHash, CipherMode2.ECB);
 
             return strippedFileName;
         }

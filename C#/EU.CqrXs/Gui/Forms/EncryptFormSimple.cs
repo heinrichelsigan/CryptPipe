@@ -93,7 +93,7 @@ namespace EU.CqrXs.Gui.Forms
             this.labelInfoMessage.Visible = false;
             this.textBoxKey.Text = GetEmailFromRegistry();
 
-            await menuCipherMode_Click(menuCipherModeItemCFB, e);
+            await menuCipherMode_Click(menuCipherModeItemECB, e);
             await groupBoxFiles.pictureBoxRunningPipe.SetImageTagVisibleAsync(Resources.BlankEncrypt_640x108, "", true);
             await SetInfoMessageAsync($"{this.Name} started...", ToolTipIcon.Info, 2000);            
         }
@@ -153,10 +153,10 @@ namespace EU.CqrXs.Gui.Forms
             }
             switch (comboBoxCipherModes.Items[comboBoxCipherModes.SelectedIndex])
             {
-                case "CBC": await menuCipherMode_Click(menuCipherModeItemCBC, e); return;
-                case "ECB": await menuCipherMode_Click(menuCipherModeItemECB, e); return;
-                case "CFB":
-                default: await menuCipherMode_Click(menuCipherModeItemCFB, e); break;
+                case "CBC": await menuCipherMode_Click(menuCipherModeItemCBC, e); return;                
+                case "CFB": await menuCipherMode_Click(menuCipherModeItemCFB, e); return; 
+                case "ECB": 
+                default: await menuCipherMode_Click(menuCipherModeItemECB, e); break;
             }
         }
 
@@ -175,8 +175,8 @@ namespace EU.CqrXs.Gui.Forms
                 }
             }
 
-            this.menuCipherModeItemCFB.Checked = true;
-            this.menuCipherModeItemCFB.CheckState = CheckState.Checked; 
+            this.menuCipherModeItemECB.Checked = true;
+            this.menuCipherModeItemECB.CheckState = CheckState.Checked; 
             // menuCipherModeItemCFB.Checked = true;
             return CipherMode2.CFB;
         }

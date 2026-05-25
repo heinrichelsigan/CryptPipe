@@ -51,8 +51,8 @@ namespace EU.CqrXs.Crypt.Cipher
 
         public CiffreMode()
         {
-            CMode = CipherMode.CFB;
-            CMode2 = CipherMode2.CFB;
+            CMode = CipherMode.ECB;
+            CMode2 = CipherMode2.ECB;
         }
 
         public CiffreMode(CipherMode2 cipherMode2)
@@ -97,7 +97,7 @@ namespace EU.CqrXs.Crypt.Cipher
                 CipherMode2.EAX => CipherMode.CBC,
                 CipherMode2.ECB => CipherMode.ECB,
                 CipherMode2.GOFB => CipherMode.OFB,
-                _ => CipherMode.CFB,
+                _ => CipherMode.ECB,
             };
         }
 
@@ -111,7 +111,7 @@ namespace EU.CqrXs.Crypt.Cipher
                 CipherMode.ECB => CipherMode2.ECB,
                 CipherMode.OFB => CipherMode2.GOFB,
 
-                _ => CipherMode2.CFB,
+                _ => CipherMode2.ECB,
             };
         }
 
@@ -169,7 +169,7 @@ namespace EU.CqrXs.Crypt.Cipher
             text = text ?? "";
 
             if (!Enum.TryParse<CipherMode2>(text, out cipherMode))
-                cipherMode = CipherMode2.CFB;
+                cipherMode = CipherMode2.ECB;
 
             return cipherMode;
         }

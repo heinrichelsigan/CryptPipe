@@ -2,7 +2,7 @@
   "profiles": {
     "EU.CqrXs.Console": {
       "commandName": "Project",
-      "commandLineArgs": " -i=S:\\PermAgainCrypt\\Deploy\\EU.CqrXs\\EU.CqrXs.Console\\README.MD -e=base16 -o=S:\\PermAgainCrypt\\Deploy\\EU.CqrXs\\EU.CqrXs.Console\\README_MD.base16"
+      "commandLineArgs": " -V -i=S:\\CryptPipe\\C#\\EU.CqrXs\\Console\\README.MD -k=heinrich.elsigan@heinrichelsigan.area23.at  -H=Sha256  -z=gzip  -C=BlowFish,Fish2,Fish3 -e=ascii85 -o=S:\\CryptPipe\\Deploy\\EU.CqrXs\\EU.CqrXs.Console\\README.MD.BfF.ascii85"
     }
   }
 }

@@ -39,7 +39,7 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
 
         public static byte[] DesIv { get; private set; }
 
-        public static CipherMode CMode = CipherMode.CFB;
+        public static CipherMode CMode = CipherMode.ECB;
 
         public static System.Security.Cryptography.TripleDES Des3 { get; private set; }
 
@@ -111,7 +111,7 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
         /// <summary>
         /// Des3Net ctor with key, hash and <see cref="CipherMode" />
         /// </summary>
-        public Des3Net(string desKey, string hash, CipherMode cipherMode = CipherMode.CFB)
+        public Des3Net(string desKey, string hash, CipherMode cipherMode = CipherMode.ECB)
         {
             if (string.IsNullOrEmpty(desKey))
                 desKey = Constants.DES3_KEY;
@@ -138,7 +138,7 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
         /// <summary>
         /// ctor with byte[] for key, iv and <see cref="CipherMode">default now: CFB</see>
         /// </summary>
-        public Des3Net(byte[] desKey, byte[] desIv, CipherMode cipherMode = CipherMode.CFB)
+        public Des3Net(byte[] desKey, byte[] desIv, CipherMode cipherMode = CipherMode.ECB)
         {
             if (desKey == null || desKey.Length == 0)
             {

@@ -63,7 +63,7 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
         public AesNet() : this(Convert.FromBase64String(Constants.AES_KEY), Convert.FromBase64String(Constants.AES_IV)) { }
 
         public AesNet(string key, string hash, EncodingType encodeType = EncodingType.None, 
-            CipherMode cipherMode = CipherMode.CFB)
+            CipherMode cipherMode = CipherMode.ECB)
         {
             if (string.IsNullOrEmpty(key))
                 throw new ArgumentNullException("key");
@@ -129,7 +129,7 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
             AesAlgo.Padding = PaddingMode.ISO10126;
         }
 
-        public AesNet(byte[] aesKey, byte[] aesIv, CipherMode cipherMode = CipherMode.CFB)
+        public AesNet(byte[] aesKey, byte[] aesIv, CipherMode cipherMode = CipherMode.ECB)
         {
             if (aesKey == null || aesKey.Length == 0)
                 aesKey = Convert.FromBase64String(Constants.AES_KEY);
