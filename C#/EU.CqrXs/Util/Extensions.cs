@@ -473,6 +473,18 @@ namespace EU.CqrXs.Util
             return span.ToArray();
         }
 
+
+        public static bool IsNullByteArray(this byte[] bytes)
+        {
+            if (bytes == null || bytes.Length == 0) return true;
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                if (bytes[i] != (byte)0)
+                    return false;
+            }
+            return true;
+        }
+
         #endregion byteArray extensions
 
         #region string extensions

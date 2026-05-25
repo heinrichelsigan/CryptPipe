@@ -74,7 +74,7 @@ public class CryptParams {
 
     public int blockSize;
 
-    public int keyLen;
+    public int keyLen, ivLen;
 
     public BlockCipher blockCipher;
 
@@ -88,6 +88,7 @@ public class CryptParams {
         cipher = CipherEnum.Aes;
         size = 256;
         keyLen = 32;
+		ivLen = 32;
         cmode2 = CipherMode2.CFB;
         //noinspection deprecation
         blockCipher = new AESEngine();
@@ -259,6 +260,8 @@ public class CryptParams {
                 blockCipher = new  AESEngine();
                 break;
         }
+		
+		ivLen = keyLen;
 
         blockSize = blockCipher.getBlockSize();
 

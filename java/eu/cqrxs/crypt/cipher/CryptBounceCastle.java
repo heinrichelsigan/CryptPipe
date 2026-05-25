@@ -79,10 +79,11 @@ public class CryptBounceCastle  {
 		privateKey = "";
         privateHash = "";
 		tmpKey = new byte[keyLen];
-		tmpIv = new byte[keyLen];
+		tmpIv = new byte[ivLen];
 
 		key = new byte[keyLen];
-		iv = new byte[keyLen];
+		iv = new byte[ivLen];
+		/*
 		for (int i = 0; i < keyLen; i++) {
 			key[i] = (byte)0;
 			tmpKey[i] = (byte)0;			
@@ -91,6 +92,7 @@ public class CryptBounceCastle  {
 				tmpIv[i] = (byte)0;
 			}
 		}
+		*/
 	}
 
     /**
@@ -107,7 +109,7 @@ public class CryptBounceCastle  {
 
         CryptoBlockCipherPadding = new org.bouncycastle.crypto.paddings.ZeroBytePadding();
         keyLen = cparams.keyLen;
-        ivLen = keyLen;
+        ivLen = cparams.ivLen;
         size = Math.min(cparams.size, CryptoBlockCipher.getBlockSize());
         mode = cparams.getMode();
 
@@ -124,10 +126,10 @@ public class CryptBounceCastle  {
             tmpKey = privateKey.getBytes(Charset.forName("UTF-8"));
             tmpIv = privateHash.getBytes(Charset.forName("UTF-8"));
 
-			int maxKeyLen = (keyLen > tmpKey.length) ? tmpKey.length : keyLen;
-            int maxIvLen = (ivLen > tmpIv.length) ? tmpIv.length : ivLen;
-            System.arraycopy(tmpKey, 0, key, 0, maxKeyLen);
-            System.arraycopy(tmpIv, 0, iv, 0, maxIvLen);
+			int minKeyLen = (keyLen < tmpKey.length) ? keyLen : tmpKey.length;
+            int minIvLen = (ivLen < tmpIv.length) ? ivLen : tmpIv.length;
+            System.arraycopy(tmpKey, 0, key, 0, minKeyLen);
+            System.arraycopy(tmpIv, 0, iv, 0, minIvLen);
         }
         else
         {
@@ -258,7 +260,7 @@ public class CryptBounceCastle  {
 			keyParam = new org.bouncycastle.crypto.params.KeyParameter(key);
         CipherParameters keyParamIV = new org.bouncycastle.crypto.params.ParametersWithIV(keyParam, iv);
 
-        if (mode == "ECB" || !canAlgoKeyIV(CryptoBlockCipher))
+        if (mode == "ECB" || !canAlgoKeyIV(CryptoBlockCipher) || IsNullByteArray(iv))			
 			cipherMode.init(true, keyParam);
         else
 			cipherMode.init(true, keyParamIV);
@@ -328,7 +330,7 @@ public class CryptBounceCastle  {
         CipherParameters keyParamIV = new ParametersWithIV(keyParam, iv);
 
         // Decrypt with initialization vector only when !ECB + algorithm is IV capable
-		if (mode == "ECB" || !canAlgoKeyIV(CryptoBlockCipher))
+		if (mode == "ECB" || !canAlgoKeyIV(CryptoBlockCipher) || IsNullByteArray(iv))
 			cipherMode.init(false, keyParam);
         else
 			cipherMode.init(false, keyParamIV);
@@ -403,6 +405,18 @@ public class CryptBounceCastle  {
 
         return plaintexts;
     }
+	
+	
+	public boolean IsNullByteArray(byte[] bytes) {
+		if (bytes == null || bytes.length < 1)
+			return true;
+		for (int i = 0; i < bytes.length; i++) {
+			if (bytes[i] != (byte)0)
+				return false;
+		}
+		
+		return true;		
+	}
 
 
 }

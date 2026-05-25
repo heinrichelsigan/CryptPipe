@@ -113,6 +113,7 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
                 CryptoBlockCipher = new RC564Engine();
             CryptoBlockCipherPadding = new ZeroBytePadding();
             KeyLen = cparams.KeyLen;
+            IvLen = cparams.IvLen;
             Size = Math.Min(cparams.Size, CryptoBlockCipher.GetBlockSize());
             Mode = cparams.Mode;
 
@@ -129,11 +130,11 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
                 tmpKey = System.Text.Encoding.UTF8.GetBytes(privateKey);
                 tmpIv = System.Text.Encoding.UTF8.GetBytes(privateHash);
 
-                int maxKeyLen = tmpKey.Length < KeyLen ? tmpKey.Length : KeyLen;
-                int maxIvLen = tmpIv.Length < IvLen ? tmpIv.Length : IvLen;
+                int minKeyLen = KeyLen < tmpKey.Length  ? KeyLen : tmpKey.Length;
+                int minIvLen = IvLen < tmpIv.Length ? IvLen : tmpIv.Length;
 
-                Array.Copy(tmpKey, Key, maxKeyLen);
-                Array.Copy(tmpIv, Iv, maxIvLen);
+                Array.Copy(tmpKey, Key, minKeyLen);
+                Array.Copy(tmpIv, Iv, minIvLen);
             }
             else
             {
@@ -154,20 +155,20 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
             privateKey = string.Empty;
             privateHash = string.Empty;
             tmpKey = new byte[KeyLen];
-            tmpIv = new byte[KeyLen];
+            tmpIv = new byte[IvLen];
 
             Key = new byte[KeyLen];
-            Iv = new byte[KeyLen];
-            for (int i = 0; i < KeyLen; i++)
-            {
-                tmpKey[i] = 0;
-                Key[i] = 0;
-                if (i < IvLen)
-                {
-                    Iv[i] = 0;
-                    tmpIv[i] = 0;
-                }
-            }
+            Iv = new byte[IvLen];
+            //for (int i = 0; i < KeyLen; i++)
+            //{
+            //    tmpKey[i] = 0;
+            //    Key[i] = 0;
+            //    if (i < IvLen)
+            //    {
+            //        Iv[i] = 0;
+            //        tmpIv[i] = 0;
+            //    }
+            //}
         }
 
 
@@ -279,7 +280,7 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv); // KeyParameter with init vector
 
             // cipherMode init with initialization vector only when Mode isn't ECB and Algo is IV init capable
-            if (Mode == "ECB" || !CanAlgoKeyIV(CryptoBlockCipher))
+            if (Mode == "ECB" || !CanAlgoKeyIV(CryptoBlockCipher) || Iv.IsNullByteArray())
                 cipherMode.Init(true, keyParam);
             else
                 cipherMode.Init(true, keyParamIV);
@@ -347,8 +348,8 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv);
 
 
-            // Decrypt with initialization vector only when !ECB + algorithm is IV capable            
-            if (Mode == "ECB" || !CanAlgoKeyIV(CryptoBlockCipher))
+            // Decrypt with initialization vector only when !ECB + algorithm is IV capable + iv is not null byte array          
+            if (Mode == "ECB" || !CanAlgoKeyIV(CryptoBlockCipher) || Iv.IsNullByteArray())
                 cipherMode.Init(false, keyParam);
             else
                 cipherMode.Init(false, keyParamIV);
