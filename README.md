@@ -6,6 +6,8 @@ The following image shows you an example of a symmetric cipher **8 staged encryp
 
 ## Cloned from https://github.com/heinrichelsigan/PermAgainCrypt
 
+## Please still use https://github.com/heinrichelsigan/PermAgainCrypt until 1st release here
+
 ## New approach
 
 Avoid dirty merging of Key and KeyHash, as we did in the past,
