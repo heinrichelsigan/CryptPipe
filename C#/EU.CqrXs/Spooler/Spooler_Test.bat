@@ -8,10 +8,10 @@ del /s /q .\Out\*.*
 if "%1"=="-S" goto secpipe
 if "%1"=="-s" goto secpipe
 
-echo "EU.CqrXs.Spooler.exe -V -k=bar@ba.area23.at -i=S:\PermAgainCrypt\Deploy\EU.CqrXs\EU.CqrXs.Spooler\In\ -o=S:\PermAgainCrypt\Deploy\EU.CqrXs\EU.CqrXs.Spooler\Encrypt\
-EU.CqrXs.Spooler.exe -V -k=bar@ba.area23.at -i=S:\PermAgainCrypt\Deploy\EU.CqrXs\EU.CqrXs.Spooler\In\ -o=S:\PermAgainCrypt\Deploy\EU.CqrXs\EU.CqrXs.Spooler\Encrypt\ 
-echo "EU.CqrXs.Spooler.exe -V -D -i=S:\PermAgainCrypt\Deploy\EU.CqrXs\EU.CqrXs.Spooler\Encrypt\ -o=S:\PermAgainCrypt\Deploy\EU.CqrXs\EU.CqrXs.Spooler\Out\ "
-EU.CqrXs.Spooler.exe -V -D -k=bar@ba.area23.at -i=S:\PermAgainCrypt\Deploy\EU.CqrXs\EU.CqrXs.Spooler\Encrypt\ -o=S:\PermAgainCrypt\Deploy\EU.CqrXs\EU.CqrXs.Spooler\Out\ 
+echo "EU.CqrXs.Spooler.exe -V -M=CFB -k=bar@ba.area23.at -i=S:\PermAgainCrypt\Deploy\EU.CqrXs\EU.CqrXs.Spooler\In\ -o=S:\PermAgainCrypt\Deploy\EU.CqrXs\EU.CqrXs.Spooler\Encrypt\
+EU.CqrXs.Spooler.exe -V -M=CFB -k=bar@ba.area23.at -i=S:\PermAgainCrypt\Deploy\EU.CqrXs\EU.CqrXs.Spooler\In\ -o=S:\PermAgainCrypt\Deploy\EU.CqrXs\EU.CqrXs.Spooler\Encrypt\ 
+echo "EU.CqrXs.Spooler.exe -V -D -M=CFB -i=S:\PermAgainCrypt\Deploy\EU.CqrXs\EU.CqrXs.Spooler\Encrypt\ -o=S:\PermAgainCrypt\Deploy\EU.CqrXs\EU.CqrXs.Spooler\Out\ "
+EU.CqrXs.Spooler.exe -V -D -M=CFB -k=bar@ba.area23.at -i=S:\PermAgainCrypt\Deploy\EU.CqrXs\EU.CqrXs.Spooler\Encrypt\ -o=S:\PermAgainCrypt\Deploy\EU.CqrXs\EU.CqrXs.Spooler\Out\ 
 goto end
 
 
