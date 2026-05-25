@@ -1,25 +1,11 @@
+version: 0.2
 
-# Assumes the image is microsoft/dotnet-framework:4.7.2-sdk or similar
 phases:
-  install:
-    commands:
-      # Below is the URL for the MSI linked from https://www.iis.net/downloads/microsoft/web-deploy
-      #- Invoke-WebRequest -OutFile WebDeploy_amd64_en-US.msi https://download.microsoft.com/download/0/1/D/01DC28EA-638C-4A22-A57B-4CEF97755C6C/WebDeploy_amd64_en-US.msi
-      # - msiexec /i WebDeploy_amd64_en-US.msi /quiet
-      # MSIExec will return before it is actually done - 30s seems to work...
-      - Start-Sleep 30
   pre_build:
     commands:
-      - apt-get install mono-complete
-      - apt-get install mono-xbuild
-      - apt-get install dotnet10 dotnet-host-10.0 dotnet-sdk-10.0 
-      - wget https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
-      - mono nuget.exe restore
+      - apt-get install mono-xbuild      
   build:
     commands:
       - msbuild C#/EU.CqrXs/EU.CqrXs.csproj  /P:Configuration=Release  /p:Platform="Any CPU"
-      - msbuild C#/EU.CqrXs/Console/EU.CqrXs.Console.csproj  /P:Configuration=Release  /p:Platform="Any CPU"
-      - msbuild C#/EU.CqrXs/Spooler/EU.CqrXs.Spooler.csproj /P:Configuration=Release  /p:Platform="Any CPU"
-      - msbuild C#/EU.CqrXs/Gui/EU.CqrXs.Gui.csproj  /P:Configuration=Release  /p:Platform="Any CPU"
       - msbuild C#/EU.CqrXs.sln /P:Configuration=Release  /p:Platform="Any CPU" 
       - msbuild C#\EU.CqrXs.sln /P:Configuration=Release  /p:Platform="Any CPU" 
