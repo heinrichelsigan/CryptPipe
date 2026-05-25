@@ -5,6 +5,7 @@ using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Modes;
 using Org.BouncyCastle.Crypto.Paddings;
 using Org.BouncyCastle.Crypto.Parameters;
+using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace EU.CqrXs.Crypt.Cipher.Symmetric
 {
@@ -82,6 +83,8 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
         /// </summary>
         public string Mode { get; private set; }
 
+        public CipherMode2 CMode { get; private set; }
+
         #endregion properties
 
         #region ctor_init_gen
@@ -96,6 +99,7 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
             KeyLen = 32;
             Size = 256;
             Mode = "CFB";
+            CMode = CipherMode2.CFB;
 
             InitKeys();
         }
@@ -116,6 +120,7 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
             IvLen = cparams.IvLen;
             Size = Math.Min(cparams.Size, CryptoBlockCipher.GetBlockSize());
             Mode = cparams.Mode;
+            CMode = cparams.CMode2;
 
             if (init)
             {
@@ -243,34 +248,40 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
                 EnDeCodeHelper.GetBytesFromBytes(plainData) : plainData;
             PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
 
-            switch (Mode)
+            switch (CMode)
             {
-                case "CBC":
+                case CipherMode2.CBC:
                     cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
                     break;
-                case "ECB":
+                case CipherMode2.ECB:
                     cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
                     break;
-                case "CFB":
+                case CipherMode2.CFB:
                     cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(CryptoBlockCipher, Size), CryptoBlockCipherPadding);
                     break;
-                case "CCM":
+                case CipherMode2.CCM:
                     CcmBlockCipher ccmCipher = new CcmBlockCipher(CryptoBlockCipher);
                     cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)ccmCipher, CryptoBlockCipherPadding);
                     break;
-                case "CTS":
+                case CipherMode2.CTS:
                     CbcBlockCipher ctsCipher = new CbcBlockCipher(CryptoBlockCipher);
                     cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)new CtsBlockCipher((IBlockCipher)ctsCipher), CryptoBlockCipherPadding);
                     break;
-                case "EAX":
+                case CipherMode2.EAX:
                     EaxBlockCipher eaxCipher = new EaxBlockCipher(CryptoBlockCipher);
                     cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)eaxCipher, CryptoBlockCipherPadding);
                     break;
-                case "GOFB":
+                case CipherMode2.GOFB:
                     GOfbBlockCipher gOfbCipher = new GOfbBlockCipher(CryptoBlockCipher);
                     cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)gOfbCipher, CryptoBlockCipherPadding);
                     break;
                 default:
+                    if (Iv.IsNullByteArray())
+                    {
+                        Mode = "ECB";
+                        CMode = CipherMode2.ECB;
+                        cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
+                    }
                     break;
             }
 
@@ -280,7 +291,7 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
             ICipherParameters keyParamIV = new ParametersWithIV(keyParam, Iv); // KeyParameter with init vector
 
             // cipherMode init with initialization vector only when Mode isn't ECB and Algo is IV init capable
-            if (Mode == "ECB" || !CanAlgoKeyIV(CryptoBlockCipher) || Iv.IsNullByteArray())
+            if (Mode == "ECB" || !CanAlgoKeyIV(CryptoBlockCipher))
                 cipherMode.Init(true, keyParam);
             else
                 cipherMode.Init(true, keyParamIV);
@@ -309,38 +320,43 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
             var cipher = CryptoBlockCipher;
             PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
 
-            switch (Mode)
+            switch (CMode)
             {
-                case "CBC":
+                case CipherMode2.CBC:
                     cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
                     break;
-                case "ECB":
+                case CipherMode2.ECB:
                     cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
                     break;
-                case "CFB":
+                case CipherMode2.CFB:
                     cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(CryptoBlockCipher, Size), CryptoBlockCipherPadding);
                     break;
-                case "CCM":
+                case CipherMode2.CCM:
                     CcmBlockCipher ccmCipher = new CcmBlockCipher(CryptoBlockCipher);
                     cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)ccmCipher, CryptoBlockCipherPadding);
                     break;
-                case "CTS":
+                case CipherMode2.CTS:
                     CbcBlockCipher ctsCipher = new CbcBlockCipher(CryptoBlockCipher);
                     cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)new CtsBlockCipher((IBlockCipher)ctsCipher), CryptoBlockCipherPadding);
                     break;
-                case "EAX":
+                case CipherMode2.EAX:
                     EaxBlockCipher eaxCipher = new EaxBlockCipher(CryptoBlockCipher);
                     cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)eaxCipher, CryptoBlockCipherPadding);
                     break;
-                case "GOFB":
+                case CipherMode2.GOFB:
                     GOfbBlockCipher gOfbCipher = new GOfbBlockCipher(CryptoBlockCipher);
                     cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)gOfbCipher, CryptoBlockCipherPadding);
                     break;
                 default:
+                    if (Iv.IsNullByteArray())
+                    {
+                        Mode = "ECB";
+                        CMode = CipherMode2.ECB;
+                        cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
+                    }
                     break;
             }
             // cipherMode.Reset()                
-
             
             KeyParameter keyParam = CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64" ? 
                                         new RC5Parameters(Key, 2) :
@@ -349,7 +365,7 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
 
 
             // Decrypt with initialization vector only when !ECB + algorithm is IV capable + iv is not null byte array          
-            if (Mode == "ECB" || !CanAlgoKeyIV(CryptoBlockCipher) || Iv.IsNullByteArray())
+            if (Mode == "ECB" || !CanAlgoKeyIV(CryptoBlockCipher))
                 cipherMode.Init(false, keyParam);
             else
                 cipherMode.Init(false, keyParamIV);
