@@ -52,11 +52,11 @@ public enum CipherMode2 {
 	 */
     public static CipherMode2 fromString(String stringToParse) {
         String textForEnum = (stringToParse != null && !stringToParse.isEmpty()) ? stringToParse : "CFB";
-        CipherMode2 cMode2 = CipherMode2.CFB;
+        CipherMode2 cMode2 = CipherMode2.ECB;
         try {
 			cMode2 = CipherMode2.valueOf(CipherMode2.class, textForEnum);
         }  catch (Exception exEnum) {
-			cMode2 = CipherMode2.CFB;
+			cMode2 = CipherMode2.ECB;
         }
         return cMode2;
     }
@@ -89,7 +89,7 @@ public enum CipherMode2 {
 			case GOFB: 	return "GOFB";
 			default: 	break;
 		}
-		return "CFB";    		// CFB_DEFAULT
+		return "ECB";    		// ECB_DEFAULT
 	}
 
 	/**
@@ -138,7 +138,7 @@ public enum CipherMode2 {
             if (cipherEnum.getByteValue() == bvalue)
                 return cipherEnum;
         }
-        return CipherMode2.CFB;
+        return CipherMode2.ECB;
     }
 
 	/**
@@ -151,7 +151,7 @@ public enum CipherMode2 {
             if (cipherEnum.getName() == cipherMode2)
                 return cipherEnum;
         }
-        return CipherMode2.CFB;
+        return CipherMode2.ECB;
     }
 
 }

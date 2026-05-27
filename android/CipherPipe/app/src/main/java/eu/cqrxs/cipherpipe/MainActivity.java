@@ -34,8 +34,12 @@ import eu.cqrxs.crypt.cipher.SecureCipherPipe;
 import eu.cqrxs.crypt.cipher.CryptParams;
 import eu.cqrxs.crypt.cipher.CryptHelper;
 import eu.cqrxs.crypt.cipher.CipherMode2;
-import eu.cqrxs.crypt.cipher.CryptBounceCastle;
-import eu.cqrxs.crypt.cipher.JAes;
+import eu.cqrxs.crypt.cipher.symmetric.CryptBounceCastle;
+import eu.cqrxs.crypt.cipher.symmetric.JAes;
+import eu.cqrxs.crypt.cipher.symmetric.ZenMatrix;
+import eu.cqrxs.crypt.cipher.symmetric.ZenMatrix2;
+import eu.cqrxs.crypt.cipher.symmetric.ZenMatrix3;
+
 
 import eu.cqrxs.crypt.hash.KeyHash;
 import eu.cqrxs.crypt.hash.BCrypt;

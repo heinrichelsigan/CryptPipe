@@ -9,6 +9,10 @@
 
 package eu.cqrxs.crypt.cipher;
 
+import eu.cqrxs.crypt.cipher.symmetric.CryptBounceCastle;
+import eu.cqrxs.crypt.cipher.symmetric.JAes;
+import eu.cqrxs.crypt.cipher.symmetric.ZenMatrix;
+import eu.cqrxs.crypt.cipher.symmetric.ZenMatrix2;
 import eu.cqrxs.crypt.encoding.EncodeEnum;
 import eu.cqrxs.crypt.hash.KeyHash;
 import eu.cqrxs.util.CException;
@@ -158,7 +162,7 @@ public class SecureCipherPipe extends CipherPipe {
      * @param key only users secret key
      */
     public SecureCipherPipe(String key) {
-        this(key, CipherMode2.CFB);
+        this(key, CipherMode2.ECB);
         cipherKeyHash = key;
     }
 

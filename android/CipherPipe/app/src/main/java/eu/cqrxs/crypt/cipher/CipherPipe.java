@@ -10,8 +10,7 @@
 package eu.cqrxs.crypt.cipher;
 
 // import java.awt.*;
-// import java.awt.image.*;
-import java.io.File;
+// import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
 import java.nio.charset.StandardCharsets;
@@ -19,20 +18,18 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import eu.cqrxs.crypt.cipher.symmetric.CryptBounceCastle;
+import eu.cqrxs.crypt.cipher.symmetric.JAes;
+import eu.cqrxs.crypt.cipher.symmetric.ZenMatrix;
+import eu.cqrxs.crypt.cipher.symmetric.ZenMatrix3;
 import eu.cqrxs.crypt.encoding.EncodeEnum;
 import eu.cqrxs.crypt.hash.KeyHash;
 import eu.cqrxs.util.CException;
 import eu.cqrxs.util.Constants;
 import eu.cqrxs.util.DbgWriter;
-import eu.cqrxs.util.NotImplementedError;
 import eu.cqrxs.zip.ZipType;
 
 import org.bouncycastle.crypto.*;
-
-import javax.crypto.Cipher;
-import android.graphics.*;
-
-import androidx.annotation.NonNull;
 
 /**
  * CipherPipe is symmetric block cipher encryption and decryption pipe line
@@ -44,7 +41,7 @@ public class CipherPipe {
     protected CipherEnum[] inPipe;
     protected EncodeEnum  encodeType = EncodeEnum.Base64;
     private KeyHash kHash = KeyHash.Hex;
-    protected CipherMode2 cMode2 = CipherMode2.CFB;
+    protected CipherMode2 cMode2 = CipherMode2.ECB;
 
 	public ZipType getZipType() { return zType; }
 
@@ -53,7 +50,6 @@ public class CipherPipe {
     public KeyHash getKeyHash() { return kHash; }
 
     public CipherEnum[] getInPipe() { return inPipe; }
-
 
     public CipherEnum[] getOutPipe() {
         CipherEnum[] outEnums = new CipherEnum[inPipe.length];
@@ -81,7 +77,7 @@ public class CipherPipe {
         encodeType = EncodeEnum.Base64;
         zType = ZipType.None;
         kHash = KeyHash.Hex;
-        cMode2 = CipherMode2.CFB;
+        cMode2 = CipherMode2.ECB;
     }
 
     /**
@@ -93,7 +89,7 @@ public class CipherPipe {
      * @param kh {@link KeyHash}
      * @param cmode2 {@link CipherMode2}
      */
-    public CipherPipe(@NonNull CipherEnum[] cipherEnums,
+    public CipherPipe(CipherEnum[] cipherEnums,
                       int maxpipe,
                       EncodeEnum encType,
                       ZipType zpType,
@@ -204,7 +200,6 @@ public class CipherPipe {
         zType = zpType;
         encodeType = encType;
         kHash = kh;
-
     }
 
     /**
@@ -232,7 +227,7 @@ public class CipherPipe {
      * @param key only users secret key
      */
     public CipherPipe(String key) {
-        this(key, KeyHash.Hex.hash(key), EncodeEnum.Base64, ZipType.None, KeyHash.Hex, CipherMode2.CFB);
+        this(key, KeyHash.Hex.hash(key), EncodeEnum.Base64, ZipType.None, KeyHash.Hex, CipherMode2.ECB);
         cipherKey = key;
     }
     /*
@@ -264,6 +259,7 @@ public class CipherPipe {
         */
 
 
+
     /**
      *  Generic encrypt bytes to bytes
      * @param inBytes array of bytes
@@ -283,7 +279,8 @@ public class CipherPipe {
         if (secretKey == null || secretKey.length() < 1)
             throw new IllegalArgumentException("seretkey");
         if (hashedKey == null || hashedKey.length() == 0)
-            throw new IllegalArgumentException("hashedKey");
+            hashedKey = "";
+            // throw new IllegalArgumentException("hashedKey");
 
         byte[] encryptBytes = inBytes;
         CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hashedKey, cmode2);
@@ -356,8 +353,8 @@ public class CipherPipe {
         if (secretKey == null || secretKey.length() == 0)
             throw new IllegalArgumentException("seretkey");
         if (hash == null || hash.length() == 0)
-            throw new IllegalArgumentException("hash");
-        // bool sameKey = true;
+            hash = "";
+            // throw new IllegalArgumentException("hash");
 
         byte[] decryptBytes = cipherBytes; 
         CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hash, cmode2);
@@ -524,50 +521,6 @@ public class CipherPipe {
         return encrypted;
     }
 
-
-    /**
-     * encrpytFileBytesGoRounds encrypts a data byte[] array
-     * @param inBytes binary data
-     * @param cryptKey prviate key for encryption
-     * @param hashIv hashed private key
-     * @param encoding {@link EncodeEnum}
-     * @param zipBefore {@link ZipType}
-     * @param keyHash {@link KeyHash}
-     * @param cmode2 {@link CipherMode2}
-     * @return binary data
-     */
-    public byte[] encrpytFileBytesGoRounds(
-                byte[] inBytes,
-                String cryptKey,
-                String hashIv,
-                EncodeEnum encoding,
-                ZipType zipBefore,
-                KeyHash keyHash,
-                CipherMode2 cmode2)
-            throws InvalidCipherTextException {
-
-        // hashIv if empty hash secretKey with keyHash hashing variant
-        hashIv = (hashIv == null || hashIv.length() == 0) ? keyHash.hash(cryptKey) : hashIv;
-        cipherKey = cryptKey;
-        cipherHash = hashIv;
-        kHash = keyHash;
-        zType = zipBefore;
-        encodeType = encoding;
-		cMode2 = cmode2;
-		
-        try {
-            byte[] zippedBytes = (zipBefore != ZipType.None) ? zipBefore.zip(inBytes) : inBytes;
-            inBytes = zippedBytes;
-        } catch (Exception exZip) {
-            DbgWriter.msgex(exZip, true);
-        }
-        // perform multi crypt pipe stages
-        byte[] encryptedBytes = merryGoRoundEncrpyt(inBytes, cryptKey, hashIv, cMode2);
-
-        return encryptedBytes;
-    }
-
-
 	/**
      *  decryptTextRoundsGo
      * @param cryptedEncodedMsg encoded byte array
@@ -615,6 +568,50 @@ public class CipherPipe {
         return decrypted;
     }
 
+
+    /**
+     * encrpytFileBytesGoRounds encrypts a data byte[] array
+     * @param inBytes binary data
+     * @param cryptKey prviate key for encryption
+     * @param hashIv hashed private key
+     * @param encoding {@link EncodeEnum}
+     * @param zipBefore {@link ZipType}
+     * @param keyHash {@link KeyHash}
+     * @param cmode2 {@link CipherMode2}
+     * @return binary data
+     */
+    public byte[] encrpytFileBytesGoRounds(
+                byte[] inBytes,
+                String cryptKey,
+                String hashIv,
+                EncodeEnum encoding,
+                ZipType zipBefore,
+                KeyHash keyHash,
+                CipherMode2 cmode2)
+            throws InvalidCipherTextException {
+
+        // hashIv if empty hash secretKey with keyHash hashing variant
+        hashIv = (hashIv == null || hashIv.length() == 0) ? keyHash.hash(cryptKey) : hashIv;
+        cipherKey = cryptKey;
+        cipherHash = hashIv;
+        kHash = keyHash;
+        zType = zipBefore;
+        encodeType = encoding;
+		cMode2 = cmode2;
+		
+        try {
+            byte[] zippedBytes = (zipBefore != ZipType.None) ? zipBefore.zip(inBytes) : inBytes;
+            inBytes = zippedBytes;
+        } catch (Exception exZip) {
+            DbgWriter.msgex(exZip, true);
+        }
+        // perform multi crypt pipe stages
+        byte[] encryptedBytes = merryGoRoundEncrpyt(inBytes, cryptKey, hashIv, cMode2);
+
+        return encryptedBytes;
+    }
+
+
     /**
      *  decodeDecrpytBytes
      * @param cipherBytes encoded byte array
@@ -658,6 +655,7 @@ public class CipherPipe {
         return decryptedBytes;
     }
 
+
 	/**
      * encrpytGoRounds encrypts a data byte[] array
      * @param inBytes binary data
@@ -691,7 +689,6 @@ public class CipherPipe {
         }
         return merryGoRoundEncrpyt(inBytes, cipherKey, cipherHash, cMode2);
     }
-
 
 	/**
      * decrpytRoundsGo decrypts encrypted bytes
@@ -812,7 +809,6 @@ public class CipherPipe {
         return encryptedBytes;
     }
 
-
     /**
      *  decodeDecrpytBytes
      * @param encodedBytes encoded byte array
@@ -861,20 +857,20 @@ public class CipherPipe {
     }
 
 
+    /**
+     * drawCipherPipe draws a cipher pipe image for a specified pipe
+     * state of method: prototype (not fully working)
+     * @param pipe the specific chipher pipe
+     * @return {@link BufferedImage}
+     */
+    // public static BufferedImage drawCipherPipe(CipherPipe pipe) {
+    //    String path = "eu/cqrxs/gui/img/";
     /*
-     // * drawCipherPipe draws a cipher pipe image for a specified pipe
-     // * state of method: prototype (not fully working)
-     // * @param pipe the specific chipher pipe
-     // * @return {@link BufferedImage}
-     //
-    public static BufferedImage drawCipherPipe(CipherPipe pipe) {
-        String path = "eu/cqrxs/gui/img/"; // base path of the images
-
         if (pipe == null) {
             BufferedImage imgPipeBlank = new BufferedImage(640, 96, BufferedImage.TYPE_INT_ARGB);
             try {
-                imgPipeBlank = ImageIO.read(new File(path + "cipherpipeblank.png"));
-            } catch (IOException ioex1) {
+                imgPipeBlank = ImageHelper.toBufferedImage(ImageHelper.getJarImage(path + "cipherpipeblank.png"), 640, 96);
+            } catch (Exception ioex1) {
                 DbgWriter.msgex(ioex1, true);
             }
             return imgPipeBlank;
@@ -891,8 +887,8 @@ public class CipherPipe {
 
             BufferedImage imgGz = new BufferedImage(76, 96, BufferedImage.TYPE_INT_ARGB);
             try {
-                imgGz = ImageIO.read(new File(path + "gz.png"));
-            } catch (IOException ioex2) {
+                imgGz = ImageHelper.getJarIncludedImage(path + "gz.png");
+            } catch (Exception ioex2) {
                 DbgWriter.msgex(ioex2, true);
             }
             g.drawImage(imgGz, xoffset, 0, null);
@@ -900,8 +896,8 @@ public class CipherPipe {
         } else {
             BufferedImage imgStart = new BufferedImage(32, 96, BufferedImage.TYPE_INT_ARGB);
             try {
-                imgStart = ImageIO.read(new File(path + "pipestartblock.png"));
-            } catch (IOException ioex3) {
+                imgStart = ImageHelper.getJarIncludedImage(path + "pipestartblock.png");
+            } catch (Exception ioex3) {
                 DbgWriter.msgex(ioex3, true);
             }
             g.drawImage(imgStart, xoffset, 0, null);
@@ -914,13 +910,12 @@ public class CipherPipe {
                 CipherEnum cipher = inPipe[i];
                 BufferedImage imgAes = new BufferedImage(60, 96, BufferedImage.TYPE_INT_ARGB);
                 try {
-                    imgAes = ImageIO.read(new File(path + cipher.toString().toLowerCase() + ".png"));
+                    imgAes = ImageHelper.getJarIncludedImage(path + cipher.toString().toLowerCase() + ".png");
                 } catch (Exception ex3) {
                     DbgWriter.msgex(ex3, true);
                     try {
-                        imgAes = ImageIO.read(new File(path + "cipheralgo.png"));
-                        // imgAes = ImageIO.read(new File(path + "cipheralgo.png"));
-                    } catch (IOException ioex4) {
+                        imgAes = ImageHelper.getJarIncludedImage(path + "cipheralgo.png");
+                    } catch (Exception ioex4) {
                         DbgWriter.msgex(ioex4, true);
                     }
                 }
@@ -942,15 +937,15 @@ public class CipherPipe {
                     case EncodeEnum.Base64:  encodeFileName += "base64.png"; break;
                     case EncodeEnum.Uu:  encodeFileName += "uu.png"; break;
                     case EncodeEnum.Xx:  encodeFileName += "xx.png"; break;
+                    case EncodeEnum.Ascii85:  encodeFileName += "ascii85.png"; break;
                     default: encodeFileName += "0.png"; break;
                 }
-                imgEncoding = ImageIO.read(new File(path + encodeFileName));
-            } catch (IOException exLoadEncodeImage) {
+                imgEncoding = ImageHelper.getJarIncludedImage(path + encodeFileName);
+            } catch (Exception exLoadEncodeImage) {
                 DbgWriter.msgex(exLoadEncodeImage, true);
             }
             g.drawImage(imgEncoding, xoffset, 0, null);
         }
-
 
         g.dispose();
 
@@ -958,22 +953,22 @@ public class CipherPipe {
         // ImageIO.write(combined, "PNG", new File(path, "combined.png"));
         return combined;
     }
+     */
 
-
-     //
-     // * drawDecryptCipherPipe draws a cipher pipe image for a specified pipe
-     // * state of method: prototype (not fully working)
-     // * @param pipe the specific chipher pipe
-     // * @return {@link BufferedImage}
-     //
-    public static BufferedImage drawDecryptCipherPipe(CipherPipe pipe) {
-
+    /**
+     * drawDecryptCipherPipe draws a cipher pipe image for a specified pipe
+     * state of method: prototype (not fully working)
+     * @param pipe the specific chipher pipe
+     * @return {@link BufferedImage}
+     */
+    // public static BufferedImage drawDecryptCipherPipe(CipherPipe pipe) {
+    /*
         String path = "eu/cqrxs/gui/img/"; // base path of the images
 
         if (pipe == null) {
             BufferedImage imgStartPipeBlank = new BufferedImage(640, 96, BufferedImage.TYPE_INT_ARGB);
             try {
-                imgStartPipeBlank = ImageIO.read(new File(path + "decryptcipherpipe.png"));
+                imgStartPipeBlank = ImageHelper.getJarIncludedImage(path + "decryptcipherpipe.png");
             } catch (Exception exImageStartBlank) {
                 DbgWriter.msgex(exImageStartBlank, true);
             }
@@ -990,7 +985,7 @@ public class CipherPipe {
         if (pipe.encodeType != EncodeEnum.None) {
             BufferedImage imgDecoding = new BufferedImage(80, 96, BufferedImage.TYPE_INT_ARGB);
             try {
-                imgDecoding = ImageIO.read(new File(path + "decodingasciitobin.png"));
+                imgDecoding = ImageHelper.getJarIncludedImage(path + "decodingasciitobin.png");
             } catch (Exception exImageDecoding) {
                 DbgWriter.msgex(exImageDecoding, true);
             }
@@ -999,7 +994,7 @@ public class CipherPipe {
         } else {
             BufferedImage imgStart = new BufferedImage(32, 96, BufferedImage.TYPE_INT_ARGB);
             try {
-                imgStart = ImageIO.read(new File(path + "pipestartblock.png"));
+                imgStart = ImageHelper.getJarIncludedImage(path + "pipestartblock.png");
             } catch (Exception exIMageStartBlank) {
                 DbgWriter.msgex(exIMageStartBlank, true);
             }
@@ -1013,11 +1008,11 @@ public class CipherPipe {
                 CipherEnum cipher = outPipe[j];
                 BufferedImage imgAes = new BufferedImage(60, 96, BufferedImage.TYPE_INT_ARGB);
                 try {
-                    imgAes = ImageIO.read(new File(path + cipher.toString().toLowerCase() + ".png"));
+                    imgAes = ImageHelper.getJarIncludedImage(path + cipher.toString().toLowerCase() + ".png");
                 } catch (Exception exImageAlgo) {
                     DbgWriter.msgex(exImageAlgo, true);
                     try {
-                        imgAes = ImageIO.read(new File(path + "cipheralgo.png"));
+                        imgAes = ImageHelper.getJarIncludedImage(path + "cipheralgo.png");
                     } catch (Exception exImageFileAlgo) {
                         DbgWriter.msgex(exImageFileAlgo, true);
                     }
@@ -1031,7 +1026,7 @@ public class CipherPipe {
 
             BufferedImage imgGz = new BufferedImage(80, 96, BufferedImage.TYPE_INT_ARGB);
             try {
-                imgGz = ImageIO.read(new File(path + "gunzip.png"));
+                imgGz = ImageHelper.getJarIncludedImage(path + "gunzip.png");
             } catch (Exception exImageGunzip) {
                 DbgWriter.msgex(exImageGunzip, true);
             }
@@ -1044,7 +1039,8 @@ public class CipherPipe {
         // Save as new image
         // ImageIO.write(combined, "PNG", new File(path, "combined.png"));
         return combined;
-    }
+    }    
      */
+
 
 }

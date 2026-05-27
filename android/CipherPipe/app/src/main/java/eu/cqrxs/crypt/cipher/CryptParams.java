@@ -9,6 +9,8 @@
 
 package eu.cqrxs.crypt.cipher;
 
+import eu.cqrxs.crypt.cipher.symmetric.JAes;
+import eu.cqrxs.crypt.cipher.symmetric.ZenMatrix;
 import org.bouncycastle.crypto.BlockCipher;
 import org.bouncycastle.crypto.engines.AESEngine;
 import org.bouncycastle.crypto.engines.AESLightEngine;
@@ -64,17 +66,13 @@ public class CryptParams {
      */
     public String getMode() { return cmode2.getName(); }
 
-    public String key;
-    public String hash;
-    // public String mode;
+    public String key, hash;
 
     public CipherMode2 cmode2;
 
-    public int size;
+    public int size, blockSize;
 
-    public int blockSize;
-
-    public int keyLen;
+    public int keyLen, ivLen;
 
     public BlockCipher blockCipher;
 
@@ -88,7 +86,8 @@ public class CryptParams {
         cipher = CipherEnum.Aes;
         size = 256;
         keyLen = 32;
-        cmode2 = CipherMode2.CFB;
+		ivLen = 32;
+        cmode2 = CipherMode2.ECB;
         //noinspection deprecation
         blockCipher = new AESEngine();
         keyHashing = KeyHash.Hex;
@@ -105,7 +104,7 @@ public class CryptParams {
         cipher = cipherAlgo;
         size = 256;
         keyLen = 32;
-        cmode2 = CipherMode2.CFB;
+        cmode2 = CipherMode2.ECB;
         keyHashing = KeyHash.Hex;
 
         switch (cipher) {
@@ -259,6 +258,8 @@ public class CryptParams {
                 blockCipher = new  AESEngine();
                 break;
         }
+		
+		ivLen = keyLen;
 
         blockSize = blockCipher.getBlockSize();
 
@@ -326,7 +327,7 @@ public class CryptParams {
     public CryptParams(CipherEnum cipherAlgo,
                        String secretKey,
                        String keyHashed) {
-        this(cipherAlgo, secretKey, keyHashed, CipherMode2.CFB);
+        this(cipherAlgo, secretKey, keyHashed, CipherMode2.ECB);
     }
 
     /***

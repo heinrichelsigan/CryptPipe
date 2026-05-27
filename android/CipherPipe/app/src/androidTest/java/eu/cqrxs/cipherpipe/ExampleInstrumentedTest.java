@@ -18,11 +18,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-import eu.cqrxs.cipherpipe.crypt.cipher.CipherEnum;
-import eu.cqrxs.cipherpipe.crypt.cipher.CipherPipe;
-import eu.cqrxs.cipherpipe.crypt.encoding.EncodeEnum;
-import eu.cqrxs.cipherpipe.crypt.hash.KeyHash;
-import eu.cqrxs.cipherpipe.zip.ZipType;
+import eu.cqrxs.crypt.cipher.CipherEnum;
+import eu.cqrxs.crypt.cipher.CipherMode2;
+import eu.cqrxs.crypt.cipher.CipherPipe;
+import eu.cqrxs.crypt.encoding.EncodeEnum;
+import eu.cqrxs.crypt.hash.KeyHash;
+import eu.cqrxs.zip.ZipType;
 
 /**
  * TestEncryptionTwoAlgos validate 2 encryptions pipe steps
@@ -33,7 +34,7 @@ import eu.cqrxs.cipherpipe.zip.ZipType;
  */
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
-    static String Email = eu.cqrxs.cipherpipe.util.Constants.AUTHOR_EMAIL;
+    static String Email = eu.cqrxs.util.Constants.AUTHOR_EMAIL;
 
     @Test
     public void useAppContext() {
@@ -46,7 +47,7 @@ public class ExampleInstrumentedTest {
     public void testAllEncryptionTwoAlgosString() {
         String className = "TestEncryptionTwoAlgos";
         String methodBase = "TestAllEncryptionTwoAlgosBytes";
-        Email = eu.cqrxs.cipherpipe.util.Constants.AUTHOR_EMAIL;
+        Email = eu.cqrxs.util.Constants.AUTHOR_EMAIL;
 
         LocalDate currentDate = LocalDate.now();
         LocalTime localTime = LocalTime.now();
@@ -55,12 +56,12 @@ public class ExampleInstrumentedTest {
 
         LocalTime startOp = LocalTime.now(), midOp = startOp, endOp = startOp;
 
-        CipherEnum[] cipherEnums = CipherEnum.getCipherEnumArray();
+        CipherEnum[] cipherEnums = CipherEnum.getCipherEnums().toArray(CipherEnum[]::new);
         ZipType[] zTypes = new ZipType[]{ZipType.None, ZipType.Zip, ZipType.GZip, ZipType.BZip2};
         KeyHash kHash = KeyHash.Hex;
-        KeyHash[] kHashes = KeyHash.getKeyHashes().toArray(KeyHash[]::new);
+        KeyHash[] kHashes = KeyHash.getKeyHashes();
         ZipType zType = ZipType.None;
-        EncodeEnum[] encodingTypes = EncodeEnum.getEncodeEnumArray();
+        EncodeEnum[] encodingTypes = EncodeEnum.getEncodingTypes().toArray(EncodeEnum[]::new);
         EncodeEnum encType = EncodeEnum.Base64;
         String plainText = "package eu.cqrxs.cipherpipe;\n\nimport org.junit.Test;\n" +
                 "\nimport static org.junit.Assert.*;\n\n/**\n * Example local unit test, " +
@@ -83,17 +84,20 @@ public class ExampleInstrumentedTest {
             if ((encType = encodingTypes[++j % encodingTypes.length]) == EncodeEnum.None)
                 encType = EncodeEnum.Base64;
 
-            CipherPipe pipe = new CipherPipe(cipherPair, 8, encType, zType, kHash);
+            CipherMode2 cmode2 = CipherMode2.ECB;
+
+            CipherPipe pipe = new CipherPipe(cipherPair, 8, encType, zType, kHash, cmode2);
+
 
             try {
                 startOp = LocalTime.now();
                 java.lang.String encrpyted = pipe.encrpytTextGoRounds(plainText,
-                        Email, kHash.hash(Email), encType, zType, kHash);
+                        Email, kHash.hash(Email), encType, zType, kHash, cmode2);
                 assertNotNull(encrpyted);
 
                 midOp = LocalTime.now();
                 java.lang.String decrpyted = pipe.decryptTextRoundsGo(encrpyted,
-                        Email, kHash.hash(Email), encType, zType, kHash);
+                        Email, kHash.hash(Email), encType, zType, kHash, cmode2);
 
                 endOp = LocalTime.now();
                 // String xxx = (endOp.minus(startOp)).toString();
@@ -102,7 +106,7 @@ public class ExampleInstrumentedTest {
 
 
             } catch (Exception e) {
-                (new eu.cqrxs.cipherpipe.util.DbgWriter()).msg(e.toString(), 1,  true);
+                eu.cqrxs.util.DbgWriter.msg(e.toString(), true);
             }
         }
 
