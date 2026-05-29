@@ -40,7 +40,7 @@ namespace EU.CqrXs.Gui.Forms
             menuZips = new ToolStripMenuItem[] { zmenu7z, zmenuBZip2, zmenuGZip, zmenuZip, zmenuNone };
             mHashes = new ToolStripMenuItem[] { menuHashEmpty, menuHashBCrypt, menuHashBlake2xs, menuHashCShake, menuHashDstu7564, menuHashHex, menuHashMD5, menuHashOct, menuHashOpenBSDCrypt, menuHashRipeMD256, menuHashSCrypt, menuHashSha1, menuHashSha256, menuHashSha384, menuHashSha512, menuHashTupleHash, menuHashWhirlpool };
             // mCipherModes = new ToolStripMenuItem[] { menuCipherModeItemCBC, menuCipherModeItemCCM, menuCipherModeItemCFB, menuCipherModeItemCTS, menuCipherModeItemEAX, menuCipherModeItemECB, menuCipherModeItemGOFB };
-            mCipherModes = new ToolStripMenuItem[] { menuCipherModeItemCBC, menuCipherModeItemCFB, menuCipherModeItemECB };
+            mCipherModes = new ToolStripMenuItem[] { menuCipherModeItemCBC, menuCipherModeItemCFB, menuCipherModeItemCTS, menuCipherModeItemECB, menuCipherModeItemGOFB };
 
             tabControlWithHexDest.AsciiTextReadonly = true;
             buttonEncrypt.Click += new System.EventHandler(async (sender, e)
@@ -443,14 +443,22 @@ namespace EU.CqrXs.Gui.Forms
             switch (comboBoxCipherModes.SelectedItem)
             {
                 case "CBC": await menuCipherMode_Click(menuCipherModeItemCBC, e); return;
-                case "ECB": await menuCipherMode_Click(menuCipherModeItemECB, e); return;
+                case "CCM": await menuCipherMode_Click(menuCipherModeItemCCM, e); return;
                 case "CFB": await menuCipherMode_Click(menuCipherModeItemCFB, e); return;
+                case "CTS": await menuCipherMode_Click(menuCipherModeItemCTS, e); return;
+                case "EAX": await menuCipherMode_Click(menuCipherModeItemEAX, e); return;   
+                case "ECB": await menuCipherMode_Click(menuCipherModeItemECB, e); return;   
+                case "GOFB": await menuCipherMode_Click(menuCipherModeItemGOFB, e); return; 
                 default: break;
             }
             switch (comboBoxCipherModes.Items[comboBoxCipherModes.SelectedIndex])
             {
-                case "CBC": await menuCipherMode_Click(menuCipherModeItemCBC, e); return;                
-                case "CFB": await menuCipherMode_Click(menuCipherModeItemCFB, e); return; 
+                case "CBC": await menuCipherMode_Click(menuCipherModeItemCBC, e); return;
+                case "CCM": await menuCipherMode_Click(menuCipherModeItemCCM, e); return;
+                case "CFB": await menuCipherMode_Click(menuCipherModeItemCFB, e); return;
+                case "CTS": await menuCipherMode_Click(menuCipherModeItemCTS, e); return;
+                case "EAX": await menuCipherMode_Click(menuCipherModeItemEAX, e); return;
+                case "GOFB": await menuCipherMode_Click(menuCipherModeItemGOFB, e); return;
                 case "ECB": 
                 default: await menuCipherMode_Click(menuCipherModeItemECB, e); break;
             }

@@ -466,7 +466,7 @@ namespace EU.CqrXs.Crypt.Cipher
             }
 
 
-            return EnDeCodeHelper.GetBytesTrimNulls(decryptBytes);
+            return decryptBytes; // EnDeCodeHelper.GetBytesTrimNulls(decryptBytes);
         }
 
 
@@ -1171,4 +1171,9 @@ namespace EU.CqrXs.Crypt.Cipher
     }
 
 }
+
+
+
+
+
 

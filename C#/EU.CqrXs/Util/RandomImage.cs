@@ -45,6 +45,19 @@ namespace EU.CqrXs.Util
                 SolidBrush drawBrush = new SolidBrush(color);
                 float x = (ix < 7) ? 14F : 15F;
                 float y = 5F;
+                switch(ix)
+                {
+                    case 0: x = 12.5F; y = 5.25F; break;
+                    case 1: x = 13.5F; y = 27.5F; break;
+                    case 2: x = 14.5F; y = 18F; break;
+                    case 3: x = 14.5F; y = 12F; break;
+                    case 4: x = 14F; y = 12F; break;
+                    case 5: y = 8.8F; break;
+                    case 6: x = 0.1F; y = 0.1F; break;
+                    case 7: x = 15.3F;  y = 5.2F; break;
+                    case 8: x = 17.2F; y = 5.4F; break;
+                    default: y = 5F; break;
+                }
                 StringFormat drawFormat = new StringFormat();
                 drawFormat.FormatFlags = StringFormatFlags.FitBlackBox;
                 g.DrawString(drawString, drawFont, drawBrush, x, y, drawFormat);

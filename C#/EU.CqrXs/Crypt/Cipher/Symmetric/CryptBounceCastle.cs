@@ -75,7 +75,7 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
         /// </summary>
         public IBlockCipherPadding CryptoBlockCipherPadding { get; private set; }
 
-        internal PaddedBufferedBlockCipher PadBufBChipger { get; private set; }
+        internal BufferedBlockCipher BufBlockCiffre { get; private set; }
 
         /// <summary>
         /// Valid modes are currently "CBC", "ECB", "CFB", "CCM", "CTS", "EAX", "GOFB"
@@ -248,48 +248,42 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
             var cipher = CryptoBlockCipher;
             plainData = CryptoBlockCipher.AlgorithmName == "RC564" || CryptoBlockCipher.AlgorithmName == "RC5-64" ? 
                 EnDeCodeHelper.GetBytesFromBytes(plainData) : plainData;
-            PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
+            BufBlockCiffre = new PaddedBufferedBlockCipher(new EcbBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
 
             switch (CMode)
             {
                 case CipherMode2.CBC:
-                    cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
+                    BufBlockCiffre = new PaddedBufferedBlockCipher(new CbcBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
                     break;
                 case CipherMode2.ECB:
-                    cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
+                    BufBlockCiffre = new PaddedBufferedBlockCipher(new EcbBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
                     break;
                 case CipherMode2.CFB:
-                    cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(CryptoBlockCipher, Size), CryptoBlockCipherPadding);
+                    BufBlockCiffre = new PaddedBufferedBlockCipher(new CfbBlockCipher(CryptoBlockCipher, Size), CryptoBlockCipherPadding);
                     break;
                 case CipherMode2.CCM:
                     CcmBlockCipher ccmCipher = new CcmBlockCipher(CryptoBlockCipher);
-                    cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)ccmCipher, CryptoBlockCipherPadding);
+                    BufBlockCiffre = new PaddedBufferedBlockCipher((IBlockCipher)ccmCipher, CryptoBlockCipherPadding);
                     break;
                 case CipherMode2.CTS:
-                    CbcBlockCipher ctsCipher = new CbcBlockCipher(CryptoBlockCipher);
-                    cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)new CtsBlockCipher((IBlockCipher)ctsCipher), CryptoBlockCipherPadding);
+                    CtsBlockCipher ctsCipher = new CtsBlockCipher(CryptoBlockCipher);
+                    BufBlockCiffre = ctsCipher;
                     break;
                 case CipherMode2.EAX:
                     EaxBlockCipher eaxCipher = new EaxBlockCipher(CryptoBlockCipher);
-                    cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)eaxCipher, CryptoBlockCipherPadding);
+                    BufBlockCiffre = new PaddedBufferedBlockCipher((IBlockCipher)eaxCipher, CryptoBlockCipherPadding);
                     break;
                 case CipherMode2.GOFB:
                     GOfbBlockCipher gOfbCipher = new GOfbBlockCipher(CryptoBlockCipher);
-                    cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)gOfbCipher, CryptoBlockCipherPadding);
+                    BufBlockCiffre = new PaddedBufferedBlockCipher((IBlockCipher)gOfbCipher, CryptoBlockCipherPadding);
                     break;
                 default:
                     if (Iv.IsNullByteArray())
                     {
                         Mode = "ECB";
                         CMode = CipherMode2.ECB;
-                        cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
-                    } 
-                    //else
-                    //{
-                    //    Mode = "CFB";
-                    //    CMode = CipherMode2.CFB;
-                    //    cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(CryptoBlockCipher, Size), CryptoBlockCipherPadding);
-                    //}
+                        BufBlockCiffre = new PaddedBufferedBlockCipher(new EcbBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
+                    }                     
                     break;
             }
 
@@ -300,19 +294,26 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
 
             // cipherMode init with initialization vector only when Mode isn't ECB and Algo is IV init capable
             if (CMode == CipherMode2.ECB || !CanAlgoKeyIV(CryptoBlockCipher))
-                cipherMode.Init(true, keyParam);
+                BufBlockCiffre.Init(true, keyParam);
             else
-                cipherMode.Init(true, keyParamIV);
-
-            if (PadBufBChipger == null && cipherMode != null)
-                PadBufBChipger = cipherMode;
+            {
+                try
+                {
+                    BufBlockCiffre.Init(true, keyParamIV);
+                }
+                catch (Exception exInit)
+                {
+                    Area23Log.LogOriginMsgEx("CryptBounceCastle", $"CryptBounceCastle {BufBlockCiffre.AlgorithmName}: Exceptíon on cipherMode.Init with IV, trying without IV", exInit);
+                    BufBlockCiffre.Init(true, keyParam);
+                }
+            }
 
             // encryptedData = cipherMode.ProcessBytes(plainData);
 
-            int outputSize = cipherMode.GetOutputSize(plainData.Length);
+            int outputSize = BufBlockCiffre.GetOutputSize(plainData.Length);
             byte[] cipherData = new byte[outputSize];
-            int result = cipherMode.ProcessBytes(plainData, 0, plainData.Length, cipherData, 0);
-            cipherMode.DoFinal(cipherData, result);
+            int result = BufBlockCiffre.ProcessBytes(plainData, 0, plainData.Length, cipherData, 0);
+            BufBlockCiffre.DoFinal(cipherData, result);
 
             return cipherData;
         }
@@ -326,48 +327,42 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
         public byte[] Decrypt(byte[] cipherData)
         {
             var cipher = CryptoBlockCipher;
-            PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
+            BufBlockCiffre = new PaddedBufferedBlockCipher(new EcbBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
 
             switch (CMode)
             {
                 case CipherMode2.CBC:
-                    cipherMode = new PaddedBufferedBlockCipher(new CbcBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
+                    BufBlockCiffre = new PaddedBufferedBlockCipher(new CbcBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
                     break;
                 case CipherMode2.ECB:
-                    cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
+                    BufBlockCiffre = new PaddedBufferedBlockCipher(new EcbBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
                     break;
                 case CipherMode2.CFB:
-                    cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(CryptoBlockCipher, Size), CryptoBlockCipherPadding);
+                    BufBlockCiffre = new PaddedBufferedBlockCipher(new CfbBlockCipher(CryptoBlockCipher, Size), CryptoBlockCipherPadding);
                     break;
                 case CipherMode2.CCM:
                     CcmBlockCipher ccmCipher = new CcmBlockCipher(CryptoBlockCipher);
-                    cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)ccmCipher, CryptoBlockCipherPadding);
+                    BufBlockCiffre = new PaddedBufferedBlockCipher((IBlockCipher)ccmCipher, CryptoBlockCipherPadding);
                     break;
                 case CipherMode2.CTS:
-                    CbcBlockCipher ctsCipher = new CbcBlockCipher(CryptoBlockCipher);
-                    cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)new CtsBlockCipher((IBlockCipher)ctsCipher), CryptoBlockCipherPadding);
+                    CtsBlockCipher ctsCipher = new CtsBlockCipher(CryptoBlockCipher);
+                    BufBlockCiffre = ctsCipher;
                     break;
                 case CipherMode2.EAX:
                     EaxBlockCipher eaxCipher = new EaxBlockCipher(CryptoBlockCipher);
-                    cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)eaxCipher, CryptoBlockCipherPadding);
+                    BufBlockCiffre = new PaddedBufferedBlockCipher((IBlockCipher)eaxCipher, CryptoBlockCipherPadding);
                     break;
                 case CipherMode2.GOFB:
                     GOfbBlockCipher gOfbCipher = new GOfbBlockCipher(CryptoBlockCipher);
-                    cipherMode = new PaddedBufferedBlockCipher((IBlockCipher)gOfbCipher, CryptoBlockCipherPadding);
+                    BufBlockCiffre = new PaddedBufferedBlockCipher((IBlockCipher)gOfbCipher, CryptoBlockCipherPadding);
                     break;
                 default:                    
                     if (Iv.IsNullByteArray())
                     {
                         Mode = "ECB";
                         CMode = CipherMode2.ECB;
-                        cipherMode = new PaddedBufferedBlockCipher(new EcbBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
-                    }
-                    //else
-                    //{
-                    //    Mode = "CFB";
-                    //    CMode = CipherMode2.CFB;
-                    //    cipherMode = new PaddedBufferedBlockCipher(new CfbBlockCipher(CryptoBlockCipher, Size), CryptoBlockCipherPadding);
-                    //}
+                        BufBlockCiffre = new PaddedBufferedBlockCipher(new EcbBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
+                    }                    
                     break;
             }
             // cipherMode.Reset()                
@@ -379,35 +374,41 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
 
             // Decrypt with initialization vector only when !ECB + algorithm is IV capable + iv is not null byte array          
             if (CMode == CipherMode2.ECB || !CanAlgoKeyIV(CryptoBlockCipher))
-                cipherMode.Init(false, keyParam);
+                BufBlockCiffre.Init(false, keyParam);
             else
-                cipherMode.Init(false, keyParamIV);             
+            {
+                try
+                {
+                    BufBlockCiffre.Init(false, keyParamIV);
+                }
+                catch (Exception exInit)
+                {
+                    Area23Log.LogOriginMsgEx("CryptBounceCastle", $"CryptBounceCastle {BufBlockCiffre.AlgorithmName}: Exceptíon on cipherMode.Init with IV, trying without IV", exInit);
+                    BufBlockCiffre.Init(false, keyParam);
+                }
+            }
 
-            // decryptedData = cipherMode.ProcessBytes(cipherData);
-            if (cipherMode != null)
-                PadBufBChipger = cipherMode;
-
-            int outputSize = cipherMode.GetOutputSize(cipherData.Length);
+            int outputSize = BufBlockCiffre.GetOutputSize(cipherData.Length);
             byte[] plainData = new byte[outputSize];
             byte[] decryptedData = new byte[outputSize];
             try
             {
-                int result = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length, plainData, 0);
-                cipherMode.DoFinal(plainData, result);
+                int result = BufBlockCiffre.ProcessBytes(cipherData, 0, cipherData.Length, plainData, 0);
+                BufBlockCiffre.DoFinal(plainData, result);
             }
             catch (Exception exDecrypt)
             {
-                Area23Log.LogOriginMsgEx("CryptBounceCastle", $"CryptBounceCastle {cipherMode.AlgorithmName}: Exceptíon on decrypting final block", exDecrypt);
+                Area23Log.LogOriginMsgEx("CryptBounceCastle", $"CryptBounceCastle {BufBlockCiffre.AlgorithmName}: Exceptíon on decrypting final block", exDecrypt);
                 try
                 {
                     plainData = new byte[outputSize];
-                    plainData = cipherMode.ProcessBytes(cipherData, 0, cipherData.Length);
+                    plainData = BufBlockCiffre.ProcessBytes(cipherData, 0, cipherData.Length);
                 }
                 catch (Exception exDecrypt2)
                 {
-                    Area23Log.LogOriginMsgEx("CryptBounceCastle", $"CryptBounceCastle {cipherMode.AlgorithmName}: Exceptíon on 2x decrypting final block", exDecrypt2);
+                    Area23Log.LogOriginMsgEx("CryptBounceCastle", $"CryptBounceCastle {BufBlockCiffre.AlgorithmName}: Exceptíon on 2x decrypting final block", exDecrypt2);
                     plainData = new byte[outputSize];
-                    plainData = cipherMode.ProcessBytes(cipherData);
+                    plainData = BufBlockCiffre.ProcessBytes(cipherData);
                 }
             }
 
