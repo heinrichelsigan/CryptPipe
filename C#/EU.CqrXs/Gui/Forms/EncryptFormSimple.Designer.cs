@@ -288,8 +288,8 @@ namespace EU.CqrXs.Gui.Forms
             // 
             // menuCipherModeItemCTS
             // 
-            menuCipherModeItemCTS.BackColor = SystemColors.GradientInactiveCaption;
-            menuCipherModeItemCTS.Enabled = false;
+            menuCipherModeItemCTS.BackColor = SystemColors.Menu;
+            menuCipherModeItemCTS.Enabled = true;
             menuCipherModeItemCTS.ForeColor = SystemColors.MenuText;
             menuCipherModeItemCTS.Name = "menuCipherModeItemCTS";
             menuCipherModeItemCTS.Size = new Size(180, 22);
@@ -316,8 +316,8 @@ namespace EU.CqrXs.Gui.Forms
             // 
             // menuCipherModeItemGOFB
             // 
-            menuCipherModeItemGOFB.BackColor = SystemColors.GradientInactiveCaption;
-            menuCipherModeItemGOFB.Enabled = false;
+            menuCipherModeItemGOFB.BackColor = SystemColors.Menu;
+            menuCipherModeItemGOFB.Enabled = true;
             menuCipherModeItemGOFB.ForeColor = SystemColors.MenuText;
             menuCipherModeItemGOFB.Name = "menuCipherModeItemGOFB";
             menuCipherModeItemGOFB.Size = new Size(180, 22);

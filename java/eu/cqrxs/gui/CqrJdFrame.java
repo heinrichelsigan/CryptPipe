@@ -600,10 +600,10 @@ public class CqrJdFrame extends JFrame {
 		menuCMode2_CTS = new JMenuItem();
 		menuCMode2_CTS.setHorizontalTextPosition(SwingConstants.RIGHT);
 		menuCMode2_CTS.setText("CTS");
-		// menuCMode2_CTS.setActionCommand("CTS");
+		menuCMode2_CTS.setActionCommand("CTS");
 		menuCMode2_CTS.setFont(menuFont);
-		menuCMode2_CTS.setEnabled(false);
-		// menuCMode2_CTS.addActionListener(aSymAction);
+		menuCMode2_CTS.setEnabled(true);
+		menuCMode2_CTS.addActionListener(aSymAction);
 		menuCMode2.add(menuCMode2_CTS);
 
 		menuCMode2_EAX = new JMenuItem();
@@ -626,10 +626,10 @@ public class CqrJdFrame extends JFrame {
 		menuCMode2_GOFB = new JMenuItem();
 		menuCMode2_GOFB.setHorizontalTextPosition(SwingConstants.RIGHT);
 		menuCMode2_GOFB.setText("GOFB");
-		// menuCMode2_EAX.setActionCommand("GOFB");
+		menuCMode2_GOFB.setActionCommand("GOFB");
 		menuCMode2_GOFB.setFont(menuFont);
-		menuCMode2_GOFB.setEnabled(false);
-		// menuCMode2_GOFB.addActionListener(aSymAction);
+		menuCMode2_GOFB.setEnabled(true);
+		menuCMode2_GOFB.addActionListener(aSymAction);
 		menuCMode2.add(menuCMode2_GOFB);
 
 

@@ -48,8 +48,8 @@ namespace EU.CqrXs.Util
                 switch(ix)
                 {
                     case 0: x = 12.5F; y = 5.25F; break;
-                    case 1: x = 13.5F; y = 27.5F; break;
-                    case 2: x = 14.5F; y = 18F; break;
+                    case 1: x = 14.5F; y = 17.5F; break;
+                    case 2: x = 14.5F; y = 30F; break;
                     case 3: x = 14.5F; y = 12F; break;
                     case 4: x = 14F; y = 12F; break;
                     case 5: y = 8.8F; break;

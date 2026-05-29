@@ -56,7 +56,7 @@ public class CryptBounceCastle  {
 
     public BlockCipherPadding CryptoBlockCipherPadding;
 
-    protected PaddedBufferedBlockCipher PadBufBChipger;
+    protected BufferedBlockCipher BufBChipher;
 
 
     /**
@@ -221,7 +221,7 @@ public class CryptBounceCastle  {
         var cipher = CryptoBlockCipher;
 		plainData = (CryptoBlockCipher.getAlgorithmName() == "RC564" || CryptoBlockCipher.getAlgorithmName() == "RC5-64") ?
 			EnDeCodeHelper.getBytesFromBytes(plainData, 64, true) : plainData;
-        PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(CryptoBlockCipher, CryptoBlockCipherPadding);
+        BufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(CryptoBlockCipher, CryptoBlockCipherPadding);
 
         switch (cmode2)
         {
@@ -240,7 +240,7 @@ public class CryptBounceCastle  {
             //     break;
             case CipherMode2.CTS:
                 org.bouncycastle.crypto.modes.CTSBlockCipher ctsCipher = new CTSBlockCipher(CryptoBlockCipher);
-                cipherMode = new PaddedBufferedBlockCipher((BlockCipher)ctsCipher, CryptoBlockCipherPadding);
+                cipherMode = ctsCipher;
                 break;
             case CipherMode2.EAX:
                 org.bouncycastle.crypto.modes.EAXBlockCipher eaxCipher = new EAXBlockCipher(CryptoBlockCipher);
@@ -267,11 +267,18 @@ public class CryptBounceCastle  {
 
         if (cmode2 == CipherMode2.ECB || !canAlgoKeyIV(CryptoBlockCipher))
 			cipherMode.init(true, keyParam);
-        else
-			cipherMode.init(true, keyParamIV);
+        else {
+			try {
+				cipherMode.init(true, keyParamIV);
+			} catch (Exception exInit) {
+				DbgWriter.msg("CryptBounceCastle " + CryptoBlockCipher.getAlgorithmName() + 
+								": cannot init with IV, initializing with key only instead.", false);
+				cipherMode.init(true, keyParam);
+			}
+		}
 
-        if (PadBufBChipger == null && cipherMode != null)
-            PadBufBChipger = cipherMode;
+        if (BufBChipher == null && cipherMode != null)
+            BufBChipher = cipherMode;
 
         // encryptedData = cipherMode.ProcessBytes(plainData);
 
@@ -292,7 +299,7 @@ public class CryptBounceCastle  {
     @SuppressWarnings("deprecation")
     public byte[] decrypt(byte[] cipherData) throws InvalidCipherTextException {
         var cipher = CryptoBlockCipher;
-        PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(CryptoBlockCipher, CryptoBlockCipherPadding);
+        BufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(CryptoBlockCipher, CryptoBlockCipherPadding);
 
         switch (cmode2)
         {
@@ -311,7 +318,7 @@ public class CryptBounceCastle  {
             //     break;
             case CipherMode2.CTS:
                 org.bouncycastle.crypto.modes.CTSBlockCipher ctsCipher = new CTSBlockCipher(CryptoBlockCipher);
-                cipherMode = new PaddedBufferedBlockCipher((BlockCipher)ctsCipher, CryptoBlockCipherPadding);
+                cipherMode = ctsCipher;
                 break;
             case CipherMode2.EAX:
                 org.bouncycastle.crypto.modes.EAXBlockCipher eaxCipher = new EAXBlockCipher(CryptoBlockCipher);
@@ -342,12 +349,19 @@ public class CryptBounceCastle  {
 
         if (cmode2 == CipherMode2.ECB || !canAlgoKeyIV(CryptoBlockCipher))
 			cipherMode.init(false, keyParam);
-        else
-			cipherMode.init(false, keyParamIV);
+        else {
+			try {
+				cipherMode.init(false, keyParamIV);
+			} catch (Exception exInit) {
+				DbgWriter.msg("CryptBounceCastle " + CryptoBlockCipher.getAlgorithmName() + 
+							": cannot init with IV, initializing with key only instead.", false);
+				cipherMode.init(false, keyParam);
+			}
+		}
 
         // decryptedData = cipherMode.ProcessBytes(cipherData);
         if (cipherMode != null)
-            PadBufBChipger = cipherMode;
+            BufBChipher = cipherMode;
 
         int result = 0, bs = 0;
         int outputSize = cipherMode.getOutputSize(cipherData.length);
