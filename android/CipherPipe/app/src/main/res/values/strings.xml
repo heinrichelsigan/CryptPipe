@@ -46,7 +46,7 @@
     <string name="encrypt" translatable="false">encrypt</string>
 	<string name="decrypt" translatable="false">decrypt</string>
     <string name="reset" translatable="false">reset</string>
-    <string name="randText" translatable="false">random text</string>
+    <string name="randText" translatable="false">randtext</string>
  	<string name="none" translatable="false" />
 	<string name="enter_source_text"  translatable="false">enter text source</string>
 	<string name="select_encóding" translatable="false">select encóding</string>
