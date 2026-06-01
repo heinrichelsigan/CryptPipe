@@ -9,6 +9,7 @@
 
 package eu.cqrxs.cipherpipe;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -67,6 +69,7 @@ import eu.cqrxs.zip.ZipType;
 public class MainActivity extends AppCompatActivity {
 
     Button btnEncrypt, btnDecrypt, btnSetPipe, btnHashPipe, btnRandText, btnReset;
+    ImageButton ímgBtnCipherPipe, ímgBtnKey, ímgBtnHash;
     EditText editEncryptKey, showCipherPipe, editTextSource, showTextDestination, editKeyHash;
     Spinner spinnerHash, spinnerZip, spinnerAlgos, spinnerEncode;
     String[] hashStrings, encodingStrings, zipStrings, algoStrings;
@@ -96,6 +99,9 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception exi) {
             showTextDestination.setText(exi.toString());
         }
+        ímgBtnCipherPipe = (ImageButton) findViewById(R.id.ímgBtnCipherPipe);
+        ímgBtnKey =  (ImageButton) findViewById(R.id.ímgBtnKey);
+        ímgBtnHash =  (ImageButton) findViewById(R.id.ímgBtnHash);
         btnSetPipe = (Button) findViewById(R.id.btnSetPipe);
         btnHashPipe = (Button) findViewById(R.id.btnHashPipe);
         btnEncrypt = (Button) findViewById(R.id.btnEncrypt);
@@ -144,6 +150,8 @@ public class MainActivity extends AppCompatActivity {
                 for (int ci = 0; ci < cipherEnums.length; ci++)
                     pipeSting = pipeSting + cipherEnums[ci].getName() + ";";
                 showCipherPipe.setText(pipeSting);
+                Bitmap bmp = pipe.drawCipherPipe(getBaseContext());
+                ímgBtnCipherPipe.setImageBitmap(bmp);
             }
         });
 
@@ -182,6 +190,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 CipherPipe pipe = new CipherPipe(ciphers, 8, encodeType, zipType, keyHash, cmode);
                 String plain = editTextSource.getText().toString();
+                Bitmap bmp = pipe.drawCipherPipe(getBaseContext());
+                ímgBtnCipherPipe.setImageBitmap(bmp);
 
                 String pipeSting = pipe.getPipeString();
                 showMsg(String.format("pipe[%s] encrypt with key=%s, hash=%s, \nencode=%s keyHash=%s, zip=%s",
@@ -213,6 +223,9 @@ public class MainActivity extends AppCompatActivity {
                 String pipeSting = pipe.getPipeString();
                 showMsg(String.format("pipe[%s] decrypt with key=%s, hash=%s, \nencode=%s keyHash=%s, zip=%s",
                         pipeSting, key, hashed, encodeType.getName(), keyHash.getName(), zipType.getName()), 4, true);
+
+                Bitmap bmp = pipe.drawDecryptCipherPipe(getBaseContext());
+                ímgBtnCipherPipe.setImageBitmap(bmp);
 
                 String decrypted = decryptedString(encrypted, key, hashed, pipe);
                 showTextDestination.setText(decrypted);

@@ -86,6 +86,7 @@
     <string name="s_row1" translatable="false">row1</string>
     <string name="s_row2" translatable="false">row2</string>
 
+    <string name="f_cipherpipe" translatable="false">cipherpipe</string>
     <string name="f_a0" translatable="false">a0</string>
     <string name="f_b0" translatable="false">b0</string>
     <string name="f_c0" translatable="false">c0</string>

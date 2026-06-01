@@ -9,8 +9,10 @@
 
 package eu.cqrxs.crypt.cipher;
 
-// import java.awt.*;
-// import java.awt.image.BufferedImage;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import java.io.IOException;
 import java.util.List;
 import java.nio.charset.StandardCharsets;
@@ -18,6 +20,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import eu.cqrxs.cipherpipe.R;
 import eu.cqrxs.crypt.cipher.symmetric.CryptBounceCastle;
 import eu.cqrxs.crypt.cipher.symmetric.JAes;
 import eu.cqrxs.crypt.cipher.symmetric.ZenMatrix;
@@ -860,187 +863,183 @@ public class CipherPipe {
     /**
      * drawCipherPipe draws a cipher pipe image for a specified pipe
      * state of method: prototype (not fully working)
-     * @param pipe the specific chipher pipe
-     * @return {@link BufferedImage}
+     * @param context the specific context
+     * @return {@link Bitmap}
      */
-    // public static BufferedImage drawCipherPipe(CipherPipe pipe) {
-    //    String path = "eu/cqrxs/gui/img/";
-    /*
-        if (pipe == null) {
-            BufferedImage imgPipeBlank = new BufferedImage(640, 96, BufferedImage.TYPE_INT_ARGB);
+    public Bitmap drawCipherPipe(Context context) {
+        String path = "eu/cqrxs/gui/img/";
+        Bitmap imgPipeBlank = BitmapFactory.decodeResource(context.getResources(), R.drawable.cipherpipeblank);
+        /* if (pipe == null) {
             try {
-                imgPipeBlank = ImageHelper.toBufferedImage(ImageHelper.getJarImage(path + "cipherpipeblank.png"), 640, 96);
+                imgPipeBlank = BitmapFactory.decodeResource(context.getResources(), R.drawable.cipherpipeblank);
             } catch (Exception ioex1) {
                 DbgWriter.msgex(ioex1, true);
             }
             return imgPipeBlank;
-        }
+        }*/
 
         int xoffset = 0;
         int w = 640;
         int h = 96;
-        BufferedImage combined = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        Bitmap combined = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         // paint both images, preserving the alpha channels
-        Graphics g = combined.getGraphics();
+        // Graphics g = combined.getGraphics();
+        Canvas cv = new Canvas(combined);
 
-        if (pipe.zType == ZipType.GZip) {
-
-            BufferedImage imgGz = new BufferedImage(76, 96, BufferedImage.TYPE_INT_ARGB);
-            try {
-                imgGz = ImageHelper.getJarIncludedImage(path + "gz.png");
-            } catch (Exception ioex2) {
-                DbgWriter.msgex(ioex2, true);
-            }
-            g.drawImage(imgGz, xoffset, 0, null);
+        if (zType == ZipType.GZip) {
+            Bitmap imgGz = BitmapFactory.decodeResource(context.getResources(), R.drawable.gz);
+            cv.drawBitmap(imgGz, xoffset, 0, null);
             xoffset += 76;
         } else {
-            BufferedImage imgStart = new BufferedImage(32, 96, BufferedImage.TYPE_INT_ARGB);
-            try {
-                imgStart = ImageHelper.getJarIncludedImage(path + "pipestartblock.png");
-            } catch (Exception ioex3) {
-                DbgWriter.msgex(ioex3, true);
-            }
-            g.drawImage(imgStart, xoffset, 0, null);
+            Bitmap imgStart = BitmapFactory.decodeResource(context.getResources(), R.drawable.pipestartblock);
+            cv.drawBitmap(imgStart, xoffset, 0, null);
             xoffset += 32;
         }
 
-        CipherEnum[] inPipe = pipe.getInPipe();
+        CipherEnum[] inPipe = getInPipe();
         if (inPipe != null && inPipe.length > 0) {
             for (int i = 0; i < inPipe.length; i++) {
                 CipherEnum cipher = inPipe[i];
-                BufferedImage imgAes = new BufferedImage(60, 96, BufferedImage.TYPE_INT_ARGB);
+                Bitmap imgAes = Bitmap.createBitmap(60, 96, Bitmap.Config.ARGB_8888);
                 try {
-                    imgAes = ImageHelper.getJarIncludedImage(path + cipher.toString().toLowerCase() + ".png");
+                    int idAesBmp = context.getResources().getIdentifier(cipher.toString().toLowerCase(), "drawable", context.getPackageName());
+                    imgAes = BitmapFactory.decodeResource(context.getResources(), idAesBmp);
                 } catch (Exception ex3) {
                     DbgWriter.msgex(ex3, true);
                     try {
-                        imgAes = ImageHelper.getJarIncludedImage(path + "cipheralgo.png");
+                        imgAes = BitmapFactory.decodeResource(context.getResources(), R.drawable.cipheralgo);
                     } catch (Exception ioex4) {
                         DbgWriter.msgex(ioex4, true);
                     }
                 }
-
-               g.drawImage(imgAes, xoffset, 0, null);
-               xoffset += 60;
-           }
+                cv.drawBitmap(imgAes, xoffset, 0, null);
+                xoffset += 60;
+            }
         }
-        if (pipe.encodeType != EncodeEnum.None) {
-            BufferedImage imgEncoding = new BufferedImage(124, 108, BufferedImage.TYPE_INT_ARGB);
+
+        if (encodeType != EncodeEnum.None) {
+            Bitmap imgEncoding =  Bitmap.createBitmap(124, 108, Bitmap.Config.ARGB_8888);
             String encodeFileName = "encode_";
             try {
-                switch (pipe.encodeType) {
-                    case EncodeEnum.Hex16:  encodeFileName += "hex16.png"; break;
-                    case EncodeEnum.Hex32:  encodeFileName += "hex32.png"; break;
-                    case EncodeEnum.Hex64:  encodeFileName += "hex64.png"; break;
-                    case EncodeEnum.Base16:  encodeFileName += "base16.png"; break;
-                    case EncodeEnum.Base32:  encodeFileName += "base32.png"; break;
-                    case EncodeEnum.Base64:  encodeFileName += "base64.png"; break;
-                    case EncodeEnum.Uu:  encodeFileName += "uu.png"; break;
-                    case EncodeEnum.Xx:  encodeFileName += "xx.png"; break;
-                    case EncodeEnum.Ascii85:  encodeFileName += "ascii85.png"; break;
-                    default: encodeFileName += "0.png"; break;
+                switch (encodeType) {
+                    case EncodeEnum.Hex16:
+                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_hex16);
+                        break;
+                    case EncodeEnum.Hex32:
+                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_hex32);
+                        break;
+                    case EncodeEnum.Hex64:
+                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_hex64);
+                        break;
+                    case EncodeEnum.Base16:
+                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_base16);
+                        break;
+                    case EncodeEnum.Base32:
+                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_base32);
+                        break;
+                    case EncodeEnum.Base64:
+                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_base64);
+                        break;
+                    case EncodeEnum.Uu:
+                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_uu);
+                        break;
+                    case EncodeEnum.Xx:
+                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_xx);
+                        break;
+                    case EncodeEnum.Ascii85:
+                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_ascii85);
+                        break;
+                    default:
+                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_0);
+                        break;
                 }
-                imgEncoding = ImageHelper.getJarIncludedImage(path + encodeFileName);
             } catch (Exception exLoadEncodeImage) {
                 DbgWriter.msgex(exLoadEncodeImage, true);
             }
-            g.drawImage(imgEncoding, xoffset, 0, null);
+            cv.drawBitmap(imgEncoding, xoffset, 0, null);
         }
 
-        g.dispose();
+        cv.save();
 
         // Save as new image
         // ImageIO.write(combined, "PNG", new File(path, "combined.png"));
         return combined;
     }
-     */
 
     /**
      * drawDecryptCipherPipe draws a cipher pipe image for a specified pipe
      * state of method: prototype (not fully working)
-     * @param pipe the specific chipher pipe
-     * @return {@link BufferedImage}
+     * @param context the specific  {@link Context}
+     * @return {@link Bitmap}
      */
-    // public static BufferedImage drawDecryptCipherPipe(CipherPipe pipe) {
-    /*
-        String path = "eu/cqrxs/gui/img/"; // base path of the images
-
-        if (pipe == null) {
-            BufferedImage imgStartPipeBlank = new BufferedImage(640, 96, BufferedImage.TYPE_INT_ARGB);
-            try {
-                imgStartPipeBlank = ImageHelper.getJarIncludedImage(path + "decryptcipherpipe.png");
-            } catch (Exception exImageStartBlank) {
-                DbgWriter.msgex(exImageStartBlank, true);
-            }
-            return imgStartPipeBlank;
-        }
+    public Bitmap drawDecryptCipherPipe(Context context) {
 
         int xoffset = 0;
         int w = 640;
         int h = 96;
-        BufferedImage combined = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        Bitmap combined = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         // paint both images, preserving the alpha channels
-        Graphics g = combined.getGraphics();
+        Canvas g = new Canvas(combined);
 
-        if (pipe.encodeType != EncodeEnum.None) {
-            BufferedImage imgDecoding = new BufferedImage(80, 96, BufferedImage.TYPE_INT_ARGB);
+        if (encodeType != EncodeEnum.None) {
+            Bitmap imgDecoding = Bitmap.createBitmap(80, 96, Bitmap.Config.ARGB_8888);
             try {
-                imgDecoding = ImageHelper.getJarIncludedImage(path + "decodingasciitobin.png");
+                imgDecoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.decodingasciitobin);
             } catch (Exception exImageDecoding) {
                 DbgWriter.msgex(exImageDecoding, true);
             }
-            g.drawImage(imgDecoding, xoffset, 0, null);
+            g.drawBitmap(imgDecoding, xoffset, 0, null);
             xoffset += 80;
         } else {
-            BufferedImage imgStart = new BufferedImage(32, 96, BufferedImage.TYPE_INT_ARGB);
+            Bitmap imgStart = Bitmap.createBitmap(32, 96, Bitmap.Config.ARGB_8888);
             try {
-                imgStart = ImageHelper.getJarIncludedImage(path + "pipestartblock.png");
+                imgStart = BitmapFactory.decodeResource(context.getResources(), R.drawable.pipestartblock);
             } catch (Exception exIMageStartBlank) {
                 DbgWriter.msgex(exIMageStartBlank, true);
             }
-            g.drawImage(imgStart, xoffset, 0, null);
+            g.drawBitmap(imgStart, xoffset, 0, null);
             xoffset += 32;
         }
 
-        CipherEnum[] outPipe = pipe.getOutPipe();
+        CipherEnum[] outPipe = getOutPipe();
         if (outPipe != null && outPipe.length > 0) {
             for (int j = 0; j < outPipe.length; j++) {
                 CipherEnum cipher = outPipe[j];
-                BufferedImage imgAes = new BufferedImage(60, 96, BufferedImage.TYPE_INT_ARGB);
+                Bitmap imgAes = Bitmap.createBitmap(60, 96, Bitmap.Config.ARGB_8888);
                 try {
-                    imgAes = ImageHelper.getJarIncludedImage(path + cipher.toString().toLowerCase() + ".png");
+                    int idAesBmp = context.getResources().getIdentifier(cipher.toString().toLowerCase(), "drawable", context.getPackageName());
+                    imgAes = BitmapFactory.decodeResource(context.getResources(), idAesBmp);
                 } catch (Exception exImageAlgo) {
                     DbgWriter.msgex(exImageAlgo, true);
                     try {
-                        imgAes = ImageHelper.getJarIncludedImage(path + "cipheralgo.png");
+                        imgAes = BitmapFactory.decodeResource(context.getResources(), R.drawable.cipheralgo);
                     } catch (Exception exImageFileAlgo) {
                         DbgWriter.msgex(exImageFileAlgo, true);
                     }
                 }
-                g.drawImage(imgAes, xoffset, 0, null);
+                g.drawBitmap(imgAes, xoffset, 0, null);
                 xoffset += 60;
             }
         }
 
-        if (pipe.zType == ZipType.GZip) { // finish image with gunzip
+        if (zType == ZipType.GZip) { // finish image with gunzip
 
-            BufferedImage imgGz = new BufferedImage(80, 96, BufferedImage.TYPE_INT_ARGB);
+            Bitmap imgGz = Bitmap.createBitmap(80, 96, Bitmap.Config.ARGB_8888);
             try {
-                imgGz = ImageHelper.getJarIncludedImage(path + "gunzip.png");
+                imgGz = BitmapFactory.decodeResource(context.getResources(), R.drawable.gunzip);
             } catch (Exception exImageGunzip) {
                 DbgWriter.msgex(exImageGunzip, true);
             }
-            g.drawImage(imgGz, xoffset, 0, null);
+            g.drawBitmap(imgGz, xoffset, 0, null);
             xoffset += 76;
         }
 
-        g.dispose();
+        g.save();
 
         // Save as new image
         // ImageIO.write(combined, "PNG", new File(path, "combined.png"));
         return combined;
-    }    
-     */
+    }
 
 
 }
