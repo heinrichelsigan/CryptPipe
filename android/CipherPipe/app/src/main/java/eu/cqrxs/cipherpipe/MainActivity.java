@@ -133,6 +133,11 @@ public class MainActivity extends AppCompatActivity {
                 for (int ci = 0; ci < cipherEnums.length; ci++)
                     pipeSting = pipeSting + cipherEnums[ci].getName() + ";";
                 showCipherPipe.setText(pipeSting);
+
+                Bitmap bmp = pipe.drawCipherPipe(getBaseContext());
+                ímgBtnCipherPipe.clearAnimation();
+                ímgBtnCipherPipe.setImageBitmap(bmp);
+                ímgBtnCipherPipe.refreshDrawableState();
             }
         });
 
@@ -151,7 +156,9 @@ public class MainActivity extends AppCompatActivity {
                     pipeSting = pipeSting + cipherEnums[ci].getName() + ";";
                 showCipherPipe.setText(pipeSting);
                 Bitmap bmp = pipe.drawCipherPipe(getBaseContext());
+                ímgBtnCipherPipe.clearAnimation();
                 ímgBtnCipherPipe.setImageBitmap(bmp);
+                ímgBtnCipherPipe.refreshDrawableState();
             }
         });
 

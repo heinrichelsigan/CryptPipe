@@ -13,6 +13,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+
 import java.io.IOException;
 import java.util.List;
 import java.nio.charset.StandardCharsets;
@@ -877,6 +879,7 @@ public class CipherPipe {
             }
             return imgPipeBlank;
         }*/
+        Paint paint = new Paint();
 
         int xoffset = 0;
         int w = 640;
@@ -888,11 +891,11 @@ public class CipherPipe {
 
         if (zType == ZipType.GZip) {
             Bitmap imgGz = BitmapFactory.decodeResource(context.getResources(), R.drawable.gz);
-            cv.drawBitmap(imgGz, xoffset, 0, null);
+            cv.drawBitmap(imgGz, xoffset, 0, paint);
             xoffset += 76;
         } else {
             Bitmap imgStart = BitmapFactory.decodeResource(context.getResources(), R.drawable.pipestartblock);
-            cv.drawBitmap(imgStart, xoffset, 0, null);
+            cv.drawBitmap(imgStart, xoffset, 0, paint);
             xoffset += 32;
         }
 
@@ -912,7 +915,7 @@ public class CipherPipe {
                         DbgWriter.msgex(ioex4, true);
                     }
                 }
-                cv.drawBitmap(imgAes, xoffset, 0, null);
+                cv.drawBitmap(imgAes, xoffset, 0, paint);
                 xoffset += 60;
             }
         }
@@ -956,10 +959,11 @@ public class CipherPipe {
             } catch (Exception exLoadEncodeImage) {
                 DbgWriter.msgex(exLoadEncodeImage, true);
             }
-            cv.drawBitmap(imgEncoding, xoffset, 0, null);
+            cv.drawBitmap(imgEncoding, xoffset, 0, paint);
+            cv.save();
         }
 
-        cv.save();
+
 
         // Save as new image
         // ImageIO.write(combined, "PNG", new File(path, "combined.png"));
