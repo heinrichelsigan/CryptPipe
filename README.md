@@ -44,7 +44,8 @@ You need since 2025-11-15 Visual Studio 2026 and C# .NetCore 10.0 to compile C# 
 
 ## Download
 
-No new downloads
+### new releases
+https://github.com/heinrichelsigan/CryptPipe/releases
 
 ### old releases
 https://github.com/heinrichelsigan/PermAgainCrypt/releases/
