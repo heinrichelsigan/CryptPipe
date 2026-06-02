@@ -11,7 +11,7 @@
     <LinearLayout
         android:id="@+id/cp"
         android:tag="@string/f_cipherpipe"
-        android:layout_width="wrap_content"
+        android:layout_width="640dp"
         android:layout_height="96dp">
             <ImageButton
                 android:id="@+id/ímgBtnCipherPipe"

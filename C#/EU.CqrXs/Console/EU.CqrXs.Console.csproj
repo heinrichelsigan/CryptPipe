@@ -17,8 +17,8 @@
     <Copyright>Copyright © 2000-2040 Copyleft https://cqrxs.eu</Copyright>
     <PackageProjectUrl>https://cqrxs.eu/download/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/heinrichelsigan/PermAgainCrypt</RepositoryUrl>
-    <AssemblyVersion>2.26.525</AssemblyVersion>
-    <FileVersion>2.26.525</FileVersion>
+    <AssemblyVersion>2.26.602</AssemblyVersion>
+    <FileVersion>2.26.602</FileVersion>
     <PackageReadmeFile>README.MD</PackageReadmeFile>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
   </PropertyGroup>

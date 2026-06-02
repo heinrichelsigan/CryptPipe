@@ -14,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 
 import java.io.IOException;
 import java.util.List;
@@ -891,11 +892,15 @@ public class CipherPipe {
 
         if (zType == ZipType.GZip) {
             Bitmap imgGz = BitmapFactory.decodeResource(context.getResources(), R.drawable.gz);
-            cv.drawBitmap(imgGz, xoffset, 0, paint);
+            Rect rectSrc = new Rect(0, 0, 76, 96);
+            Rect rectDest = new Rect(xoffset, 0, xoffset + 76, 96);
+            cv.drawBitmap(imgGz, rectSrc, rectDest, paint);
             xoffset += 76;
         } else {
             Bitmap imgStart = BitmapFactory.decodeResource(context.getResources(), R.drawable.pipestartblock);
-            cv.drawBitmap(imgStart, xoffset, 0, paint);
+            Rect rectSrc = new Rect(0, 0, 32, 96);
+            Rect rectDest = new Rect(xoffset, 0, xoffset + 32, 96);
+            cv.drawBitmap(imgStart, rectSrc, rectDest, paint);
             xoffset += 32;
         }
 
@@ -915,13 +920,15 @@ public class CipherPipe {
                         DbgWriter.msgex(ioex4, true);
                     }
                 }
-                cv.drawBitmap(imgAes, xoffset, 0, paint);
+                Rect rectSrc = new Rect(0, 0, 60, 96);
+                Rect rectDest = new Rect(xoffset, 0, xoffset + 60, 96);
+                cv.drawBitmap(imgAes, rectSrc, rectDest, paint);
                 xoffset += 60;
             }
         }
 
         if (encodeType != EncodeEnum.None) {
-            Bitmap imgEncoding =  Bitmap.createBitmap(124, 108, Bitmap.Config.ARGB_8888);
+            Bitmap imgEncoding =  Bitmap.createBitmap(80, 96, Bitmap.Config.ARGB_8888);
             String encodeFileName = "encode_";
             try {
                 switch (encodeType) {
@@ -959,8 +966,10 @@ public class CipherPipe {
             } catch (Exception exLoadEncodeImage) {
                 DbgWriter.msgex(exLoadEncodeImage, true);
             }
-            cv.drawBitmap(imgEncoding, xoffset, 0, paint);
-            cv.save();
+            Rect rectSrc = new Rect(0, 0, 80, 96);
+            Rect rectDest = new Rect(xoffset, 0, xoffset + 80, 96);
+            cv.drawBitmap(imgEncoding, rectSrc, rectDest, paint);
+            xoffset += 80;
         }
 
 
@@ -992,7 +1001,9 @@ public class CipherPipe {
             } catch (Exception exImageDecoding) {
                 DbgWriter.msgex(exImageDecoding, true);
             }
-            g.drawBitmap(imgDecoding, xoffset, 0, null);
+            Rect rectSrc = new Rect(0, 0, 80, 96);
+            Rect rectDest = new Rect(xoffset, 0, xoffset + 80, 96);
+            g.drawBitmap(imgDecoding, rectSrc, rectDest, null);
             xoffset += 80;
         } else {
             Bitmap imgStart = Bitmap.createBitmap(32, 96, Bitmap.Config.ARGB_8888);
@@ -1001,7 +1012,9 @@ public class CipherPipe {
             } catch (Exception exIMageStartBlank) {
                 DbgWriter.msgex(exIMageStartBlank, true);
             }
-            g.drawBitmap(imgStart, xoffset, 0, null);
+            Rect rectSrc = new Rect(0, 0, 32, 96);
+            Rect rectDest = new Rect(xoffset, 0, xoffset + 32, 96);
+            g.drawBitmap(imgStart, rectSrc, rectDest, null);
             xoffset += 32;
         }
 
@@ -1021,7 +1034,9 @@ public class CipherPipe {
                         DbgWriter.msgex(exImageFileAlgo, true);
                     }
                 }
-                g.drawBitmap(imgAes, xoffset, 0, null);
+                Rect rectSrc = new Rect(0, 0, 60, 96);
+                Rect rectDest = new Rect(xoffset, 0, xoffset + 60, 96);
+                g.drawBitmap(imgAes, rectSrc, rectDest, null);
                 xoffset += 60;
             }
         }
@@ -1034,8 +1049,10 @@ public class CipherPipe {
             } catch (Exception exImageGunzip) {
                 DbgWriter.msgex(exImageGunzip, true);
             }
-            g.drawBitmap(imgGz, xoffset, 0, null);
-            xoffset += 76;
+            Rect rectSrc = new Rect(0, 0, 80, 96);
+            Rect rectDest = new Rect(xoffset, 0, xoffset + 80, 96);
+            g.drawBitmap(imgGz, rectSrc, rectDest, null);
+            xoffset += 80;
         }
 
         g.save();
