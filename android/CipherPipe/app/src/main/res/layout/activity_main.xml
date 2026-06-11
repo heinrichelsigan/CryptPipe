@@ -14,7 +14,7 @@
         android:layout_width="640dp"
         android:layout_height="96dp">
             <ImageButton
-                android:id="@+id/ímgBtnCipherPipe"
+                android:id="@+id/imgBtnCipherPipe"
                 android:layout_width="640dp"
                 android:layout_height="96dp"
                 android:background="@color/white"
@@ -44,7 +44,7 @@
 			android:layout_row="0"
 			android:layout_column="0">
             <ImageButton
-                android:id="@+id/ímgBtnKey"
+                android:id="@+id/imgBtnKey"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:background="@color/white"
@@ -90,7 +90,7 @@
 			android:layout_row="1"
 			android:layout_column="0">
             <ImageButton
-                android:id="@+id/ímgBtnHash"
+                android:id="@+id/imgBtnHash"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:background="@color/white"

@@ -9,6 +9,8 @@
 
 package eu.cqrxs.cipherpipe;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -69,7 +71,7 @@ import eu.cqrxs.zip.ZipType;
 public class MainActivity extends AppCompatActivity {
 
     Button btnEncrypt, btnDecrypt, btnSetPipe, btnHashPipe, btnRandText, btnReset;
-    ImageButton ímgBtnCipherPipe, ímgBtnKey, ímgBtnHash;
+    ImageButton imgBtnCipherPipe, imgBtnKey, imgBtnHash;
     EditText editEncryptKey, showCipherPipe, editTextSource, showTextDestination, editKeyHash;
     Spinner spinnerHash, spinnerZip, spinnerAlgos, spinnerEncode;
     String[] hashStrings, encodingStrings, zipStrings, algoStrings;
@@ -99,9 +101,9 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception exi) {
             showTextDestination.setText(exi.toString());
         }
-        ímgBtnCipherPipe = (ImageButton) findViewById(R.id.ímgBtnCipherPipe);
-        ímgBtnKey =  (ImageButton) findViewById(R.id.ímgBtnKey);
-        ímgBtnHash =  (ImageButton) findViewById(R.id.ímgBtnHash);
+        imgBtnCipherPipe = (ImageButton) findViewById(R.id.imgBtnCipherPipe);
+        imgBtnKey =  (ImageButton) findViewById(R.id.imgBtnKey);
+        imgBtnHash =  (ImageButton) findViewById(R.id.imgBtnHash);
         btnSetPipe = (Button) findViewById(R.id.btnSetPipe);
         btnHashPipe = (Button) findViewById(R.id.btnHashPipe);
         btnEncrypt = (Button) findViewById(R.id.btnEncrypt);
@@ -135,9 +137,9 @@ public class MainActivity extends AppCompatActivity {
                 showCipherPipe.setText(pipeSting);
 
                 Bitmap bmp = pipe.drawCipherPipe(getBaseContext());
-                ímgBtnCipherPipe.clearAnimation();
-                ímgBtnCipherPipe.setImageBitmap(bmp);
-                ímgBtnCipherPipe.refreshDrawableState();
+                imgBtnCipherPipe.clearAnimation();
+                imgBtnCipherPipe.setImageBitmap(bmp);
+                imgBtnCipherPipe.refreshDrawableState();
             }
         });
 
@@ -156,9 +158,9 @@ public class MainActivity extends AppCompatActivity {
                     pipeSting = pipeSting + cipherEnums[ci].getName() + ";";
                 showCipherPipe.setText(pipeSting);
                 Bitmap bmp = pipe.drawCipherPipe(getBaseContext());
-                ímgBtnCipherPipe.clearAnimation();
-                ímgBtnCipherPipe.setImageBitmap(bmp);
-                ímgBtnCipherPipe.refreshDrawableState();
+                imgBtnCipherPipe.clearAnimation();
+                imgBtnCipherPipe.setImageBitmap(bmp);
+                imgBtnCipherPipe.refreshDrawableState();
             }
         });
 
@@ -198,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
                 CipherPipe pipe = new CipherPipe(ciphers, 8, encodeType, zipType, keyHash, cmode);
                 String plain = editTextSource.getText().toString();
                 Bitmap bmp = pipe.drawCipherPipe(getBaseContext());
-                ímgBtnCipherPipe.setImageBitmap(bmp);
+                imgBtnCipherPipe.setImageBitmap(bmp);
 
                 String pipeSting = pipe.getPipeString();
                 showMsg(String.format("pipe[%s] encrypt with key=%s, hash=%s, \nencode=%s keyHash=%s, zip=%s",
@@ -232,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
                         pipeSting, key, hashed, encodeType.getName(), keyHash.getName(), zipType.getName()), 4, true);
 
                 Bitmap bmp = pipe.drawDecryptCipherPipe(getBaseContext());
-                ímgBtnCipherPipe.setImageBitmap(bmp);
+                imgBtnCipherPipe.setImageBitmap(bmp);
 
                 String decrypted = decryptedString(encrypted, key, hashed, pipe);
                 showTextDestination.setText(decrypted);
@@ -365,6 +367,17 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        Intent intent = this.getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+
+                String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+                editTextSource.setText(sharedText);
+            }
+        }
     }
 
 
