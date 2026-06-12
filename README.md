@@ -35,6 +35,7 @@ including the follwing symmetric cipher algorithms:
 - [Tea](https://de.wikipedia.org/wiki/Tiny_Encryption_Algorithm), [XTea](https://en.wikipedia.org/wiki/XTEA)
 - and my own simplest below average symmetric block cipher alogrithms: ZenMatrix, ZenMatrix2	
 
+<img width="640" height="373" alt="Symmetric_CipherPipe" src="https://github.com/user-attachments/assets/1b3d56e9-0ad7-4fe0-9f87-314dad982680" />
 
 ### Online [latex help](https://cqrxs.eu/help/Making_symmetric_BlockCipher_meta_permutating_again.pdf)
 
