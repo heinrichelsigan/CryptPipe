@@ -884,7 +884,7 @@ public class CipherPipe {
 
         int xoffset = 0;
         int w = 640;
-        int h = 192;
+        int h = 96;
 
         Bitmap combined = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         // paint both images, preserving the alpha channels
@@ -992,8 +992,8 @@ public class CipherPipe {
             xoffset += 80;
         }
 
-        cv.saveLayer(0 , 0, xoffset, h, paint);
-        // cv.save();
+        // cv.saveLayer(0 , 0, xoffset, h, paint);
+        cv.save();
 
         // Save as new image
         // ImageIO.write(combined, "PNG", new File(path, "combined.png"));
