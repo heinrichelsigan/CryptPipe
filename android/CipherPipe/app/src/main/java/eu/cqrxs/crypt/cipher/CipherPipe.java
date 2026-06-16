@@ -896,14 +896,14 @@ public class CipherPipe {
             Rect rectSrc = new Rect(0, 0,  76, 96);
             Rect rectDest = new Rect(xoffset, 0, xoffset + 76, 96);
             cv.drawBitmap(imgGz, rectSrc, rectDest, paint);
-            cv.saveLayer(xoffset, 0, xoffset + 76, 0, paint);
+            // cv.saveLayer(xoffset, 0, xoffset + 76, 0, paint);
             xoffset += 76;
         } else {
             Bitmap imgStart = BitmapFactory.decodeResource(context.getResources(), R.drawable.pipestartblock);
             Rect rectSrc = new Rect(0, 0, + 32, 96);
             Rect rectDest = new Rect(xoffset, 0, xoffset + 32, 96);
             cv.drawBitmap(imgStart, rectSrc, rectDest, paint);
-            cv.saveLayer(xoffset, 0, xoffset + 32, 0, paint);
+            // cv.saveLayer(xoffset, 0, xoffset + 32, 96, paint);
             xoffset += 32;
         }
 
@@ -915,7 +915,8 @@ public class CipherPipe {
                 Bitmap imgAes = Bitmap.createBitmap(60, 96, Bitmap.Config.ARGB_8888);
                 try {
                     int idAesBmp = context.getResources().getIdentifier(cipher.toString().toLowerCase(), "drawable", context.getPackageName());
-                    imgAes = BitmapFactory.decodeResource(context.getResources(), idAesBmp);
+                    imgAes = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), idAesBmp),
+                                0, 0, 60, 96);
                 } catch (Exception ex3) {
                     DbgWriter.msgex(ex3, true);
                     try {
@@ -928,7 +929,7 @@ public class CipherPipe {
                 Rect rectSrc = new Rect(0, 0, 60, 96);
                 Rect rectDest = new Rect(xoffset, 0, xoffset + 60, 96);
                 cv.drawBitmap(imgAes, rectSrc, rectDest, paint);
-                cv.saveLayer(xoffset , 0, xoffset + 60, 0, paint);
+                // cv.saveLayer(xoffset , 0, xoffset + 60, 96, paint);
                 xoffset += 60;
             }
         }
@@ -985,12 +986,12 @@ public class CipherPipe {
             Rect rectSrc = new Rect(0, 0, 80, 96);
             Rect rectDest = new Rect(xoffset, 0, xoffset + 80, 96);
             cv.drawBitmap(imgEncoding, rectSrc, rectDest, paint);
-            cv.saveLayer(xoffset , 0, xoffset + 80, 0, paint);
+            // cv.saveLayer(xoffset , 0, xoffset + 80, 96, paint);
             xoffset += 80;
         }
 
-
-        cv.save();
+        cv.saveLayer(0 , 0, xoffset, 96, paint);
+        // cv.save();
 
         // Save as new image
         // ImageIO.write(combined, "PNG", new File(path, "combined.png"));
