@@ -13,13 +13,12 @@
         android:tag="@string/f_cipherpipe"
         android:layout_width="640dp"
         android:layout_height="96dp">
-            <ImageButton
-                android:id="@+id/imgBtnCipherPipe"
-                android:layout_width="640dp"
-                android:layout_height="96dp"
-                android:background="@color/white"
-                android:src="@drawable/cipherpipeblank"
-                />
+        <ImageView
+            android:id="@+id/imgViewCipherPipe"
+            android:layout_width="640dp"
+            android:layout_height="96dp"
+            android:src="@drawable/cipherpipeblank"
+            />
     </LinearLayout>
 
 	<GridLayout

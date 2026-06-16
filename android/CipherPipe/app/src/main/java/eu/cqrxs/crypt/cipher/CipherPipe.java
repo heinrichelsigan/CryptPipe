@@ -893,13 +893,13 @@ public class CipherPipe {
 
         if (zType == ZipType.GZip) {
             Bitmap imgGz = BitmapFactory.decodeResource(context.getResources(), R.drawable.gz);
-            Rect rectSrc = new Rect(xoffset, 0, xoffset + 76, 96);
+            Rect rectSrc = new Rect(0, 0,  76, 96);
             Rect rectDest = new Rect(xoffset, 0, xoffset + 76, 96);
             cv.drawBitmap(imgGz, rectSrc, rectDest, paint);
             xoffset += 76;
         } else {
             Bitmap imgStart = BitmapFactory.decodeResource(context.getResources(), R.drawable.pipestartblock);
-            Rect rectSrc = new Rect(xoffset, 0, xoffset + 32, 96);
+            Rect rectSrc = new Rect(0, 0, + 32, 96);
             Rect rectDest = new Rect(xoffset, 0, xoffset + 32, 96);
             cv.drawBitmap(imgStart, rectSrc, rectDest, paint);
             xoffset += 32;
@@ -921,7 +921,7 @@ public class CipherPipe {
                         DbgWriter.msgex(ioex4, true);
                     }
                 }
-                Rect rectSrc = new Rect(xoffset, 0, xoffset + 60, 96);
+                Rect rectSrc = new Rect(0, 0, 60, 96);
                 Rect rectDest = new Rect(xoffset, 0, xoffset + 60, 96);
                 cv.drawBitmap(imgAes, rectSrc, rectDest, paint);
                 xoffset += 60;
@@ -967,7 +967,7 @@ public class CipherPipe {
             } catch (Exception exLoadEncodeImage) {
                 DbgWriter.msgex(exLoadEncodeImage, true);
             }
-            Rect rectSrc = new Rect(xoffset, 0, xoffset + 80, 96);
+            Rect rectSrc = new Rect(0, 0, 80, 96);
             Rect rectDest = new Rect(xoffset, 0, xoffset + 80, 96);
             cv.drawBitmap(imgEncoding, rectSrc, rectDest, paint);
             xoffset += 80;
