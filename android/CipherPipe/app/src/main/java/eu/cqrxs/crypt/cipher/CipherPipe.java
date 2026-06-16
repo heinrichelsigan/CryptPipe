@@ -896,14 +896,17 @@ public class CipherPipe {
             Rect rectSrc = new Rect(0, 0,  76, 96);
             Rect rectDest = new Rect(xoffset, 0, xoffset + 76, 96);
             cv.drawBitmap(imgGz, rectSrc, rectDest, paint);
+            cv.saveLayer(xoffset, 0, xoffset + 76, 0, paint);
             xoffset += 76;
         } else {
             Bitmap imgStart = BitmapFactory.decodeResource(context.getResources(), R.drawable.pipestartblock);
             Rect rectSrc = new Rect(0, 0, + 32, 96);
             Rect rectDest = new Rect(xoffset, 0, xoffset + 32, 96);
             cv.drawBitmap(imgStart, rectSrc, rectDest, paint);
+            cv.saveLayer(xoffset, 0, xoffset + 32, 0, paint);
             xoffset += 32;
         }
+
 
         CipherEnum[] inPipe = getInPipe();
         if (inPipe != null && inPipe.length > 0) {
@@ -916,7 +919,8 @@ public class CipherPipe {
                 } catch (Exception ex3) {
                     DbgWriter.msgex(ex3, true);
                     try {
-                        imgAes = BitmapFactory.decodeResource(context.getResources(), R.drawable.cipheralgo);
+                        imgAes = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.cipheralgo),
+                                0, 0, 60, 96);
                     } catch (Exception ioex4) {
                         DbgWriter.msgex(ioex4, true);
                     }
@@ -924,6 +928,7 @@ public class CipherPipe {
                 Rect rectSrc = new Rect(0, 0, 60, 96);
                 Rect rectDest = new Rect(xoffset, 0, xoffset + 60, 96);
                 cv.drawBitmap(imgAes, rectSrc, rectDest, paint);
+                cv.saveLayer(xoffset , 0, xoffset + 60, 0, paint);
                 xoffset += 60;
             }
         }
@@ -934,34 +939,44 @@ public class CipherPipe {
             try {
                 switch (encodeType) {
                     case EncodeEnum.Hex16:
-                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_hex16);
+                        imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_hex16),
+                                        0, 0, 80, 96);
                         break;
                     case EncodeEnum.Hex32:
-                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_hex32);
+                        imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_hex32),
+                                        0, 0, 80, 96);
                         break;
                     case EncodeEnum.Hex64:
-                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_hex64);
+                        imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_hex64),
+                                0, 0, 80, 96);
                         break;
                     case EncodeEnum.Base16:
-                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_base16);
+                        imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_base16),
+                                0, 0, 80, 96);
                         break;
                     case EncodeEnum.Base32:
-                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_base32);
+                        imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_base32),
+                                0, 0, 80, 96);
                         break;
                     case EncodeEnum.Base64:
-                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_base64);
+                        imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_base64),
+                                0, 0, 80, 96);
                         break;
                     case EncodeEnum.Uu:
-                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_uu);
+                        imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_uu),
+                                0, 0, 80, 96);
                         break;
                     case EncodeEnum.Xx:
-                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_xx);
+                        imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_xx),
+                                0, 0, 80, 96);
                         break;
                     case EncodeEnum.Ascii85:
-                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_ascii85);
+                        imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_ascii85),
+                                0, 0, 80, 96);
                         break;
                     default:
-                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_0);
+                        imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_0),
+                                0, 0, 80, 96);
                         break;
                 }
             } catch (Exception exLoadEncodeImage) {
@@ -970,11 +985,13 @@ public class CipherPipe {
             Rect rectSrc = new Rect(0, 0, 80, 96);
             Rect rectDest = new Rect(xoffset, 0, xoffset + 80, 96);
             cv.drawBitmap(imgEncoding, rectSrc, rectDest, paint);
+            cv.saveLayer(xoffset , 0, xoffset + 80, 0, paint);
             xoffset += 80;
         }
 
 
         cv.save();
+
         // Save as new image
         // ImageIO.write(combined, "PNG", new File(path, "combined.png"));
         return combined;
