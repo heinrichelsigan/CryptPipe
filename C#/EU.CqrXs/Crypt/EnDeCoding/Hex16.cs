@@ -1,4 +1,6 @@
-﻿namespace EU.CqrXs.Crypt.EnDeCoding
+﻿using System.Text;
+
+namespace EU.CqrXs.Crypt.EnDeCoding
 {
     /// <summary>
     /// Normal hexadecimal byte encoding / decoding
@@ -50,12 +52,14 @@
                 throw new ArgumentNullException("inBytes", "public static string ToHex(byte[] inBytes == NULL)");
 
             string hexString = string.Empty;
+            StringBuilder sb = new StringBuilder(inBytes.Length * 2 + 1);
             for (int wc = 0; wc < inBytes.Length; wc++)
             {
-                hexString += string.Format("{0:x2}", inBytes[wc]);
+                sb.Append(string.Format("{0:x2}", inBytes[wc]));
             }
 
             // string strUtf8 = System.Text.Encoding.UTF8.GetString(inBytes);
+            hexString = sb.ToString();
             return hexString;
         }
 

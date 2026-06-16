@@ -871,7 +871,7 @@ public class CipherPipe {
      */
     public Bitmap drawCipherPipe(Context context) {
         String path = "eu/cqrxs/gui/img/";
-        Bitmap imgPipeBlank = BitmapFactory.decodeResource(context.getResources(), R.drawable.cipherpipeblank);
+        Bitmap imgPipeBlank = BitmapFactory.decodeResource(context.getResources(), R.drawable.cipherpipempty);
         /* if (pipe == null) {
             try {
                 imgPipeBlank = BitmapFactory.decodeResource(context.getResources(), R.drawable.cipherpipeblank);
@@ -885,10 +885,11 @@ public class CipherPipe {
         int xoffset = 0;
         int w = 640;
         int h = 96;
+
         Bitmap combined = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         // paint both images, preserving the alpha channels
-        // Graphics g = combined.getGraphics();
-        Canvas cv = new Canvas(combined);
+        // Canvas cv = new Canvas(combined);
+        Canvas cv = new Canvas(imgPipeBlank);
 
         if (zType == ZipType.GZip) {
             Bitmap imgGz = BitmapFactory.decodeResource(context.getResources(), R.drawable.gz);
@@ -990,6 +991,7 @@ public class CipherPipe {
         int xoffset = 0;
         int w = 640;
         int h = 96;
+        Bitmap imgPipeBlank = BitmapFactory.decodeResource(context.getResources(), R.drawable.cipherpipempty);
         Bitmap combined = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         // paint both images, preserving the alpha channels
         Canvas g = new Canvas(combined);
