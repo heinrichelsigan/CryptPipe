@@ -376,6 +376,9 @@ public class MainActivity extends AppCompatActivity {
 
                 String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
                 editTextSource.setText(sharedText);
+            } else {
+                byte[] sharedBytes = intent.getByteArrayExtra(Intent.EXTRA_CHOOSER_RESULT);
+
             }
         }
     }
