@@ -142,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
 
                 Bitmap bmp = pipe.drawCipherPipe(getBaseContext());
                 imgViewCipherPipe.setImageBitmap(bmp);
-                imgViewCipherPipe.refreshDrawableState();
             }
         });
 
@@ -162,7 +161,6 @@ public class MainActivity extends AppCompatActivity {
                 showCipherPipe.setText(pipeSting);
                 Bitmap bmp = pipe.drawCipherPipe(getBaseContext());
                 imgViewCipherPipe.setImageBitmap(bmp);
-                imgViewCipherPipe.refreshDrawableState();
             }
         });
 
