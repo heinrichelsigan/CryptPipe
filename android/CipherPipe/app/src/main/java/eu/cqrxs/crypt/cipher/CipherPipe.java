@@ -880,59 +880,69 @@ public class CipherPipe {
             }
             return imgPipeBlank;
         }*/
-        Paint paint = new Paint();
 
         int xoffset = 0;
         int w = 640;
         int h = 96;
+        Paint paint = new Paint();
 
         Bitmap combined = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         // paint both images, preserving the alpha channels
         Canvas cv = new Canvas(combined);
         // Canvas cv = new Canvas(imgPipeBlank);
 
-        if (zType == ZipType.GZip) {
-            Bitmap imgGz = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.gz),
-                            0, 0, 76, h);
-            Rect rectSrc = new Rect(0, 0,  76, h);
-            Rect rectDest = new Rect(xoffset, 0, xoffset + 76, h);
-            cv.drawBitmap(imgGz, rectSrc, rectDest, paint);
-            // cv.saveLayer(xoffset, 0, xoffset + 76, h, paint);
-            xoffset += 76;
-        } else {
-            Bitmap imgStart = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.pipestartblock),
-                            0, 0, 32, h);
-            Rect rectSrc = new Rect(0, 0, + 32, h);
-            Rect rectDest = new Rect(xoffset, 0, xoffset + 32, h);
-            cv.drawBitmap(imgStart, rectSrc, rectDest, paint);
-            // cv.saveLayer(xoffset, 0, xoffset + 32, h, paint);
-            xoffset += 32;
+        try {
+            if (zType == ZipType.GZip) {
+                Bitmap imgGz = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.gz),
+                        0, 0, 76, h);
+                Rect rectSrc = new Rect(0, 0, 76, h);
+                Rect rectDest = new Rect(xoffset, 0, xoffset + 76, h);
+                cv.drawBitmap(imgGz, rectSrc, rectDest, paint);
+                // cv.saveLayer(xoffset, 0, xoffset + 76, h, paint);
+                xoffset += 76;
+            } else {
+                Bitmap imgStart = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.pipestartblock),
+                        0, 0, 32, h);
+                Rect rectSrc = new Rect(0, 0, +32, h);
+                Rect rectDest = new Rect(xoffset, 0, xoffset + 32, h);
+                cv.drawBitmap(imgStart, rectSrc, rectDest, paint);
+                // cv.saveLayer(xoffset, 0, xoffset + 32, h, paint);
+                xoffset += 32;
+            }
+        } catch (Exception exStart) {
+            DbgWriter.msgex(exStart, true);
         }
 
 
         CipherEnum[] inPipe = getInPipe();
         if (inPipe != null && inPipe.length > 0) {
             for (int i = 0; i < inPipe.length; i++) {
+
                 CipherEnum cipher = inPipe[i];
-                Bitmap imgAes = Bitmap.createBitmap(60, h, Bitmap.Config.ARGB_8888);
+
                 try {
-                    int idAesBmp = context.getResources().getIdentifier(cipher.toString().toLowerCase(), "drawable", context.getPackageName());
-                    imgAes = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), idAesBmp),
-                                0, 0, 60, h);
-                } catch (Exception ex3) {
-                    DbgWriter.msgex(ex3, true);
+                    Bitmap imgAes = Bitmap.createBitmap(60, h, Bitmap.Config.ARGB_8888);
                     try {
-                        imgAes = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.cipheralgo),
-                                0, 0, 60, h);
-                    } catch (Exception ioex4) {
-                        DbgWriter.msgex(ioex4, true);
+                        int idAesBmp = context.getResources().getIdentifier(cipher.toString().toLowerCase(), "drawable", context.getPackageName());
+                        imgAes = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), idAesBmp),
+                                    0, 0, 60, h);
+                    } catch (Exception ex3) {
+                        DbgWriter.msgex(ex3, true);
+                        try {
+                            imgAes = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.cipheralgo),
+                                    0, 0, 60, h);
+                        } catch (Exception ioex4) {
+                            DbgWriter.msgex(ioex4, true);
+                        }
                     }
+                    Rect rectSrc = new Rect(0, 0, 60, h);
+                    Rect rectDest = new Rect(xoffset, 0, xoffset + 60, h);
+                    cv.drawBitmap(imgAes, rectSrc, rectDest, paint);
+                    // cv.saveLayer(xoffset , 0, xoffset + 60, h, paint);
+                    xoffset += 60;
+                } catch (Exception exStage) {
+                    DbgWriter.msgex(exStage, true);
                 }
-                Rect rectSrc = new Rect(0, 0, 60, h);
-                Rect rectDest = new Rect(xoffset, 0, xoffset + 60, h);
-                cv.drawBitmap(imgAes, rectSrc, rectDest, paint);
-                // cv.saveLayer(xoffset , 0, xoffset + 60, h, paint);
-                xoffset += 60;
             }
         }
 
@@ -943,11 +953,11 @@ public class CipherPipe {
                 switch (encodeType) {
                     case EncodeEnum.Hex16:
                         imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_hex16),
-                                        0, 0, 80, h);
+                                0, 0, 80, h);
                         break;
                     case EncodeEnum.Hex32:
                         imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_hex32),
-                                        0, 0, 80, h);
+                                0, 0, 80, h);
                         break;
                     case EncodeEnum.Hex64:
                         imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_hex64),
@@ -982,14 +992,15 @@ public class CipherPipe {
                                 0, 0, 80, h);
                         break;
                 }
+
+                Rect rectSrc = new Rect(0, 0, 80, h);
+                Rect rectDest = new Rect(xoffset, 0, xoffset + 80, h);
+                cv.drawBitmap(imgEncoding, rectSrc, rectDest, paint);
+                // cv.saveLayer(xoffset , 0, xoffset + 80, h, paint);
+                xoffset += 80;
             } catch (Exception exLoadEncodeImage) {
                 DbgWriter.msgex(exLoadEncodeImage, true);
             }
-            Rect rectSrc = new Rect(0, 0, 80, h);
-            Rect rectDest = new Rect(xoffset, 0, xoffset + 80, h);
-            cv.drawBitmap(imgEncoding, rectSrc, rectDest, paint);
-            // cv.saveLayer(xoffset , 0, xoffset + 80, h, paint);
-            xoffset += 80;
         }
 
         // cv.saveLayer(0 , 0, xoffset, h, paint);
