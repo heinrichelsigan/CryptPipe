@@ -888,8 +888,8 @@ public class CipherPipe {
 
         Bitmap combined = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         // paint both images, preserving the alpha channels
-        // Canvas cv = new Canvas(combined);
-        Canvas cv = new Canvas(imgPipeBlank);
+        Canvas cv = new Canvas(combined);
+        // Canvas cv = new Canvas(imgPipeBlank);
 
         if (zType == ZipType.GZip) {
             Bitmap imgGz = BitmapFactory.decodeResource(context.getResources(), R.drawable.gz);
