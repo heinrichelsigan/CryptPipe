@@ -41,13 +41,18 @@ namespace EU.CqrXs.Crypt.Cipher
         #region fields and properties
 
         /// <summary>
-        /// <see cref="T:KeyHash[]"/> array of 16 keyhashes (not empty)
+        /// <see cref="T:KeyHash[]"/> array of 8 keyhashes (not KeyHash.Empty, KeyHash.Oct)
         /// </summary>
-        private static readonly KeyHash[] secureHashes = {               
-                KeyHash.BCrypt, KeyHash.Blake2xs, KeyHash.CShake, KeyHash.Dstu7564,
-                KeyHash.MD5, KeyHash.Hex, KeyHash.Oct, KeyHash.OpenBSDCrypt,
-                KeyHash.SCrypt, KeyHash.Sha1, KeyHash.Sha256, KeyHash.Sha384, KeyHash.Sha512,
-                KeyHash.RipeMD256, KeyHash.TupleHash, KeyHash.Whirlpool };
+        private static readonly KeyHash[] secureHashes = {
+            KeyHash.BCrypt,     // KeyHash.CShake, KeyHash.Dstu7564,
+            KeyHash.MD5, 
+            KeyHash.Hex,        // KeyHash.Oct, 
+            KeyHash.OpenBSDCrypt,
+            KeyHash.SCrypt,     // KeyHash.Sha1,
+            KeyHash.Sha256,     // KeyHash.Sha384, KeyHash.Sha512,
+            KeyHash.RipeMD256,  // KeyHash.TupleHash,
+            KeyHash.Whirlpool
+        };
 
         protected string cipherKeyHash; // this is the hash of the user key, e.g. email address, which is used to generate the pipe and the keys for each stage in pipe
       

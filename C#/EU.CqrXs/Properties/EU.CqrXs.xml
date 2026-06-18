@@ -1118,7 +1118,7 @@
         </member>
         <member name="F:EU.CqrXs.Crypt.Cipher.SecureCipherPipe.secureHashes">
             <summary>
-            <see cref="T:KeyHash[]"/> array of 16 keyhashes (not empty)
+            <see cref="T:KeyHash[]"/> array of 8 keyhashes (not KeyHash.Empty, KeyHash.Oct)
             </summary>
         </member>
         <member name="M:EU.CqrXs.Crypt.Cipher.SecureCipherPipe.#ctor">
@@ -2026,6 +2026,11 @@
             </summary>
         </member>
         <member name="P:EU.CqrXs.Properties.Resource.BlankDecrypt_920x108">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:EU.CqrXs.Properties.Resource.BlankEncrypt_640x108">
             <summary>
               Looks up a localized resource of type System.Drawing.Bitmap.
             </summary>
