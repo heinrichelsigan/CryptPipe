@@ -945,12 +945,12 @@ namespace EU.CqrXs.Crypt.Cipher
             List<Bitmap> bitmaps = new List<Bitmap>();
 
             string bmpName = "";
-            int w = 64, offset = 0, startset = 0;
+            int w = 60, offset = 0, startset = 0;
             if (this.ZType != EU.CqrXs.Zip.ZipType.None)
             {
                 using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergeimg))
                 {
-                    w = 60;
+                    w = 57; 
 
                     ximage = new Bitmap(Properties.Resource.block_arrow_right_zip, new Size(64, 64));
                     g.DrawImage(ximage, new System.Drawing.Rectangle(0, 20, w, 64));
@@ -977,7 +977,7 @@ namespace EU.CqrXs.Crypt.Cipher
             {
                 using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergeimg))
                 {
-                    w = 60;
+                    w = 57;
                     char ch = this.InPipe[i].GetCipherChar();
 
                     bmpName = bmpName = string.Format("arrow_right-{0:x1}", i); 
@@ -1033,7 +1033,7 @@ namespace EU.CqrXs.Crypt.Cipher
             {
                 using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergeimg))
                 {
-                    w = 60;
+                    w = 57;
                     ximage = new Bitmap(Properties.Resource.encoding_right_end_0, new Size(64, 64));
                     g.DrawImage(ximage, new System.Drawing.Rectangle(offset, 20, w, 64));
                     string drawString = this.EncodeType.ToString();
@@ -1073,7 +1073,7 @@ namespace EU.CqrXs.Crypt.Cipher
                 int w = 64, offset = 0, startset = 0;
                 if (this.EncodeType != EU.CqrXs.Crypt.EnDeCoding.EncodingType.None)
                 {
-                    w = 60;
+                    w = 57;
                     ximage = new Bitmap(Properties.Resource.encoding_right_0, new Size(64, 64));
                     g.DrawImage(ximage, new System.Drawing.Rectangle(offset, 20, w, 64));
 
@@ -1092,7 +1092,7 @@ namespace EU.CqrXs.Crypt.Cipher
 
                 for (int i = 0; (i < this.OutPipe.Length); i++)
                 {
-                    w = 60;
+                    w = 57;
                     int r = 0xf - i;
                     char ch = this.OutPipe[i].GetCipherChar();
 
@@ -1107,7 +1107,7 @@ namespace EU.CqrXs.Crypt.Cipher
                 offset = startset;
                 for (int i = 0; (i < this.OutPipe.Length); i++)
                 {
-                    w = 60;
+                    w = 57;
                     int r = 0xf - i;
 
                     Color color = (i < 4) ? ColorTranslator.FromHtml("#2200aa") : ColorTranslator.FromHtml("#0000dd");
@@ -1139,7 +1139,7 @@ namespace EU.CqrXs.Crypt.Cipher
 
                 if (this.ZType != EU.CqrXs.Zip.ZipType.None)
                 {
-                    w = 60;
+                    w = 57;
                     ximage = new Bitmap(Properties.Resource.compress_right_end_0, new Size(64, 64));
                     g.DrawImage(ximage, new System.Drawing.Rectangle(offset, 20, w, 64));
 
