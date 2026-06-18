@@ -915,12 +915,12 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="keyHash">hashing type of hashing method to hash key</param>
         /// <param name="cmode2"></param>
         /// <returns>transformed byte array</returns>
-        public virtual byte[] CryptCodeBytes(byte[] inBytes, 
-                                                string secretKey, 
+        public virtual byte[] CryptCodeBytes(byte[] inBytes,
+                                                string secretKey,
                                                 string hashIV,
-                                                bool directionDecrypt = false, 
+                                                bool directionDecrypt = false,
                                                 EncodingType encType = EncodingType.Base64,
-                                                ZipType zip = ZipType.None, 
+                                                ZipType zip = ZipType.None,
                                                 KeyHash keyHash = KeyHash.Hex,
                                                 CipherMode2 cmode2 = CipherMode2.ECB)
         {
@@ -950,7 +950,7 @@ namespace EU.CqrXs.Crypt.Cipher
             {
                 using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergeimg))
                 {
-                    w = 57; 
+                    w = 57;
 
                     ximage = new Bitmap(Properties.Resource.block_arrow_right_zip, new Size(64, 64));
                     g.DrawImage(ximage, new System.Drawing.Rectangle(0, 20, w, 64));
@@ -980,7 +980,7 @@ namespace EU.CqrXs.Crypt.Cipher
                     w = 57;
                     char ch = this.InPipe[i].GetCipherChar();
 
-                    bmpName = bmpName = string.Format("arrow_right-{0:x1}", i); 
+                    bmpName = bmpName = string.Format("arrow_right-{0:x1}", i);
                     object obj = Properties.Resource.ResourceManager.GetObject(bmpName, CultureInfo.CurrentCulture);
                     ximage = new Bitmap(((System.Drawing.Bitmap)(obj)));
                     g.DrawImage(ximage, new System.Drawing.Rectangle(offset, 20, w, 64));
@@ -1015,7 +1015,8 @@ namespace EU.CqrXs.Crypt.Cipher
                         case 4: x = offset - 2.5F; y = 2F; break;
                         case 5: x = offset - 3.0F; y = 84F; break;
                         case 6: x = offset - 3.5F; y = 2F; break;
-                        case 7: x = offset - 4.0F; y = 76F;
+                        case 7:
+                            x = offset - 4.0F; y = 76F;
                             drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Bold); break;
                         default: y = 1F + ((i % 4) * 23.0F); break;
                     }
@@ -1170,9 +1171,3 @@ namespace EU.CqrXs.Crypt.Cipher
     }
 
 }
-
-
-
-
-
-
