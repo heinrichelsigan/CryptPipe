@@ -40,9 +40,14 @@ namespace EU.CqrXs.Crypt.Cipher
 
         #region fields and properties
 
-        private static readonly KeyHash[] secureHashes = {
+        /// <summary>
+        /// <see cref="T:KeyHash[]"/> array of 16 keyhashes (not empty)
+        /// </summary>
+        private static readonly KeyHash[] secureHashes = {               
                 KeyHash.BCrypt, KeyHash.Blake2xs, KeyHash.CShake, KeyHash.Dstu7564,
-                KeyHash.OpenBSDCrypt, KeyHash.SCrypt, KeyHash.RipeMD256, KeyHash.Whirlpool };
+                KeyHash.MD5, KeyHash.Hex, KeyHash.Oct, KeyHash.OpenBSDCrypt,
+                KeyHash.SCrypt, KeyHash.Sha1, KeyHash.Sha256, KeyHash.Sha384, KeyHash.Sha512,
+                KeyHash.RipeMD256, KeyHash.TupleHash, KeyHash.Whirlpool };
 
         protected string cipherKeyHash; // this is the hash of the user key, e.g. email address, which is used to generate the pipe and the keys for each stage in pipe
       
@@ -81,11 +86,11 @@ namespace EU.CqrXs.Crypt.Cipher
         /// SecureCipherPipe constructor with an array of <see cref="T:CipherEnum[]"/> as inpipe
         /// </summary>
         /// <param name="cipherEnums">array of <see cref="T:CipherEnum[]"/> as inpipe</param>
-        /// <param name="maxpipe">size of max. pipe stages, can't be greater than 8</param>
+        /// <param name="maxpipe">size of max. pipe stages, can't be greater than <see cref="Constants.MAX_PIPE_LEN"/></param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         public SecureCipherPipe(CipherEnum[] cipherEnums, uint maxpipe, CipherMode2 cmode2)
         {
-            // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
+            // What ever is entered here as parameter, maxpipe has to be not greater Constants.MAX_PIPE_LEN, because of no such agency
             maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
 
             int isize = Math.Min(((int)cipherEnums.Length), ((int)maxpipe));
@@ -105,7 +110,7 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         public SecureCipherPipe(string[] cipherAlgos, uint maxpipe, CipherMode2 cmode2)
         {
-            // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
+            // What ever is entered here as parameter, maxpipe has to be not greater Constants.MAX_PIPE_LEN, because of no such agency
             maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
 
             List<CipherEnum> cipherEnums = new List<CipherEnum>();
@@ -144,7 +149,7 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <exception cref="ArgumentException"></exception>
         public SecureCipherPipe(byte[] keyBytes, uint maxpipe, CipherMode2 cmode2, bool verbose = false)
         {
-            // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
+            // What ever is entered here as parameter, maxpipe has to be not greater Constants.MAX_PIPE_LEN, because of no such agency
             maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
 
             List<CipherEnum> pipeList = new List<CipherEnum>();

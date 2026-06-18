@@ -83,7 +83,7 @@ namespace EU.CqrXs.Test
                     Assert.IsTrue(plainBytes != null && deCodedBytes != null && deCodedBytes.Length > 0 && deCodedBytes.Length > 0 &&
                         (Math.Abs(deCodedBytes.LongLength - plainBytes.LongLength) < 16) &&
                         (plainBytes[0] == deCodedBytes[0] && plainBytes[1] == deCodedBytes[1] &&
-                            plainBytes[i + 16] == deCodedBytes[i + 16] && plainBytes[i + 8] == deCodedBytes[i + 8]));
+                            plainBytes[i + 16] == deCodedBytes[i + 16] && plainBytes[i + Constants.MAX_PIPE_LEN] == deCodedBytes[i + Constants.MAX_PIPE_LEN]));
             
                     endOp = DateTime.Now;
                     decOpTime = endOp.Subtract(midOp);

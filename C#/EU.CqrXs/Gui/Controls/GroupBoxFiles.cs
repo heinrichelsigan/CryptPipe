@@ -148,10 +148,10 @@ namespace EU.CqrXs.Gui.Controls
             // pictureBoxRunningPipe
             // 
             pictureBoxRunningPipe.Image = Properties.Resources.BlankEncrypt_640x108;
-            pictureBoxRunningPipe.Location = new Point(180, 11);
+            pictureBoxRunningPipe.Location = new Point(128, 11);
             pictureBoxRunningPipe.Margin = new Padding(1);
             pictureBoxRunningPipe.Name = "pictureBoxRunningPipe";
-            pictureBoxRunningPipe.Size = new Size(640, 108);
+            pictureBoxRunningPipe.Size = new Size(800, 108);
             pictureBoxRunningPipe.TabIndex = 23;
             pictureBoxRunningPipe.TabStop = false;
             // 
