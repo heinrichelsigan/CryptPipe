@@ -137,16 +137,16 @@ namespace EU.CqrXs.Crypt.Cipher
         /// CipherPipe constructor with an array of <see cref="T:CipherEnum[]"/> as inpipe
         /// </summary>
         /// <param name="cipherEnums">array of <see cref="T:CipherEnum[]"/> as inpipe</param>
-        /// <param name="maxpipe">size of max. pipe stages, can't be greater than 8</param>
+        /// <param name="maxpipe">size of max. pipe stages, can't be greater than <see cref="Constants.MAX_PIPE_LEN"/></param>
         /// <param name="encType"><see cref="EncodeType"/></param>
         /// <param name="zpType"><see cref="ZipType"/></param>
         /// <param name="kh"><see cref="KeyHash"/></param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
-        public CipherPipe(CipherEnum[] cipherEnums, uint maxpipe = 8,
+        public CipherPipe(CipherEnum[] cipherEnums, uint maxpipe = Constants.MAX_PIPE_LEN,
             EncodingType encType = EncodingType.Base64, ZipType zpType = ZipType.None, KeyHash kh = KeyHash.Hex,
             CipherMode2 cmode2 = CipherMode2.ECB)
         {
-            // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
+            // What ever is entered here as parameter, maxpipe has to be not greater Constants.MAX_PIPE_LEN, because of no such agency
             maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
 
             int isize = Math.Min(((int)cipherEnums.Length), ((int)maxpipe));
@@ -168,11 +168,11 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="zpType"><see cref="Zip.ZipType"/></param>
         /// <param name="kh"><see cref="KeyHash"/></param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
-        public CipherPipe(string[] cipherAlgos, uint maxpipe = 8, EncodingType encType = EncodingType.Base64,
+        public CipherPipe(string[] cipherAlgos, uint maxpipe = Constants.MAX_PIPE_LEN, EncodingType encType = EncodingType.Base64,
             ZipType zpType = ZipType.None, KeyHash kh = KeyHash.Hex,
             CipherMode2 cmode2 = CipherMode2.ECB)
         {
-            // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
+            // What ever is entered here as parameter, maxpipe has to be not greater Constants.MAX_PIPE_LEN, because of no such agency
             maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
 
             List<CipherEnum> cipherEnums = new List<CipherEnum>();
@@ -211,11 +211,11 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         /// <param name="verbose"></param>
         /// <exception cref="ArgumentException"></exception>
-        public CipherPipe(byte[] keyBytes, uint maxpipe = 8,
+        public CipherPipe(byte[] keyBytes, uint maxpipe = Constants.MAX_PIPE_LEN,
             EncodingType encType = EncodingType.Base64, ZipType zpType = ZipType.None, KeyHash kh = KeyHash.Hex,
             CipherMode2 cmode2 = CipherMode2.ECB, bool verbose = false)
         {
-            // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
+            // What ever is entered here as parameter, maxpipe has to be not greater Constants.MAX_PIPE_LEN, because of no such agency
             maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
 
             List<CipherEnum> pipeList = new List<CipherEnum>();
@@ -915,12 +915,12 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="keyHash">hashing type of hashing method to hash key</param>
         /// <param name="cmode2"></param>
         /// <returns>transformed byte array</returns>
-        public virtual byte[] CryptCodeBytes(byte[] inBytes, 
-                                                string secretKey, 
+        public virtual byte[] CryptCodeBytes(byte[] inBytes,
+                                                string secretKey,
                                                 string hashIV,
-                                                bool directionDecrypt = false, 
+                                                bool directionDecrypt = false,
                                                 EncodingType encType = EncodingType.Base64,
-                                                ZipType zip = ZipType.None, 
+                                                ZipType zip = ZipType.None,
                                                 KeyHash keyHash = KeyHash.Hex,
                                                 CipherMode2 cmode2 = CipherMode2.ECB)
         {
@@ -940,17 +940,17 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <returns><see cref="Image">the image</see></returns>
         public virtual Image GenerateEncryptPipeImage()
         {
-            System.Drawing.Bitmap mergeimg = new Bitmap(Properties.Resource.BlankEncrypt_640x108, new Size(640, 108)), ximage;
-            System.Drawing.Bitmap? gifStartImage = new Bitmap(Properties.Resource.BlankEncrypt_640x96, new Size(640, 108));
+            System.Drawing.Bitmap mergeimg = new Bitmap(Properties.Resource.BlankEncrypt_920x108, new Size(Constants.PIPE_IMG_WIDTH, Constants.PIPE_IMG_HEIGHT)), ximage;
+            System.Drawing.Bitmap? gifStartImage = new Bitmap(Properties.Resource.BlankEncrypt_920x108, new Size(Constants.PIPE_IMG_WIDTH, Constants.PIPE_IMG_HEIGHT));
             List<Bitmap> bitmaps = new List<Bitmap>();
 
             string bmpName = "";
-            int w = 64, offset = 0, startset = 0;
+            int w = 60, offset = 0, startset = 0;
             if (this.ZType != EU.CqrXs.Zip.ZipType.None)
             {
                 using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergeimg))
                 {
-                    w = 60;
+                    w = 57;
 
                     ximage = new Bitmap(Properties.Resource.block_arrow_right_zip, new Size(64, 64));
                     g.DrawImage(ximage, new System.Drawing.Rectangle(0, 20, w, 64));
@@ -967,7 +967,7 @@ namespace EU.CqrXs.Crypt.Cipher
                     offset += w;
                     startset += w;
                 }
-                gifStartImage = new Bitmap(mergeimg, 640, 108);
+                gifStartImage = new Bitmap(mergeimg, Constants.PIPE_IMG_WIDTH, Constants.PIPE_IMG_HEIGHT);
                 bitmaps.Add(gifStartImage);
             }
 
@@ -977,11 +977,10 @@ namespace EU.CqrXs.Crypt.Cipher
             {
                 using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergeimg))
                 {
-                    w = 60;
+                    w = 57;
                     char ch = this.InPipe[i].GetCipherChar();
-                    bmpName = $"arrow_right-{i}";
-                    if (i < 2)
-                        bmpName = (i == 0) ? "arrow_right-c" : "arrow_right-e";
+
+                    bmpName = bmpName = string.Format("arrow_right-{0:x1}", i);
                     object obj = Properties.Resource.ResourceManager.GetObject(bmpName, CultureInfo.CurrentCulture);
                     ximage = new Bitmap(((System.Drawing.Bitmap)(obj)));
                     g.DrawImage(ximage, new System.Drawing.Rectangle(offset, 20, w, 64));
@@ -989,8 +988,8 @@ namespace EU.CqrXs.Crypt.Cipher
                     offset += w;
                 }
                 if (gifStartImage == null)
-                    gifStartImage = new Bitmap(mergeimg, 640, 108);
-                bitmaps.Add(new Bitmap(mergeimg, 640, 108));
+                    gifStartImage = new Bitmap(mergeimg, Constants.PIPE_IMG_WIDTH, Constants.PIPE_IMG_HEIGHT);
+                bitmaps.Add(new Bitmap(mergeimg, Constants.PIPE_IMG_WIDTH, Constants.PIPE_IMG_HEIGHT));
             }
 
 
@@ -1016,7 +1015,8 @@ namespace EU.CqrXs.Crypt.Cipher
                         case 4: x = offset - 2.5F; y = 2F; break;
                         case 5: x = offset - 3.0F; y = 84F; break;
                         case 6: x = offset - 3.5F; y = 2F; break;
-                        case 7: x = offset - 4.0F; y = 76F;
+                        case 7:
+                            x = offset - 4.0F; y = 76F;
                             drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Bold); break;
                         default: y = 1F + ((i % 4) * 23.0F); break;
                     }
@@ -1027,14 +1027,14 @@ namespace EU.CqrXs.Crypt.Cipher
                     offset += w;
                 }
             }
-            bitmaps.Add(new Bitmap(mergeimg, 640, 108));
-            gifStartImage = new Bitmap(mergeimg, 640, 108);
+            bitmaps.Add(new Bitmap(mergeimg, Constants.PIPE_IMG_WIDTH, Constants.PIPE_IMG_HEIGHT));
+            gifStartImage = new Bitmap(mergeimg, Constants.PIPE_IMG_WIDTH, Constants.PIPE_IMG_HEIGHT);
 
             if (this.EncodeType != EU.CqrXs.Crypt.EnDeCoding.EncodingType.None)
             {
                 using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergeimg))
                 {
-                    w = 60;
+                    w = 57;
                     ximage = new Bitmap(Properties.Resource.encoding_right_end_0, new Size(64, 64));
                     g.DrawImage(ximage, new System.Drawing.Rectangle(offset, 20, w, 64));
                     string drawString = this.EncodeType.ToString();
@@ -1046,8 +1046,8 @@ namespace EU.CqrXs.Crypt.Cipher
                     drawFormat.FormatFlags = StringFormatFlags.FitBlackBox;
                     g.DrawString(drawString, drawFont, drawBrush, x, y, drawFormat);
                 }
-                bitmaps.Add(new Bitmap(mergeimg, 640, 108));
-                gifStartImage = new Bitmap(mergeimg, 640, 108);
+                bitmaps.Add(new Bitmap(mergeimg, Constants.PIPE_IMG_WIDTH, Constants.PIPE_IMG_HEIGHT));
+                gifStartImage = new Bitmap(mergeimg, Constants.PIPE_IMG_WIDTH, Constants.PIPE_IMG_HEIGHT);
             }
 
             //TimeSpan ts = new TimeSpan(0, 0, 0, 0, 125);
@@ -1066,14 +1066,15 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <returns><see cref="Image">the image</see></returns>
         public virtual Image GenerateDecryptPipeImage()
         {
-            System.Drawing.Bitmap mergeimg = new Bitmap(640, 108), ximage;
+            System.Drawing.Bitmap mergeimg = new Bitmap(Properties.Resource.BlankDecrypt_920x108, new Size(Constants.PIPE_IMG_WIDTH, Constants.PIPE_IMG_HEIGHT)), ximage;
+            // mergeimg = new Bitmap(Constants.PIPE_IMG_WIDTH,  Constants.PIPE_IMG_HEIGHT);
             string bmpName = "";
             using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergeimg))
             {
                 int w = 64, offset = 0, startset = 0;
                 if (this.EncodeType != EU.CqrXs.Crypt.EnDeCoding.EncodingType.None)
                 {
-                    w = 60;
+                    w = 57;
                     ximage = new Bitmap(Properties.Resource.encoding_right_0, new Size(64, 64));
                     g.DrawImage(ximage, new System.Drawing.Rectangle(offset, 20, w, 64));
 
@@ -1092,12 +1093,11 @@ namespace EU.CqrXs.Crypt.Cipher
 
                 for (int i = 0; (i < this.OutPipe.Length); i++)
                 {
-                    w = 60;
-                    int r = 7 - i;
+                    w = 57;
+                    int r = 0xf - i;
                     char ch = this.OutPipe[i].GetCipherChar();
-                    bmpName = $"arrow_right-{r}";
-                    if (i >= 6)
-                        bmpName = (i == 6) ? "arrow_right-e" : "arrow_right-c";
+
+                    bmpName = string.Format("arrow_right-{0:x1}", r);
                     object obj = Properties.Resource.ResourceManager.GetObject(bmpName, CultureInfo.CurrentCulture);
                     ximage = new Bitmap(((System.Drawing.Bitmap)(obj)), new Size(64, 64));
                     g.DrawImage(ximage, new System.Drawing.Rectangle(offset, 20, w, 64));
@@ -1108,8 +1108,8 @@ namespace EU.CqrXs.Crypt.Cipher
                 offset = startset;
                 for (int i = 0; (i < this.OutPipe.Length); i++)
                 {
-                    w = 60;
-                    int r = 7 - i;
+                    w = 57;
+                    int r = 0xf - i;
 
                     Color color = (i < 4) ? ColorTranslator.FromHtml("#2200aa") : ColorTranslator.FromHtml("#0000dd");
                     string drawString = this.OutPipe[i].ToString();
@@ -1140,7 +1140,7 @@ namespace EU.CqrXs.Crypt.Cipher
 
                 if (this.ZType != EU.CqrXs.Zip.ZipType.None)
                 {
-                    w = 60;
+                    w = 57;
                     ximage = new Bitmap(Properties.Resource.compress_right_end_0, new Size(64, 64));
                     g.DrawImage(ximage, new System.Drawing.Rectangle(offset, 20, w, 64));
 
@@ -1171,9 +1171,3 @@ namespace EU.CqrXs.Crypt.Cipher
     }
 
 }
-
-
-
-
-
-

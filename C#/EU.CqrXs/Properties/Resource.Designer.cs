@@ -152,6 +152,16 @@ namespace EU.CqrXs.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap arrow_right_8 {
+            get {
+                object obj = ResourceManager.GetObject("arrow_right-8", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap arrow_right_9 {
             get {
                 object obj = ResourceManager.GetObject("arrow_right-9", resourceCulture);
@@ -222,16 +232,6 @@ namespace EU.CqrXs.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Blank640x96 {
-            get {
-                object obj = ResourceManager.GetObject("Blank640x96", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap BlankDecrypt_640x108 {
             get {
                 object obj = ResourceManager.GetObject("BlankDecrypt_640x108", resourceCulture);
@@ -242,9 +242,9 @@ namespace EU.CqrXs.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap BlankEncrypt_640x108 {
+        internal static System.Drawing.Bitmap BlankDecrypt_920x108 {
             get {
-                object obj = ResourceManager.GetObject("BlankEncrypt_640x108", resourceCulture);
+                object obj = ResourceManager.GetObject("BlankDecrypt_920x108", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -255,6 +255,16 @@ namespace EU.CqrXs.Properties {
         internal static System.Drawing.Bitmap BlankEncrypt_640x96 {
             get {
                 object obj = ResourceManager.GetObject("BlankEncrypt_640x96", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BlankEncrypt_920x108 {
+            get {
+                object obj = ResourceManager.GetObject("BlankEncrypt_920x108", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -409,7 +419,8 @@ namespace EU.CqrXs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Debian Hint #1: You can report a bug in a package with the &apos;reportbug&apos; command,
+        ///   Looks up a localized string similar to  
+        ///Debian Hint #1: You can report a bug in a package with the &apos;reportbug&apos; command,
         ///which is available in the reportbug package, either from the command-line or
         ///with the new graphical frontend (available running &apos;reportbug --ui gtk&apos; or in
         ///the menu).
@@ -419,7 +430,7 @@ namespace EU.CqrXs.Properties {
         ///The &apos;configure-debian&apos; package provides a unified front end for doing this,
         ///as well.
         ///%
-        ///Debian Hint #3: You  [rest of string was truncated]&quot;;.
+        ///Debian Hint #3: Y [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string fortune_u8 {
             get {

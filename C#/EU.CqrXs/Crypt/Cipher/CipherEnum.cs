@@ -168,7 +168,7 @@ namespace EU.CqrXs.Crypt.Cipher
                 if (Enum.TryParse<CipherEnum>(algo, out cipher))
                 {
                     cipherList.Add(cipher);
-                    if ((++pipeCnt) >= 8)
+                    if ((++pipeCnt) >= 0x10)
                         break;
                 }
 

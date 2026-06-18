@@ -157,7 +157,7 @@
             CipherPipe constructor with an array of <see cref="T:CipherEnum[]"/> as inpipe
             </summary>
             <param name="cipherEnums">array of <see cref="T:CipherEnum[]"/> as inpipe</param>
-            <param name="maxpipe">size of max. pipe stages, can't be greater than 8</param>
+            <param name="maxpipe">size of max. pipe stages, can't be greater than <see cref="F:EU.CqrXs.Util.Constants.MAX_PIPE_LEN"/></param>
             <param name="encType"><see cref="P:EU.CqrXs.Crypt.Cipher.CipherPipe.EncodeType"/></param>
             <param name="zpType"><see cref="T:EU.CqrXs.Zip.ZipType"/></param>
             <param name="kh"><see cref="T:EU.CqrXs.Crypt.Hash.KeyHash"/></param>
@@ -1116,6 +1116,11 @@
             </list>
             </remarks>
         </member>
+        <member name="F:EU.CqrXs.Crypt.Cipher.SecureCipherPipe.secureHashes">
+            <summary>
+            <see cref="T:KeyHash[]"/> array of 16 keyhashes (not empty)
+            </summary>
+        </member>
         <member name="M:EU.CqrXs.Crypt.Cipher.SecureCipherPipe.#ctor">
             <summary>
             parameterless default constructor for <see cref="T:EU.CqrXs.Crypt.Cipher.SecureCipherPipe"/>
@@ -1126,7 +1131,7 @@
             SecureCipherPipe constructor with an array of <see cref="T:CipherEnum[]"/> as inpipe
             </summary>
             <param name="cipherEnums">array of <see cref="T:CipherEnum[]"/> as inpipe</param>
-            <param name="maxpipe">size of max. pipe stages, can't be greater than 8</param>
+            <param name="maxpipe">size of max. pipe stages, can't be greater than <see cref="F:EU.CqrXs.Util.Constants.MAX_PIPE_LEN"/></param>
             <param name="cmode2"><see cref="T:EU.CqrXs.Crypt.Cipher.CipherMode2"/></param>
         </member>
         <member name="M:EU.CqrXs.Crypt.Cipher.SecureCipherPipe.#ctor(System.String[],System.UInt32,EU.CqrXs.Crypt.Cipher.CipherMode2)">
@@ -1975,6 +1980,11 @@
               Looks up a localized resource of type System.Drawing.Bitmap.
             </summary>
         </member>
+        <member name="P:EU.CqrXs.Properties.Resource.arrow_right_8">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
         <member name="P:EU.CqrXs.Properties.Resource.arrow_right_9">
             <summary>
               Looks up a localized resource of type System.Drawing.Bitmap.
@@ -2010,22 +2020,22 @@
               Looks up a localized resource of type System.Drawing.Bitmap.
             </summary>
         </member>
-        <member name="P:EU.CqrXs.Properties.Resource.Blank640x96">
-            <summary>
-              Looks up a localized resource of type System.Drawing.Bitmap.
-            </summary>
-        </member>
         <member name="P:EU.CqrXs.Properties.Resource.BlankDecrypt_640x108">
             <summary>
               Looks up a localized resource of type System.Drawing.Bitmap.
             </summary>
         </member>
-        <member name="P:EU.CqrXs.Properties.Resource.BlankEncrypt_640x108">
+        <member name="P:EU.CqrXs.Properties.Resource.BlankDecrypt_920x108">
             <summary>
               Looks up a localized resource of type System.Drawing.Bitmap.
             </summary>
         </member>
         <member name="P:EU.CqrXs.Properties.Resource.BlankEncrypt_640x96">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:EU.CqrXs.Properties.Resource.BlankEncrypt_920x108">
             <summary>
               Looks up a localized resource of type System.Drawing.Bitmap.
             </summary>
@@ -2107,7 +2117,8 @@
         </member>
         <member name="P:EU.CqrXs.Properties.Resource.fortune_u8">
              <summary>
-               Looks up a localized string similar to Debian Hint #1: You can report a bug in a package with the &apos;reportbug&apos; command,
+               Looks up a localized string similar to  
+            Debian Hint #1: You can report a bug in a package with the &apos;reportbug&apos; command,
             which is available in the reportbug package, either from the command-line or
             with the new graphical frontend (available running &apos;reportbug --ui gtk&apos; or in
             the menu).
@@ -2117,7 +2128,7 @@
             The &apos;configure-debian&apos; package provides a unified front end for doing this,
             as well.
             %
-            Debian Hint #3: You  [rest of string was truncated]&quot;;.
+            Debian Hint #3: Y [rest of string was truncated]&quot;;.
              </summary>
         </member>
         <member name="P:EU.CqrXs.Properties.Resource.github_uri">

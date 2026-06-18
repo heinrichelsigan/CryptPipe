@@ -22,9 +22,9 @@ namespace EU.CqrXs.Console
         CipherAlgos = 0x5,
         Encode = 0x6,
         OutP = 0x7,
-        DeCrypt = 0x8,
+        DeCrypt = 0x10,
         // SymmCipher = 0x9,
-        SecureCipher = 0x10,
+        SecureCipher = 0x11,
         Mode = 0xa,
         Verbose = 0xe,
         Help = 0xf

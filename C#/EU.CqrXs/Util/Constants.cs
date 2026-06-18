@@ -17,7 +17,7 @@ namespace EU.CqrXs.Util
         public const int BACKLOG = 8;
         public const int CHAT_PORT = 7777;
         public const int MAX_KEY_LEN = 4096;
-        public const int MAX_PIPE_LEN = 8;
+        public const int MAX_PIPE_LEN = 0x10;
         public const int MAX_SERVER_SOCKET_ADDRESSES = 16;
         public const int CLOSING_TIMEOUT = 6000;
         public const int MIN_SOCKET_BYTE_BUFFEER = 65536;       // 64 KB Buffer
@@ -27,6 +27,10 @@ namespace EU.CqrXs.Util
         public const int BGWORKWE_BUSYWAITING_SLEEP = 360000;
         public const bool CQR_ENCRYPT = true;
         public const bool ZEN_MATRIX_SYMMETRIC = false;
+
+        public const int PIPE_IMG_HEIGHT = 108;
+        public const int PIPE_IMG_WIDTH = 920;
+
 
         public const char ANNOUNCE = ':';
         public const char DATE_DELIM = '-';

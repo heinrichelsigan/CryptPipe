@@ -15,7 +15,7 @@ namespace EU.CqrXs.Test
             {
                 if (string.IsNullOrEmpty(systemDirPath))
                 {
-                    for (int sysDirTry = 0; sysDirTry < 8; sysDirTry++)
+                    for (int sysDirTry = 0; sysDirTry < Constants.MAX_PIPE_LEN; sysDirTry++)
                     {
                         try
                         {
