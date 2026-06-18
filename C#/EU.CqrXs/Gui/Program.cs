@@ -2,7 +2,6 @@
 using EU.CqrXs.Util;
 using EU.CqrXs.Gui.Forms;
 
-
 namespace EU.CqrXs.Gui
 {
     #region enum FormMode

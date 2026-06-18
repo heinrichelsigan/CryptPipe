@@ -252,6 +252,16 @@ namespace EU.CqrXs.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BlankEncrypt_640x108 {
+            get {
+                object obj = ResourceManager.GetObject("BlankEncrypt_640x108", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BlankEncrypt_640x96 {
             get {
                 object obj = ResourceManager.GetObject("BlankEncrypt_640x96", resourceCulture);

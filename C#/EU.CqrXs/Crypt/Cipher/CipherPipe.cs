@@ -940,21 +940,19 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <returns><see cref="Image">the image</see></returns>
         public virtual Image GenerateEncryptPipeImage()
         {
-            System.Drawing.Bitmap mergeimg = new Bitmap(Properties.Resource.BlankEncrypt_920x108, new Size(Constants.PIPE_IMG_WIDTH, Constants.PIPE_IMG_HEIGHT)), ximage;
-            System.Drawing.Bitmap? gifStartImage = new Bitmap(Properties.Resource.BlankEncrypt_920x108, new Size(Constants.PIPE_IMG_WIDTH, Constants.PIPE_IMG_HEIGHT));
+            System.Drawing.Bitmap mergeimg = new Bitmap(Properties.Resource.BlankEncrypt_640x108, new Size(Constants.PIPE_IMG_WIDTH, Constants.PIPE_IMG_HEIGHT)), ximage;
+            System.Drawing.Bitmap? gifStartImage = new Bitmap(Properties.Resource.BlankEncrypt_640x108, new Size(Constants.PIPE_IMG_WIDTH, Constants.PIPE_IMG_HEIGHT));
             List<Bitmap> bitmaps = new List<Bitmap>();
 
             string bmpName = "";
-            int w = 60, offset = 0, startset = 0;
+            int w = Constants.PIPE_IMG_WIDTH_OFFSET, offset = 0, startset = 0;
             if (this.ZType != EU.CqrXs.Zip.ZipType.None)
             {
                 using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergeimg))
                 {
-                    w = 57;
-
+                    w = Constants.PIPE_IMG_WIDTH_OFFSET;
                     ximage = new Bitmap(Properties.Resource.block_arrow_right_zip, new Size(64, 64));
                     g.DrawImage(ximage, new System.Drawing.Rectangle(0, 20, w, 64));
-
                     string drawString = this.ZType.ToString();
                     Font drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
                     SolidBrush drawBrush = new SolidBrush(ColorTranslator.FromHtml("#df0fef"));
@@ -963,7 +961,6 @@ namespace EU.CqrXs.Crypt.Cipher
                     StringFormat drawFormat = new StringFormat();
                     drawFormat.FormatFlags = StringFormatFlags.FitBlackBox;
                     g.DrawString(drawString, drawFont, drawBrush, x, y, drawFormat);
-
                     offset += w;
                     startset += w;
                 }
@@ -977,14 +974,13 @@ namespace EU.CqrXs.Crypt.Cipher
             {
                 using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergeimg))
                 {
-                    w = 57;
-                    char ch = this.InPipe[i].GetCipherChar();
-
-                    bmpName = bmpName = string.Format("arrow_right-{0:x1}", i);
+                    w = Constants.PIPE_IMG_WIDTH_OFFSET;
+                    char ch = this.InPipe[i].GetCipherChar();                    
+                    bmpName = bmpName = string.Format("arrow_right-{0:1}", i);
+                    // bmpName = bmpName = string.Format("arrow_right-{0:x1}", i);
                     object obj = Properties.Resource.ResourceManager.GetObject(bmpName, CultureInfo.CurrentCulture);
                     ximage = new Bitmap(((System.Drawing.Bitmap)(obj)));
                     g.DrawImage(ximage, new System.Drawing.Rectangle(offset, 20, w, 64));
-
                     offset += w;
                 }
                 if (gifStartImage == null)
@@ -992,14 +988,12 @@ namespace EU.CqrXs.Crypt.Cipher
                 bitmaps.Add(new Bitmap(mergeimg, Constants.PIPE_IMG_WIDTH, Constants.PIPE_IMG_HEIGHT));
             }
 
-
             offset = startset;
 
             using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergeimg))
             {
                 for (int i = 0; (i < this.InPipe.Length); i++)
                 {
-
                     Color color = (i < 5) ? ColorTranslator.FromHtml("#0000ee") : ColorTranslator.FromHtml("#0000dd");
                     string drawString = this.InPipe[i].ToString();
                     Font drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Regular);
@@ -1023,7 +1017,6 @@ namespace EU.CqrXs.Crypt.Cipher
                     StringFormat drawFormat = new StringFormat();
                     drawFormat.FormatFlags = StringFormatFlags.FitBlackBox;
                     g.DrawString(drawString, drawFont, drawBrush, x, y, drawFormat);
-
                     offset += w;
                 }
             }
@@ -1034,7 +1027,7 @@ namespace EU.CqrXs.Crypt.Cipher
             {
                 using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergeimg))
                 {
-                    w = 57;
+                    w = Constants.PIPE_IMG_WIDTH_OFFSET;
                     ximage = new Bitmap(Properties.Resource.encoding_right_end_0, new Size(64, 64));
                     g.DrawImage(ximage, new System.Drawing.Rectangle(offset, 20, w, 64));
                     string drawString = this.EncodeType.ToString();
@@ -1050,14 +1043,16 @@ namespace EU.CqrXs.Crypt.Cipher
                 gifStartImage = new Bitmap(mergeimg, Constants.PIPE_IMG_WIDTH, Constants.PIPE_IMG_HEIGHT);
             }
 
+            #region commented out animated gif encoder
             //TimeSpan ts = new TimeSpan(0, 0, 0, 0, 125);
             //GifEncoder gifAnimEncoder = new GifEncoder(bitmaps.ToArray(), 1, ts);
             //Bitmap animGif = new Bitmap(gifAnimEncoder._memoryStream, false);
             //return animGif;
             // animGif.Save("H:\\tmp\\" + DateTime.Now.ToString("yyyy-MM-DD_hhmmss") + ".gif");
             // gifAnimEncoder.Dispose();
-            return gifStartImage;
+            #endregion commented out animated gif encoder
 
+            return gifStartImage;
         }
 
         /// <summary>
@@ -1066,18 +1061,17 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <returns><see cref="Image">the image</see></returns>
         public virtual Image GenerateDecryptPipeImage()
         {
-            System.Drawing.Bitmap mergeimg = new Bitmap(Properties.Resource.BlankDecrypt_920x108, new Size(Constants.PIPE_IMG_WIDTH, Constants.PIPE_IMG_HEIGHT)), ximage;
+            System.Drawing.Bitmap mergeimg = new Bitmap(Properties.Resource.BlankDecrypt_640x108, new Size(Constants.PIPE_IMG_WIDTH, Constants.PIPE_IMG_HEIGHT)), ximage;
             // mergeimg = new Bitmap(Constants.PIPE_IMG_WIDTH,  Constants.PIPE_IMG_HEIGHT);
             string bmpName = "";
             using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergeimg))
             {
-                int w = 64, offset = 0, startset = 0;
+                int w = Constants.PIPE_IMG_WIDTH_OFFSET, offset = 0, startset = 0;
                 if (this.EncodeType != EU.CqrXs.Crypt.EnDeCoding.EncodingType.None)
                 {
-                    w = 57;
+                    w = Constants.PIPE_IMG_WIDTH_OFFSET;
                     ximage = new Bitmap(Properties.Resource.encoding_right_0, new Size(64, 64));
                     g.DrawImage(ximage, new System.Drawing.Rectangle(offset, 20, w, 64));
-
                     string drawString = this.EncodeType.ToString();
                     Font drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Regular);
                     SolidBrush drawBrush = new SolidBrush(ColorTranslator.FromHtml("#fa0ade"));
@@ -1086,31 +1080,28 @@ namespace EU.CqrXs.Crypt.Cipher
                     StringFormat drawFormat = new StringFormat();
                     drawFormat.FormatFlags = StringFormatFlags.FitBlackBox;
                     g.DrawString(drawString, drawFont, drawBrush, x, y, drawFormat);
-
                     offset += w;
                     startset += w;
                 }
 
                 for (int i = 0; (i < this.OutPipe.Length); i++)
                 {
-                    w = 57;
-                    int r = 0xf - i;
+                    w = Constants.PIPE_IMG_WIDTH_OFFSET;
+                    int r = Constants.PIPE_REVERSE_FROM - i;
                     char ch = this.OutPipe[i].GetCipherChar();
-
-                    bmpName = string.Format("arrow_right-{0:x1}", r);
+                    bmpName = string.Format("arrow_right-{0:1}", r);
+                    //bmpName = string.Format("arrow_right-{0:x1}", r);
                     object obj = Properties.Resource.ResourceManager.GetObject(bmpName, CultureInfo.CurrentCulture);
                     ximage = new Bitmap(((System.Drawing.Bitmap)(obj)), new Size(64, 64));
                     g.DrawImage(ximage, new System.Drawing.Rectangle(offset, 20, w, 64));
-
                     offset += w;
                 }
 
                 offset = startset;
                 for (int i = 0; (i < this.OutPipe.Length); i++)
                 {
-                    w = 57;
-                    int r = 0xf - i;
-
+                    w = Constants.PIPE_IMG_WIDTH_OFFSET;
+                    int r = Constants.PIPE_REVERSE_FROM - i;
                     Color color = (i < 4) ? ColorTranslator.FromHtml("#2200aa") : ColorTranslator.FromHtml("#0000dd");
                     string drawString = this.OutPipe[i].ToString();
                     Font drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Regular);
@@ -1134,16 +1125,14 @@ namespace EU.CqrXs.Crypt.Cipher
                     StringFormat drawFormat = new StringFormat();
                     drawFormat.FormatFlags = StringFormatFlags.NoWrap;
                     g.DrawString(drawString, drawFont, drawBrush, x, y, drawFormat);
-
                     offset += w;
                 }
 
                 if (this.ZType != EU.CqrXs.Zip.ZipType.None)
                 {
-                    w = 57;
+                    w = Constants.PIPE_IMG_WIDTH_OFFSET;
                     ximage = new Bitmap(Properties.Resource.compress_right_end_0, new Size(64, 64));
                     g.DrawImage(ximage, new System.Drawing.Rectangle(offset, 20, w, 64));
-
                     string drawString = this.ZType.GetUnzipString();
                     Font drawFont = new Font("Microsoft Sans Serif", 12, FontStyle.Regular);
                     SolidBrush drawBrush = new SolidBrush(ColorTranslator.FromHtml("#fa0ade"));
@@ -1152,10 +1141,8 @@ namespace EU.CqrXs.Crypt.Cipher
                     StringFormat drawFormat = new StringFormat();
                     drawFormat.FormatFlags = StringFormatFlags.FitBlackBox;
                     g.DrawString(drawString, drawFont, drawBrush, x, y, drawFormat);
-
                     offset += w;
                 }
-
             }
 
             return mergeimg;
@@ -1163,10 +1150,12 @@ namespace EU.CqrXs.Crypt.Cipher
 
         #endregion graphics bmp creation
 
+        #region old code out commented
         //public static CipherEnum SymmCipherToCipher(SymmCipherEnum sCipher)
         //{
         //    return sCipher.ToCipherEnum();
         //}
+        #endregion old code out commented
 
     }
 
