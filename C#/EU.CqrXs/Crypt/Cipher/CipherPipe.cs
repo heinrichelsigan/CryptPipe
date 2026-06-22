@@ -975,9 +975,8 @@ namespace EU.CqrXs.Crypt.Cipher
                 using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(mergeimg))
                 {
                     w = Constants.PIPE_IMG_WIDTH_OFFSET;
-                    char ch = this.InPipe[i].GetCipherChar();                    
-                    bmpName = bmpName = string.Format("arrow_right-{0:1}", i);
-                    // bmpName = bmpName = string.Format("arrow_right-{0:x1}", i);
+                    char ch = this.InPipe[i].GetCipherChar();
+                    bmpName = $"arrow_right-{i:x1}";
                     object obj = Properties.Resource.ResourceManager.GetObject(bmpName, CultureInfo.CurrentCulture);
                     ximage = new Bitmap(((System.Drawing.Bitmap)(obj)));
                     g.DrawImage(ximage, new System.Drawing.Rectangle(offset, 20, w, 64));
@@ -1089,8 +1088,7 @@ namespace EU.CqrXs.Crypt.Cipher
                     w = Constants.PIPE_IMG_WIDTH_OFFSET;
                     int r = Constants.PIPE_REVERSE_FROM - i;
                     char ch = this.OutPipe[i].GetCipherChar();
-                    bmpName = string.Format("arrow_right-{0:1}", r);
-                    //bmpName = string.Format("arrow_right-{0:x1}", r);
+                    bmpName = $"arrow_right-{r:x1}";
                     object obj = Properties.Resource.ResourceManager.GetObject(bmpName, CultureInfo.CurrentCulture);
                     ximage = new Bitmap(((System.Drawing.Bitmap)(obj)), new Size(64, 64));
                     g.DrawImage(ximage, new System.Drawing.Rectangle(offset, 20, w, 64));
