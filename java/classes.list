@@ -621,6 +621,15 @@ META-INF/MANIFEST.MF
 ./eu/cqrxs/gui/img/xtea.png
 ./eu/cqrxs/gui/img/des3.png
 ./eu/cqrxs/gui/img/encode_hex16.png
+./eu/cqrxs/gui/img/decode_base16.png
+./eu/cqrxs/gui/img/decode_base32.png
+./eu/cqrxs/gui/img/decode_base64.png
+./eu/cqrxs/gui/img/decode_hex16.png
+./eu/cqrxs/gui/img/decode_hex32.png
+./eu/cqrxs/gui/img/decode_hex64.png
+./eu/cqrxs/gui/img/decode_ascii85.png
+./eu/cqrxs/gui/img/decode_uu.png
+./eu/cqrxs/gui/img/decode_xx.png
 ./eu/cqrxs/gui/img/encrypted.png
 ./eu/cqrxs/gui/img/cqrxs-eu.jpg
 ./eu/cqrxs/gui/img/keyHash.gif

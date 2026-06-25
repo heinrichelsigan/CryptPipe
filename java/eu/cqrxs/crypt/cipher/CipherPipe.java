@@ -985,11 +985,24 @@ public class CipherPipe {
 
         if (pipe.encodeType != EncodeEnum.None) {
             BufferedImage imgDecoding = new BufferedImage(80, 96, BufferedImage.TYPE_INT_ARGB);
-            try {
-                imgDecoding = ImageHelper.getJarIncludedImage(path + "decodingasciitobin.png");
+            String decodeFileName = "decode_";
+			try {
+                switch (pipe.encodeType) {
+                    case EncodeEnum.Hex16:  decodeFileName += "hex16.png"; break;
+                    case EncodeEnum.Hex32:  decodeFileName += "hex32.png"; break;
+                    case EncodeEnum.Hex64:  decodeFileName += "hex64.png"; break;
+                    case EncodeEnum.Base16:  decodeFileName += "base16.png"; break;
+                    case EncodeEnum.Base32:  decodeFileName += "base32.png"; break;
+                    case EncodeEnum.Base64:  decodeFileName += "base64.png"; break;
+                    case EncodeEnum.Uu:  decodeFileName += "uu.png"; break;
+                    case EncodeEnum.Xx:  decodeFileName += "xx.png"; break;
+                    case EncodeEnum.Ascii85:  decodeFileName += "ascii85.png"; break;
+                    default: decodeFileName = "decodingasciitobin.png"; break;
+                }
+                imgDecoding = ImageHelper.getJarIncludedImage(path + decodeFileName);
             } catch (Exception exImageDecoding) {
                 DbgWriter.msgex(exImageDecoding, true);
-            }
+            }			
             g.drawImage(imgDecoding, xoffset, 0, null);
             xoffset += 80;
         } else {
