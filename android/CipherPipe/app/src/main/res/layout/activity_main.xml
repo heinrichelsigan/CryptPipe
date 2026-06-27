@@ -17,9 +17,8 @@
             android:id="@+id/imgViewCipherPipe"
             android:layout_width="640dp"
             android:layout_height="96dp"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
-
+            android:scaleX="1"
+            android:scaleY="1"
             android:src="@drawable/cipherpipeblank"
             />
     </LinearLayout>
