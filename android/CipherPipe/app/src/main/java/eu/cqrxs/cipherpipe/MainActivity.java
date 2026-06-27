@@ -283,6 +283,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        if (firstTimeInitEncodings)
+            spinnerHash.setSelection(0);
 
         if (adapterEndoding == null)
             adapterEndoding = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, encodingStrings);
@@ -308,7 +310,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         if (firstTimeInitEncodings) {
-            spinnerEncode.setSelection(7);
+            spinnerEncode.setSelection(6);
             firstTimeInitEncodings = false;
         }
 

@@ -5,18 +5,18 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-	android:layout_marginTop="24dp"
     tools:context=".MainActivity">
 
     <LinearLayout
         android:id="@+id/cp"
         android:tag="@string/f_cipherpipe"
         android:layout_width="612dp"
-        android:layout_height="72dp">
+        android:layout_height="84dp">
         <ImageView
             android:id="@+id/imgViewCipherPipe"
             android:layout_width="600dp"
             android:layout_height="60dp"
+            android:layout_marginTop="24dp"
             android:scaleX="1"
             android:scaleY="1"
             android:src="@drawable/cipherpipeblank"
@@ -31,7 +31,7 @@
 		android:columnCount="2"
 		android:orientation="vertical"
 		android:rowCount="6"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="84dp"
 		android:stretchMode="columnWidth"
         tools:ignore="MissingConstraints">
 
@@ -41,7 +41,7 @@
 			android:layout_width="216dp"
 			android:layout_height="80dp"
 			android:orientation="vertical"
-            android:layout_marginTop="72dp"
+            android:layout_marginTop="84dp"
 			android:layout_row="0"
 			android:layout_column="0">
             <ImageButton
@@ -67,7 +67,7 @@
 			android:tag="@string/f_a1"
 			android:layout_width="184dp"
 			android:layout_height="80dp"
-            android:layout_marginTop="72dp"
+            android:layout_marginTop="84dp"
 			android:orientation="vertical"
 			android:layout_row="0"
 			android:layout_column="1">
