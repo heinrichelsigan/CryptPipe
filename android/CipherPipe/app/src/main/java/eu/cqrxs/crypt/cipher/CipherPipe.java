@@ -880,7 +880,7 @@ public class CipherPipe {
 
         Bitmap combined = Bitmap.createBitmap(width, h, Bitmap.Config.ARGB_8888);
         // paint both images, preserving the alpha channels
-        Canvas cv = new Canvas(imgPipeBlank);
+        Canvas cv = new Canvas(combined);
         // Canvas cv = new Canvas(imgPipeBlank);
 
         try {
@@ -1003,7 +1003,7 @@ public class CipherPipe {
         // cv.setBitmap(combined);
         // Save as new image
         // ImageIO.write(combined, "PNG", new File(path, "combined.png"));
-        return imgPipeBlank;
+        return combined;
     }
 
     /**
@@ -1083,6 +1083,8 @@ public class CipherPipe {
             xoffset += w;
         }
 
+        double sx = (double)((double)8/(double)10);
+        g.scale((float)sx, (float)sx, (float)width, (float)h);
         g.save();
 
         // Save as new image
