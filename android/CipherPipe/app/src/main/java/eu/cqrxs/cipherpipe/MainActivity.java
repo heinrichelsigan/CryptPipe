@@ -284,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         if (firstTimeInitEncodings)
-            spinnerHash.setSelection(0);
+            spinnerHash.setSelection(4);
 
         if (adapterEndoding == null)
             adapterEndoding = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, encodingStrings);
