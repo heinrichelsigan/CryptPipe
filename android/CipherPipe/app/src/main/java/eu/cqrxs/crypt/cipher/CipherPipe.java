@@ -1000,10 +1000,10 @@ public class CipherPipe {
 
         // cv.saveLayer(0 , 0, xoffset, h, paint);
         cv.save();
-        cv.setBitmap(combined);
+        // cv.setBitmap(combined);
         // Save as new image
         // ImageIO.write(combined, "PNG", new File(path, "combined.png"));
-        return combined;
+        return imgPipeBlank;
     }
 
     /**
