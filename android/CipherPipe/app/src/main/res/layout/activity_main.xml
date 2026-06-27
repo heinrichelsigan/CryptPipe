@@ -5,18 +5,18 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-	android:layout_marginTop="10dp"
+	android:layout_marginTop="12dp"
     tools:context=".MainActivity">
 
     <LinearLayout
         android:id="@+id/cp"
         android:tag="@string/f_cipherpipe"
-        android:layout_width="640dp"
-        android:layout_height="96dp">
+        android:layout_width="612dp"
+        android:layout_height="72dp">
         <ImageView
             android:id="@+id/imgViewCipherPipe"
-            android:layout_width="640dp"
-            android:layout_height="96dp"
+            android:layout_width="600dp"
+            android:layout_height="60dp"
             android:scaleX="1"
             android:scaleY="1"
             android:src="@drawable/cipherpipeblank"
@@ -31,7 +31,7 @@
 		android:columnCount="2"
 		android:orientation="vertical"
 		android:rowCount="6"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="72dp"
 		android:stretchMode="columnWidth"
         tools:ignore="MissingConstraints">
 
@@ -41,7 +41,7 @@
 			android:layout_width="216dp"
 			android:layout_height="80dp"
 			android:orientation="vertical"
-            android:layout_marginTop="96dp"
+            android:layout_marginTop="72dp"
 			android:layout_row="0"
 			android:layout_column="0">
             <ImageButton
@@ -67,7 +67,7 @@
 			android:tag="@string/f_a1"
 			android:layout_width="184dp"
 			android:layout_height="80dp"
-            android:layout_marginTop="96dp"
+            android:layout_marginTop="72dp"
 			android:orientation="vertical"
 			android:layout_row="0"
 			android:layout_column="1">
@@ -267,14 +267,14 @@
 			android:id="@+id/f0"
 			android:tag="@string/f_f0"
 			android:layout_width="204dp"
-			android:layout_height="144dp"
+			android:layout_height="180dp"
 			android:orientation="vertical"
 			android:layout_row="5"
 			android:layout_column="0">
 			<EditText
 				android:id="@+id/editTextSource"
 				android:layout_width="204dp"
-				android:layout_height="140dp"
+				android:layout_height="168dp"
 				android:layout_marginTop="2dp"
 				android:textSize="9sp"
 				android:hint="@string/enter_source_text"
@@ -285,15 +285,15 @@
 			android:id="@+id/f1"
 			android:tag="@string/f_f1"
 			android:layout_width="192dp"
-			android:layout_height="144dp"
+			android:layout_height="180dp"
 			android:orientation="vertical"
 			android:layout_row="5"
 			android:layout_column="1">
              <EditText
                 android:id="@+id/showTextDestination"
 			 	android:layout_width="192dp"
-			 	android:layout_height="140dp"
-			 	android:textSize="8sp"
+			 	android:layout_height="168dp"
+			 	android:textSize="9sp"
                 android:layout_marginTop="2dp"
                 android:hint="@string/show_text_destination"
                 android:text="@string/none"

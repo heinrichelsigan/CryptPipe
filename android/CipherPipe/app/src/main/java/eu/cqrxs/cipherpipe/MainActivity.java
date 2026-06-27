@@ -202,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
                 CipherPipe pipe = new CipherPipe(ciphers, 8, encodeType, zipType, keyHash, cmode);
                 String plain = editTextSource.getText().toString();
                 Bitmap bmp = pipe.drawCipherPipe(getBaseContext());
+                imgViewCipherPipe.clearAnimation();
                 imgViewCipherPipe.setImageBitmap(bmp);
 
                 String pipeSting = pipe.getPipeString();

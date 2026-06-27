@@ -871,24 +871,16 @@ public class CipherPipe {
      */
     public Bitmap drawCipherPipe(Context context) {
         String path = "eu/cqrxs/gui/img/";
-        Bitmap imgPipeBlank = BitmapFactory.decodeResource(context.getResources(), R.drawable.cipherpipempty);
-        /* if (pipe == null) {
-            try {
-                imgPipeBlank = BitmapFactory.decodeResource(context.getResources(), R.drawable.cipherpipeblank);
-            } catch (Exception ioex1) {
-                DbgWriter.msgex(ioex1, true);
-            }
-            return imgPipeBlank;
-        }*/
+        Bitmap imgPipeBlank = BitmapFactory.decodeResource(context.getResources(), R.drawable.cipherpipeblank);
 
         int xoffset = 0;
-        int width = 640;
+        int width = 600;
         int h = 60, w = 60;
         Paint paint = new Paint();
 
         Bitmap combined = Bitmap.createBitmap(width, h, Bitmap.Config.ARGB_8888);
         // paint both images, preserving the alpha channels
-        Canvas cv = new Canvas(combined);
+        Canvas cv = new Canvas(imgPipeBlank);
         // Canvas cv = new Canvas(imgPipeBlank);
 
         try {
@@ -1008,7 +1000,7 @@ public class CipherPipe {
 
         // cv.saveLayer(0 , 0, xoffset, h, paint);
         cv.save();
-
+        cv.setBitmap(combined);
         // Save as new image
         // ImageIO.write(combined, "PNG", new File(path, "combined.png"));
         return combined;
@@ -1023,7 +1015,7 @@ public class CipherPipe {
     public Bitmap drawDecryptCipherPipe(Context context) {
 
         int xoffset = 0;
-        int width = 640;
+        int width = 600;
         int h = 60, w = 60;
         Bitmap imgPipeBlank = BitmapFactory.decodeResource(context.getResources(), R.drawable.cipherpipempty);
         Bitmap combined = Bitmap.createBitmap(width, h, Bitmap.Config.ARGB_8888);
