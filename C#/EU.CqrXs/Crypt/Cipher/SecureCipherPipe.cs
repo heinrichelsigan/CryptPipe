@@ -83,7 +83,7 @@ namespace EU.CqrXs.Crypt.Cipher
             inPipe = (new List<CipherEnum>()).ToArray();
             encodeType = EncodingType.Base64;
             zType = ZipType.GZip;
-            CMode2 = CipherMode2.ECB;
+            CMode2 = CiffreMode.defaultCipherMode2;
         }
 
 
@@ -209,7 +209,7 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="key"></param>
         /// <param name="verbose"></param>
         public SecureCipherPipe(string key, bool verbose = false)
-            : this(key, CipherMode2.ECB, verbose)
+            : this(key, CiffreMode.defaultCipherMode2, verbose)
         {
             cipherKeyHash = key;
             cipherKey = cipherKeyHash;
