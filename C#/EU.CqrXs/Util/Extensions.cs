@@ -1425,7 +1425,7 @@ namespace EU.CqrXs.Util
                 }
             }
 
-            CipherMode2[] cmodes2 = { CipherMode2.CBC, CipherMode2.CFB, CipherMode2.CMC, CipherMode2.CTS, CipherMode2.ECB, CipherMode2.GOFB };
+            CipherMode2[] cmodes2 = { CipherMode2.CBC, CipherMode2.CFB, CipherMode2.CCM, CipherMode2.CTS, CipherMode2.ECB, CipherMode2.GOFB };
             CipherMode2 cmode2 = CipherMode2.CFB;
             ZipType[] zipTypes = { ZipType.BZip2, ZipType.GZip, ZipType.Zip };
             ZipType zipTyp = ZipType.None;
@@ -1589,7 +1589,7 @@ namespace EU.CqrXs.Util
             } while (dotIdx >= 0);
 
             CipherMode2 cMode2 = CipherMode2.CFB;
-            CipherMode2[] cModes2 = { CipherMode2.CBC, CipherMode2.CFB, CipherMode2.CMC, CipherMode2.CTS, CipherMode2.ECB, CipherMode2.GOFB };
+            CipherMode2[] cModes2 = { CipherMode2.CBC, CipherMode2.CFB, CipherMode2.CCM, CipherMode2.CTS, CipherMode2.ECB, CipherMode2.GOFB };
             ZipType zipTyp = ZipType.None;
             KeyHash kHash = KeyHash.Hex;
             EncodingType eType = EncodingType.None;

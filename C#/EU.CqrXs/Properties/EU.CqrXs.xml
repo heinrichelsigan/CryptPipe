@@ -68,7 +68,7 @@
             parses pipe semicolon separated pipe string to CipherList
             </summary>
             <param name="text">semicolon separated pipe string to CipherList </param>
-            <returns><see cref="T:CipherMode"/> array of ciphers for the pipe</returns>
+            <returns><see cref="T:CipherMode2"/> array of ciphers for the pipe</returns>
         </member>
         <member name="T:EU.CqrXs.Crypt.Cipher.CipherEnum">
             <summary>
