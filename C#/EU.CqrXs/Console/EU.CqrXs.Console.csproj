@@ -10,15 +10,15 @@
     <InvariantGlobalization>True</InvariantGlobalization>
 	<StripSymbols>False</StripSymbols>
     <StartupObject>EU.CqrXs.Console.Program</StartupObject>
-    <ApplicationIcon>SatIcon.ico</ApplicationIcon>
+    <ApplicationIcon>ConsoleIcon.ico</ApplicationIcon>
     <PublishTrimmed>True</PublishTrimmed>
     <Title>EU.CqrXs.Console</Title>
     <Description>EU.CqrXs.Console</Description>
     <Copyright>Copyright © 2000-2040 Copyleft https://cqrxs.eu</Copyright>
     <PackageProjectUrl>https://cqrxs.eu/download/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/heinrichelsigan/PermAgainCrypt</RepositoryUrl>
-    <AssemblyVersion>2.26.703</AssemblyVersion>
-    <FileVersion>2.26.703</FileVersion>
+    <AssemblyVersion>2.26.704</AssemblyVersion>
+    <FileVersion>2.26.704</FileVersion>
     <PackageReadmeFile>README.MD</PackageReadmeFile>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
   </PropertyGroup>
@@ -42,7 +42,7 @@
     <Content Include="README.MD">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="SatIcon.ico" />
+    <Content Include="ConsoleIcon.ico" />
   </ItemGroup>
 
   <ItemGroup>

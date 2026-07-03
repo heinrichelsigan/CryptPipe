@@ -18,8 +18,8 @@
     <Copyright>Copyleft ©  2000 - 2040</Copyright>
     <RepositoryUrl>https://github.com/heinrichelsigan/CryptPipe/</RepositoryUrl>
     <PackageProjectUrl>https://github.com/heinrichelsigan/PermAgainCrypt</PackageProjectUrl>
-    <AssemblyVersion>2.26.703</AssemblyVersion>
-	<FileVersion>2.26.703</FileVersion>
+    <AssemblyVersion>2.26.704</AssemblyVersion>
+	<FileVersion>2.26.704</FileVersion>
     <Description>Symmetric Crypt Pipe WinForm Heinrich Elsigan he@area23.at</Description>
     <StartupObject>EU.CqrXs.Gui.Program</StartupObject>
     <Title>Symmetric Crypt Permutation Pipe Form .NetCore</Title>

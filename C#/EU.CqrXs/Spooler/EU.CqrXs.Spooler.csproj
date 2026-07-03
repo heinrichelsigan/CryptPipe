@@ -10,15 +10,15 @@
     <InvariantGlobalization>True</InvariantGlobalization>
 	<StripSymbols>False</StripSymbols>
     <StartupObject>EU.CqrXs.Spooler.Program</StartupObject>
-    <ApplicationIcon>SatIcon.ico</ApplicationIcon>
+    <ApplicationIcon>SpoolerIcon.ico</ApplicationIcon>
     <PublishTrimmed>True</PublishTrimmed>
     <Title>EU.CqrXs.Spooler</Title>
     <Description>EU.CqrXs.Spooler</Description>
     <Copyright>Copyright © 2000-2040 Copyleft https://cqrxs.eu</Copyright>
     <PackageProjectUrl>https://cqrxs.eu/download/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/heinrichelsigan/PermAgainCrypt</RepositoryUrl>
-    <AssemblyVersion>2.26.703</AssemblyVersion>
-    <FileVersion>2.26.703</FileVersion>
+    <AssemblyVersion>2.26.704</AssemblyVersion>
+    <FileVersion>2.26.704</FileVersion>
     <PackageReadmeFile>README.MD</PackageReadmeFile>
   </PropertyGroup>
 
@@ -41,7 +41,7 @@
     <Content Include="README.MD">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SatIcon.ico" />
+    <Content Include="SpoolerIcon.ico" />
   </ItemGroup>
 
   <ItemGroup>
