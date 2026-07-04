@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Heinrich Elsigan" />
+  <title>CryptPipe or making symmetric block cipher meta permutating again</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    div.abstract {
+      margin: 2em 2em 2em 2em;
+      text-align: left;
+      font-size: 85%;
+    }
+    div.abstract-title {
+      font-weight: bold;
+      text-align: center;
+      padding: 0;
+      margin-bottom: 0.5em;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">CryptPipe or making symmetric block cipher meta
+permutating again</h1>
+<p class="author">Heinrich Elsigan</p>
+<div class="abstract">
+<div class="abstract-title">Abstract</div>
+<p>Hi, I’m <a href="https://heinrichelsigan.area23.at/">Heinrich
+Elsigan</a> I am interested in C#, Java, MSSQL, .Net Core, Android and
+politics, society and the future; currently working as freelancer (one
+person company) and planning a secure endpoint 2 endpoint chat and
+looking to collaborate on reviews for other repositories and projects.
+Article written in LaTeX.</p>
+<ol>
+<li><p>personal tech and political blog <a
+href="https://area23-at.blogspot.com/">blog.area23.at</a></p></li>
+<li><p>GitHub repositories <a
+href="https://github.com/heinrichelsigan">github.com/heinrichelsigan/</a></p></li>
+<li><p>StackOverflow <a
+href="https://stackoverflow.com/users/12213151/heinrich-elsigan?tab=profile">stackoverflow.com/users/12213151/heinrich-elsigan</a></p></li>
+<li><p>Curriculum vitae <a
+href="https://heinrichelsigan.area23.at/cv">heinrichelsigan.area23.at/cv</a></p></li>
+<li><p>live demo .Net <a
+href="https://area23.at/net/">area23.at/net</a></p></li>
+</ol>
+</div>
+</header>
+<h1 id="thanks-to">Thanks to</h1>
+<figure id="fig:CipherPipeline">
+<img src="./Symmetric_Cipher_Pipeline.png" style="width:100.0%" />
+<figcaption><span id="fig:CipherPipeline"
+data-label="fig:CipherPipeline"></span>Cipher Pipeline</figcaption>
+</figure>
+<p>Normally, thanks to are always at the end of each paper, but the
+people or organizations I benefited from while trying to make AES strong
+again are more important than a simple proof of concept showing that it
+works, except on my raw experimental test form.</p>
+<ol>
+<li><p>Microsoft C# .Net repositories</p>
+<ul>
+<li><p><a href="https://dot.net">dot.net</a>, git:<a
+href="https://github.com/dotnet/">dotnet</a></p></li>
+<li><p><a
+href="https://opensource.microsoft.com/">opensource.microsoft.com</a>,
+git:<a href="https://github.com/microsoft">microsoft</a></p></li>
+</ul></li>
+<li><p>Modern crypto libraries and blogs</p>
+<ul>
+<li><p><a href="https://www.bouncycastle.org/">Legion of the Bouncy
+Castle</a>, git:<a href="https://github.com/bcgit">bcgit</a></p></li>
+<li><p><a href="https://www.libtom.net/">libtom.net</a>, git:<a
+href="https://github.com/libtom/libtomcrypt">libtom/libtomcrypt</a></p></li>
+<li><p><a href="https://cryptopp.com/">cryptopp.com</a> git:<a
+href="https://github.com/weidai11/cryptopp">weidai11/cryptopp</a></p></li>
+<li><p><a href="https://schneier.com/">Bruce Schneier’s blog
+(blowfish,twofish,threefish)</a></p></li>
+<li><p><a href="https://git.lysator.liu.se/nettle/nettle">GNU
+Nettle</a></p></li>
+</ul></li>
+</ol>
+<h1 id="software">Software</h1>
+<p>Source code of PermAgainCrypt is hosted at Github. <a
+href="https://github.com/heinrichelsigan/CryptPipe/">G</a>ithub releases
+contains compiled and linked .exe files for windows, but most users
+prefer download from a separate download site <a
+href="https://cqrxs.eu/" class="uri">https://cqrxs.eu/</a>.</p>
+<h2 id="git-cyptpipe-minimalistic-repository">Git: CyptPipe minimalistic
+repository</h2>
+<p><a href="https://github.com/heinrichelsigan/CryptPipe/"
+class="uri">https://github.com/heinrichelsigan/CryptPipe/</a></p>
+<h2 id="download">Download</h2>
+<p>Go to <a href="https://cqrxs.eu/" class="uri">https://cqrxs.eu/</a>
+or <a href="https://io.cqrxs.eu/" class="uri">https://io.cqrxs.eu/</a>
+and choose latest version. You can directly go to the download area <a
+href="https://cqrxs.eu/download/"
+class="uri">https://cqrxs.eu/download/</a> or <a
+href="https://io.cqrxs.eu/download/"
+class="uri">https://io.cqrxs.eu/download/</a>. Attention, version before
+March 2025 have a 3-fish over Aes-Engine encryption bug, because 3-fish
+uses AES default block size and key length and Bouncy Castle Aes-Engine
+parameters. It works, but settings AES default engine for 3-fish, isn’t
+so serious and please download version after March 30.</p>
+<h1 id="different-forms">Different Forms</h1>
+<h2 id="documentation-online-en-decrypt-form">Documentation online
+en-/decrypt form</h2>
+<ul>
+<li><p><a
+href="https://cqrxs.eu/net/Crypt/">cqrxs.eu/net/Crypt</a></p></li>
+<li><p><a
+href="https://area23.at/net/Crypt/">area23.at/net/Crypt</a></p></li>
+</ul>
+<figure id="fig:SymmetricCipherWebForm">
+<img src="./Symmetric_Cipher_WebForm.jpg" style="width:100.0%" />
+<figcaption><span id="fig:SymmetricCipherWebForm"
+data-label="fig:SymmetricCipherWebForm"></span>Symmetric Cipher
+WebForm</figcaption>
+</figure>
+<ol>
+<li><p><em>ImageButton</em> <strong>Key</strong>: When clicking key your
+entered key will be stored temporary in session.</p></li>
+<li><p><em>Textbox</em> <strong>secret key</strong>: Enter your Email
+address and secret key.</p></li>
+<li><p><em>Buton</em> <strong>Clear</strong>: Clear and reset the entire
+form.</p></li>
+<li><p><em>DropDown</em> <strong>CipherMode2</strong> with Options
+<em>CBC</em>, <em>CFB</em> and full deterministic <em>ECB</em> (without
+IV)</p></li>
+<li><p><em>Hyperlink</em> <strong>Help</strong>: Show this help</p></li>
+<li><p><em>RadioButtonList</em> <strong>KeyHashes</strong> Choose the
+hash method to hash your secret key.</p></li>
+<li><p><em>ImageButton</em> <strong>Hash</strong>: Clicking will hash
+your key and display hashed key in textbox.</p></li>
+<li><p><em>TextBox</em> <strong>Hashtext</strong> (readonly): Displays
+your hashed key.</p></li>
+<li><p><em>Button</em> <strong>Set Pipe</strong>: sets symmetric cipher
+pipe, dependent only on your entered key</p></li>
+<li><p><em>Button</em> <strong>Hash Pipe</strong>: sets symmetric cipher
+pipe, dependent primary on calculated hash and secondary on your entered
+key.</p></li>
+<li><p><em>DropDown</em> <strong>ZipTypes</strong> Choose encryption
+type (Please only GZip or Zip or None)</p></li>
+<li><p><em>DropDown</em> <strong>CipherTypes</strong> Choose a symmetric
+cipher to add it to the symmetric cipher pipe.</p></li>
+<li><p><em>ImageButton</em> <strong>add algo</strong>: Clicking on will
+add the in c. DropDown CipherTypes selected symmetric cipher algorithm
+to CipherPipe.</p></li>
+<li><p><em>TextBox</em> <strong>CipherPipe</strong> (readonly): Displays
+the current Cipher Pipe algorithms.</p></li>
+<li><p><em>ImageButton</em> <strong>Clear Pipe</strong>: Clicking on
+will clear only the entire Cipher Pipe</p></li>
+<li><p><em>DropDown</em> <strong>EncodingTypes</strong>: Choose the
+final binary to ascii encoder, default is Base64. Beware of using
+uuencode in Web, because &lt;&gt; will be interpreted as possible html
+injection.</p></li>
+<li><p><em>Selector</em> <strong>Choose File</strong> to upload a plain
+or an encrypted file to be processed</p></li>
+<li><p><em>Label</em> <strong>Filename</strong> displays uploaded
+filename or "No file choosen."</p></li>
+<li><p><em>Button</em> <strong>Encrypt file</strong> encrypts a plain
+file with cipherpipe to an encrypted file</p></li>
+<li><p><em>Chechbox</em> <strong>encode file</strong> if checked,
+performs bin2ascii encoding at the end stage of pipeline, if not checked
+binary data after last stage of cipherpipeline will be written.</p></li>
+<li><p><em>Button</em> <strong>Decrypt file</strong> decrypts an
+encrypted uploaded file. You must care, that the settings match to the
+file, when it was encrypted</p></li>
+<li><p><em>TextArea</em> <strong>Source</strong>: paste or enter Text
+here.</p></li>
+<li><p><em>TextArea</em> <strong>Destination</strong>: (readonly) After
+clicking Encrypt or Decrypt processed text will appear in the text
+area.</p></li>
+<li><p><em>Button</em> <strong>Encrypt</strong>: Encrypts text from
+TextArea Source and displays encrypted text in <em>TextArea</em>
+<strong>Destination</strong>.</p></li>
+<li><p><em>Button</em> <strong>Random Text</strong>: Adds a short
+fortune to <em>TextArea</em> <strong>Source</strong>.</p></li>
+<li><p><em>Button</em> <strong>Decrypt</strong>: Decrypts text in
+TextArea Source and display decrypted text in TextArea
+Destination.</p></li>
+</ol>
+<h2 id="documentation-of-winform">Documentation of WinForm</h2>
+<p>You can also go directly to <a
+href="https://github.com/heinrichelsigan/PermAgainCrypt/releases">github.com/heinrichelsigan/PermAgainCrypt/releases</a>
+to download newest Gui Form x86 and x64. …</p>
+<figure id="fig:WinForm_CSharp">
+<img src="./2026-04-23_WinForm_CSharp.png" style="width:60.0%" />
+<figcaption>WinForm C#</figcaption>
+</figure>
+<figure id="fig:WinForm_Csharp">
+<img src="./2026-01-25_WinForm_CSharp.png" style="width:100.0%" />
+<figcaption><span id="fig:WinForm_Csharp"
+data-label="fig:WinForm_Csharp"></span>WinForm C#</figcaption>
+</figure>
+<h2 id="java">Java</h2>
+<h3 id="java-prerequesites-jdk-release-date-2018-installed">Java
+PreRequesites JDK release date &gt; 2018 installed</h3>
+<ol>
+<li><p>openjdk-21 to openjdk-26</p></li>
+<li><p>Oracle OpenJDK 26</p></li>
+<li><p>IBM Semeru 26 (AdoptOpenJDK OpenJ9)</p></li>
+<li><p>Amazon Coretto 26</p></li>
+<li><p>BellSoft Liberica JDK 26</p></li>
+<li><p>Eclipse Temurin (AdoptOpenJDK HotSpot)</p></li>
+<li><p>Alibaba Dragonwell 21.0.10</p></li>
+<li><p>GraalVM Community Edition 25.0.2</p></li>
+<li><p>JetBrains Runtime 25.0.2</p></li>
+<li><p>Microsoft OpenJDK 25.0.2</p></li>
+</ol>
+<figure id="fig:javax.swing.JFrame.java">
+<img src="./javax_swing_JFrame_java.jpg" style="width:50.0%" />
+<figcaption><span id="fig:javax.swing.JFrame.java"
+data-label="fig:javax.swing.JFrame.java"></span>javax.swing.JFrame.java</figcaption>
+</figure>
+<h3 id="java-using-jar-without-recompiling">Java using JAR without
+recompiling</h3>
+<p>this probably works easy on almost every system (apple not tested).
+Change into java directory of repository and then run in ternminal /
+shell:</p>
+<div class="small">
+<pre><code>java -jar eu.cqrxs.gui.jar --main-class eu.cqrxs.gui.CqrJdFrame
+echo &quot;or shorter´java -jar eu.cqrxs.gui.jar&quot;
+java -jar eu.cqrxs.gui.jar </code></pre>
+</div>
+<h3 id="java-on-windows-compile-build-launch">Java on Windows: Compile,
+build, launch</h3>
+<p>Change following lines in winmake.bat depdendent on your JDK
+installation and bouncy-castle version:</p>
+<div class="small">
+<pre><code>SET BCJAR=bcprov-lts8on-2.73.10.jar
+SET Path=%Path%;%USERPROFILE%\.jdks\openjdk-25\bin
+SET CLASSPATH=%CLASSPATH%;%USERPROFILE%\.jdks\openjdk-25\lib
+SET MYCLASSPATH=%CLASSPATH%;.\;.\%BCJAR%;.\eu\cqrxs\;.\eu\cqrxs\gui\;.\eu\cqrxs\fw\net\;.\eu\cqrxs\fw\util\;.\eu\cqrxs\fw\crypt\;.\eu\cqrxs\fw\crypt\encoding\;.\eu\cqrxs\fw\crypt\cipher\;.\eu\cqrxs\fw\crypt\hash\;</code></pre>
+</div>
+<p>run: winmake.bat, which calls finally</p>
+<div class="small">
+<pre><code>java.exe -classpath %MYCLASSPATH% eu\cqrxs\gui\CqrJdFrame.java</code></pre>
+</div>
+<h3
+id="java-on-linux-similiar-on-any-other-unix-or-unix-based-macos-on-apple">Java
+on Linux (similiar on any other Unix or unix based MacOs on Apple)</h3>
+<p>Change Makefile dependent on your JDK installation and bouncy-castle
+version, then run make</p>
+<div class="small">
+<pre><code>make clean; make all; make launch</code></pre>
+</div>
+<p>Optional change these lines in jmake.sh depdendent on your JDK
+installation and bouncy-castle version: remember: classpath seperator
+under unix is : and NOT semicolon ;</p>
+<div class="small">
+<pre><code>BCJAR=bcprov-lts8on-2.73.10.jar
+MYCLASSPATH=&quot;$CLASSPATH:./:./$BCJAR:./eu/cqrxs/:./eu/cqrxs/gui/:./eu/cqrxs/fw/net/:./eu/cqrxs/fw/util/:./eu/cqrxs/fw/crypt/:./eu/cqrxs/fw/crypt/encoding/:./eu/cqrxs/fw/crypt/cipher/:./eu/cqrxs/fw/crypt/hash/:&quot;</code></pre>
+</div>
+<p>run: sh jmake.sh, which calls finally:</p>
+<div class="small">
+<pre><code>JAVAFLAGS=--enable-native-access=ALL-UNNAMED
+java $(JAVAFLAGS) -cp $(MYCLASSPATH) eu/cqrxs/gui/CqrJdFrame.java</code></pre>
+</div>
+<h3 id="java-is-jframe-based">Java is JFrame based</h3>
+<ul>
+<li><p><a
+href="https://docs.oracle.com/javase/8/docs/api/javax/swing/JFrame.html"
+class="uri">https://docs.oracle.com/javase/8/docs/api/javax/swing/JFrame.html</a></p></li>
+<li><p><a
+href="https://github.com/openjdk-mirror/jdk7u-jdk/blob/master/src/share/classes/javax/swing/JFrame.java"
+class="uri">https://github.com/openjdk-mirror/jdk7u-jdk/blob/master/src/share/classes/javax/swing/JFrame.java</a></p></li>
+</ul>
+<h2 id="simple-mode---securecipherpipe">Simple mode -
+SecureCipherPipe</h2>
+<p>In the simple mode SecureCipherPipe is used as CipherPipe. Each stage
+of the pipe will not be encrypted with the same secure key; furthermore,
+each pipe stage will be encrypted with a secure hashed key with a
+different hash.</p>
+<figure id="fig:Simple_SecureCipherPipe">
+<img src="./Simple_SecureCipherPipe.png" style="width:100.0%" />
+<figcaption>Simple SecureCipherPipe</figcaption>
+</figure>
+<p>WebForm for simple mode is <a
+href="https://area23.at/net/Crypt/AesImprove.aspx"
+class="uri">https://area23.at/net/Crypt/AesImprove.aspx</a> or <a
+href="https://cqrxs.eu/net/Crypt/AesImprove.aspx"
+class="uri">https://cqrxs.eu/net/Crypt/AesImprove.aspx</a></p>
+<figure id="fig:WebForm_AesPipeline_Simple">
+<img src="./2026-04-23_WebForm_AesPipeline_Simple.png"
+style="width:60.0%" />
+<figcaption>WebForm AesPipeline Simple</figcaption>
+</figure>
+<p>…</p>
+<h2 id="en-decryption-between-c-java-in-simple-mode">En-/Decryption
+between C# Java in Simple mode</h2>
+<p>We can see, that simple mode is intercompatible between java and C#.
+Here you see a text encrypted in simple mode in java and decrypted in
+C#.</p>
+<figure id="fig:Java2Csharp_SimpleMode">
+<img src="./2026-02-25_SimpleModes_CsJava.png" style="width:100.0%" />
+<figcaption>En-/Decryption in simple mode between C# and
+Java</figcaption>
+</figure>
+<p>…</p>
+<h1 id="console-and-cmd-programs">Console and cmd programs</h1>
+<h2 id="windows-console">Windows Console</h2>
+<p>Download the lastest Windows Console from <a
+href="https://io.cqrxs.eu/download/EU.CqrXs.Console/">io.cqrxs.eu/download/EU.CqrXs.Console/</a></p>
+<h3 id="usage-eu.cqrxs.console.exe">Usage: EU.CqrXs.Console.exe</h3>
+<div class="small">
+<pre><code>Usage:  EU.CqrXs.Console.exe
+    -i  | --inFile= | --inText={string|EnviromentVariable} | --inStd
+    -k  | --key=passKey encrypt
+    -H  | --Hash={Blake2xs|BCrypt|CShake|Dstu7564|Hex|MD5|RipeMD256|SCrypt|Sha256|Sha512|Whirlpool|...}
+        |   default: Hex
+    -z  | --zip={gzip|bzip2|zip|none}
+        |   default: none
+    -C  | --CipherAlgost={algo1,algo2,...}
+        |   algo:
+        |     Aes,AesLight,Rijndael,Des,Des3,Dstu7624,
+        |       Aria,Camellia,CamelliaLight,Cast5,Cast6,
+        |       BlowFish,Fish2,Fish3,
+        |       Gost28147,Idea,Noekeon,
+        |       RC2,RC532,RC564,RC6,
+        |       Seed,SkipJack,Serpent,SM4,
+        |       Tea,Tnepres,XTea,
+        |       ZenMatrix,ZenMatrix2
+    -e  | --encode={raw|hex16|base16|hex32|base32|hex64|base64|uu|xx}
+        |   default: base64
+    -D  | --Decrypt [ = Inverse_Pipe_Direction ]
+    -o  | --outFile= | --outText=EnviromentVariable | --outStd
+    -S  | -simpleMode
+    -V  | --verbose
+    -?  | --gethelp</code></pre>
+</div>
+<figure id="fig:EU.CqrXs.Console.exe">
+<img src="./20260217_ConsoleText.png" style="width:100.0%" />
+<figcaption><span id="fig:EU.CqrXs.Console.exe"
+data-label="fig:EU.CqrXs.Console.exe"></span>Windows
+EU.CqrXs.Console.exe</figcaption>
+</figure>
+<h3 id="examples-eu.cqrxs.console.exe">Examples:
+EU.CqrXs.Console.exe</h3>
+<div class="small">
+<pre><code>
+EU.CqrXs.Console.exe -i=.\README.MD -e=base16 -o=.\READMD.base16
+EU.CqrXs.Console.exe -D  -i=.\READMD.base16 -e=base16 -o=.\READ_MD.txt
+
+EU.CqrXs.Console.exe -i=.\README.MD -k=Hallo -z=gzip 
+    -C=Aes,Des3,Fish3  -e=base64 -o=.\README.MD.gz.BfF.base64
+EU.CqrXs.Console.exe -D -i=.\README.MD.gz.BfF.base64 -e=base64 
+    -C=Aes,Des3,Fish3 -p=Hallo -z=gzip -o=.\READ_GUNZIP.txt
+
+EU.CqrXs.Console.exe -i=.\README.MD -z=bz -k=heinrichelsigan.area23.at 
+    -H=Whirlpool -e=hex32 -o=.\README.MD.Whirlpool.bz.Hex32
+EU.CqrXs.Console.exe -D -i=.\README.MD.Whirlpool.bz.Hex32 -e=hex32 
+    -k=heinrichelsigan.area23.at -H=Whirlpool -z=bz -o=.\READ_BUNZIP.txt
+
+EU.CqrXs.Console.exe -i=.\README.MD -z=zip -k=io.cqrxs.eu 
+    -C=Aes,Blowfish,Des3,Fish2,Fish3,Seed,Serpent,SM4 -H=SCrypt 
+    -e=uu -o=.\README.MD.SCrypt.zip.uu
+EU.CqrXs.Console.exe -D -i=.\README.MD.SCrypt.zip.uu -e=uu 
+    -k=io.cqrxs.eu -C=Aes,Blowfish,Des3,Fish2,Fish3,Seed,Serpent,SM4 
+    -H=SCrypt -z=zip -o=.\READ_UNZIP.txt
+
+EU.CqrXs.Console.exe -i=.\README.MD -S -z=zip -k=Iuno -H=BCrypt
+    -e=xx -o=.\README.MD.BCrypt.zip.xx
+EU.CqrXs.Console.exe -D -i=.\README.MD.BCrypt.zip.xx -S -e=xx -k=Iuno 
+    -H=BCrypt -z=zip -o=.\README_SYM_BCRYPT_UNZIP.txt</code></pre>
+</div>
+<h1 id="theory">Theory</h1>
+<h2 id="staged-symmetric-block-cipher-pipeline">8-staged symmetric block
+cipher pipeline</h2>
+<p>An eight staged symmetric block cipher crypto pipeline to improve
+advanced encryption standard based on meta DES, 3DES with P-Box
+S-Box.</p>
+<p>The following image shows you an example of a symmetric cipher 8
+staged encryption pipe and the corresponding decryption inverse
+pipe.</p>
+<p>Before entering the encryption pipe, the file can be zipped to avoid
+huge amount of symmetric cipher blocks and after exiting the encryption
+pipe the file can be ascii encoded with base64 mime, uuencode, xxencode
+or hex16, because symmetric chiphered binary files might lose their
+block padding.</p>
+<p>Implementation is based on my blog article: <a
+href="https://area23-at.blogspot.com/2024/04/making-symetric-chiffer-encryption.html">Making
+symmetric cipher encryption meta permutating again</a><span
+class="citation" data-cites="c1"></span>, including the follwing
+symmetric cipher algorithms:</p>
+<ul>
+<li><p><a
+href="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard">Aes</a>,
+AesLight, <a
+href="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard">Rijndael</a></p></li>
+<li><p><a href="https://www.schneier.com/">Bruce Schneier’s</a>
+BlowFish, 2-Fish, 3-Fish</p></li>
+<li><p><a
+href="https://en.wikipedia.org/wiki/Camellia_(cipher)">Camellia</a>,
+CamelliaLight</p></li>
+<li><p><a href="https://en.wikipedia.org/wiki/CAST-128">Cast5</a>,
+Cast6</p></li>
+<li><p><a href="https://nsa.gov/">National security agency’s</a> Des,
+3-Des, <a
+href="https://en.wikipedia.org/wiki/Skipjack_(cipher)">SkipJack</a></p></li>
+<li><p><a
+href="https://en.wikipedia.org/wiki/Kupyna">Dstu7624</a></p></li>
+<li><p><a
+href="https://en.wikipedia.org/wiki/GOST_(block_cipher)">Ghost</a>, <a
+href="https://en.wikipedia.org/wiki/International_Data_Encryption_Algorithm">Idea</a>,
+<a href="https://en.wikipedia.org/wiki/NOEKEON">Noekeon</a></p></li>
+<li><p><a
+href="https://de.wikipedia.org/wiki/RC2_(Blockchiffre)">RC2</a>, <a
+href="https://en.wikipedia.org/wiki/RC5">RC5</a>32, RC564, <a
+href="https://en.wikipedia.org/wiki/RC6">RC6</a></p></li>
+<li><p><a href="https://en.wikipedia.org/wiki/SEED">SEED</a>, <a
+href="https://en.wikipedia.org/wiki/SM4_(cipher)">SM4</a></p></li>
+<li><p><a
+href="https://en.wikipedia.org/wiki/Serpent_(cipher)">Serpent</a>,
+Tnepres</p></li>
+<li><p><a
+href="https://de.wikipedia.org/wiki/Tiny_Encryption_Algorithm">Tea</a>,
+<a href="https://en.wikipedia.org/wiki/XTEA">XTea</a></p></li>
+<li><p>and my own simplest symmetric block cipher alogrithms: ZenMatrix,
+ZenMatrix2</p></li>
+</ul>
+<h2
+id="what-are-advantages-and-disadvantages-of-symmetric-block-cipher">What
+are advantages and disadvantages of Symmetric Block Cipher</h2>
+<h3 id="advantages">Advantages</h3>
+<p>Since symmetric block cipher ciphers each block in the same
+encrypting way</p>
+<figure id="fig:SymmetricBlockCipherStructure">
+<img src="./SymmetricBlockCipher_Structure0.png" style="width:100.0%" />
+<figcaption><span id="fig:SymmetricBlockCipherStructure"
+data-label="fig:SymmetricBlockCipherStructure"></span>Symmetric
+BlockCipher Structure</figcaption>
+</figure>
+<p>parallel processing can be implemented quiet easy with average
+performance bust on huge multiprocessor machines.</p>
+<figure id="fig:SymmetricBlockCipherParallelism">
+<img src="./SymmetricBlockCipher_Structure1.png" style="width:100.0%" />
+<figcaption><span id="fig:SymmetricBlockCipherParallelism"
+data-label="fig:SymmetricBlockCipherParallelism"></span>Symmetric
+BlockCipher Parallelism</figcaption>
+</figure>
+<h3 id="disadvantages">Disadvantages</h3>
+<p>Since we often know concrete structure of a file header, because of
+more static tableized structure inside file header and the specific
+binary format signature (MIT magic cookie)</p>
+<p>REPLAY algorithms could be used by trying encode only the 1st
+symmetric cipher block with some heuristic headers and possible
+keys.</p>
+<figure id="fig:SymmetricBlockCipherHeader1stBlock">
+<img src="./SymmetricBlockCipher_Header_1st_Block.png"
+style="width:100.0%" />
+<figcaption><span id="fig:SymmetricBlockCipherHeader1stBlock"
+data-label="fig:SymmetricBlockCipherHeader1stBlock"></span>Symmetric
+BlockCipher Header 1st Block</figcaption>
+</figure>
+<h3
+id="most-blockcipher-algorithms-break-on-a-lot-of-0-byte-inside">Most
+blockcipher algorithms break on a lot of 0 byte inside</h3>
+<p>Most blockcipher algorithms break, when you fill a &gt; 2x BLOCKSIZE
+(byte)0 inside a text or some other file. You can generate such a NULL
+block with linux dd:</p>
+<div class="small">
+<pre><code>sudo nice -n -17 dd if=/dev/zero of=/mnt/h/zeros.txt bs=4k  count=64</code></pre>
+</div>
+<p>That is why we have added a gzip, bzip2, zip before to compress
+illegal character blocks inside the file to encrypt.</p>
+<h2 id="mathematical-theory">Mathematical theory</h2>
+<div class="large">
+<p>Consider that there are full bijective desterministic inversible
+functions,<br />
+where the inverse function of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mi>x</mi></msub><mo>=</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">y_x = F(x,...)</annotation></semantics></math>
+is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>y</mi></msub><mo>=</mo><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>y</mi><mo>,</mo><mi>.</mi><mi>.</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">x_y = f(y,..)</annotation></semantics></math><br />
+then inverse function<br />
+to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mi>x</mi></msub><mo>=</mo><mi>F</mi><mo stretchy="false" form="prefix">(</mo><mi>G</mi><mo stretchy="false" form="prefix">(</mo><mi>H</mi><mo stretchy="false" form="prefix">(</mo><mi>I</mi><mo stretchy="false" form="prefix">(</mo><mi>J</mi><mo stretchy="false" form="prefix">(</mo><mi>K</mi><mo stretchy="false" form="prefix">(</mo><mi>L</mi><mo stretchy="false" form="prefix">(</mo><mi>M</mi><mo stretchy="false" form="prefix">(</mo><mi>N</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">y_x = F( G( H( I( J( K( L( M( N(x, ...)))))))))</annotation></semantics></math><br />
+is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>y</mi></msub><mo>=</mo><mi>n</mi><mo stretchy="false" form="prefix">(</mo><mi>m</mi><mo stretchy="false" form="prefix">(</mo><mi>l</mi><mo stretchy="false" form="prefix">(</mo><mi>k</mi><mo stretchy="false" form="prefix">(</mo><mi>j</mi><mo stretchy="false" form="prefix">(</mo><mi>i</mi><mo stretchy="false" form="prefix">(</mo><mi>h</mi><mo stretchy="false" form="prefix">(</mo><mi>g</mi><mo stretchy="false" form="prefix">(</mo><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>y</mi><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">x_y = n( m( l( k( j( i( h( g( f(y,...)))))))))</annotation></semantics></math>
+.<br />
+</p>
+<p>You can see a mappings from ascii-8
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>↦</mo><annotation encoding="application/x-tex">\longmapsto</annotation></semantics></math>
+ascii-8,<br />
+also always as Matrix from R256
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>↦</mo><annotation encoding="application/x-tex">\longmapsto</annotation></semantics></math>
+R256<br />
+or hexadecimal from Rx100
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>↦</mo><annotation encoding="application/x-tex">\longmapsto</annotation></semantics></math>
+Rx100.<br />
+you can see mappings from UTF-8
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\longrightarrow</annotation></semantics></math>
+<a
+href="https://en.wikipedia.org/wiki/UTF-8#:~:text=UTF%2D8%20is%20a%20character,than%20any%20alternative%20text%20encoding.">UTF-8</a><br />
+</p>
+</div>
+<h2
+id="zenmatrix-a-simplest-possible-algortihm-to-basically-understand-symmetric-blockcipher">ZenMatrix
+a simplest possible algortihm to basically understand symmetric
+blockcipher</h2>
+<p>Starting from a no permutating 1-matrix, where projection is same as
+base, ZenMatrix generates a permutating mapping with blocksize 16 a
+matrix with only one 1 per row and column (rest is 0) to change position
+inside block and value offset.</p>
+<p><a href="https://area23.at/net/Crypt/ZenMatrixVisualize.aspx"
+class="uri">https://area23.at/net/Crypt/ZenMatrixVisualize.aspx</a></p>
+<figure id="fig:ZenMatrixVisualize">
+<img src="./2026-01-25_ZenMatrixVisualize.png" style="width:100.0%" />
+<figcaption><span id="fig:ZenMatrixVisualize"
+data-label="fig:ZenMatrixVisualize"></span>ZenMatrix
+Visualize</figcaption>
+</figure>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">x</th>
+<th style="text-align: center;">x0</th>
+<th style="text-align: center;">x1</th>
+<th style="text-align: center;">x2</th>
+<th style="text-align: center;">x3</th>
+<th style="text-align: center;">x4</th>
+<th style="text-align: center;">x5</th>
+<th style="text-align: center;">x6</th>
+<th style="text-align: center;">x7</th>
+<th style="text-align: center;">x8</th>
+<th style="text-align: center;">x9</th>
+<th style="text-align: center;">xA</th>
+<th style="text-align: center;">xB</th>
+<th style="text-align: center;">xC</th>
+<th style="text-align: center;">xD</th>
+<th style="text-align: center;">xE</th>
+<th style="text-align: center;">xF</th>
+<th style="text-align: center;"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">x0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">x1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">x2</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">x3</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">x4</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">x5</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">x6</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">x7</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">x8</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">x9</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">xA</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">xB</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">xC</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">xD</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">xE</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">xF</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p>When entering hostmaster@nic.at with hash ripemd256 and not fully
+symmetric checked, the matrix will look like this:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">x</th>
+<th style="text-align: center;">x0</th>
+<th style="text-align: center;">x1</th>
+<th style="text-align: center;">x2</th>
+<th style="text-align: center;">x3</th>
+<th style="text-align: center;">x4</th>
+<th style="text-align: center;">x5</th>
+<th style="text-align: center;">x6</th>
+<th style="text-align: center;">x7</th>
+<th style="text-align: center;">x8</th>
+<th style="text-align: center;">x9</th>
+<th style="text-align: center;">xA</th>
+<th style="text-align: center;">xB</th>
+<th style="text-align: center;">xC</th>
+<th style="text-align: center;">xD</th>
+<th style="text-align: center;">xE</th>
+<th style="text-align: center;">xF</th>
+<th style="text-align: center;">Mx</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">x0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">8</td>
+</tr>
+<tr>
+<td style="text-align: center;">x1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">7</td>
+</tr>
+<tr>
+<td style="text-align: center;">x2</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">6</td>
+</tr>
+<tr>
+<td style="text-align: center;">x3</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr>
+<td style="text-align: center;">x4</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr>
+<td style="text-align: center;">x5</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr>
+<td style="text-align: center;">x6</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr>
+<td style="text-align: center;">x7</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">E</td>
+</tr>
+<tr>
+<td style="text-align: center;">x8</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">D</td>
+</tr>
+<tr>
+<td style="text-align: center;">x9</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">A</td>
+</tr>
+<tr>
+<td style="text-align: center;">xA</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">C</td>
+</tr>
+<tr>
+<td style="text-align: center;">xB</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">9</td>
+</tr>
+<tr>
+<td style="text-align: center;">xC</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">B</td>
+</tr>
+<tr>
+<td style="text-align: center;">xD</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">F</td>
+</tr>
+<tr>
+<td style="text-align: center;">xE</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr>
+<td style="text-align: center;">xF</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+</tr>
+</tbody>
+</table>
+<h1 id="code-examples">Code Examples</h1>
+<h2 id="c-code-example">C# Code Example</h2>
+<div class="small">
+<pre><code>string s = &quot;This is another text to test CipherPipe en-/decryption.&quot;;
+string hash = KeyHash.Hex.Hash(key), key = &quot;myKey&quot;, 
+        hashIv = KeyHash.Hex.Hash(key);
+    
+// 1. C\# constructing a CipherPipe with parameter key and hash
+CipherPipe cPipe = new CipherPipe(key, hash, EncodingType.Base64,
+    ZipType.None, KeyHash.Hex, CipherMode2.CFB);
+        
+// 2. constructing with an array of ciphers, e.g. BlowFish;TwoFish;ThreeFish
+string algos = &quot;BlowFish;TwoFish;ThreeFish&quot;;
+CipherEnum[] pipeAlgos = CipherEnumExtensions.ParsePipeText(algos);
+cPipe = new CipherPipe(pipeAlgos, 8, EncodingType.Base64,
+    ZipType.None, KeyHash.Hex, CipherMode2.CFB);    
+                
+// 3. calling CipherPipe encrypt text
+string encryptext = cPipe.EncrpytTextGoRounds(s, key, hashIv, 
+    EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.CFB);
+                            
+// 4. calling CipherPipe encrypt bytes
+byte[] cbytes = cPipe.EncryptEncodeBytes(
+    System.Text.Encoding.Utf8.GetBytes(s), key, hashIv,
+    EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.CFB); 
+                        
+// 5. calling CipherPipe decrypt text
+string dcrypt = cPipe.DecryptTextRoundsGo(encryptext, key, hashIv, 
+    EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.CFB);
+                          
+// 6. calling CipherPipe decypt bytes
+byte[] outBytes = cPipe.DecodeDecrpytBytes(cbytes, key, hashIv, 
+    EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.CFB);
+                            </code></pre>
+</div>
+<h2 id="java-example">Java Example</h2>
+<div class="small">
+<pre><code>boolean reverseDirection = false; // vars we need later for cipher pipe
+ZipType zipType = ZipType.None;
+EncodeEnum encodingType = EncodeEnum.None;
+KeyHash keyHash = KeyHash.Hex;
+String inString = &quot;Hallo, byte[] inside String will converted soonly!&quot;, 
+    outString = &quot;&quot;, passKey = &quot;MySecureKey&quot;;
+String optCryptAlgos = &quot;Aes,Des,Des3,Blowfish,Fish2,Fish3&quot;;
+String[] algos = optCryptAlgos.split(&quot;,;:&quot;);   
+byte[] outBytes = null, inBytes = inString.getBytes(StandardCharsets.UTF_8);
+    
+CipherPipe pipe;  // Create cipher pipe 4 en-/decrypting
+if (passKey == null || passKey.isEmpty() || algos.length &gt; 0) {
+    pipe =  new CipherPipe(algos, Constants.MAX_PIPE_LEN,
+        encodingType, zipType, keyHash, CipherMode2.CFB); // ECB default 
+    verbout(&quot;Created pipe without passkey: &quot; + pipe.getPipeString());
+} else {
+    pipe = new CipherPipe(passKey, keyHash.hash(passKey),
+        encodingType, zipType, keyHash, CipherMode2.CFB); // ECB default
+    verbout(&quot;Created pipe with passkey=&quot; + passKey + &quot; pipe=&quot; +     
+        pipe.getPipeString());
+}
+if (!reverseDirection) { // encrypt
+    PrintPipe(pipe, reverseDirection);        
+    try { // CipherPipe encrypt encode
+        passKey = (passKey.length() == 0) ? &quot; &quot; : passKey;
+        outBytes = pipe.encryptEncodeBytes(inBytes, passKey,
+                keyHash.hash(passKey), encodingType, zipType, 
+                keyHash, CipherMode2.CFB);
+    } catch (Exception exi) {
+        exi.printStackTrace();
+    }
+    outString = new String(outBytes);
+} else { // decrypt
+    String inString = new String(inBytes);
+    PrintPipe(pipe, reverseDirection);        
+    try { // CipherPipe decode decrypt
+        passKey = (passKey == null || passKey.isEmpty()) ? &quot;&quot; : passKey;
+        outBytes = pipe.decodeDecrpytBytes(inBytes, passKey,
+            (passKey.isEmpty() ? &quot;&quot; : keyHash.hash(passKey)),
+            encodingType, zipType, keyHash, CipherMode2.CFB); 
+    } catch (Exception exi) {
+        exi.printStackTrace();
+    }
+}</code></pre>
+</div>
+<h2 id="good-luck">Good luck!</h2>
+<p>We hope you find PermAgainCrypt useful, and good luck. To contact me,
+use the contacts at <a href="https://heinrichelsigan.area23.at"
+class="uri">https://heinrichelsigan.area23.at</a>.</p>
+</body>
+</html>
