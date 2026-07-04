@@ -1365,6 +1365,22 @@ namespace EU.CqrXs.Util
                 }
             }
 
+            CipherMode2[] cmodes2 = { CipherMode2.CBC, CipherMode2.CFB, CipherMode2.CTS, CipherMode2.ECB, CipherMode2.GOFB };
+            CipherMode2 cmode2 = CipherMode2.ECB;
+            foreach (CipherMode2 cMode in cmodes2)
+            {
+                if (strippedFileName.EndsWith("." + cMode.ToString(), StringComparison.CurrentCultureIgnoreCase))
+                {
+                    cmode2 = cMode;
+                    strippedFileName = strippedFileName.Replace("." + cMode.ToString(), "");
+                }
+                else if (strippedFileName.Contains("." + cMode.ToString(), StringComparison.CurrentCultureIgnoreCase))
+                {
+                    cmode2 = cMode;
+                    strippedFileName = strippedFileName.Replace("." + cMode.ToString(), "");
+                }
+            }
+
             List<CipherEnum> cipherEnums = new List<CipherEnum>();            
             string pipeRestString = strippedFileName.Substring(strippedFileName.LastIndexOf("."));
             foreach (char ch in pipeRestString)
@@ -1378,7 +1394,7 @@ namespace EU.CqrXs.Util
 
             if (cipherEnums.Count > 0)
             {
-                cipherPipe = new CipherPipe(cipherEnums.ToArray(), Constants.MAX_PIPE_LEN, eType, zipTyp, kHash, CiffreMode.defaultCipherMode2);
+                cipherPipe = new CipherPipe(cipherEnums.ToArray(), Constants.MAX_PIPE_LEN, eType, zipTyp, kHash, cmode2);
                 if (strippedFileName.Contains("." + cipherPipe.PipeString))
                 {
                     strippedFileName = strippedFileName.Replace("." + cipherPipe.PipeString, "");
@@ -1386,7 +1402,7 @@ namespace EU.CqrXs.Util
             }
 
             if (cipherPipe == null || cipherPipe.InPipe.Length == 0)
-                cipherPipe = new CipherPipe(cipherEnums.ToArray(), Constants.MAX_PIPE_LEN, eType, zipTyp, kHash, CiffreMode.defaultCipherMode2);
+                cipherPipe = new CipherPipe(cipherEnums.ToArray(), Constants.MAX_PIPE_LEN, eType, zipTyp, kHash, cmode2);
 
             return strippedFileName;
         }
@@ -1425,8 +1441,8 @@ namespace EU.CqrXs.Util
                 }
             }
 
-            CipherMode2[] cmodes2 = { CipherMode2.CBC, CipherMode2.CFB, CipherMode2.CCM, CipherMode2.CTS, CipherMode2.ECB, CipherMode2.GOFB };
-            CipherMode2 cmode2 = CipherMode2.CFB;
+            CipherMode2[] cmodes2 = { CipherMode2.CBC, CipherMode2.CFB,  CipherMode2.CTS, CipherMode2.ECB, CipherMode2.GOFB };
+            CipherMode2 cmode2 = CipherMode2.ECB;
             ZipType[] zipTypes = { ZipType.BZip2, ZipType.GZip, ZipType.Zip };
             ZipType zipTyp = ZipType.None;
             foreach (ZipType zType in zipTypes)

@@ -41,7 +41,6 @@
     <Content Include="README.MD">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SpoolerIcon.ico" />
   </ItemGroup>
 
   <ItemGroup>

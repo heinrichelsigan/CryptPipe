@@ -183,7 +183,7 @@ namespace EU.CqrXs.Gui.Forms
             this.menuCipherModeItemECB.Checked = true;
             this.menuCipherModeItemECB.CheckState = CheckState.Checked; 
             // menuCipherModeItemCFB.Checked = true;
-            return CipherMode2.CFB;
+            return CipherMode2.ECB;
         }
 
 
