@@ -13,13 +13,12 @@ namespace EU.CqrXs.Util
 
         #region public const
 #pragma warning disable CA1707 // Identifiers should not contain underscores
-
-
+        
         public const int PIPE_MAX_LEN = 8; // 0xc; 
         public const int PIPE_IMG_HEIGHT = 108;
         public const int PIPE_IMG_WIDTH = 640; // 960; 
         public const int PIPE_IMG_WIDTH_OFFSET = 60; // 57;
-        public const int PIPE_REVERSE_FROM = 7; // 0xf;
+        public const int PIPE_REVERSE_FROM = 7; // 0xb;
         public const int PIPE_KEY_HASH_LEN = 0x10; // 0x20;
 
         public const bool CQR_ENCRYPT = true;
