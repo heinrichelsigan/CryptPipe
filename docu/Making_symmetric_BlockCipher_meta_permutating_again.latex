@@ -20,7 +20,7 @@
 \usepackage{fancyhdr}
 \usepackage{float}
 
-\title{Making symmetric block cipher meta permutating again}
+\title{CryptPipe or making symmetric block cipher meta permutating again}
 \author{Heinrich Elsigan}
 
 \begin{document}
@@ -64,11 +64,11 @@ raw experimental test form.
 \section{Software}
 
 Source code of PermAgainCrypt is hosted at Github.
-\href{https://github.com/heinrichelsigan/PermAgainCrypt/releases/}Github releases contains compiled and linked .exe files for windows, 
-but most users prefer download from a seperate download site \url{https://cqrxs.eu/}.
+\href{https://github.com/heinrichelsigan/CryptPipe/}Github releases contains compiled and linked .exe files for windows, 
+but most users prefer download from a separate download site \url{https://cqrxs.eu/}.
 
-\subsection{Git: PermAgainCrypt minimalistic repository}
-\url{https://github.com/heinrichelsigan/PermAgainCrypt/}
+\subsection{Git: CyptPipe minimalistic repository}
+\url{https://github.com/heinrichelsigan/CryptPipe/}
 
 \subsection{Download}
 Go to \url{https://cqrxs.eu/} or \url{https://io.cqrxs.eu/} and choose latest version.
@@ -656,3 +656,4 @@ currently working as freelancer (one person company) and planning a secure endpo
 
 
 \end{document}
+
