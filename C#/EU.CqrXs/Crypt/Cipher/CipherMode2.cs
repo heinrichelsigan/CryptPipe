@@ -1,4 +1,5 @@
 ﻿using EU.CqrXs.Zip;
+using Org.BouncyCastle.Crypto.Utilities;
 using System.ComponentModel;
 using System.Security.Cryptography;
 
@@ -26,7 +27,7 @@ namespace EU.CqrXs.Crypt.Cipher
     /// </list>
     /// </remarks>
     [Serializable]
-    [DefaultValue("CFB")]
+    [DefaultValue("ECB")]
     public enum CipherMode2 : byte
     {
         CBC = 0x0,
@@ -45,14 +46,18 @@ namespace EU.CqrXs.Crypt.Cipher
     [Serializable]
     public struct CiffreMode
     {
+
+        public static readonly CipherMode defaultCipherMode = CipherMode.ECB;
+        public static readonly CipherMode2 defaultCipherMode2 = CipherMode2.ECB;
+
         public static CipherMode CMode { get; internal set; }
 
         public static CipherMode2 CMode2 { get; internal set; }
 
         public CiffreMode()
         {
-            CMode = CipherMode.ECB;
-            CMode2 = CipherMode2.ECB;
+            CMode = defaultCipherMode;
+            CMode2 = defaultCipherMode2;
         }
 
         public CiffreMode(CipherMode2 cipherMode2)
@@ -97,7 +102,7 @@ namespace EU.CqrXs.Crypt.Cipher
                 CipherMode2.EAX => CipherMode.CBC,
                 CipherMode2.ECB => CipherMode.ECB,
                 CipherMode2.GOFB => CipherMode.OFB,
-                _ => CipherMode.ECB,
+                _ => CiffreMode.defaultCipherMode,
             };
         }
 
@@ -111,7 +116,7 @@ namespace EU.CqrXs.Crypt.Cipher
                 CipherMode.ECB => CipherMode2.ECB,
                 CipherMode.OFB => CipherMode2.GOFB,
 
-                _ => CipherMode2.ECB,
+                _ => CiffreMode.defaultCipherMode2,
             };
         }
 
@@ -161,17 +166,17 @@ namespace EU.CqrXs.Crypt.Cipher
         /// parses pipe semicolon separated pipe string to CipherList
         /// </summary>
         /// <param name="text">semicolon separated pipe string to CipherList </param>
-        /// <returns><see cref="T:CipherMode"/> array of ciphers for the pipe</returns>
+        /// <returns><see cref="T:CipherMode2"/> array of ciphers for the pipe</returns>
         public static CipherMode2 ParseText(string text)
         {
-            CipherMode2 cipherMode = CipherMode2.CFB;
+            CipherMode2 cipherMode2 = CiffreMode.defaultCipherMode2;
             List<CipherMode2> cipherList = new List<CipherMode2>();
             text = text ?? "";
 
-            if (!Enum.TryParse<CipherMode2>(text, out cipherMode))
-                cipherMode = CipherMode2.ECB;
+            if (!Enum.TryParse<CipherMode2>(text, out cipherMode2))
+                cipherMode2 = CiffreMode.defaultCipherMode2;
 
-            return cipherMode;
+            return cipherMode2;
         }
 
     }

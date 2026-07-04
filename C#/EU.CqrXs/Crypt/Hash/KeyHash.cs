@@ -33,7 +33,7 @@ namespace EU.CqrXs.Crypt.Hash
         CShake = 0x0d,
         Dstu7564 = 0x0e,
         RipeMD256 = 0x0f,
-        TupleHash = 0x11            
+        TupleHash = 0x11
     }
 
     public static class KeyHash_Extensions
@@ -46,7 +46,7 @@ namespace EU.CqrXs.Crypt.Hash
                 KeyHash.RipeMD256, KeyHash.TupleHash, KeyHash.Whirlpool };
 
         public static KeyHash[] GetHashes() => keyHashes;
-       
+
         public static KeyHash[] GetHashTypes()
         {
             List<KeyHash> list = new List<KeyHash>();
@@ -80,13 +80,13 @@ namespace EU.CqrXs.Crypt.Hash
             {
                 switch (stringToHash.ToLower())
                 {
-                    case "empty": 
+                    case "empty":
                     case "null":
                     case "none": return KeyHash.Empty;
                     case "scrypt": return KeyHash.SCrypt;
                     case "bcrypt": return KeyHash.BCrypt;
-                    case "openbsd": 
-                    case "bsdcrypt": 
+                    case "openbsd":
+                    case "bsdcrypt":
                     case "openbsdcrypt": return KeyHash.OpenBSDCrypt;
                     case "md5": return KeyHash.MD5;
                     case "sha1": return KeyHash.Sha1;
@@ -256,52 +256,52 @@ namespace EU.CqrXs.Crypt.Hash
 
                 case KeyHash.MD5:
                     return MD5Sum.HashString(stringToHash, "");
-                
+
                 case KeyHash.Oct:
                     string octString = string.Empty;
                     for (int wc = 0; wc < inBytes.Length; wc++)
                         octString += Convert.ToString(((inBytes[wc] - 32) % 64), 8);
                     return octString;
-                
+
                 case KeyHash.OpenBSDCrypt:
                     return OpenBSDCrypt.HashString(stringToHash);
-                
+
                 case KeyHash.RipeMD256:
                     digest = new Org.BouncyCastle.Crypto.Digests.RipeMD256Digest();
                     resBuf = new byte[digest.GetDigestSize()];
                     digest.BlockUpdate(inBytes, 0, inBytes.Length);
                     digest.DoFinal(resBuf, 0);
                     return Hex.ToHexString(resBuf);
-                
+
                 case KeyHash.SCrypt:
                     return SCrypt.HashString(stringToHash);
-                
+
                 case KeyHash.Sha1:
                     return Hex.ToHexString(SHA1.Create().ComputeHash(inBytes));
-                
+
                 case KeyHash.Sha256:
                     return Sha256Sum.HashString(stringToHash, "");
-                
+
                 case KeyHash.Sha384:
                     return Hex.ToHexString(SHA384.Create().ComputeHash(inBytes));
-                
+
                 case KeyHash.Sha512:
                     return Sha512Sum.HashString(stringToHash);
-                
+
                 case KeyHash.TupleHash:
                     digest = new Org.BouncyCastle.Crypto.Digests.TupleHash(256, inBytes, 32);
                     resBuf = new byte[digest.GetDigestSize()];
                     digest.BlockUpdate(inBytes, 0, inBytes.Length);
                     digest.DoFinal(resBuf, 0);
                     return Hex.ToHexString(resBuf);
-                
+
                 case KeyHash.Whirlpool:
                     digest = new Org.BouncyCastle.Crypto.Digests.WhirlpoolDigest();
                     resBuf = new byte[digest.GetDigestSize()];
                     digest.BlockUpdate(inBytes, 0, inBytes.Length);
                     digest.DoFinal(resBuf, 0);
                     return Hex.ToHexString(resBuf);
-                
+
                 //case KeyHash.Xodyak:
                 //    bytes = EnDeCodeHelper.GetBytes(stringToHash);
                 //    digest = new Org.BouncyCastle.Crypto.Digests.XoodyakDigest();
@@ -315,6 +315,56 @@ namespace EU.CqrXs.Crypt.Hash
                     return Hex16.ToHex16(inBytes);
             }
         }
+
+    }
+
+    public class KeyHashData
+    {
+        public bool Selected { get; set; }
+
+        public string Text { get; set; }
+
+        public string Value { get; set; }
+
+        public bool Enabled { get; set; }
+
+
+        public System.Windows.Forms.ListViewItem ListItem
+        {
+            get =>
+                new ListViewItem(this.Text)
+                {
+                    Selected = this.Selected,
+                    Name = Text,
+                    Tag = Value,
+                    ToolTipText = Value
+                };
+        }
+
+        public KeyHashData()
+        {
+            Enabled = true;
+            Selected = false;
+            Text = "";
+            Value = "";
+        }
+
+        public KeyHashData(string textValue, bool selected = false, bool enabled = true) : this()
+        {
+            Text = textValue;
+            Value = textValue;
+            Enabled = enabled;
+            Selected = selected;
+        }
+
+        public KeyHashData(System.Windows.Forms.ListViewItem listItem) : this()
+        {
+            Text = listItem.Text.ToLower();
+            Value = listItem.ToolTipText;
+            Enabled = true;
+            Selected = listItem.Selected;
+        }
+
 
     }
 

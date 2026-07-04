@@ -57,7 +57,7 @@ namespace EU.CqrXs.Console
         static FileInfo? inFile = null, outFile = null;
         static byte[]? inBytes = null, outBytes = null;
         static string passKey = "";
-        static CipherMode2 cmode2 = CipherMode2.ECB;
+        static CipherMode2 cmode2 = CiffreMode.defaultCipherMode2;
         static ZipType zipType = ZipType.None;
         static EncodingType encodingType = EncodingType.None;
         static KeyHash keyHash = KeyHash.Hex;
@@ -143,7 +143,7 @@ namespace EU.CqrXs.Console
                         break;
                     case OptEnum.Mode:
                         if (!Enum.TryParse<CipherMode2>(optStr, out cmode2))
-                            cmode2 = CipherMode2.ECB;
+                            cmode2 = CiffreMode.defaultCipherMode2;
                         break;
                     case OptEnum.Encode:
                         encodingType = EncodingTypesExtensions.GetEnum(optStr);

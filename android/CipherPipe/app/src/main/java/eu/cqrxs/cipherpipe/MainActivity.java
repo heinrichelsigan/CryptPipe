@@ -202,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
                 CipherPipe pipe = new CipherPipe(ciphers, 8, encodeType, zipType, keyHash, cmode);
                 String plain = editTextSource.getText().toString();
                 Bitmap bmp = pipe.drawCipherPipe(getBaseContext());
+                imgViewCipherPipe.clearAnimation();
                 imgViewCipherPipe.setImageBitmap(bmp);
 
                 String pipeSting = pipe.getPipeString();
@@ -282,6 +283,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        if (firstTimeInitEncodings)
+            spinnerHash.setSelection(4);
 
         if (adapterEndoding == null)
             adapterEndoding = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, encodingStrings);
@@ -307,7 +310,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         if (firstTimeInitEncodings) {
-            spinnerEncode.setSelection(7);
+            spinnerEncode.setSelection(6);
             firstTimeInitEncodings = false;
         }
 

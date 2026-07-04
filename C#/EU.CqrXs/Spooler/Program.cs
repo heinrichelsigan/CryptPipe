@@ -374,7 +374,7 @@ namespace EU.CqrXs.Spooler
                 case 'm':
                 case 'M':
                     if (!Enum.TryParse<CipherMode2>(optArgs[1], true, out cmode2))
-                        cmode2 = CipherMode2.ECB;
+                        cmode2 = CiffreMode.defaultCipherMode2;
                     optEnum = OptSpoolEnum.Mode;                    
                     optArgs[0] = optEnum.ToString();
                     return optArgs;
