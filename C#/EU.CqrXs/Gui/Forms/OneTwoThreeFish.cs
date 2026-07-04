@@ -550,7 +550,7 @@ namespace EU.CqrXs.Gui.Forms
             }
             cmode2 = GetCipherMode2();
             CipherEnum[] pipeAlgos = new CipherEnum[] { CipherEnum.BlowFish, CipherEnum.Fish2, CipherEnum.Fish3 };
-            cPipe = new CipherPipe(pipeAlgos, Constants.MAX_PIPE_LEN, GetEncoding(), GetZip());
+            cPipe = new CipherPipe(pipeAlgos, Constants.PIPE_MAX_LEN, GetEncoding(), GetZip());
 
             await groupBoxFiles.pictureBoxRunningPipe.SetImageTagVisibleAsync(cPipe.GenerateEncryptPipeImage());
 
@@ -738,7 +738,7 @@ namespace EU.CqrXs.Gui.Forms
             Icon iconSandClock = new Icon(Properties.Resources.icon_sandclock, new Size(60, 60));
 
             CipherEnum[] pipeAlgos = new CipherEnum[] { CipherEnum.BlowFish, CipherEnum.Fish2, CipherEnum.Fish3 };
-            cPipe = new CipherPipe(pipeAlgos, Constants.MAX_PIPE_LEN, GetEncoding(), GetZip());
+            cPipe = new CipherPipe(pipeAlgos, Constants.PIPE_MAX_LEN, GetEncoding(), GetZip());
             // SetPictureBoxImage(groupBoxFiles.pictureBoxRunningPipe, cPipe.GenerateDecryptPipeImage());
             await this.groupBoxFiles.pictureBoxRunningPipe.SetImageTagVisibleAsync(cPipe.GenerateDecryptPipeImage());            
 

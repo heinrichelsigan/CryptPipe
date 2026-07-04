@@ -67,7 +67,7 @@ namespace EU.CqrXs.Test
                 if ((encType = encodingTypes[++j % encodingTypes.Length]) == EncodingType.None)
                     encType = EncodingType.Base64;
                 
-                CipherPipe pipe = new CipherPipe(cipherPair, Constants.MAX_PIPE_LEN, encType, zType, kHash);                
+                CipherPipe pipe = new CipherPipe(cipherPair, Constants.PIPE_MAX_LEN, encType, zType, kHash);                
 
                 try
                 {
@@ -161,7 +161,7 @@ namespace EU.CqrXs.Test
                 if ((encType = encodingTypes[++j % encodingTypes.Length]) == EncodingType.None)
                     encType = EncodingType.Base64;                
                 
-                CipherPipe pipe = new CipherPipe(cipherPair, Constants.MAX_PIPE_LEN, encType, zType, kHash);
+                CipherPipe pipe = new CipherPipe(cipherPair, Constants.PIPE_MAX_LEN, encType, zType, kHash);
                 
                 try
                 {

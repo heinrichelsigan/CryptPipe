@@ -37,7 +37,7 @@ namespace EU.CqrXs.Util
             {
                 if (string.IsNullOrEmpty(systemDirPath))
                 {
-                    for (int sysDirTry = 0; sysDirTry < Constants.MAX_PIPE_LEN; sysDirTry++)
+                    for (int sysDirTry = 0; sysDirTry < Constants.PIPE_MAX_LEN; sysDirTry++)
                     {
                         try
                         {

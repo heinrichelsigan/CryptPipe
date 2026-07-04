@@ -211,7 +211,7 @@ namespace EU.CqrXs.Console
 
                 // Create cipher pipe for en-/decryption
                 SecureCipherPipe cpipe = (algos.Length > 0 || string.IsNullOrEmpty(passKey)) ?
-                                new SecureCipherPipe(algos, Constants.MAX_PIPE_LEN, cmode2) :
+                                new SecureCipherPipe(algos, Constants.PIPE_MAX_LEN, cmode2) :
                                 new SecureCipherPipe(passKey, cmode2, verbose);
 
                 PrintSecureCipherPipe(cpipe, reverseDirection);
@@ -231,7 +231,7 @@ namespace EU.CqrXs.Console
 
             // Create cipher pipe for en-/decryption
             CipherPipe pipe = (algos.Length > 0 || string.IsNullOrEmpty(passKey)) ?
-                            new CipherPipe(algos, Constants.MAX_PIPE_LEN, encodingType, zipType, keyHash, cmode2) :
+                            new CipherPipe(algos, Constants.PIPE_MAX_LEN, encodingType, zipType, keyHash, cmode2) :
                             new CipherPipe(passKey, keyHash.Hash(passKey), encodingType, zipType, keyHash, cmode2, verbose);
 
             PrintCipherPipe(pipe, reverseDirection);

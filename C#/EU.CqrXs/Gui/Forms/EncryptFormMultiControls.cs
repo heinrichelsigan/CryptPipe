@@ -574,7 +574,7 @@ namespace EU.CqrXs.Gui.Forms
             CipherEnum[] cipherAlgos = CipherEnumExtensions.ParsePipeText(this.textBoxPipe.Text);
             if (!string.IsNullOrEmpty(comboBoxAlgo.SelectedItem.ToString()) && Enum.TryParse<CipherEnum>(comboBoxAlgo.SelectedItem.ToString(), out CipherEnum cipherEnum))
             {
-                if (cipherAlgos.Length < Constants.MAX_PIPE_LEN)
+                if (cipherAlgos.Length < Constants.PIPE_MAX_LEN)
                 {
                     switch (cipherEnum)
                     {
@@ -619,7 +619,7 @@ namespace EU.CqrXs.Gui.Forms
                     }
                     this.textBoxPipe.Text += cipherEnum.ToString() + ";";
                     cipherAlgos = CipherEnumExtensions.ParsePipeText(this.textBoxPipe.Text);
-                    cPipe = new CipherPipe(cipherAlgos, Constants.MAX_PIPE_LEN, GetEncoding(), GetZip(), GetHash(), GetCipherMode2());
+                    cPipe = new CipherPipe(cipherAlgos, Constants.PIPE_MAX_LEN, GetEncoding(), GetZip(), GetHash(), GetCipherMode2());
                     SetPictureBoxImage(groupBoxFiles.pictureBoxRunningPipe, cPipe.GenerateEncryptPipeImage(), "", true);
                     System.Timers.Timer setInfoMessageTimer = new System.Timers.Timer { Interval = 3000 };
                     setInfoMessageTimer.Elapsed += (s, en) =>
@@ -634,7 +634,7 @@ namespace EU.CqrXs.Gui.Forms
                 }
                 else
                 {
-                    SetInfoMessage($"Max {Constants.MAX_PIPE_LEN} algorithms in pipe reached!", ToolTipIcon.Warning, 2000);
+                    SetInfoMessage($"Max {Constants.PIPE_MAX_LEN} algorithms in pipe reached!", ToolTipIcon.Warning, 2000);
                 }
             }
         }
@@ -782,7 +782,7 @@ namespace EU.CqrXs.Gui.Forms
                     return;
             }
             CipherEnum[] pipeAlgos = CipherEnumExtensions.ParsePipeText(this.textBoxPipe.Text);
-            cPipe = new CipherPipe(pipeAlgos, Constants.MAX_PIPE_LEN, GetEncoding(), GetZip(), GetHash(), GetCipherMode2());
+            cPipe = new CipherPipe(pipeAlgos, Constants.PIPE_MAX_LEN, GetEncoding(), GetZip(), GetHash(), GetCipherMode2());
 
             await groupBoxFiles.pictureBoxRunningPipe.SetImageTagVisibleAsync(cPipe.GenerateEncryptPipeImage());
 
@@ -932,7 +932,7 @@ namespace EU.CqrXs.Gui.Forms
             Icon iconSandClock = new Icon(Properties.Resources.icon_sandclock, new Size(60, 60));
 
             CipherEnum[] pipeAlgos = CipherEnumExtensions.ParsePipeText(this.textBoxPipe.Text);
-            cPipe = new CipherPipe(pipeAlgos, Constants.MAX_PIPE_LEN, GetEncoding(), GetZip(), GetHash(), GetCipherMode2());
+            cPipe = new CipherPipe(pipeAlgos, Constants.PIPE_MAX_LEN, GetEncoding(), GetZip(), GetHash(), GetCipherMode2());
             // SetPictureBoxImage(groupBoxFiles.pictureBoxRunningPipe, cPipe.GenerateDecryptPipeImage());
             await this.groupBoxFiles.pictureBoxRunningPipe.SetImageTagVisibleAsync(cPipe.GenerateDecryptPipeImage());
 

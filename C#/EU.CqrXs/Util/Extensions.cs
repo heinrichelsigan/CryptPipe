@@ -1394,7 +1394,7 @@ namespace EU.CqrXs.Util
 
             if (cipherEnums.Count > 0)
             {
-                cipherPipe = new CipherPipe(cipherEnums.ToArray(), Constants.MAX_PIPE_LEN, eType, zipTyp, kHash, cmode2);
+                cipherPipe = new CipherPipe(cipherEnums.ToArray(), Constants.PIPE_MAX_LEN, eType, zipTyp, kHash, cmode2);
                 if (strippedFileName.Contains("." + cipherPipe.PipeString))
                 {
                     strippedFileName = strippedFileName.Replace("." + cipherPipe.PipeString, "");
@@ -1402,7 +1402,7 @@ namespace EU.CqrXs.Util
             }
 
             if (cipherPipe == null || cipherPipe.InPipe.Length == 0)
-                cipherPipe = new CipherPipe(cipherEnums.ToArray(), Constants.MAX_PIPE_LEN, eType, zipTyp, kHash, cmode2);
+                cipherPipe = new CipherPipe(cipherEnums.ToArray(), Constants.PIPE_MAX_LEN, eType, zipTyp, kHash, cmode2);
 
             return strippedFileName;
         }
@@ -1487,7 +1487,7 @@ namespace EU.CqrXs.Util
 
             if (cipherEnums.Count > 0)
             {
-                secCipherPipe = new SecureCipherPipe(cipherEnums.ToArray(), Constants.MAX_PIPE_LEN, cmode2);
+                secCipherPipe = new SecureCipherPipe(cipherEnums.ToArray(), Constants.PIPE_MAX_LEN, cmode2);
                 if (strippedFileName.Contains("." + secCipherPipe.PipeString))
                 {
                     strippedFileName = strippedFileName.Replace("." + secCipherPipe.PipeString, "");
@@ -1495,7 +1495,7 @@ namespace EU.CqrXs.Util
             }
 
             if (secCipherPipe == null || secCipherPipe.InPipe.Length == 0)
-                secCipherPipe = new SecureCipherPipe(cipherEnums.ToArray(), Constants.MAX_PIPE_LEN, cmode2);
+                secCipherPipe = new SecureCipherPipe(cipherEnums.ToArray(), Constants.PIPE_MAX_LEN, cmode2);
 
             return strippedFileName;
         }
@@ -1567,14 +1567,14 @@ namespace EU.CqrXs.Util
 
             if (symmCipherEnums.Count > 0)
             {
-                symmCipherPipe = new SymmCipherPipe(symmCipherEnums.ToArray(), Constants.MAX_PIPE_LEN, eType, zipTyp, kHash, CipherMode2.CFB);
+                symmCipherPipe = new SymmCipherPipe(symmCipherEnums.ToArray(), Constants.PIPE_MAX_LEN, eType, zipTyp, kHash, CipherMode2.CFB);
                 
                 if (strippedFileName.Contains("." + symmCipherPipe.PipeString))
                     strippedFileName = strippedFileName.Replace("." + symmCipherPipe.PipeString, "");               
             }
 
             if (symmCipherPipe == null)
-                symmCipherPipe = new SymmCipherPipe(symmCipherEnums.ToArray(), Constants.MAX_PIPE_LEN, eType, zipTyp, kHash, CipherMode2.CFB);
+                symmCipherPipe = new SymmCipherPipe(symmCipherEnums.ToArray(), Constants.PIPE_MAX_LEN, eType, zipTyp, kHash, CipherMode2.CFB);
 
             return strippedFileName;
         }
@@ -1647,7 +1647,7 @@ namespace EU.CqrXs.Util
 
             if (cipherEnums.Count > 0)
             {
-                CipherPipe cPipe = new CipherPipe(cipherEnums.ToArray(), Constants.MAX_PIPE_LEN, eType, zipTyp, kHash);
+                CipherPipe cPipe = new CipherPipe(cipherEnums.ToArray(), Constants.PIPE_MAX_LEN, eType, zipTyp, kHash);
                 if (strippedFileName.Contains("." + cPipe.PipeString))
                 {
                     strippedFileName = strippedFileName.Replace("." + cPipe.PipeString, "");

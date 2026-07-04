@@ -107,7 +107,7 @@ namespace EU.CqrXs.Test
                 }
 
                 CipherEnum[] cipherQuartupel = new CipherEnum[] { cipherEnums[i], cipherEnums[i + 1], cipherEnums[i + 2], cipherEnums[i + 3] };
-                CipherPipe pipe = new CipherPipe(cipherQuartupel, Constants.MAX_PIPE_LEN, encType, zType, kHash);
+                CipherPipe pipe = new CipherPipe(cipherQuartupel, Constants.PIPE_MAX_LEN, encType, zType, kHash);
                 byte[] plainBytes = File.ReadAllBytes(fileByesTest);
 
                 try

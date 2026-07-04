@@ -14,10 +14,23 @@ namespace EU.CqrXs.Util
         #region public const
 #pragma warning disable CA1707 // Identifiers should not contain underscores
 
+
+        public const int PIPE_MAX_LEN = 8; // 0xc; 
+        public const int PIPE_IMG_HEIGHT = 108;
+        public const int PIPE_IMG_WIDTH = 640; // 960; 
+        public const int PIPE_IMG_WIDTH_OFFSET = 60; // 57;
+        public const int PIPE_REVERSE_FROM = 7; // 0xf;
+        public const int PIPE_KEY_HASH_LEN = 0x10; // 0x20;
+
+        public const bool CQR_ENCRYPT = true;
+        public const bool ZEN_MATRIX_SYMMETRIC = false;
+
+        #region obsolete cqrjd constants
+
         public const int BACKLOG = 8;
         public const int CHAT_PORT = 7777;
         public const int MAX_KEY_LEN = 4096;
-        public const int MAX_PIPE_LEN = 8; // 0x10
+      
         public const int MAX_SERVER_SOCKET_ADDRESSES = 16;
         public const int CLOSING_TIMEOUT = 6000;
         public const int MIN_SOCKET_BYTE_BUFFEER = 65536;       // 64 KB Buffer
@@ -25,14 +38,8 @@ namespace EU.CqrXs.Util
         public const int MAX_BYTE_BUFFEER = 4194240;            //  4 MB Buffer
         public const int MAX_SOCKET_BYTE_BUFFEER = 33554432;    //  32 MB Buffer  2^25
         public const int BGWORKWE_BUSYWAITING_SLEEP = 360000;
-        public const bool CQR_ENCRYPT = true;
-        public const bool ZEN_MATRIX_SYMMETRIC = false;
 
-        public const int PIPE_IMG_HEIGHT = 108;
-        public const int PIPE_IMG_WIDTH = 640;
-        public const int PIPE_IMG_WIDTH_OFFSET = 60;
-        public const int PIPE_REVERSE_FROM = 7; // 15
-
+        #endregion obsolete cqrjd constants
 
         public const char ANNOUNCE = ':';
         public const char DATE_DELIM = '-';
@@ -44,7 +51,7 @@ namespace EU.CqrXs.Util
         public const string APP_NAME_CONSOLE = "EU.CqrXs.Console.exe";
         public const string APP_DIR = "net";
         public const string APP_ERROR = "AppError";
-        public const string VERSION = "v2.26.204";
+        public const string VERSION = "v2.26.704";
         public const string PIPE_STAGE = "PipeStage";
         public const string VALKEY_CACHE_HOST = "cqrcachecqrxseu-53g0xw.serverless.eus2.cache.amazonaws.com";
         public const int VALKEY_CACHE_PORT = 6379;

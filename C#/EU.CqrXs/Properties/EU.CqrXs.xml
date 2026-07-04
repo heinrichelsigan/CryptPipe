@@ -157,7 +157,7 @@
             CipherPipe constructor with an array of <see cref="T:CipherEnum[]"/> as inpipe
             </summary>
             <param name="cipherEnums">array of <see cref="T:CipherEnum[]"/> as inpipe</param>
-            <param name="maxpipe">size of max. pipe stages, can't be greater than <see cref="F:EU.CqrXs.Util.Constants.MAX_PIPE_LEN"/></param>
+            <param name="maxpipe">size of max. pipe stages, can't be greater than <see cref="F:EU.CqrXs.Util.Constants.PIPE_MAX_LEN"/></param>
             <param name="encType"><see cref="P:EU.CqrXs.Crypt.Cipher.CipherPipe.EncodeType"/></param>
             <param name="zpType"><see cref="T:EU.CqrXs.Zip.ZipType"/></param>
             <param name="kh"><see cref="T:EU.CqrXs.Crypt.Hash.KeyHash"/></param>
@@ -168,7 +168,7 @@
             CipherPipe constructor with an array of <see cref="T:string[]"/> cipherAlgos as inpipe
             </summary>
             <param name="cipherAlgos">array of <see cref="T:string[]"/> as inpipe</param>
-            <param name="maxpipe">maximum lentgh <see cref="F:EU.CqrXs.Util.Constants.MAX_PIPE_LEN"/></param>
+            <param name="maxpipe">maximum lentgh <see cref="F:EU.CqrXs.Util.Constants.PIPE_MAX_LEN"/></param>
             <param name="encType"><see cref="P:EU.CqrXs.Crypt.Cipher.CipherPipe.EncodeType"/></param>
             <param name="zpType"><see cref="T:EU.CqrXs.Zip.ZipType"/></param>
             <param name="kh"><see cref="T:EU.CqrXs.Crypt.Hash.KeyHash"/></param>
@@ -179,7 +179,7 @@
             CipherPipe ctor with array of user key bytes
             </summary>
             <param name="keyBytes">user key bytes</param>
-            <param name="maxpipe">maximum lentgh <see cref="F:EU.CqrXs.Util.Constants.MAX_PIPE_LEN"/></param>
+            <param name="maxpipe">maximum lentgh <see cref="F:EU.CqrXs.Util.Constants.PIPE_MAX_LEN"/></param>
             <param name="encType"><see cref="P:EU.CqrXs.Crypt.Cipher.CipherPipe.EncodeType"/></param>
             <param name="zpType"><see cref="T:EU.CqrXs.Zip.ZipType"/></param>
             <param name="kh"><see cref="T:EU.CqrXs.Crypt.Hash.KeyHash"/></param>
@@ -1131,7 +1131,7 @@
             SecureCipherPipe constructor with an array of <see cref="T:CipherEnum[]"/> as inpipe
             </summary>
             <param name="cipherEnums">array of <see cref="T:CipherEnum[]"/> as inpipe</param>
-            <param name="maxpipe">size of max. pipe stages, can't be greater than <see cref="F:EU.CqrXs.Util.Constants.MAX_PIPE_LEN"/></param>
+            <param name="maxpipe">size of max. pipe stages, can't be greater than <see cref="F:EU.CqrXs.Util.Constants.PIPE_MAX_LEN"/></param>
             <param name="cmode2"><see cref="T:EU.CqrXs.Crypt.Cipher.CipherMode2"/></param>
         </member>
         <member name="M:EU.CqrXs.Crypt.Cipher.SecureCipherPipe.#ctor(System.String[],System.UInt32,EU.CqrXs.Crypt.Cipher.CipherMode2)">
@@ -1139,7 +1139,7 @@
             SecureCipherPipe constructor with an array of <see cref="T:string[]"/> cipherAlgos as inpipe
             </summary>
             <param name="cipherAlgos">array of <see cref="T:string[]"/> as inpipe</param>
-            <param name="maxpipe">maximum lentgh <see cref="F:EU.CqrXs.Util.Constants.MAX_PIPE_LEN"/></param>
+            <param name="maxpipe">maximum lentgh <see cref="F:EU.CqrXs.Util.Constants.PIPE_MAX_LEN"/></param>
             <param name="cmode2"><see cref="T:EU.CqrXs.Crypt.Cipher.CipherMode2"/></param>
         </member>
         <member name="M:EU.CqrXs.Crypt.Cipher.SecureCipherPipe.#ctor(System.Byte[],System.UInt32,EU.CqrXs.Crypt.Cipher.CipherMode2,System.Boolean)">
@@ -1147,7 +1147,7 @@
             SecureCipherPipe ctor with array of user key bytes
             </summary>
             <param name="keyBytes">user key bytes</param>
-            <param name="maxpipe">maximum lentgh <see cref="F:EU.CqrXs.Util.Constants.MAX_PIPE_LEN"/></param>        
+            <param name="maxpipe">maximum lentgh <see cref="F:EU.CqrXs.Util.Constants.PIPE_MAX_LEN"/></param>        
             <param name="cmode2"><see cref="T:EU.CqrXs.Crypt.Cipher.CipherMode2"/></param>
             <param name="verbose"></param>
             <exception cref="T:System.ArgumentException"></exception>

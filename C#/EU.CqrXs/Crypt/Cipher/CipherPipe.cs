@@ -137,17 +137,17 @@ namespace EU.CqrXs.Crypt.Cipher
         /// CipherPipe constructor with an array of <see cref="T:CipherEnum[]"/> as inpipe
         /// </summary>
         /// <param name="cipherEnums">array of <see cref="T:CipherEnum[]"/> as inpipe</param>
-        /// <param name="maxpipe">size of max. pipe stages, can't be greater than <see cref="Constants.MAX_PIPE_LEN"/></param>
+        /// <param name="maxpipe">size of max. pipe stages, can't be greater than <see cref="Constants.PIPE_MAX_LEN"/></param>
         /// <param name="encType"><see cref="EncodeType"/></param>
         /// <param name="zpType"><see cref="ZipType"/></param>
         /// <param name="kh"><see cref="KeyHash"/></param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
-        public CipherPipe(CipherEnum[] cipherEnums, uint maxpipe = Constants.MAX_PIPE_LEN,
+        public CipherPipe(CipherEnum[] cipherEnums, uint maxpipe = Constants.PIPE_MAX_LEN,
             EncodingType encType = EncodingType.Base64, ZipType zpType = ZipType.None, KeyHash kh = KeyHash.Hex,
             CipherMode2 cmode2 = CipherMode2.ECB)
         {
-            // What ever is entered here as parameter, maxpipe has to be not greater Constants.MAX_PIPE_LEN, because of no such agency
-            maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
+            // What ever is entered here as parameter, maxpipe has to be not greater Constants.PIPE_MAX_LEN, because of no such agency
+            maxpipe = (maxpipe > Constants.PIPE_MAX_LEN) ? Constants.PIPE_MAX_LEN : maxpipe; // if somebody wants more, he/she/it gets less
 
             int isize = Math.Min(((int)cipherEnums.Length), ((int)maxpipe));
             inPipe = new CipherEnum[isize];
@@ -163,17 +163,17 @@ namespace EU.CqrXs.Crypt.Cipher
         /// CipherPipe constructor with an array of <see cref="T:string[]"/> cipherAlgos as inpipe
         /// </summary>
         /// <param name="cipherAlgos">array of <see cref="T:string[]"/> as inpipe</param>
-        /// <param name="maxpipe">maximum lentgh <see cref="Constants.MAX_PIPE_LEN"/></param>
+        /// <param name="maxpipe">maximum lentgh <see cref="Constants.PIPE_MAX_LEN"/></param>
         /// <param name="encType"><see cref="EncodeType"/></param>
         /// <param name="zpType"><see cref="Zip.ZipType"/></param>
         /// <param name="kh"><see cref="KeyHash"/></param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
-        public CipherPipe(string[] cipherAlgos, uint maxpipe = Constants.MAX_PIPE_LEN, EncodingType encType = EncodingType.Base64,
+        public CipherPipe(string[] cipherAlgos, uint maxpipe = Constants.PIPE_MAX_LEN, EncodingType encType = EncodingType.Base64,
             ZipType zpType = ZipType.None, KeyHash kh = KeyHash.Hex,
             CipherMode2 cmode2 = CipherMode2.ECB)
         {
-            // What ever is entered here as parameter, maxpipe has to be not greater Constants.MAX_PIPE_LEN, because of no such agency
-            maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
+            // What ever is entered here as parameter, maxpipe has to be not greater Constants.PIPE_MAX_LEN, because of no such agency
+            maxpipe = (maxpipe > Constants.PIPE_MAX_LEN) ? Constants.PIPE_MAX_LEN : maxpipe; // if somebody wants more, he/she/it gets less
 
             List<CipherEnum> cipherEnums = new List<CipherEnum>();
             int cnt = 0;
@@ -204,19 +204,19 @@ namespace EU.CqrXs.Crypt.Cipher
         /// CipherPipe ctor with array of user key bytes
         /// </summary>
         /// <param name="keyBytes">user key bytes</param>
-        /// <param name="maxpipe">maximum lentgh <see cref="Constants.MAX_PIPE_LEN"/></param>
+        /// <param name="maxpipe">maximum lentgh <see cref="Constants.PIPE_MAX_LEN"/></param>
         /// <param name="encType"><see cref="EncodeType"/></param>
         /// <param name="zpType"><see cref="Zip.ZipType"/></param>
         /// <param name="kh"><see cref="KeyHash"/></param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         /// <param name="verbose"></param>
         /// <exception cref="ArgumentException"></exception>
-        public CipherPipe(byte[] keyBytes, uint maxpipe = Constants.MAX_PIPE_LEN,
+        public CipherPipe(byte[] keyBytes, uint maxpipe = Constants.PIPE_MAX_LEN,
             EncodingType encType = EncodingType.Base64, ZipType zpType = ZipType.None, KeyHash kh = KeyHash.Hex,
             CipherMode2 cmode2 = CipherMode2.ECB, bool verbose = false)
         {
-            // What ever is entered here as parameter, maxpipe has to be not greater Constants.MAX_PIPE_LEN, because of no such agency
-            maxpipe = (maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe; // if somebody wants more, he/she/it gets less
+            // What ever is entered here as parameter, maxpipe has to be not greater Constants.PIPE_MAX_LEN, because of no such agency
+            maxpipe = (maxpipe > Constants.PIPE_MAX_LEN) ? Constants.PIPE_MAX_LEN : maxpipe; // if somebody wants more, he/she/it gets less
 
             List<CipherEnum> pipeList = new List<CipherEnum>();
 
@@ -261,7 +261,7 @@ namespace EU.CqrXs.Crypt.Cipher
         public CipherPipe(string key, string hash, EncodingType encType = EncodingType.Base64,
             ZipType zpType = ZipType.None, KeyHash kh = KeyHash.Hex,
             CipherMode2 cmode2 = CipherMode2.ECB, bool verbose = false)
-            : this(CryptHelper.GetKeyBytesSimple(key, hash, 16), Constants.MAX_PIPE_LEN, encType, zpType, kh, cmode2, verbose)
+            : this(CryptHelper.GetKeyBytesSimple(key, hash, Constants.PIPE_KEY_HASH_LEN), Constants.PIPE_MAX_LEN, encType, zpType, kh, cmode2, verbose)
         {
             cipherKey = key;
             cipherHash = hash;
@@ -616,7 +616,7 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         /// <returns>encrypted byte[]</returns>
         public virtual byte[] MerryGoRoundEncrpyt(byte[] inBytes, string secretKey, string hashIv, CipherMode2 cmode2)
-        {
+        { 
             if (InPipe == null || inPipe.Length == 0)   // return immideate, when zero round cipher merry go round
                 return inBytes;
 
