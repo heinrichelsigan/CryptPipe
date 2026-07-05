@@ -47,11 +47,7 @@ You need since 2025-11-15 Visual Studio 2026 and C# .NetCore 10.0 to compile C# 
 ### new releases
 https://github.com/heinrichelsigan/CryptPipe/releases
 
-### old releases
-https://github.com/heinrichelsigan/PermAgainCrypt/releases/
-
 ### [cqrxs.eu/download](https://cqrxs.eu/download/)
-- [PermAgainCrypt_WinForm_NetCore10_x86+x64](https://cqrxs.eu/download/PermAgainCrypt_WinForm_NetCore10_x64.7z)
 - Rendundant website is [io.cqrxs.eu/download](https://io.cqrxs.eu/download/)
 
 ## WebForm online test:
@@ -149,6 +145,6 @@ U:\source\PermAgainCrypt\Deploy\console\x86>
 
 # [Android](https://github.com/heinrichelsigan/PermAgainCrypt/tree/main/android)
 
-<img width="720" height="1600" alt="Screenshot_20260202-081909" src="https://github.com/user-attachments/assets/69402018-f67e-40ad-987c-61a6ca925361" />
+<img width="360" height="800" alt="Screenshot_20260202-081909" src="https://github.com/user-attachments/assets/69402018-f67e-40ad-987c-61a6ca925361" />
 
 
