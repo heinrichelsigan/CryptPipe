@@ -15,7 +15,20 @@ package eu.cqrxs.util;
  */
 public class Constants {
 
-	//region c constants´
+
+	// pipe constants
+	public final static int PIPE_MAX_LEN = 8; // 0xc
+	public final static  int PIPE_IMG_HEIGHT = 96;
+	public final static  int PIPE_IMG_WIDTH = 640; // 960;
+	public final static  int PIPE_IMG_WIDTH_OFFSET = 60; // 57;
+	public final static  int PIPE_REVERSE_FROM = 7; // 0xb;
+	public final static  int PIPE_KEY_HASH_LEN = 0x10; // 0x20;
+
+
+	public final static boolean CQR_ENCRYPT = true;
+	public final static boolean ZEN_MATRIX_SYMMETRIC = false;
+
+
 	public final static int BACKLOG = 8;
 	public final static int CHAT_PORT = 7777;
 	public final static int MAX_KEY_LEN = 1024;
@@ -27,8 +40,6 @@ public class Constants {
 	public final static int MAX_BYTE_BUFFEER = 4194240;            //  4 MB Buffer
 	public final static int MAX_SOCKET_BYTE_BUFFEER = 33554432;    //  32 MB Buffer  2^25
 	public final static int BGWORKER_BUSYWAITING_SLEEP = 360000;
-	public final static boolean CQR_ENCRYPT = true;
-	public final static boolean ZEN_MATRIX_SYMMETRIC = false;
 
 	public final static char ANNOUNCE = ':';
 	public final static char DATE_DELIM = '-';

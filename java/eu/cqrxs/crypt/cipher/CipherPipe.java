@@ -878,24 +878,25 @@ public class CipherPipe {
         }
 
         int xoffset = 0;
-        int w = 640;
-        int h = 96;
-        BufferedImage combined = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        int width_full = Constants.PIPE_IMG_WIDTH;
+        int woff = Constants.PIPE_IMG_WIDTH_OFFSET;
+        int h = Constants.PIPE_IMG_HEIGHT;
+        BufferedImage combined = new BufferedImage(width_full, h, BufferedImage.TYPE_INT_ARGB);
         // paint both images, preserving the alpha channels
         Graphics g = combined.getGraphics();
 
         if (pipe.zType == ZipType.GZip) {
 
-            BufferedImage imgGz = new BufferedImage(76, 96, BufferedImage.TYPE_INT_ARGB);
+            BufferedImage imgGz = new BufferedImage(woff, h, BufferedImage.TYPE_INT_ARGB);
             try {
                 imgGz = ImageHelper.getJarIncludedImage(path + "gz.png");
             } catch (Exception ioex2) {
                 DbgWriter.msgex(ioex2, true);
             }
             g.drawImage(imgGz, xoffset, 0, null);
-            xoffset += 76;
+            xoffset += woff;
         } else {
-            BufferedImage imgStart = new BufferedImage(32, 96, BufferedImage.TYPE_INT_ARGB);
+            BufferedImage imgStart = new BufferedImage(32, h, BufferedImage.TYPE_INT_ARGB);
             try {
                 imgStart = ImageHelper.getJarIncludedImage(path + "pipestartblock.png");
             } catch (Exception ioex3) {
@@ -909,7 +910,7 @@ public class CipherPipe {
         if (inPipe != null && inPipe.length > 0) {
             for (int i = 0; i < inPipe.length; i++) {
                 CipherEnum cipher = inPipe[i];
-                BufferedImage imgAes = new BufferedImage(60, 96, BufferedImage.TYPE_INT_ARGB);
+                BufferedImage imgAes = new BufferedImage(woff, h, BufferedImage.TYPE_INT_ARGB);
                 try {
                     imgAes = ImageHelper.getJarIncludedImage(path + cipher.toString().toLowerCase() + ".png");
                 } catch (Exception ex3) {
@@ -922,11 +923,11 @@ public class CipherPipe {
                 }
 
                g.drawImage(imgAes, xoffset, 0, null);
-               xoffset += 60;
+               xoffset += Constants.PIPE_IMG_WIDTH_OFFSET;
            }
         }
         if (pipe.encodeType != EncodeEnum.None) {
-            BufferedImage imgEncoding = new BufferedImage(124, 108, BufferedImage.TYPE_INT_ARGB);
+            BufferedImage imgEncoding = new BufferedImage(woff, h, BufferedImage.TYPE_INT_ARGB);
             String encodeFileName = "encode_";
             try {
                 switch (pipe.encodeType) {
@@ -977,14 +978,16 @@ public class CipherPipe {
         }
 
         int xoffset = 0;
-        int w = 640;
-        int h = 96;
-        BufferedImage combined = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        int width_full = Constants.PIPE_IMG_WIDTH;
+        int woff = Constants.PIPE_IMG_WIDTH_OFFSET;
+        int h = Constants.PIPE_IMG_HEIGHT;
+
+        BufferedImage combined = new BufferedImage(width_full, h, BufferedImage.TYPE_INT_ARGB);
         // paint both images, preserving the alpha channels
         Graphics g = combined.getGraphics();
 
         if (pipe.encodeType != EncodeEnum.None) {
-            BufferedImage imgDecoding = new BufferedImage(80, 96, BufferedImage.TYPE_INT_ARGB);
+            BufferedImage imgDecoding = new BufferedImage(woff, h, BufferedImage.TYPE_INT_ARGB);
             String decodeFileName = "decode_";
 			try {
                 switch (pipe.encodeType) {
@@ -1004,7 +1007,7 @@ public class CipherPipe {
                 DbgWriter.msgex(exImageDecoding, true);
             }			
             g.drawImage(imgDecoding, xoffset, 0, null);
-            xoffset += 80;
+            xoffset += woff;
         } else {
             BufferedImage imgStart = new BufferedImage(32, 96, BufferedImage.TYPE_INT_ARGB);
             try {
@@ -1020,7 +1023,7 @@ public class CipherPipe {
         if (outPipe != null && outPipe.length > 0) {
             for (int j = 0; j < outPipe.length; j++) {
                 CipherEnum cipher = outPipe[j];
-                BufferedImage imgAes = new BufferedImage(60, 96, BufferedImage.TYPE_INT_ARGB);
+                BufferedImage imgAes = new BufferedImage(woff, h, BufferedImage.TYPE_INT_ARGB);
                 try {
                     imgAes = ImageHelper.getJarIncludedImage(path + cipher.toString().toLowerCase() + ".png");
                 } catch (Exception exImageAlgo) {
@@ -1032,20 +1035,20 @@ public class CipherPipe {
                     }
                 }
                 g.drawImage(imgAes, xoffset, 0, null);
-                xoffset += 60;
+                xoffset += woff;
             }
         }
 
         if (pipe.zType == ZipType.GZip) { // finish image with gunzip
 
-            BufferedImage imgGz = new BufferedImage(80, 96, BufferedImage.TYPE_INT_ARGB);
+            BufferedImage imgGz = new BufferedImage(woff, h, BufferedImage.TYPE_INT_ARGB);
             try {
                 imgGz = ImageHelper.getJarIncludedImage(path + "gunzip.png");
             } catch (Exception exImageGunzip) {
                 DbgWriter.msgex(exImageGunzip, true);
             }
             g.drawImage(imgGz, xoffset, 0, null);
-            xoffset += 76;
+            xoffset += Constants.PIPE_IMG_WIDTH_OFFSET;
         }
 
         g.dispose();
