@@ -2,7 +2,6 @@
  * @author           <a href="mailto:heinrich.elsigan@cqrxs.eu">Heinrich Elsigan</a>
  * @version          V 2.26.428
  * @since            API 27 Oreo 8.1
- *
  * Coded 2021-2033 by <a href="mailto:he@area23.at">Heinrich Elsigan</a>
  * <a href="https://heinrichelsigan.area23.at">heinrichelsigan.area23.at</a>
  */
@@ -46,7 +45,7 @@ public class CipherPipe {
     protected ZipType zType = ZipType.None;
     protected CipherEnum[] inPipe;
     protected EncodeEnum  encodeType = EncodeEnum.Base64;
-    private KeyHash kHash = KeyHash.Hex;
+    private KeyHash kHash = KeyHash.Empty;
     protected CipherMode2 cMode2 = CipherMode2.ECB;
 
 	public ZipType getZipType() { return zType; }
@@ -103,7 +102,7 @@ public class CipherPipe {
                       CipherMode2 cmode2) {
 
         // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
-        maxpipe = ((maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe); // if somebody wants more, he/she/it gets less
+        maxpipe = (Math.min(maxpipe, Constants.MAX_PIPE_LEN)); // if somebody wants more, he/she/it gets less
 
         int isize = Math.min(((int)cipherEnums.length), ((int)maxpipe));
         inPipe = new CipherEnum[isize];
@@ -173,13 +172,13 @@ public class CipherPipe {
                       KeyHash kh,
                       CipherMode2 cmode2) {
         // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
-        maxpipe = ((maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe); // if somebody wants more, he/she/it gets less
+        maxpipe = (Math.min(maxpipe, Constants.MAX_PIPE_LEN)); // if somebody wants more, he/she/it gets less
 
         String dmsg = "";
         short scnt = 0;
-        List<CipherEnum> pipeList = new ArrayList<CipherEnum>();
+        List<CipherEnum> pipeList = new ArrayList<>();
 
-        HashSet<Byte> hashBytes = new HashSet<Byte>();
+        HashSet<Byte> hashBytes = new HashSet<>();
         for (int i = 0; i < keyBytes.length && pipeList.size() < maxpipe; i++) {
             byte bb = (byte)((int)((int)keyBytes[i] % 0x1d));
             Byte cb = Byte.valueOf(bb);
@@ -282,9 +281,9 @@ public class CipherPipe {
             CipherMode2 cmode2)
         throws InvalidCipherTextException {
 
-        if (secretKey == null || secretKey.length() < 1)
+        if (secretKey == null || secretKey.isEmpty())
             throw new IllegalArgumentException("seretkey");
-        if (hashedKey == null || hashedKey.length() == 0)
+        if (hashedKey == null || hashedKey.isEmpty())
             hashedKey = "";
             // throw new IllegalArgumentException("hashedKey");
 
@@ -356,9 +355,9 @@ public class CipherPipe {
             String hash,
             CipherMode2 cmode2)
             throws InvalidCipherTextException {
-        if (secretKey == null || secretKey.length() == 0)
+        if (secretKey == null || secretKey.isEmpty())
             throw new IllegalArgumentException("seretkey");
-        if (hash == null || hash.length() == 0)
+        if (hash == null || hash.isEmpty())
             hash = "";
             // throw new IllegalArgumentException("hash");
 
@@ -436,11 +435,11 @@ public class CipherPipe {
         if (inPipe.length == 0)
             return inBytes;
 
-        if ((secretKey == null && cipherKey == null) || (secretKey.length() == 0 && cipherKey.length() == 0))
+        if ((secretKey == null && cipherKey == null) || (secretKey.isEmpty() && cipherKey.isEmpty()))
             throw new IllegalArgumentException("seretkey");
 
-        String hash = (hashIv != null && hashIv.length() > 0) ? hashIv : (kHash != null) ? kHash.hash(secretKey) : KeyHash.Hex.hash(secretKey);
-        cipherKey = (secretKey != null && secretKey.length() > 0) ? secretKey : cipherKey;
+        String hash = (hashIv != null && hashIv.length() > 0) ? hashIv : (getKeyHash() != null) ? getKeyHash().hash(secretKey) : KeyHash.Empty.hash(secretKey);
+        cipherKey = (secretKey != null && !secretKey.isEmpty()) ? secretKey : cipherKey;
         cipherHash = hash;
 		cMode2 = cmode2;
 
@@ -478,8 +477,8 @@ public class CipherPipe {
         if ((secretKey == null && cipherKey == null) || (secretKey.length() == 0 && cipherKey.length() == 0))
             throw new IllegalArgumentException("seretkey");
 
-        cipherKey = (secretKey != null && secretKey.length() > 0) ? secretKey : cipherKey;
-        String hash = (hashIv != null && hashIv.length() > 0) ? hashIv : (kHash != null) ? kHash.hash(secretKey) : KeyHash.Hex.hash(cipherKey);
+        cipherKey = (secretKey != null && !secretKey.isEmpty()) ? secretKey : cipherKey;
+        String hash = (hashIv != null && !hashIv.isEmpty()) ? hashIv : (getKeyHash() != null) ? getKeyHash().hash(secretKey) : KeyHash.Empty.hash(cipherKey);
         cipherHash = hash;
 		cMode2 = cmode2;
 
@@ -538,8 +537,7 @@ public class CipherPipe {
      * @param keyHash {@link KeyHash} hashing enum => use hash(...) for hashing
      * @param cmode2 {@link CipherMode2}
      * @return plain bytes
-     * @throws InvalidCipherTextException
-	 * @throws IOException
+     * @throws Exception
      */
     public String decryptTextRoundsGo(
                 String cryptedEncodedMsg,
@@ -840,8 +838,8 @@ public class CipherPipe {
         zType = unzipAfter;
         kHash = keyHash;
 
-        cipherKey = (secretKey != null && secretKey.length() > 0) ? secretKey : cipherKey;
-        String hash = (hashIV != null && hashIV.length() > 0) ? hashIV : (kHash != null) ? kHash.hash(secretKey) : KeyHash.Hex.hash(secretKey);
+        cipherKey = (secretKey != null && !secretKey.isEmpty()) ? secretKey : cipherKey;
+        String hash = (hashIV != null && !hashIV.isEmpty()) ? hashIV : (kHash != null) ? kHash.hash(secretKey) : KeyHash.Hex.hash(secretKey);
         cipherHash = hash;
 
         byte[] cipherBytes =encodedBytes;
@@ -884,7 +882,7 @@ public class CipherPipe {
         // Canvas cv = new Canvas(imgPipeBlank);
 
         try {
-            if (zType == ZipType.GZip) {
+            if (getZipType() == ZipType.GZip) {
                 Bitmap imgGz = BitmapFactory.decodeResource(context.getResources(), R.drawable.gz);
                 Rect rectSrc = new Rect(0, 0, w, h);
                 Rect rectDest = new Rect(xoffset, 0, xoffset + w, h);
@@ -934,7 +932,7 @@ public class CipherPipe {
             }
         }
 
-        if (encodeType != EncodeEnum.None) {
+        if (getEncodeType() != EncodeEnum.None) {
             Bitmap imgEncoding =  Bitmap.createBitmap(80, h, Bitmap.Config.ARGB_8888);
             String encodeFileName = "encode_";
 			imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_0);
@@ -1008,7 +1006,7 @@ public class CipherPipe {
         // paint both images, preserving the alpha channels
         Canvas g = new Canvas(combined);
 
-        if (encodeType != EncodeEnum.None) {
+        if (getEncodeType() != EncodeEnum.None) {
             Bitmap imgDecoding = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
             try {
                 imgDecoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.decodingasciitobin);
@@ -1055,7 +1053,7 @@ public class CipherPipe {
             }
         }
 
-        if (zType == ZipType.GZip) { // finish image with gunzip
+        if (getZipType() == ZipType.GZip) { // finish image with gunzip
 
             Bitmap imgGz = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
             try {
