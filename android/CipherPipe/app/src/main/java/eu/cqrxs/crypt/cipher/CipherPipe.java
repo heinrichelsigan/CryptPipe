@@ -895,7 +895,7 @@ public class CipherPipe {
             } else {
                 Bitmap imgStart = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.pipestartblock),
                         0, 0, 32, h);
-                Rect rectSrc = new Rect(0, 0, +32, h);
+                Rect rectSrc = new Rect(0, 0, 32, h);
                 Rect rectDest = new Rect(xoffset, 0, xoffset + 32, h);
                 cv.drawBitmap(imgStart, rectSrc, rectDest, paint);
                 // cv.saveLayer(xoffset, 0, xoffset + 32, h, paint);
@@ -967,7 +967,7 @@ public class CipherPipe {
                         break;
                     case EncodeEnum.Base64:
                         imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_base64),
-                                0, 0, 80, h);
+                                0, 0, w, h);
                         break;
                     case EncodeEnum.Uu:
                         imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_uu),
@@ -999,8 +999,8 @@ public class CipherPipe {
 
         // cv.saveLayer(0 , 0, xoffset, h, paint);
 
-        // double sx = (double)((double)5/(double)10);
-        // cv.scale((float)sx, (float)sx, (float)width, (float)h);
+        double sx = (double)((double)8/(double)10);
+        cv.scale((float)sx, (float)sx, (float)width, (float)h);
         cv.save();
         // cv.setBitmap(combined);
         // Save as new image
@@ -1085,8 +1085,8 @@ public class CipherPipe {
             xoffset += w;
         }
 
-        // double sx = (double)((double)4/(double)10);
-        // g.scale((float)sx, (float)sx, (float)width, (float)h);
+        double sx = (double)((double)8/(double)10);
+        g.scale((float)sx, (float)sx, (float)width, (float)h);
         g.save();
 
         // Save as new image
