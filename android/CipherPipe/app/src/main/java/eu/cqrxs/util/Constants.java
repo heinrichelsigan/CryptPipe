@@ -18,8 +18,8 @@ public class Constants {
 
     // pipe constants
     public final static int PIPE_MAX_LEN = 8; // 0xc
-    public final static  int PIPE_IMG_HEIGHT = 96;
-    public final static  int PIPE_IMG_WIDTH = 640; // 960;
+    public final static  int PIPE_IMG_HEIGHT = 60;
+    public final static  int PIPE_IMG_WIDTH = 600; // 960;
     public final static  int PIPE_IMG_WIDTH_OFFSET = 60; // 57;
     public final static  int PIPE_REVERSE_FROM = 7; // 0xb;
     public final static  int PIPE_KEY_HASH_LEN = 0x10; // 0x20;

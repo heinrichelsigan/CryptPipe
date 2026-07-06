@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
     SortedMap<String, String> sortedAlgoMap, sortedHashMap, sortedEncodingMap;
     ArrayAdapter adapterHash = null, adapterEndoding = null, adapterZip = null, adapterAlgos = null;
     String selectedHash = "", selectEncodeType = "", selectZipType = "", selectCipherAlgo = "", selectedZip = "";
-    KeyHash keyHash = KeyHash.Hex;
+    KeyHash keyHash = KeyHash.Empty;
     EncodeEnum encodeType = EncodeEnum.Base64;
     ZipType zipType = ZipType.None;
 

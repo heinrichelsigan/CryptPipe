@@ -66,13 +66,20 @@ public enum KeyHash {
      */
     public int getValue() { return value; }
 
-	final static KeyHash[] orderedHashes = { KeyHash.BCrypt, KeyHash.Blake2xs, KeyHash.CShake, KeyHash.Dstu7564,
+	final static KeyHash[] orderedHashes = { KeyHash.Empty, KeyHash.BCrypt, KeyHash.Blake2xs, KeyHash.CShake, KeyHash.Dstu7564,
 		KeyHash.Hex, KeyHash.MD5, KeyHash.Oct, KeyHash.OpenBSDCrypt, KeyHash.RipeMD256, KeyHash.SCrypt, 
 		KeyHash.Sha1, KeyHash.Sha256, KeyHash.Sha384, KeyHash.Sha512, KeyHash.TupleHash,  KeyHash.Whirlpool, KeyHash.Empty };
 
-	final static KeyHash[] secureHashes = {
-			KeyHash.BCrypt, KeyHash.Blake2xs,  KeyHash.CShake, KeyHash.Dstu7564,
-			KeyHash.OpenBSDCrypt, KeyHash.SCrypt, KeyHash.RipeMD256, KeyHash.Whirlpool };
+    final static KeyHash[] secureHashes = {
+            KeyHash.BCrypt,  	// KeyHash.CShake, KeyHash.Dstu7564,
+            KeyHash.MD5,
+            KeyHash.Hex,        // KeyHash.Oct,
+            KeyHash.OpenBSDCrypt,
+            KeyHash.SCrypt,     // KeyHash.Sha1,
+            KeyHash.Sha256,     // KeyHash.Sha384, KeyHash.Sha512,
+            KeyHash.RipeMD256,  // KeyHash.TupleHash,
+            KeyHash.Whirlpool
+    };
 
 	/**
      * getName
