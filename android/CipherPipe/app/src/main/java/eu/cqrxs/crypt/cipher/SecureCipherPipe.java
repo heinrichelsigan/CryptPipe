@@ -35,9 +35,17 @@ public class SecureCipherPipe extends CipherPipe {
 
     String cipherKeyHash = "";
 
-	final static KeyHash[] secureHashes = {
-			KeyHash.BCrypt, KeyHash.Blake2xs,  KeyHash.CShake, KeyHash.Dstu7564,
-			KeyHash.OpenBSDCrypt, KeyHash.SCrypt, KeyHash.RipeMD256, KeyHash.Whirlpool };
+    final static KeyHash[] secureHashes = {
+        KeyHash.BCrypt,  	// KeyHash.CShake, KeyHash.Dstu7564,
+        KeyHash.MD5,
+        KeyHash.Hex,        // KeyHash.Oct,
+        KeyHash.OpenBSDCrypt,
+        KeyHash.SCrypt,     // KeyHash.Sha1,
+        KeyHash.Sha256,     // KeyHash.Sha384, KeyHash.Sha512,
+        KeyHash.RipeMD256,  // KeyHash.TupleHash,
+        KeyHash.Whirlpool
+    };
+
 
     /**
      * parameterless constructor of SecureCipherPipe
