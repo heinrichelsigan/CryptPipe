@@ -983,11 +983,10 @@ public class CipherPipe {
         }
 
         // cv.saveLayer(0 , 0, xoffset, h, paint);
-
-        double sx = (double)((double)8/(double)10);
-        // cv.scale((float)sx, (float)sx, (float)width, (float)h);
-        // cv.save();
-        // cv.setBitmap(combined);
+        double sx = (double)((double)4/(double)10);
+        cv.scale((float)sx, (float)sx, (float)width, (float)h);
+        cv.save();
+        //  cv.setBitmap(combined);
         // Save as new image
         // ImageIO.write(combined, "PNG", new File(path, "combined.png"));
         return combined;
@@ -1070,8 +1069,8 @@ public class CipherPipe {
             xoffset += w;
         }
 
-        // double sx = (double)((double)8/(double)10);
-        // g.scale((float)sx, (float)sx, (float)width, (float)h);
+        double sx = (double)((double)5/(double)10);
+        g.scale((float)sx, (float)sx, (float)width, (float)h);
         g.save();
 
         // Save as new image
