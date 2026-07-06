@@ -66,7 +66,7 @@ https://github.com/heinrichelsigan/CryptPipe/releases
 - [cryptopp.com](https://cryptopp.com/), git [weidai11/cryptopp](https://github.com/libtom/libtomcrypt) 
 
 ## WinFormCore:
-<img width="800" height="726" alt="image" src="https://raw.githubusercontent.com/heinrichelsigan/PermAgainCrypt/refs/heads/main/docu/PermAgainCrypt_WinForm.gif" />
+<img width="760" alt="image" src="https://raw.githubusercontent.com/heinrichelsigan/PermAgainCrypt/refs/heads/main/docu/PermAgainCrypt_WinForm.gif" />
 
 ## Console Application
 
@@ -129,7 +129,7 @@ U:\source\PermAgainCrypt\Deploy\console\x86>
 
 # [Java](https://github.com/heinrichelsigan/PermAgainCrypt/tree/main/java)
 
-<img width="1007" height="764" alt="2026-01-25_javax_swing_JFrame_java" src="https://raw.githubusercontent.com/heinrichelsigan/PermAgainCrypt/refs/heads/main/docu/2026-01-25_javax_swing_JFrame_java.png" />
+<img width="800" alt="2026-01-25_javax_swing_JFrame_java" src="https://raw.githubusercontent.com/heinrichelsigan/PermAgainCrypt/refs/heads/main/docu/2026-01-25_javax_swing_JFrame_java.png" />
 
 ## Java C# compare encoding / decoding
 
@@ -138,7 +138,7 @@ U:\source\PermAgainCrypt\Deploy\console\x86>
 - ZenMatrix2, BZip2 and Zip aren't already ported by me to java.
 - Ascon256 and Xoodyak have currently every replaced by *Oct* and *TupleHash*
 
-<img width="2017" height="932" alt="2026-01-27_Screenshot_Java_CSharp" src="https://github.com/user-attachments/assets/411827b4-cb98-48c2-ade1-4692c3fb858f" />
+<img width="1024" alt="2026-01-27_Screenshot_Java_CSharp" src="https://github.com/user-attachments/assets/411827b4-cb98-48c2-ade1-4692c3fb858f" />
 
 ![Peek_2026_01_28_0340](https://github.com/user-attachments/assets/28231520-d5e9-4eac-8673-f41c227d4870)
 
