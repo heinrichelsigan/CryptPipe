@@ -885,16 +885,14 @@ public class CipherPipe {
 
         try {
             if (zType == ZipType.GZip) {
-                Bitmap imgGz = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.gz),
-                        0, 0, 69, h);
+                Bitmap imgGz = BitmapFactory.decodeResource(context.getResources(), R.drawable.gz);
                 Rect rectSrc = new Rect(0, 0, w, h);
                 Rect rectDest = new Rect(xoffset, 0, xoffset + w, h);
                 cv.drawBitmap(imgGz, rectSrc, rectDest, paint);
                 // cv.saveLayer(xoffset, 0, xoffset + w, h, paint);
                 xoffset += w;
             } else {
-                Bitmap imgStart = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.pipestartblock),
-                        0, 0, 32, h);
+                Bitmap imgStart = BitmapFactory.decodeResource(context.getResources(), R.drawable.pipestartblock);
                 Rect rectSrc = new Rect(0, 0, 32, h);
                 Rect rectDest = new Rect(xoffset, 0, xoffset + 32, h);
                 cv.drawBitmap(imgStart, rectSrc, rectDest, paint);
@@ -916,13 +914,11 @@ public class CipherPipe {
                     Bitmap imgAes = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
                     try {
                         int idAesBmp = context.getResources().getIdentifier(cipher.toString().toLowerCase(), "drawable", context.getPackageName());
-                        imgAes = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), idAesBmp),
-                                    0, 0, w, h);
+                        imgAes = BitmapFactory.decodeResource(context.getResources(), idAesBmp);
                     } catch (Exception ex3) {
                         DbgWriter.msgex(ex3, true);
                         try {
-                            imgAes = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.cipheralgo),
-                                    0, 0, w, h);
+                            imgAes = BitmapFactory.decodeResource(context.getResources(), R.drawable.cipheralgo);
                         } catch (Exception ioex4) {
                             DbgWriter.msgex(ioex4, true);
                         }
@@ -941,49 +937,38 @@ public class CipherPipe {
         if (encodeType != EncodeEnum.None) {
             Bitmap imgEncoding =  Bitmap.createBitmap(80, h, Bitmap.Config.ARGB_8888);
             String encodeFileName = "encode_";
-			imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_0),
-										0, 0, w, h);
+			imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_0);
 			try {
                 switch (encodeType) {
                     case EncodeEnum.Hex16:
-                        imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_hex16),
-                                0, 0, w, h);
+                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_hex16);
                         break;
                     case EncodeEnum.Hex32:
-                        imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_hex32),
-                                0, 0, w, h);
+                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_hex32);
                         break;
                     case EncodeEnum.Hex64:
-                        imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_hex64),
-                                0, 0, w, h);
+                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_hex64);
                         break;
                     case EncodeEnum.Base16:
-                        imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_base16),
-                                0, 0, w, h);
+                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_base16);
                         break;
                     case EncodeEnum.Base32:
-                        imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_base32),
-                                0, 0, w, h);
+                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_base32);
                         break;
                     case EncodeEnum.Base64:
-                        imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_base64),
-                                0, 0, w, h);
+                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_base64);
                         break;
                     case EncodeEnum.Uu:
-                        imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_uu),
-                                0, 0, w, h);
+                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_uu);
                         break;
                     case EncodeEnum.Xx:
-                        imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_xx),
-                                0, 0, w, h);
+                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_xx);
                         break;
                     case EncodeEnum.Ascii85:
-                        imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_ascii85),
-                                0, 0, w, h);
+                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_ascii85);
                         break;
                     default:
-                        imgEncoding = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_0),
-                                0, 0, w, h);
+                        imgEncoding = BitmapFactory.decodeResource(context.getResources(), R.drawable.encode_0);
                         break;
                 }
 
