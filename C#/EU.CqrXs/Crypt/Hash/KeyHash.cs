@@ -241,7 +241,7 @@ namespace EU.CqrXs.Crypt.Hash
                     return Hex.ToHexString(resBuf);
 
                 case KeyHash.CShake:
-                    digest = new Org.BouncyCastle.Crypto.Digests.CShakeDigest(256, null, null);
+                    digest = new Org.BouncyCastle.Crypto.Digests.CShakeDigest(256, inBytes, CryptHelper.GetKeyBytesFromBytes(inBytes, 32));
                     resBuf = new byte[digest.GetDigestSize()];
                     digest.BlockUpdate(inBytes, 0, inBytes.Length);
                     digest.DoFinal(resBuf, 0);
@@ -286,7 +286,14 @@ namespace EU.CqrXs.Crypt.Hash
                     return Hex.ToHexString(SHA384.Create().ComputeHash(inBytes));
 
                 case KeyHash.Sha512:
-                    return Sha512Sum.HashString(stringToHash);
+                    /*  Classical bouncy castle implementation of Sha512tDigest
+                        digest = new Org.BouncyCastle.Crypto.Digests.Sha512tDigest(inBytes.Length);
+                        resBuf = new byte[digest.GetDigestSize()];
+                        digest.BlockUpdate(inBytes, 0, inBytes.Length);
+                        digest.DoFinal(resBuf, 0);
+                        return Hex.ToHexString(resBuf);
+                    */
+                    return Hex.ToHexString(SHA512.Create().ComputeHash(inBytes)); // Sha512Sum.HashString(stringToHash);
 
                 case KeyHash.TupleHash:
                     digest = new Org.BouncyCastle.Crypto.Digests.TupleHash(256, inBytes, 32);
