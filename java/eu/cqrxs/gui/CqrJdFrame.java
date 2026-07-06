@@ -719,7 +719,7 @@ public class CqrJdFrame extends JFrame {
 		getContentPane().add(jLabelImgKey);
 
 		jTextField_Key = new JTextField();
-		jTextField_Key.setText("zen@area23.at");
+		jTextField_Key.setText(Constants.AUTHOR_EMAIL);
 		jTextField_Key.setBounds(48,30,640,25);
 		jTextField_Key.setFont(cryptFont);		
 		getContentPane().add(jTextField_Key);
@@ -917,7 +917,8 @@ public class CqrJdFrame extends JFrame {
                 try {
                     keyValue = jTextField_Key.getText().toString();
                 } catch (Exception exi) {
-                    keyValue = "zen@area23.at";
+                    keyValue = Constants.AUTHOR_EMAIL;
+			        jTextField_Key.setText(keyValue);
                 }
                 String hashed = "";
                 try {
@@ -1293,7 +1294,7 @@ public class CqrJdFrame extends JFrame {
 		try {
 				keyValue = jTextField_Key.getText().toString();
 		} catch (Exception exi) {
-				keyValue = "zen@area23.at";
+				keyValue = Constants.AUTHOR_EMAIL;
 		}
 		String hashed = "";
 		try {
@@ -1345,7 +1346,7 @@ public class CqrJdFrame extends JFrame {
 			jTextAreaDestination.setText("");
 			jTextField_Pipe.setText("");
 			jTextField_Hash.setText("");
-			jTextField_Key.setText("zen@area23.at");
+			jTextField_Key.setText(Constants.AUTHOR_EMAIL);
 			
 			// TODO: reset JComboBoxes jComboBox_Algo
 			selectItemByString(jComboBox_Encoding, menuEncoding, "Base64");

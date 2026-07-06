@@ -594,7 +594,7 @@ public class CqrJFrameSimple extends JFrame {
 
 		jTextField_Key = new JTextField();
 		jTextField_Key.setFont(cryptFont);
-		jTextField_Key.setText("zen@area23.at");
+		jTextField_Key.setText(Constants.AUTHOR_EMAIL);
 		jTextField_Key.setBounds(48,30,680,25);
 		jTextField_Key.setFont(cryptFont);		
 		getContentPane().add(jTextField_Key);
@@ -1080,7 +1080,7 @@ public class CqrJFrameSimple extends JFrame {
 			jTextAreaSource.setText("");
 			jTextAreaDestination.setText("");
 			jTextField_Pipe.setText("");
-			jTextField_Key.setText("zen@area23.at");
+			jTextField_Key.setText(Constants.AUTHOR_EMAIL);
 				
 			// TODO: reset JComboBoxes jComboBox_Algo
 			selectItemByString(jComboBox_Encoding, menuEncoding, "Base64");
