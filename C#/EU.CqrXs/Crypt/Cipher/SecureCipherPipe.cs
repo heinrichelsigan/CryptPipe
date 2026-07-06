@@ -163,11 +163,16 @@ namespace EU.CqrXs.Crypt.Cipher
             for (int i = 0, j = 0; i < keyBytes.Length && j < maxpipe && pipeList.Count < maxpipe; i++)
             {
                 byte cb = (byte)((int)((int)keyBytes[i] % 0x1d));
-                // TODO: future design
-                // if (hashBytes.Contains(cb)) // mit magic add to generate deterministic more on same bytes
-                //     cb = (byte)((int)(cb + Math.Pow(2, i) + keyBytes.Length) % 0x1d);                
-                if (!hashBytes.Contains(cb) && pipeList.Count < maxpipe + 1)
+                bool addCipherToPUpe = (Constants.PIPE_BUILD_MULTI_SAME_CIPHERS || (maxpipe < 0x16 && !hashBytes.Contains(cb)));
+                if (addCipherToPUpe && pipeList.Count < maxpipe + 1)
                 {
+                    if (!hashBytes.Contains(cb)) // TODO: future design
+                    {                        
+                        // // mit magic add to generate deterministic more on same bytes
+                        // cb = (byte)((int)(cb + Math.Pow(2, i) + keyBytes.Length) % 0x1d);                
+                        hashBytes.Add(cb);
+                    }
+                    
                     hashBytes.Add(cb);
                     CipherEnum cipherEnm = CipherEnumExtensions.ByteCipherDict[cb];
                     pipeList.Add(cipherEnm);

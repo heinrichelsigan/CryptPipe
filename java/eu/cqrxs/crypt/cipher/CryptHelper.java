@@ -209,25 +209,28 @@ public class CryptHelper {
         byte[] keyBytes = key.getBytes(Charset.forName("UTF-8"));
 		byte[] hashBytes = keyHash.getBytes(Charset.forName("UTF-8"));
 
-        byte[] outKeyBytes = new byte[keyLen];
-        byte[] outHashBytes = new byte[keyLen];
+        byte[] outBytes = new byte[keyLen];
         for (o = 0; o < keyLen; o++) {
-            outKeyBytes[o] = (byte)0;
-            outHashBytes[o] = (byte)0;
+            outBytes[o] = (byte)0;
         }
 
-        if (keyBytes.length >= keyLen)
-            System.arraycopy(keyBytes, 0, outKeyBytes, 0, keyLen);
-        else
-            System.arraycopy(keyBytes, 0, outKeyBytes, 0, keyBytes.length);
+		byte[] keyHashBytes = tarBytes(keyBytes, hashBytes);
 
-        if (hashBytes.length >= keyLen)
-            System.arraycopy(hashBytes, 0, outHashBytes, 0, keyLen);
+        if (keyHashBytes.length >= keyLen)
+            System.arraycopy(keyHashBytes, 0, outBytes, 0, keyLen);
         else
-            System.arraycopy(hashBytes, 0, outHashBytes, 0, hashBytes.length);
-
-        byte[] keyHashBytes = tarBytes(outKeyBytes, outHashBytes);
-        return keyHashBytes;
+            System.arraycopy(keyHashBytes, 0, outBytes, 0, keyHashBytes.length);
+        
+		/* only debug code, because of Sha* is UPPERCASE when using Microsoft.Net basic sha methods	
+			String ddmsg = "", dxmsg = "";
+			for (int i = 0; i < keyLen; i++) {
+				ddmsg += String.format("%3d", outBytes[i]) + " "; 
+				dxmsg += String.format("%2x", outBytes[i]) + "  "; 
+			}		
+			DbgWriter.dbgmsg(ddmsg, 2, false);
+			DbgWriter.dbgmsg(dxmsg, 2, false);
+		*/
+        return outBytes;
     }
 
 

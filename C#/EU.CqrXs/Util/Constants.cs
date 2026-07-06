@@ -21,6 +21,8 @@ namespace EU.CqrXs.Util
         public const int PIPE_REVERSE_FROM = 7; // 0xb;
         public const int PIPE_KEY_HASH_LEN = 0x10; // 0x20;
 
+        public const bool PIPE_BUILD_MULTI_SAME_CIPHERS = false;
+
         public const bool CQR_ENCRYPT = true;
         public const bool ZEN_MATRIX_SYMMETRIC = false;
 

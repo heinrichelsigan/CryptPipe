@@ -223,13 +223,17 @@ namespace EU.CqrXs.Crypt.Cipher
             HashSet<byte> hashBytes = new HashSet<byte>();
             for (int i = 0; i < keyBytes.Length && pipeList.Count < maxpipe; i++)
             {
-                byte cb = (byte)((int)((int)keyBytes[i] % 0x1d));
-                // TODO: future design
-                // if (hashBytes.Contains(cb)) // mit magic add to generate deterministic more on same bytes
-                //     cb = (byte)((int)(cb + Math.Pow(2, i) + keyBytes.Length) % 0x1d);                
-                if (!hashBytes.Contains(cb))
+                byte cb = (byte)((int)((int)keyBytes[i] % 0x1d));                                
+                bool addCipherToPUpe = (Constants.PIPE_BUILD_MULTI_SAME_CIPHERS || (maxpipe < 0x16 && !hashBytes.Contains(cb)));
+                if (addCipherToPUpe) 
                 {
-                    hashBytes.Add(cb);
+                    if (!hashBytes.Contains(cb)) // TODO: future design
+                    {
+                        // // mit magic add to generate deterministic more on same bytes
+                        // cb = (byte)((int)(cb + Math.Pow(2, i) + keyBytes.Length) % 0x1d);               
+                        hashBytes.Add(cb);
+                    }
+
                     CipherEnum cipherEnm = CipherEnumExtensions.ByteCipherDict[cb];
                     pipeList.Add(cipherEnm);
 

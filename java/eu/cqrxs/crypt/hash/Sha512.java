@@ -33,9 +33,9 @@ public class Sha512 {
         digest.update(inBytes, 0, inBytes.length);
         digest.doFinal(resBuf, 0);
         HexFormat hex = HexFormat.of();
-        hexString = hex.formatHex(resBuf);
-        // for (int wc = 0; wc < inBytes.Length; wc++)
-        //    hexString += string.Format("{0:x2}", inBytes[wc]);
+		// avoid that ugly fix => furthermore use bouncycastle SHA512Digest() which provides lowercase letters in C#
+        // hexString = hex.formatHex(resBuf).toUpperCase(); 
+		hexString = hex.formatHex(resBuf);
 
         // string strUtf8 = System.Text.Encoding.UTF8.GetString(inBytes);
         return hexString;
