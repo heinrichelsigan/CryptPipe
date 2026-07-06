@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PermAgainCrypt.iml" filepath="$PROJECT_DIR$/PermAgainCrypt.iml" />
-      <module fileurl="file://$PROJECT_DIR$/eu/eu.iml" filepath="$PROJECT_DIR$/eu/eu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CryptPipe.iml" filepath="$PROJECT_DIR$/CryptPipe.iml" />
     </modules>
   </component>
 </project>

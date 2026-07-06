@@ -15,6 +15,14 @@ import eu.cqrxs.util.DbgWriter;
 import eu.cqrxs.gui.ImageHelper;
 
 import java.awt.Window;
+// import javax.swing.JWindow;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+// import java.awt.Window;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,9 +49,6 @@ public class CqrJDialog extends JDialog { /* implements MouseListener  { */
 	public CqrJDialog() throws IOException {
 
 		img = ImageHelper.toBufferedImage(ImageHelper.getJarImage("eu/cqrxs/gui/img/cqrxs-eu.png"), 712, 312);
-
-
-		setModal(true);
         Init();
 	}
 	
@@ -52,8 +57,7 @@ public class CqrJDialog extends JDialog { /* implements MouseListener  { */
 		if (filename == null || filename.length() == 0)			
 			filename = "eu/cqrxs/gui/img/cqrxs-eu.png";
 		img = ImageHelper.toBufferedImage(ImageHelper.getJarImage(filename));
-		
-		setModal(true);
+
         Init();
 	}
 
@@ -115,6 +119,8 @@ public class CqrJDialog extends JDialog { /* implements MouseListener  { */
 		
 		SymAction lSymAction = new SymAction();
 		jButtonExit.addActionListener(lSymAction);
+
+		setModal(true);
 	}
 
 	

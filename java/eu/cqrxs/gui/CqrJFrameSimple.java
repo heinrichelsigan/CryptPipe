@@ -1260,12 +1260,12 @@ public class CqrJFrameSimple extends JFrame {
 	
 	protected void about_action(ActionEvent event) {
         try {
-            if (new File("eu/cqrxs/gui/img/cqrxs-eu.png").isFile())
-			    cqrJDialog = new CqrJDialog("eu/cqrxs/gui/img/cqrxs-eu.png");
-            else if (new File("eu/cqrxs/gui/img/cqrxs-eu.gif").isFile())
-			    cqrJDialog = new CqrJDialog("eu/cqrxs/gui/img/cqrxs-eu.gif");
-            else
-                cqrJDialog = new CqrJDialog();
+            // if (new File("eu/cqrxs/gui/img/cqrxs-eu.png").isFile())
+			//     cqrJDialog = new CqrJDialog("eu/cqrxs/gui/img/cqrxs-eu.png");
+			// else if (new File("eu/cqrxs/gui/img/cqrxs-eu.gif").isFile())
+			//     cqrJDialog = new CqrJDialog("eu/cqrxs/gui/img/cqrxs-eu.gif");
+			// else
+			cqrJDialog = new CqrJDialog();
 
 			cqrJDialog.showDialog(cqrJFrameSimple);
 		} catch (Exception exIO) {
