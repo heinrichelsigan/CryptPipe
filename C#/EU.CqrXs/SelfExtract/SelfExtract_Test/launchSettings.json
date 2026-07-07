@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "EU.CqrXs.Console": {
+      "commandName": "Project",
+      "commandLineArgs": " -V -i=S:\\CryptPipe\\C#\\EU.CqrXs\\SelfExtract\\README.MD -k=heinrich.elsigan@heinrichelsigan.area23.at  -H=Sha256  -z=gzip  -C=BlowFish,Fish2,Fish3 -e=ascii85 -o=S:\\CryptPipe\\Deploy\\EU.CqrXs\\EU.CqrXs.SelfExtract\\README.MD.BfF.ascii85"
+    }
+  }
+}

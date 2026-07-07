@@ -1,0 +1,68 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+	<TargetFramework>net10.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PublishAot>False</PublishAot>
+	<IsAotCompatible>True</IsAotCompatible>
+    <InvariantGlobalization>True</InvariantGlobalization>
+	<StripSymbols>False</StripSymbols>
+    <StartupObject>EU.CqrXs.SelfExtract.Program</StartupObject>
+    <ApplicationIcon>SelfExtract.ico</ApplicationIcon>
+    <PublishTrimmed>True</PublishTrimmed>
+    <Title>EU.CqrXs.SelfExtract</Title>
+    <Description>EU.CqrXs.SelfExtract</Description>
+    <Copyright>Copyright © 2000-2040 Copyleft https://cqrxs.eu</Copyright>
+    <PackageProjectUrl>https://cqrxs.eu/download/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/heinrichelsigan/PermAgainCrypt</RepositoryUrl>
+    <AssemblyVersion>2.26.707</AssemblyVersion>
+    <FileVersion>2.26.706</FileVersion>
+    <PackageReadmeFile>README.MD</PackageReadmeFile>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>embedded</DebugType>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <WarningLevel>9999</WarningLevel>
+    <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
+    <DefineConstants>$(DefineConstants);DEBUG</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>embedded</DebugType>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <WarningLevel>9999</WarningLevel>
+    <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="README.MD">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SelfExtract.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETCore.Platforms" Version="7.0.4" />
+    <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EU.CqrXs.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="SelfExtract_Test.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="README.MD">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
