@@ -1139,6 +1139,117 @@ public class CqrJdFrame extends JFrame {
 	}
 
 
+
+	protected void MouseEventAction(MouseEvent e) {
+		Object object = e.getSource();
+		if (object != null) {
+			if (object == jLabelImgAddAlgo) {
+
+				cipherString = cipherEnum.toString();
+				String pipeText = jTextField_Pipe.getText();
+				jTextField_Pipe.setText(pipeText + cipherString + ";");
+
+				String cipherPipeString = jTextField_Pipe.getText();
+				String pipeString = "";
+				CipherEnum[] ciphers = new CipherEnum[0];
+				if (cipherPipeString.length() > 0)
+					ciphers = CipherEnum.parsePipeText(cipherPipeString);
+
+				CipherPipe pipe = new CipherPipe(ciphers, 8, encodeType, zipType, keyHash, cmode2);
+				BufferedImage pipeImg = CipherPipe.drawCipherPipe(pipe);
+				dropPanel.setPipeImg(pipeImg, pipe.getPipeString());
+
+			} else if (object == jLabelImgKey) {
+				// keyHash.Hash(
+			} else if (object == jLabelImgHash) {
+				hashKey_action();
+			} else if (object == jLabelImgX) {
+				jTextField_Pipe.setText("");
+				// } else if (object == imInFile) {
+				// 	if (openFileBytes == null || openFileBytes.length < 1)
+				// 		open_action();
+				// } else if (object == imOutFile) {
+				// 	if (saveFileBytes == null || saveFileBytes.length < 1)
+				// 		save_action();
+			} else {
+
+			}
+		}
+	}
+
+
+	protected void selectCipherMode2MenuItem(JMenu m, CipherMode2 cmod2) {
+		cmode2 = cmod2;
+		selectMenuItemByString(m, cmod2.getName());
+	}
+
+	protected static void selectItemByString(JComboBox cb, JMenu m, String s) {
+		if (cb != null) {
+			for (int i = 0; i < cb.getItemCount(); i++) {
+				if (cb.getItemAt(i).toString().equals(s) ||
+						cb.getItemAt(i).toString().toLowerCase().equals(s.toLowerCase())) {
+					cb.setSelectedIndex(i);
+					break;
+				}
+			}
+		}
+		selectMenuItemByString(m, s);
+	}
+
+	protected static void selectMenuItemByString(JMenu m, String s) {
+
+		if (m != null) {
+			for (int i = 0; i < m.getItemCount(); i++) {
+				JMenuItem item = m.getItem(i);
+				if (item.getText().equals(s))
+					item.setBackground(selectionBg); // item.setEnabled(enable);
+				else
+					item.setBackground(defaultMenuItemBg);
+			}
+		}
+		return;
+	}
+
+	protected String saveFileToTemp(String fname, byte[] fbytes) {
+		String temp = System.getenv("TEMP");
+		if (temp.isEmpty())
+			temp = System.getenv("TMP");
+		if (temp.isEmpty())
+			temp = System.getenv("temp");
+		if (temp.isEmpty())
+			temp = ".";
+
+		String dirSep = (File.pathSeparatorChar == ':') ? "/" : "\\";
+		String fonly = fname;
+		int idx = 0;
+		while ((idx = fonly.indexOf(dirSep)) > -1) {
+			int len = fonly.length();
+			fonly = fonly.substring(idx + 1, len -1);
+		}
+
+		String spath = temp + dirSep + fonly;
+		DbgWriter.msg("fname=" + fname + " fonly=" + fonly + " spath = " + spath, false);
+		Path fpath = java.nio.file.Paths.get(spath);
+
+		try {
+			if (fbytes != null && fbytes.length > 0) {
+				Files.write(fpath, fbytes);
+				DbgWriter.msg("filea: " + fbytes.length + " bytes writtem.", false);
+			} else
+				throw new java.lang.IllegalStateException("fbytes is null or len == 0");
+		} catch (Exception ex) {
+			setInfoMsg("Exception during file save.");
+		}
+
+		return fonly;
+
+	}
+
+	protected void setInfoMsg(String msg) {
+		jLabel_infoMessage.setText(msg);
+	}
+
+
 	/**
 	 * open_delegate
 	 */
@@ -1175,7 +1286,6 @@ public class CqrJdFrame extends JFrame {
 			jLabel_statusSource.setText((int)(openFileBytes.length / (1024*1024)) + " MB.");
 
 	}
-
 
 	/**
 	 * open_action action for file open
@@ -1222,9 +1332,11 @@ public class CqrJdFrame extends JFrame {
 		if (openFileBytes.length > 1048576)
 			jLabel_statusSource.setText((int)(openFileBytes.length / (1024*1024)) + " MB.");
 				
-    }   
+    }
 
-
+	/**
+	 * save_action saves a file by opening {@link JFileChooser}
+	 */
 	protected void save_action() {     
 		
 		String initDirectory = (java.io.File.separatorChar == '/') ? System.getenv("HOME") : System.getenv("USERPROFILE");
@@ -1233,6 +1345,7 @@ public class CqrJdFrame extends JFrame {
         // chooser.setFileFilter(new FileNameExtensionFilter("save file", saveFileSuffix));
 		int fileDialogResult = chooser.showSaveDialog(cqrJdFrame);
 		if (fileDialogResult == JFileChooser.CANCEL_OPTION || fileDialogResult == JFileChooser.ERROR_OPTION) {
+			setInfoMsg("save canceled.");
 			DbgWriter.msg("save_action JFileChooser returned: " + fileDialogResult, false);
 			return;
         }
@@ -1256,15 +1369,38 @@ public class CqrJdFrame extends JFrame {
 			else 
 				throw new java.lang.IllegalStateException("saveFileBytes is null or len == 0");
 		} catch (Exception ex) {
-			setInfoMsg("Exception during file save.");
+			setInfoMsg("Exception during file save: " + ex.getMessage());
 			JOptionPane.showMessageDialog(null, ex);
 
 			DbgWriter.msgex(ex, true);
 		}
 			
 	}
-	
 
+	/**
+	 * hashKey_action hashes key
+	 */
+	protected void hashKey_action() {
+		String keyValue = "";
+		try {
+			keyValue = jTextField_Key.getText().toString();
+		} catch (Exception exi) {
+			keyValue = Constants.AUTHOR_EMAIL;
+		}
+		String hashed = "";
+		try {
+			hashed = keyHash.hash(keyValue);
+			jTextField_Hash.setText(hashed);
+			setInfoMsg("Hashed key " + keyValue);
+		} catch (Exception exh) {
+		}
+	}
+
+
+	/**
+	 * setPipe_actiom
+	 * @param event {@link ActionEvent)
+	 */
 	protected void setPipe_action(ActionEvent event) {
 		try {
 			String key = jTextField_Key.getText().toString();
@@ -1288,23 +1424,11 @@ public class CqrJdFrame extends JFrame {
 			DbgWriter.msgex(e, true);
 		}
 	}
-	
-	protected void hashKey_action() {
-		String keyValue = "";
-		try {
-				keyValue = jTextField_Key.getText().toString();
-		} catch (Exception exi) {
-				keyValue = Constants.AUTHOR_EMAIL;
-		}
-		String hashed = "";
-		try {
-			hashed = keyHash.hash(keyValue);
-			jTextField_Hash.setText(hashed);
-			setInfoMsg("Hashed key " + keyValue);
-		} catch (Exception exh) {
-		}
-	}
-	
+
+	/**
+	 * hashPipe_action
+	 * @param event {@link ActionEvent)
+	 */
 	protected void hashPipe_action(ActionEvent event) {
 		try {
 			String key = jTextField_Key.getText().toString();
@@ -1328,7 +1452,12 @@ public class CqrJdFrame extends JFrame {
 			DbgWriter.msgex(e, true);
 		}
 	}
-		
+
+	/**
+	 * randomText_action
+	 * sets Random fortune text in {link @jTextAreaSource}
+	 * @param event {@link ActionEvent)
+	 */
 	protected void randomText_action(ActionEvent event) {
 		String currentFortune = Fortune.getFortune();
 		jTextAreaSource.setText(currentFortune);
@@ -1339,7 +1468,12 @@ public class CqrJdFrame extends JFrame {
 		if (currentFortune.length()> 1048576)
 			jLabel_statusSource.setText((int)(currentFortune.length() / (1024*1024)) + " MB");
 	}
-	
+
+	/**
+	 * resetForm_action
+	 * resets gui elements in {@link JFrame}
+	 * @param event {@link ActionEvent}
+	 */
 	protected void resetForm_action(ActionEvent event) {		
 		try {
 			jTextAreaSource.setText("");
@@ -1363,7 +1497,12 @@ public class CqrJdFrame extends JFrame {
 			DbgWriter.msgex(e, true);
 		}
 	}
-	
+
+	/**
+	 * encrypt_action
+	 * encrypts text source of file
+	 * @param event {@link ActionEvent)
+	 */
 	protected void encrypt_action(ActionEvent event) {
 		
 		String plain = jTextAreaSource.getText();
@@ -1447,7 +1586,12 @@ public class CqrJdFrame extends JFrame {
 			// jTextAreaDestination.setText(ex.toString());
 		}
 	}
-	
+
+	/**
+	 * decrypt_action
+	 * decrypt text source of file
+	 * @param event {@link ActionEvent)
+	 */
 	protected void decrypt_action(ActionEvent event) {
 
 		String encrypted = jTextAreaSource.getText();
@@ -1536,17 +1680,15 @@ public class CqrJdFrame extends JFrame {
 			setInfoMsg("Exception during decrypt.");
 		}
 	}
-	
-	
+
+	/**
+	 * about_action
+	 * shows about dialoh
+	 * @param event {@link ActionEvent)
+	 */
 	protected void about_action(ActionEvent event) {
         try {
-			// if (new File("eu/cqrxs/gui/img/cqrxs-eu.png").isFile())
-			//     cqrJDialog = new CqrJDialog("eu/cqrxs/gui/img/cqrxs-eu.png");
-			// else if (new File("eu/cqrxs/gui/img/cqrxs-eu.gif").isFile())
-			//     cqrJDialog = new CqrJDialog("eu/cqrxs/gui/img/cqrxs-eu.gif");
-			// else
 			cqrJDialog = new CqrJDialog();
-
 			cqrJDialog.showDialog(cqrJdFrame);
 		} catch (Exception exIO) {
 			DbgWriter.msgex(exIO, true);
@@ -1601,160 +1743,15 @@ public class CqrJdFrame extends JFrame {
 		}		
 	}
 
+	/**
+	 * exit_action
+	 * exits the application
+	 * @param event {@link ActionEvent)
+	 */
 	protected void exit_action(ActionEvent event) {
 		// We don't log exit events ;)
 		System.exit(0);
 	}
 	
-	
-	protected void MakeWebRequest() {
-		
-		HttpClient client = HttpClient.newBuilder()         
-         .connectTimeout(Duration.ofSeconds(10))
-         .build(); 
-		 
-		String area23R = "https://cqrxs.eu/net/R.aspx";
-		URI uri23 = URI.create(area23R);
-		
-		 //.version(HttpClient.Version.HTTP_2)
-		 
-		// HttpClient client = new HttpClient();
-			// .uri(URI.create("https://area23.at/net/R.aspx"))					
-			// .followRedirects(Redirect.NORMAL)
-			// .version(Version.HTTP_1_1)			
-			// .connectTimeout(Duration.ofSeconds(20))   			
-			// .authenticator(Authenticator.getDefault())			
-			// .build();
-		
-		// HttpRequest.newBuilder(new URI("https://area23.at/net/R.aspx"))
-		
-		HttpRequest request = HttpRequest.newBuilder()
-			.uri(URI.create(area23R))	
-			.GET()
-			.build();
-	
-		HttpResponse<String> response;
-   
-		try {   
-			response = client.send(request, HttpResponse.BodyHandlers.ofString());
-					
-			jTextAreaDestination.append("GET " + area23R + " status = " + response.statusCode() + "\n");
-			jTextAreaDestination.append("Headers: " + response.headers().allValues("content-type"));
-			jTextAreaDestination.append("Body: \n " + response.body());  
-		} catch (Exception ioEx) {
-			DbgWriter.msgex(ioEx, true);
-			jTextAreaDestination.append("Exception: " + ioEx + "\n");		
-		}
-		
-	}
-
-	protected void MouseEventAction(MouseEvent e) {
-		Object object = e.getSource();
-		if (object != null) {
-			if (object == jLabelImgAddAlgo) {
-				
-				cipherString = cipherEnum.toString();
-				String pipeText = jTextField_Pipe.getText();
-				jTextField_Pipe.setText(pipeText + cipherString + ";");
-				
-				String cipherPipeString = jTextField_Pipe.getText();
-				String pipeString = "";
-				CipherEnum[] ciphers = new CipherEnum[0];
-				if (cipherPipeString.length() > 0) 
-					ciphers = CipherEnum.parsePipeText(cipherPipeString);
-				
-				CipherPipe pipe = new CipherPipe(ciphers, 8, encodeType, zipType, keyHash, cmode2);
-				BufferedImage pipeImg = CipherPipe.drawCipherPipe(pipe);	
-				dropPanel.setPipeImg(pipeImg, pipe.getPipeString());
-				
-			} else if (object == jLabelImgKey) {
-				// keyHash.Hash(
-			} else if (object == jLabelImgHash) {
-				hashKey_action();
-			} else if (object == jLabelImgX) {
-				jTextField_Pipe.setText("");
-			// } else if (object == imInFile) {
-			// 	if (openFileBytes == null || openFileBytes.length < 1)
-			// 		open_action();
-			// } else if (object == imOutFile) {
-			// 	if (saveFileBytes == null || saveFileBytes.length < 1)
-			// 		save_action();
-			} else {
-
-			}
-		}
-	}
-
-
-	protected void selectCipherMode2MenuItem(JMenu m, CipherMode2 cmod2) {
-		cmode2 = cmod2;
-		selectMenuItemByString(m, cmod2.getName());
-	}
-
-	protected static void selectItemByString(JComboBox cb, JMenu m, String s) {
-		if (cb != null) {
-			for (int i = 0; i < cb.getItemCount(); i++) {
-				if (cb.getItemAt(i).toString().equals(s) ||
-						cb.getItemAt(i).toString().toLowerCase().equals(s.toLowerCase())) {
-					cb.setSelectedIndex(i);
-					break;
-				}
-			}
-		}
-		selectMenuItemByString(m, s);
-	}
-
-	protected static void selectMenuItemByString(JMenu m, String s) {
-
-		if (m != null) {
-			for (int i = 0; i < m.getItemCount(); i++) {
-				JMenuItem item = m.getItem(i);
-				if (item.getText().equals(s))
-					item.setBackground(selectionBg); // item.setEnabled(enable);
-				else
-					item.setBackground(defaultMenuItemBg);
-			}
-		}
-		return;
-	}	
-
-    protected String saveFileToTemp(String fname, byte[] fbytes) {
-        String temp = System.getenv("TEMP");
-        if (temp.isEmpty()) 
-            temp = System.getenv("TMP");
-        if (temp.isEmpty()) 
-            temp = System.getenv("temp");
-        if (temp.isEmpty()) 
-            temp = ".";
-    
-        String dirSep = (File.pathSeparatorChar == ':') ? "/" : "\\";
-        String fonly = fname;
-        int idx = 0;
-        while ((idx = fonly.indexOf(dirSep)) > -1) {
-            int len = fonly.length();
-            fonly = fonly.substring(idx + 1, len -1);
-        }
-
-        String spath = temp + dirSep + fonly;
-        DbgWriter.msg("fname=" + fname + " fonly=" + fonly + " spath = " + spath, false);
-        Path fpath = java.nio.file.Paths.get(spath);
-
-         try { 
-             if (fbytes != null && fbytes.length > 0) { 
-                Files.write(fpath, fbytes); 
-                DbgWriter.msg("filea: " + fbytes.length + " bytes writtem.", false); 
-            } else 
-                throw new java.lang.IllegalStateException("fbytes is null or len == 0"); 
-        } catch (Exception ex) { 
-            setInfoMsg("Exception during file save.");
-        }
-            
-        return fonly;
-
-    }
-
-	protected void setInfoMsg(String msg) {
-		jLabel_infoMessage.setText(msg);
-	}
 
 }

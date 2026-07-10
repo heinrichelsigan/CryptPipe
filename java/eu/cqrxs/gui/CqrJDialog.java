@@ -42,22 +42,10 @@ public class CqrJDialog extends JDialog { /* implements MouseListener  { */
 	JTextField jTextField = new JTextField();
 	static Color backColor, bgColor;
 	File file;
-	BufferedImage img;
 	ImageIcon icon;
 	static final String NEWLINE = System.getProperty("line.separator");
 	
 	public CqrJDialog() throws IOException {
-
-		img = ImageHelper.toBufferedImage(ImageHelper.getJarImage("eu/cqrxs/gui/img/cqrxs-eu.png"), 712, 312);
-        Init();
-	}
-	
- 	public CqrJDialog(String filename) throws IOException {
-		
-		if (filename == null || filename.length() == 0)			
-			filename = "eu/cqrxs/gui/img/cqrxs-eu.png";
-		img = ImageHelper.toBufferedImage(ImageHelper.getJarImage(filename));
-
         Init();
 	}
 
@@ -84,7 +72,6 @@ public class CqrJDialog extends JDialog { /* implements MouseListener  { */
 		backColor = Color.decode("#04339d");
 		bgColor = Color.BLUE;
 		getContentPane().setBackground(backColor);
-
 
 		icon = ImageHelper.getJarImageIcon("eu/cqrxs/gui/img/cqrxs-eu.png");
 		jPanelCenter.setBounds(12, 8, 712, 332);

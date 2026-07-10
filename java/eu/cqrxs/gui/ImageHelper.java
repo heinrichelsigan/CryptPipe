@@ -28,13 +28,23 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
-
+/*
+ * ImageHelper loads jar included images or images from filesystem
+ */
 public class ImageHelper {
 
     protected static ImageHelper helper = new ImageHelper();
 
+    /*
+     * ImageHelper default constructor
+     */
     public ImageHelper() {
 
+    }
+
+
+    public static ImageHelper getHelper() {
+        return helper;
     }
 
 
@@ -135,8 +145,6 @@ public class ImageHelper {
     }
 
 
-
-
     /**
      * getImageByFileNames
      * @param imagePaths Array {@link String[]} with possible image paths
@@ -176,13 +184,6 @@ public class ImageHelper {
     }
 
 
-
-    public static ImageHelper getHelper() {
-        return helper;
-    }
-
-
-
     /**
      * getJarImageIcon gets an {@link ImageIcon} from included jar file or relative path location
      * @param jarImgPath{@link String[]} with path to image file inside or outside jar
@@ -200,7 +201,6 @@ public class ImageHelper {
     public static Image getJarImage(String jarImgPath) {
         return getHelper().getJarImg(jarImgPath);
     }
-
 
     /**
      * addImages
@@ -228,31 +228,12 @@ public class ImageHelper {
 	}
 
     /*
-	 * toBufferedImage converts {@link java.awt.Image} to {@link BufferedImage}
-	 * @param img {@link java.awt.Image}
-	 * @return {@link BufferedImage}
-	 */
-    public static BufferedImage toBufferedImage(Image img) {
-
-		if (img instanceof BufferedImage)
-            return (BufferedImage) img;
-        DbgWriter.msg("Entered toBufferedImage without width & heigth", false);
-
-        int width = img.getWidth(null);
-        int height = img.getHeight(null);
-
-        // Create a buffered image with transparency
-        BufferedImage bufimg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-
-        // Draw the image on to the buffered image
-        Graphics2D bGr = bufimg.createGraphics();
-        bGr.drawImage(img, 0, 0, null);
-        bGr.dispose();
-
-        // Return the buffered image
-        return bufimg;
-    }
-
+     * toBufferedImage converts {@link java.awt.Image} to {@link BufferedImage}
+     * @param img {@link java.awt.Image}
+     * @param width of image
+     * @param height of image
+     * @return {@link BufferedImage}
+     */
     public static BufferedImage toBufferedImage(Image img, int width, int height) {
 
         if (img instanceof BufferedImage)
