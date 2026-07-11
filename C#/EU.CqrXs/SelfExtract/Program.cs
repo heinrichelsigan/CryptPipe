@@ -270,22 +270,7 @@ namespace EU.CqrXs.SelfExtract
             {
                 File.WriteAllBytes(outFile.FullName, outBytes);
                 if (xexe)
-                {                    
-                    string exeName = Path.Combine(Path.GetDirectoryName(outFile.FullName), Path.GetFileName(outFile.FullName) + ".exe");
-                    GenerateExecuteBatch(outFile.FullName, exeName);
-
-                    // TODO: delete outFile.FullName after exe creation
-                    /* 
-                     *  if (File.Exists(exeName)) {
-                     *      System.Console.WriteLine($"SelfExtract exe created: {exeName}");
-                     *      try {
-                     *          File.Delete(outFile.FullName);
-                     *      } catch { }
-                     *  }
-                     *  else
-                     *      System.Console.WriteLine($"SelfExtract exe creation failed: {exeName}");
-                     */
-                }
+                    GenerateExecuteBatch(outFile.FullName, Path.Combine(Path.GetDirectoryName(outFile.FullName), Path.GetFileName(outFile.FullName) + ".exe");
             }
             else if (string.IsNullOrEmpty(outName))
                 System.Console.WriteLine(Encoding.UTF8.GetString(outBytes));
@@ -372,9 +357,13 @@ namespace EU.CqrXs.SelfExtract
 
         public static void GenerateExecuteBatch(string outFile, string exeName)
         {
-            string selfExtractingBase = System.Environment.ProcessPath;
+            string selfExtractingBase = progName;
             if (!File.Exists(selfExtractingBase))
-                selfExtractingBase = progName;
+            {
+                if (File.Exists(selfExtractingBase + ".exe"))
+                    selfExtractingBase = selfExtractingBase + ".exe";
+            }
+
 
             string suffix = DateTime.Now.ToString("yyyyMMdd_HHmmss");
             string batName = Path.Combine(Path.GetDirectoryName(outFile), $"GenSelf{suffix}.bat");
