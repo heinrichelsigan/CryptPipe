@@ -270,7 +270,7 @@ namespace EU.CqrXs.SelfExtract
             {
                 File.WriteAllBytes(outFile.FullName, outBytes);
                 if (xexe)
-                    GenerateExecuteBatch(outFile.FullName, Path.Combine(Path.GetDirectoryName(outFile.FullName), Path.GetFileName(outFile.FullName) + ".exe");
+                    GenerateExecuteBatch(outFile.FullName, Path.Combine(Path.GetDirectoryName(outFile.FullName), Path.GetFileName(outFile.FullName) + ".exe"));
             }
             else if (string.IsNullOrEmpty(outName))
                 System.Console.WriteLine(Encoding.UTF8.GetString(outBytes));
