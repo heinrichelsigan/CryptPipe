@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "EU.CqrXs.SelfExtract": {
+      "commandName": "Project",
+      "commandLineArgs": "-V -x -i=S:\\CryptPipe\\Deploy\\EU.CqrXs\\EU.CqrXs.SelfExtract\\README.MD -S -k=io.cqrxs.eu -z=gzip -o=S:\\CryptPipe\\Deploy\\EU.CqrXs\\EU.CqrXs.SelfExtract\\README_MD.base64.scrypt.gz"
+    }
+  }
+}

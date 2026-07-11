@@ -82,6 +82,18 @@ namespace EU.CqrXs.SelfExtract
             if (args.Length <= 0)
                 Usage();
 
+            // experimental
+            FileInfo f = new FileInfo(progName);
+            if (f.Length > 36501412)
+            {
+                byte[] bytesInExe = File.ReadAllBytes(progName);
+                byte[] inBytes = new byte[f.Length - 36501412];
+                Array.Copy(bytesInExe, 36501412, inBytes, 0, f.Length - 36501412);
+                inName = progName.Replace(".exe", "");
+                File.WriteAllBytes(inName, inBytes);
+                outBytes = inBytes;                
+            }
+
             for (int i = 0; i < args.Length; i++)
             {
                 // string optStr = GetOption(... => out OptEnum optEnum)
@@ -228,7 +240,12 @@ namespace EU.CqrXs.SelfExtract
                 inBytes = outBytes;
 
                 if (outFile != null)
+                {
                     File.WriteAllBytes(outFile.FullName, outBytes);
+                    if (xexe)
+                        GenerateExecuteBatch(outFile.FullName,
+                            Path.Combine(Path.GetDirectoryName(outFile.FullName), Path.GetFileName(outFile.FullName) + ".exe"));
+                }
                 else if (string.IsNullOrEmpty(outName))
                     System.Console.WriteLine(Encoding.UTF8.GetString(outBytes));
                 else if (!string.IsNullOrEmpty(outEnviron))
@@ -253,26 +270,21 @@ namespace EU.CqrXs.SelfExtract
             {
                 File.WriteAllBytes(outFile.FullName, outBytes);
                 if (xexe)
-                {
-                    string selfExtractingBase = System.Environment.ProcessPath;
-                    if (!File.Exists(selfExtractingBase))
-                        selfExtractingBase = progName;
+                {                    
+                    string exeName = Path.Combine(Path.GetDirectoryName(outFile.FullName), Path.GetFileName(outFile.FullName) + ".exe");
+                    GenerateExecuteBatch(outFile.FullName, exeName);
 
-                    string exeName = Path.Combine(Path.GetDirectoryName(outFile.FullName), Path.GetFileNameWithoutExtension(outFile.FullName) + ".exe");
-                    Console.WriteLine($"ProcessCmd.Execute: copy /b {selfExtractingBase} + {outFile.FullName}  {exeName} ");
-
-                    ProcessCmd.Execute("copy", $" /b {selfExtractingBase} + {outFile.FullName}  {exeName} ");
                     // TODO: delete outFile.FullName after exe creation
-                    if (File.Exists(exeName))
-                    {
-                        System.Console.WriteLine($"SelfExtract exe created: {exeName}");
-                        try
-                        {
-                            File.Delete(outFile.FullName);
-                        } catch { }
-                    }
-                    else
-                        System.Console.WriteLine($"SelfExtract exe creation failed: {exeName}");
+                    /* 
+                     *  if (File.Exists(exeName)) {
+                     *      System.Console.WriteLine($"SelfExtract exe created: {exeName}");
+                     *      try {
+                     *          File.Delete(outFile.FullName);
+                     *      } catch { }
+                     *  }
+                     *  else
+                     *      System.Console.WriteLine($"SelfExtract exe creation failed: {exeName}");
+                     */
                 }
             }
             else if (string.IsNullOrEmpty(outName))
@@ -357,6 +369,33 @@ namespace EU.CqrXs.SelfExtract
                     $"ChipherMode={sCipherPipe.CMode2} PipeString={sCipherPipe.PipeString}");
             }
         }
+
+        public static void GenerateExecuteBatch(string outFile, string exeName)
+        {
+            string selfExtractingBase = System.Environment.ProcessPath;
+            if (!File.Exists(selfExtractingBase))
+                selfExtractingBase = progName;
+
+            string suffix = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            string batName = Path.Combine(Path.GetDirectoryName(outFile), $"GenSelf{suffix}.bat");
+            using (StreamWriter sw = new StreamWriter(batName, false))
+            {
+                sw.WriteLine($"@echo off\n");
+                sw.WriteLine($"timeout 2 > NUL");
+                sw.WriteLine($"copy /b \"{selfExtractingBase}\" + \"{outFile}\"  \"{exeName}\"");
+                sw.WriteLine($"if exist \"{exeName}\" (");
+                sw.WriteLine($"    echo SelfExtract exe created: \"{exeName}\"");
+                sw.WriteLine($"    del \"{outFile}\"");
+                sw.WriteLine($") else (");
+                sw.WriteLine($"    echo SelfExtract exe creation failed: \"{exeName}\"");
+                sw.WriteLine($")");
+            }
+            Task.Run(() =>
+            {
+                ProcessCmd.Execute("start", $"{batName}");
+            });
+        }
+        
         #endregion print only debug info
 
     }
