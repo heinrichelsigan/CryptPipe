@@ -29,7 +29,6 @@ namespace EU.CqrXs.Crypt.Cipher
         XTea = 0xe,
         SM4 = 0xf,
 
-
         Cast5 = 0x10,
         Rijndael = 0x11,
         Noekeon = 0x12,
@@ -46,9 +45,9 @@ namespace EU.CqrXs.Crypt.Cipher
         Des3Net = 0x1d,
         AesNet = 0x1e,
 
-        ZenMatrix2 = 0x1f
+        ZenMatrix2 = 0x1f,
 
-        // Rsa = 0x21
+        Rsa = 0x20
         // DH = 0x22,
         // Ascon = 0x1d
 
@@ -135,7 +134,7 @@ namespace EU.CqrXs.Crypt.Cipher
                 case CipherEnum.ZenMatrix: return 'z';
                 case CipherEnum.ZenMatrix2: return 'Z';
 
-                // case CipherEnum.Rsa: return '%';
+                case CipherEnum.Rsa: return '%';
                 // case CipherEnum.DH: return '!';
 
                 default: break;

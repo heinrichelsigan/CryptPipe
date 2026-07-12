@@ -14,6 +14,57 @@
             For root first Exception <see cref="P:EU.CqrXs.Crypt.CException.LastException"/> is always <see cref="T:null"/>
             </summary>
         </member>
+        <member name="T:EU.CqrXs.Crypt.Cipher.Asymmetric.Dsa">
+            <summary>
+            Dsa Asymmetric cipher    
+                openssl dsaparam -verbose -out out_des.params 2048
+                openssl gendsa -aes256 -verbose -out out_des.pem  out_des.params
+            </summary>
+        </member>
+        <member name="T:EU.CqrXs.Crypt.Cipher.Asymmetric.Rsa">
+            <summary>
+            Rsa Asymmetric cipher 
+            #!/usr/bin/bash
+                KLEN=512
+                if [ $# -gt 0 ] ; then KLEN=$1; fi
+                if [ $KLEN -lt 512 ] ; then KLEN=512; fi
+                openssl genpkey -algorithm rsa -pkeyopt rsa_keygen_bits:$KLEN > /tmp/rsa_$KLEN.pk8 2>/dev/null
+                cat /tmp/rsa_$KLEN.pk8
+                openssl rsa -in /tmp/rsa_$KLEN.pk8 -pubout | tee rsa_$KLEN.spki
+                sleep 1
+                rm -f /tmp/rsa_$KLEN.pk8
+            </summary>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.Asymmetric.Rsa.GenerateNewRsaKeyPair">
+            <summary>
+            GenerateNewRsaKeyPair - generates a new rsa key pair
+            </summary>
+            <returns><see cref="T:Org.BouncyCastle.Crypto.AsymmetricCipherKeyPair"/></returns>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.Asymmetric.Rsa.GetRsaKeyPair(System.String,System.String)">
+            <summary>
+            Get Rsa Key Pair by private and public key
+            </summary>
+            <param name="pubKey"></param>
+            <param name="privKey"></param>
+            <returns><see cref="T:Org.BouncyCastle.Crypto.AsymmetricCipherKeyPair"/></returns>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.Asymmetric.Rsa.EncryptWithPublic(System.Byte[],Org.BouncyCastle.Crypto.AsymmetricCipherKeyPair)">
+            <summary>
+            Rsa encrypt bytes with public key
+            </summary>
+            <param name="bytesToEncrypt"><see cref="T:byte[]">bytes to encrypt</see></param>
+            <param name="pair"></param>
+            <returns>encrypted <see cref="T:yte[]"/></returns>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.Asymmetric.Rsa.DecryptWithPublic(System.Byte[],Org.BouncyCastle.Crypto.AsymmetricCipherKeyPair)">
+            <summary>
+            Rsa DecryptWithPublic key
+            </summary>
+            <param name="bytesToDecrypt"></param>
+            <param name="pair"></param>
+            <returns></returns>
+        </member>
         <member name="T:EU.CqrXs.Crypt.Cipher.CipherMode2">
             <summary>
             CipherMode2 enumeration type for more cipher mode as found in standard <see cref="T:System.Security.Cryptography.CipherMode"/>

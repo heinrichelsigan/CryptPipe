@@ -4,6 +4,7 @@ using EU.CqrXs.Crypt.Hash;
 using EU.CqrXs.Util;
 using EU.CqrXs.Zip;
 using Newtonsoft.Json;
+using Org.BouncyCastle.Crypto;
 using System.Text;
 
 namespace EU.CqrXs.Crypt.Cipher
@@ -312,6 +313,10 @@ namespace EU.CqrXs.Crypt.Cipher
                     Des3Net des3 = new Des3Net(cpParams);
                     encryptBytes = des3.Encrypt(inBytes);
                     break;
+                case CipherEnum.Rsa:
+                    AsymmetricCipherKeyPair keyPair = Asymmetric.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
+                    encryptBytes = Asymmetric.Rsa.Encrypt(inBytes, keyPair);
+                    break;
                 case CipherEnum.ZenMatrix:
                     encryptBytes = (new ZenMatrix(secretKey, secretKey, false)).Encrypt(inBytes, true);
                     break;
@@ -354,10 +359,10 @@ namespace EU.CqrXs.Crypt.Cipher
                     Des3Net des3 = new Des3Net(cpParams);
                     decryptBytes = des3.Decrypt(cipherBytes);
                     break;
-                //case CipherEnum.Rsa:
-                //    AsymmetricCipherKeyPair keyPair = Asymmetric.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
-                //    decryptBytes = Asymmetric.Rsa.DecryptWithPrivate(cipherBytes, keyPair);
-                //    break;
+                case CipherEnum.Rsa:
+                    AsymmetricCipherKeyPair keyPair = Asymmetric.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
+                    decryptBytes = Asymmetric.Rsa.Decrypt(cipherBytes, keyPair);
+                    break;
                 case CipherEnum.ZenMatrix:
                     decryptBytes = (new ZenMatrix(secretKey, secretKey, false)).Decrypt(cipherBytes);
                     break;
