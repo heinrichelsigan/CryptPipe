@@ -178,6 +178,30 @@ public class Constants {
 	public final static String SNULL = "(null)";
 	//endregion application constants
 
+	public final static String RSA_PUB =      "-----BEGIN PUBLIC KEY-----\n" +
+		"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDERBy7FD7m9dq1Nu90B5U63uMl\n" +
+		"LIGbxU90dGQ6U7QmjsK1Lyuc5ma941EjaNWPvIfyBkJZc9ij6/9buv12naHg1K6P\n" +
+		"6CBycNKd2l1N5/XG3IKTHomgFQKrMX90KI7F772caVDFDzi4N5XjqG8HMVAjPL1w\n" +
+		"tqelayYErbUrJMzRRwIDAQAB\n" +
+		"-----END PUBLIC KEY-----";
+
+	public final static String RSA_PRV =     "-----BEGIN PRIVATE KEY-----\n" +
+		"MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAMREHLsUPub12rU2\n" +
+		"73QHlTre4yUsgZvFT3R0ZDpTtCaOwrUvK5zmZr3jUSNo1Y+8h/IGQllz2KPr/1u6\n" +
+		"/XadoeDUro/oIHJw0p3aXU3n9cbcgpMeiaAVAqsxf3QojsXvvZxpUMUPOLg3leOo\n" +
+		"bwcxUCM8vXC2p6VrJgSttSskzNFHAgMBAAECgYBo0l/t4sA9pi0q/64f8DTZflUe\n" +
+		"c4i9Y0IuVkN5i176AOEo14qZf8x7uj6JhOIapHyO3JzvHZok4lQ9776TbVkYxCVh\n" +
+		"EP6XlGTCOc7urCYghNkw8URNXZDVNUnrsPo6ge0l/MsySHIcZFUHuYjy8zPG2x5c\n" +
+		"KfRhwW4n40BJyn80UQJBAPwvTyu1pkxPjvoleKN1NvKbCXR+Haf+mKzQQdljV2Vw\n" +
+		"86rTv05uFpntCsR5rvPdIWRMcN6xPwle13vZbjaA2+sCQQDHPDv+b0TyJWvjtKXl\n" +
+		"I10tdRtD7yvB6fEI1nM/9RfxYjTZVhNYScE83z9TCVZWWt77JOWC6bDHrOy8ExTs\n" +
+		"8ZUVAkA2KgMbJDy/jybqWzn6Aab3nIz/VEcSWgB4vZInGsseoo/zVN91/PclwF/b\n" +
+		"qzcEca5GWJS1f+RGIvStSRn+4tZZAkEAhl94sxUGsi5NAumuzck5KdSGzB2+LG4E\n" +
+		"9An29xbtzA6JSGAGchBkdRK42d89TMbDBy2OYeoNIc7eZ8aS4W/aNQJBAI0pZHau\n" +
+		"UqtKUFBoMzn3qQXZubzV4oXAhHQe3BT4riGYbpiVdfTuiQxcYZE9Kfkn7orQgMJv\n" +
+		"rca/fxpvMlzLUR0=\n" +
+		"-----END PRIVATE KEY-----\n";
+
 
 	public static boolean DirCreate = false;
 	public static boolean NOLog = false;

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="grpc-servlet-jakarta-1.82.2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/grpc-servlet-jakarta-1.82.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

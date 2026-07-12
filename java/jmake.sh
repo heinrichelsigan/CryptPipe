@@ -8,7 +8,8 @@
 
 echo "setting bouncy castle jar and MYCLASSPATH"
 # BCJAR=bcprov-jdk18on-1.79.jar
-BCJAR=bcprov-lts8on-2.73.10.jar
+# BCJAR=bcprov-lts8on-2.73.10.jar
+BCJAR=org/bouncycastle/
 
 # CLASSPATH = %CLASSPATH%;C:/Users/heinrich.elsigan/.jdks/openjdk-25/lib
 MYCLASSPATH="$CLASSPATH:./:./$BCJAR:./eu/cqrxs/:./eu/cqrxs/gui/:./eu/cqrxs/net:./eu/cqrxs/net/addr:./eu/cqrxs/net/server6:./eu/cqrxs/util/:./eu/cqrxs/crypt/:./eu/cqrxs/crypt/encoding/:./eu/cqrxs/crypt/cipher/:./eu/cqrxs/crypt/hash/:"
@@ -38,8 +39,8 @@ javac -classpath $MYCLASSPATH -Xlint:unchecked -Xlint:deprecation eu/cqrxs/crypt
 eu/cqrxs/crypt/encoding/uu/CEStreamExhausted.java eu/cqrxs/crypt/encoding/uu/CharacterDecoder.java eu/cqrxs/crypt/encoding/uu/CharacterEncoder.java  eu/cqrxs/crypt/encoding/uu/UUDecoder.java  eu/cqrxs/crypt/encoding/uu/UUEncoder.java eu/cqrxs/crypt/encoding/EnDeCodeHelper.java eu/cqrxs/crypt/encoding/EncodeEnum.java eu/cqrxs/crypt/encoding/IEncodable.java eu/cqrxs/crypt/encoding/Base16Coder.java  eu/cqrxs/crypt/encoding/Hex16Coder.java  eu/cqrxs/crypt/encoding/Hex32Coder.java eu/cqrxs/crypt/encoding/Base64Coder.java eu/cqrxs/crypt/encoding/Hex64Coder.java eu/cqrxs/crypt/encoding/UuCoder.java eu/cqrxs/crypt/encoding/XxEncoder.java eu/cqrxs/crypt/encoding/Ascii85Coder.java
 
 
-echo "$0 javac -classpath $MYCLASSPATH -Xlint:unchecked -Xlint:deprecation eu/cqrxs/crypt/cipher/CipherEnum.java eu/cqrxs/crypt/cipher/CipherPipe.java eu/cqrxs/crypt/cipher/SecureCipherPipe.java eu/cqrxs/crypt/cipher/symmetric/CryptBounceCastle.java eu/cqrxs/crypt/cipher/CryptHelper.java eu/cqrxs/crypt/cipher/CryptParams.java eu/cqrxs/crypt/cipher/symmetric/JAes.java  eu/cqrxs/crypt/cipher/symmetric/ZenMatrix.java  eu/cqrxs/crypt/cipher/symmetric/ZenMatrix2.java  eu/cqrxs/crypt/cipher/symmetric/ZenMatrix3.java"
-javac -classpath $MYCLASSPATH -Xlint:unchecked -Xlint:deprecation eu/cqrxs/crypt/cipher/CipherEnum.java eu/cqrxs/crypt/cipher/CipherPipe.java eu/cqrxs/crypt/cipher/SecureCipherPipe.java eu/cqrxs/crypt/cipher/CryptBounceCastle.java eu/cqrxs/crypt/cipher/CryptHelper.java eu/cqrxs/crypt/cipher/CryptParams.java  eu/cqrxs/crypt/cipher/JAes.java eu/cqrxs/crypt/cipher/ZenMatrix.java  eu/cqrxs/crypt/cipher/ZenMatrix2.java  eu/cqrxs/crypt/cipher/ZenMatrix3.java
+echo "$0 javac -classpath $MYCLASSPATH -Xlint:unchecked -Xlint:deprecation eu/cqrxs/crypt/cipher/CipherEnum.java eu/cqrxs/crypt/cipher/CipherPipe.java eu/cqrxs/crypt/cipher/SecureCipherPipe.java eu/cqrxs/crypt/cipher/symmetric/CryptBounceCastle.java eu/cqrxs/crypt/cipher/CryptHelper.java eu/cqrxs/crypt/cipher/CryptParams.java eu/cqrxs/crypt/cipher/symmetric/JAes.java  eu/cqrxs/crypt/cipher/symmetric/ZenMatrix.java  eu/cqrxs/crypt/cipher/symmetric/ZenMatrix2.java  eu/cqrxs/crypt/cipher/symmetric/ZenMatrix3.java  eu/cqrxs/crypt/cipher/asymmetric/RsaCipher.java"
+javac -classpath $MYCLASSPATH -Xlint:unchecked -Xlint:deprecation eu/cqrxs/crypt/cipher/CipherEnum.java eu/cqrxs/crypt/cipher/CipherPipe.java eu/cqrxs/crypt/cipher/SecureCipherPipe.java eu/cqrxs/crypt/cipher/CryptBounceCastle.java eu/cqrxs/crypt/cipher/CryptHelper.java eu/cqrxs/crypt/cipher/CryptParams.java  eu/cqrxs/crypt/cipher/JAes.java eu/cqrxs/crypt/cipher/ZenMatrix.java  eu/cqrxs/crypt/cipher/ZenMatrix2.java  eu/cqrxs/crypt/cipher/ZenMatrix3.java  eu/cqrxs/crypt/cipher/asymmetric/RsaCipher.java
 
 echo "javac -classpath $MYCLASSPATH -Xlint:unchecked -Xlint:deprecation eu/cqrxs/crypt/hash/OpenBSDCrypt.java eu/cqrxs/crypt/hash/BCrypt.java eu/cqrxs/crypt/hash/SCrypt.java eu/cqrxs/crypt/hash/MD5.java eu/cqrxs/crypt/hash/Sha256.java eu/cqrxs/crypt/hash/Sha512.java eu/cqrxs/crypt/hash/KeyHash.java "
 javac -classpath $MYCLASSPATH -Xlint:unchecked -Xlint:deprecation eu/cqrxs/crypt/hash/OpenBSDCrypt.java eu/cqrxs/crypt/hash/BCrypt.java eu/cqrxs/crypt/hash/SCrypt.java eu/cqrxs/crypt/hash/MD5.java eu/cqrxs/crypt/hash/Sha256.java eu/cqrxs/crypt/hash/Sha512.java eu/cqrxs/crypt/hash/KeyHash.java

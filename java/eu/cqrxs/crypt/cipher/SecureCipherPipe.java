@@ -9,6 +9,7 @@
 
 package eu.cqrxs.crypt.cipher;
 
+import eu.cqrxs.crypt.cipher.asymmetric.RsaCipher;
 import eu.cqrxs.crypt.cipher.symmetric.CryptBounceCastle;
 import eu.cqrxs.crypt.cipher.symmetric.JAes;
 import eu.cqrxs.crypt.cipher.symmetric.ZenMatrix;
@@ -195,7 +196,11 @@ public class SecureCipherPipe extends CipherPipe {
             case CipherEnum.JAes:
                 JAes jAes = new JAes(128, hashKey);
                 encryptBytes = jAes.encrypt(inBytes);
-				break;         
+				break;
+            case Rsa:
+                RsaCipher rsa = new RsaCipher(Constants.RSA_PUB, Constants.RSA_PRV);
+                encryptBytes = rsa.encrypt(inBytes);
+                break;
             case ZenMatrix:
                 encryptBytes = (new ZenMatrix(hashKey, hashKey, false, KeyHash.Hex)).encrypt(inBytes, true);
                 break;
@@ -233,7 +238,11 @@ public class SecureCipherPipe extends CipherPipe {
             case CipherEnum.JAes:
                 JAes jAes = new JAes(128, hashKey);
                 decryptBytes = jAes.decrypt(cipherBytes);
-                break;                 
+                break;
+            case Rsa:
+                RsaCipher rsa = new RsaCipher(Constants.RSA_PUB, Constants.RSA_PRV);
+                decryptBytes = rsa.decrypt(cipherBytes);
+                break;
             case ZenMatrix:
                 decryptBytes = (new ZenMatrix(hashKey, hashKey, false, KeyHash.Hex)).decrypt(cipherBytes);
                 break;

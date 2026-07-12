@@ -18,6 +18,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import eu.cqrxs.crypt.cipher.asymmetric.RsaCipher;
 import eu.cqrxs.crypt.cipher.symmetric.CryptBounceCastle;
 import eu.cqrxs.crypt.cipher.symmetric.JAes;
 import eu.cqrxs.crypt.cipher.symmetric.ZenMatrix;
@@ -290,7 +291,11 @@ public class CipherPipe {
             case CipherEnum.JAes:
                 JAes jAes = new JAes(128, secretKey);
                 encryptBytes = jAes.encrypt(inBytes);
-				break;            
+				break;
+            case Rsa:
+                RsaCipher rsa = new RsaCipher(Constants.RSA_PUB, Constants.RSA_PRV);
+                encryptBytes = rsa.encrypt(inBytes);
+                break;
             case ZenMatrix:
                 encryptBytes = (new ZenMatrix(secretKey, hashedKey, false, KeyHash.Hex)).encrypt(inBytes, true);
                 break;
@@ -371,6 +376,10 @@ public class CipherPipe {
             case ZenMatrix3:
                  decryptBytes = (new ZenMatrix3(secretKey, hash, false)).decrypt(cipherBytes);
                  break;
+            case Rsa:
+                RsaCipher rsa = new RsaCipher(Constants.RSA_PUB, Constants.RSA_PRV);
+                decryptBytes = rsa.decrypt(cipherBytes);
+                break;
             case Aes:
             case AesLight:
             case Aria:

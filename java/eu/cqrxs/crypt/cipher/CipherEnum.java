@@ -62,7 +62,7 @@ public enum CipherEnum  {
     JAes(0x1e),
     ZenMatrix2(0x1f),
 
-    Rsa(0x21)
+    Rsa(0x20)
     /* DH(0x22) */
     ;
 
@@ -172,7 +172,7 @@ public enum CipherEnum  {
             case 0x1f:
                 return 'Z';    // ZenMatrix2
 
-            case 0x21:
+            case 0x20:
                 return '%';        // RSA asymmetric cipher
 
             default:
@@ -298,7 +298,7 @@ public enum CipherEnum  {
             case 0x1f:
                 return "ZenMatrix2";    // ZenMatrix2
 
-            case 0x21:
+            case 0x20:
                 return "Rsa";            // Rsa asymmetric cipher
 
             default:

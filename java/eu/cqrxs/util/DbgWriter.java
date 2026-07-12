@@ -32,10 +32,21 @@ public class DbgWriter {
             System.out.println(daTime + " \t" + s);
         }
 	}
+
+
 	public static void msgex(Exception ex, boolean ignoreDbg) {
 		if (ex != null && !ex.getMessage().isEmpty()) {
 			DbgWriter.msg(ex.toString(), ignoreDbg);
 		}
 	}
-	
+
+	public static void msgInfoEx(String info, Exception ex, boolean ignoreDbg) {
+		info = (info == null) ? "" : info;
+		if (ex != null && !ex.getMessage().isEmpty()) {
+			DbgWriter.msg(info + ":\t" + ex.toString(), ignoreDbg);
+		} else if (info.length() > 0 && !info.isEmpty()) {
+			DbgWriter.msg(info + ":\t" + ex.toString(), ignoreDbg);
+		}
+	}
+
 }
