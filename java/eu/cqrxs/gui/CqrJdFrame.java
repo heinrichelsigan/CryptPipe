@@ -3,7 +3,6 @@
  * @author           Heinrich Elsigan
  * @version          V 0.2
  * @since            JDK 8
- *
  * Coded 2021-2025 by
  * <a href="mailto:he@area23.at">Heinrich.Elsigan</a><a href="https://heinrichelsigan.area23.at">heinrichelsigan.area23.at</a>
  */ 
@@ -14,19 +13,14 @@ import eu.cqrxs.crypt.cipher.CipherEnum;
 import eu.cqrxs.crypt.cipher.CipherPipe;
 import eu.cqrxs.crypt.encoding.EncodeEnum;
 import eu.cqrxs.crypt.hash.KeyHash;
-import eu.cqrxs.gui.CqrJDialog;
 import eu.cqrxs.util.Constants;
 import eu.cqrxs.util.DbgWriter;
-import eu.cqrxs.gui.ImageHelper;
 import eu.cqrxs.util.Fortune;
 import eu.cqrxs.zip.ZipType;
-import eu.cqrxs.zip.GZ;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Desktop;
-import java.awt.Toolkit;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -34,31 +28,18 @@ import java.awt.event.MouseListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.io.File;
-import java.io.InputStream;
-import java.io.BufferedInputStream;
-import java.net.URL;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.time.Duration;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -67,8 +48,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.DesktopManager;
-import javax.swing.DefaultDesktopManager;
 import javax.swing.KeyStroke;
 
 import javax.swing.event.MenuKeyEvent;
@@ -91,8 +70,8 @@ public class CqrJdFrame extends JFrame {
 	protected CipherMode2 cmode2 = CipherMode2.ECB;
 
 	JButton jButton_setPipe, jButton_hashPipe, jButton_encrypt, jButton_decrypt, jButton_randomText, jButton_resetForm;
-	JComboBox<String> jComboBox, jComboBox_Hash, jComboBox_Zip, jComboBox_Algo, jComboBox_Encoding;
-	JPanel jPanelCenter = new JPanel();
+	JComboBox<String> jComboBox_Hash, jComboBox_Zip, jComboBox_Algo, jComboBox_Encoding;
+	// JPanel jPanelCenter = new JPanel();
 	JLabel jLabel_infoMessage, jLabel_statusSource, jLabel_statusDestination,
 			jLabelImgKey, jLabelImgHash, jLabelImgAddAlgo, jLabelImgX;
 
@@ -137,12 +116,12 @@ public class CqrJdFrame extends JFrame {
      * main entry method
      * @param args command line arguments
      */
-	public static void main(String args[]) {
+	public static void main(String[] args) {
 
 		Constants.DEBUG = false;
 		if (args != null && args.length > 0) {
 			for (String arg : args) {
-				if ((arg != null && arg.length() > 0) &&
+				if ((arg != null && !arg.isEmpty()) &&
 					(
 						arg.toLowerCase().contains("verbose") ||
 						arg.toLowerCase().contains("-v") ||
@@ -154,9 +133,13 @@ public class CqrJdFrame extends JFrame {
 					)
 				) {
 					Constants.DEBUG = true;
+					break;
 				}
 			}
 		}
+		if (Constants.DEBUG)
+			DbgWriter.msg("\tConstants.DEBUG = true;", false);
+
 		cqrJdFrame = new CqrJdFrame();
 	}
 		
@@ -190,7 +173,7 @@ public class CqrJdFrame extends JFrame {
      * @param aSymAction {@link SymAction}
      * @return {@link JMenuBar}
      */
-	public JMenuBar AddMenus(SymAction aSymAction) {
+	protected JMenuBar AddMenus(SymAction aSymAction) {
 	    
         jBar = new JMenuBar();	
 		menuFont = new Font("Dialog", Font.PLAIN, 12);
@@ -1160,7 +1143,7 @@ public class CqrJdFrame extends JFrame {
 				dropPanel.setPipeImg(pipeImg, pipe.getPipeString());
 
 			} else if (object == jLabelImgKey) {
-				// keyHash.Hash(
+				; // keyHash.Hash(
 			} else if (object == jLabelImgHash) {
 				hashKey_action();
 			} else if (object == jLabelImgX) {
@@ -1172,7 +1155,7 @@ public class CqrJdFrame extends JFrame {
 				// 	if (saveFileBytes == null || saveFileBytes.length < 1)
 				// 		save_action();
 			} else {
-
+				;
 			}
 		}
 	}
@@ -1207,7 +1190,6 @@ public class CqrJdFrame extends JFrame {
 					item.setBackground(defaultMenuItemBg);
 			}
 		}
-		return;
 	}
 
 	protected String saveFileToTemp(String fname, byte[] fbytes) {
@@ -1381,18 +1363,19 @@ public class CqrJdFrame extends JFrame {
 	 * hashKey_action hashes key
 	 */
 	protected void hashKey_action() {
-		String keyValue = "";
+		String keyValue;
 		try {
-			keyValue = jTextField_Key.getText().toString();
+			keyValue = jTextField_Key.getText();
 		} catch (Exception exi) {
 			keyValue = Constants.AUTHOR_EMAIL;
 		}
-		String hashed = "";
+		String hashed;
 		try {
 			hashed = keyHash.hash(keyValue);
 			jTextField_Hash.setText(hashed);
 			setInfoMsg("Hashed key " + keyValue);
 		} catch (Exception exh) {
+			DbgWriter.msgInfoEx("exception in hashKey_action", exh, false);
 		}
 	}
 
