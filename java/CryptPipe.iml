@@ -15,7 +15,7 @@
       <sourceFolder url="file://$MODULE_DIR$/eu/cqrxs/ui" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/eu/cqrxs/utils" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="27" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="bcprov-lts8on-2.73.10" level="project" />
     <orderEntry type="library" name="activation-1.1.1" level="project" />
