@@ -18,9 +18,9 @@ for CipherEnum CipherPipe en-/decryption
 for EncodingType CipherPipe en-/decoding
 for ZipType CipherPipe un-/zipping
 </Description>
-    <RepositoryUrl>https://github.com/heinrichelsigan/PermAgainCrypt</RepositoryUrl>
-    <AssemblyVersion>2.26.705</AssemblyVersion>
-    <FileVersion>2.26.705</FileVersion>
+    <RepositoryUrl>https://github.com/heinrichelsigan/CryptPipe/</RepositoryUrl>
+    <AssemblyVersion>2.26.724</AssemblyVersion>
+    <FileVersion>2.26.724</FileVersion>
     <StartupObject></StartupObject>
     <PackageReadmeFile>README.MD</PackageReadmeFile>
   </PropertyGroup>
@@ -60,30 +60,30 @@ for ZipType CipherPipe un-/zipping
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="18.4.0" />
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="18.8.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="Microsoft.Testing.Extensions.TrxReport" Version="2.2.1" />
+    <PackageReference Update="Microsoft.Testing.Extensions.TrxReport" Version="2.3.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="MSTest.Analyzers" Version="4.2.1">
+    <PackageReference Update="MSTest.Analyzers" Version="4.3.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="Microsoft.Testing.Extensions.CodeCoverage" Version="18.6.2" />
+    <PackageReference Update="Microsoft.Testing.Extensions.CodeCoverage" Version="18.9.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="MSTest.TestAdapter" Version="4.2.1" />
+    <PackageReference Update="MSTest.TestAdapter" Version="4.3.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="MSTest.TestFramework" Version="4.2.1" />
+    <PackageReference Update="MSTest.TestFramework" Version="4.3.2" />
   </ItemGroup>
 
 </Project>

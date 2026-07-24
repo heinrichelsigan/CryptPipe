@@ -37,7 +37,6 @@ namespace EU.CqrXs.Crypt.EnDeCoding
         #endregion maps
 
         public const string VALID_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_=";
-        static string invalidChars = "";
 
         #region common interface, interfaces for static members appear in C# 7.3 or later
         
@@ -80,16 +79,13 @@ namespace EU.CqrXs.Crypt.EnDeCoding
 
         public static byte[] FromHex64(string inString)
         {
-            bool valid = true;
             string error = "", parsedString = "";
-
 
             foreach (char ch in parsedString)
             {
                 if (!ValidCharList.Contains(ch))
                 {
                     error += ch;
-                    valid = false;
                 }
             }
             byte[] outBytes = new byte[0];

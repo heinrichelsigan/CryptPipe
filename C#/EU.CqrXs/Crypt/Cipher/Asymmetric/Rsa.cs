@@ -1,4 +1,5 @@
-﻿using Org.BouncyCastle.Crypto;
+﻿using EU.CqrXs.Crypt.EnDeCoding;
+using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Encodings;
 using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Generators;
@@ -6,11 +7,16 @@ using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Crypto.Prng;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
+using System.Text;
 
 namespace EU.CqrXs.Crypt.Cipher.Asymmetric
 {
     /// <summary>
     /// Rsa Asymmetric cipher 
+    /// Rsa Asymmetric cipher 
+    /// see https://github.dev/Ulterius/server/blob/770d1821de43cf1d0a93c79025995bdd812a76ee/RemoteTaskServer/Utilities/Security/Rsa.cs#L71#L87
+    /// https://github.dev/ThePBone/GalaxyBudsClient/blob/a06eff7713fde924466ae1a214571a2b6f0d1a42/GalaxyBudsClient/Utils/EncryptionUtils.cs#L18#L34
+    /// https://github.dev/Ulterius/server/blob/770d1821de43cf1d0a93c79025995bdd812a76ee/RemoteTaskServer/Utilities/Security/Rsa.cs#L71#L87
     /// #!/usr/bin/bash
     ///     KLEN=512
     ///     if [ $# -gt 0 ] ; then KLEN=$1; fi
@@ -20,42 +26,68 @@ namespace EU.CqrXs.Crypt.Cipher.Asymmetric
     ///     openssl rsa -in /tmp/rsa_$KLEN.pk8 -pubout | tee rsa_$KLEN.spki
     ///     sleep 1
     ///     rm -f /tmp/rsa_$KLEN.pk8
-    /// </summary>
+    /// </summary>   
     public static class Rsa
     {
-       
-        private static AsymmetricCipherKeyPair rsaKeyPair;       
-        internal static AsymmetricCipherKeyPair RsaKeyPair { get => rsaKeyPair; }
+        #region fields
+
+        private static string privateKey = string.Empty;
+        private static string publicKey = string.Empty;
+        private static string userHostIpAddress = string.Empty;
+
+        private static AsymmetricCipherKeyPair rsaKeyPair;
+
+        #endregion fields
+
+        #region Properties
+
+        internal static AsymmetricCipherKeyPair RsaKeyPair => rsaKeyPair;
+
+        public static RsaKeyParameters RsaPublicKey => (RsaKeyParameters)RsaKeyPair.Public;
+
+        private static RsaPrivateCrtKeyParameters RsaPrivateKey => (RsaPrivateCrtKeyParameters)RsaKeyPair.Private;
+
+
+        #endregion Properties
+
+        #region Ctor_Gen
 
         static Rsa()
         {
-            GenerateNewRsaKeyPair();
+            if (rsaKeyPair == null)
+                rsaKeyPair = GenerateNewRsaKeyPair(1024);
         }
 
         public static AsymmetricCipherKeyPair RsaGenWithKey(string pub, string priv)
         {
-            if (rsaKeyPair != null)
-                return RsaKeyPair;
+            //if (rsaKeyPair != null)
+            //    return rsaKeyPair;
             rsaKeyPair = GetRsaKeyPair(pub, priv);
-            return RsaKeyPair;
+
+            return rsaKeyPair;
         }
+
+        #endregion Ctor_Gen
 
         /// <summary>
         /// GenerateNewRsaKeyPair - generates a new rsa key pair
         /// </summary>
         /// <returns><see cref="AsymmetricCipherKeyPair"/></returns>
-        internal static AsymmetricCipherKeyPair GenerateNewRsaKeyPair()
+        public static AsymmetricCipherKeyPair GenerateNewRsaKeyPair(int size = 1024)
         {
-            if (rsaKeyPair != null)
-                return RsaKeyPair;
+            //if (rsaKeyPair != null)
+            //    return rsaKeyPair;
 
-            RsaKeyPairGenerator rsaKeyGen = new RsaKeyPairGenerator();            
-            SecureRandom rand = new SecureRandom(new VmpcRandomGenerator(), 2048);
-            KeyGenerationParameters keyParams = new KeyGenerationParameters(rand, 2048);
-            rsaKeyGen.Init(keyParams);
+            RsaKeyPairGenerator rsaKeyPairGen = new RsaKeyPairGenerator();
+            IRandomGenerator randGen = new VmpcRandomGenerator();
 
-            rsaKeyPair = rsaKeyGen.GenerateKeyPair();
-            return RsaKeyPair;
+            SecureRandom rand = new SecureRandom(randGen, size);
+            KeyGenerationParameters rsaKeyParams = new KeyGenerationParameters(rand, size);
+            rsaKeyPairGen.Init(rsaKeyParams);
+
+            rsaKeyPair = rsaKeyPairGen.GenerateKeyPair();
+            return rsaKeyPair;
+
         }
 
         /// <summary>
@@ -65,40 +97,64 @@ namespace EU.CqrXs.Crypt.Cipher.Asymmetric
         /// <param name="privKey"></param>
         /// <returns><see cref="AsymmetricCipherKeyPair"/></returns>
         internal static AsymmetricCipherKeyPair GetRsaKeyPair(string pubKey, string privKey)
-        {            
+        {
+            privateKey = privKey;
+            publicKey = pubKey;
             Pkcs1Encoding rsaCipher = new Pkcs1Encoding(new RsaEngine());
             AsymmetricKeyParameter keyParameterPublic;
             RsaPrivateCrtKeyParameters keyParameterPrivate;
 
-            using (StringReader stringReader = new StringReader(pubKey))
+            using (StringReader stringReader = new StringReader(publicKey))
             {
                 keyParameterPublic = (AsymmetricKeyParameter)new PemReader(stringReader).ReadObject();
             }
 
-            using (var txtreader = new StringReader(privKey))
+            using (var txtreader = new StringReader(privateKey))
             {
                 keyParameterPrivate = (RsaPrivateCrtKeyParameters)new PemReader(txtreader).ReadObject();
             }
 
             rsaKeyPair = new AsymmetricCipherKeyPair(keyParameterPublic, keyParameterPrivate);
-            return RsaKeyPair;
+
+            return rsaKeyPair;
+        }
+
+
+        public static string[] GetStringKeys(AsymmetricCipherKeyPair keyPair)
+        {
+            string[] keys = new string[2];
+            // Tuple<string, string> keyPairTuple = new Tuple<string, string>(string.Empty, string.Empty);
+            using (TextWriter textWriter1 = new StringWriter())
+            {
+                var pemWriter1 = new PemWriter(textWriter1);
+                pemWriter1.WriteObject(keyPair.Private);
+                pemWriter1.Writer.Flush();
+
+                keys[0] = textWriter1.ToString();
+                Console.WriteLine(keys[0]);
+            }
+
+            using (TextWriter textWriter2 = new StringWriter())
+            {
+                var pemWriter2 = new PemWriter(textWriter2);
+                pemWriter2.WriteObject(keyPair.Public);
+                pemWriter2.Writer.Flush();
+                keys[1] = textWriter2.ToString();
+                Console.WriteLine(keys[1]);
+            }
+            return keys;
         }
 
 
         #region EncryptDecryptBytes
-
-        public static byte[] Encrypt(byte[] bytesToEncrypt, AsymmetricCipherKeyPair pair) => EncryptWithPublic(bytesToEncrypt, pair);
-
-        public static byte[] Decrypt(byte[] bytesToDecrypt, AsymmetricCipherKeyPair pair) => DecryptWithPrivate(bytesToDecrypt, pair);
-
 
         /// <summary>
         /// Rsa encrypt bytes with public key
         /// </summary>
         /// <param name="bytesToEncrypt"><see cref="T:byte[]">bytes to encrypt</see></param>
         /// <param name="pair"></param>
-        /// <returns>encrypted <see cref="T:yte[]"/></returns>
-        public static byte[] EncryptWithPublic(byte[] bytesToEncrypt, AsymmetricCipherKeyPair pair)
+        /// <returns>encrypted <see cref="T:byte[]"/></returns>
+        public static byte[] Encrypt(byte[] bytesToEncrypt, AsymmetricCipherKeyPair pair)
         {
             var encryptEngine = new Pkcs1Encoding(new RsaEngine());
             AsymmetricKeyParameter keyParameter = (rsaKeyPair != null) ? rsaKeyPair.Public : (AsymmetricKeyParameter)pair.Public;
@@ -119,13 +175,14 @@ namespace EU.CqrXs.Crypt.Cipher.Asymmetric
         }
 
 
+
         /// <summary>
-        /// Rsa DecryptWithPublic key
+        /// Rsa Decrypt
         /// </summary>
         /// <param name="bytesToDecrypt"></param>
         /// <param name="pair"></param>
         /// <returns></returns>
-        public static byte[] DecryptWithPublic(byte[] bytesToDecrypt, AsymmetricCipherKeyPair pair)
+        public static byte[] Decrypt(byte[] bytesToDecrypt, AsymmetricCipherKeyPair pair)
         {
             var decryptEngine = new Pkcs1Encoding(new RsaEngine());
             AsymmetricKeyParameter keyParameter = (rsaKeyPair != null) ? rsaKeyPair.Public : (AsymmetricKeyParameter)pair.Public;
@@ -137,7 +194,6 @@ namespace EU.CqrXs.Crypt.Cipher.Asymmetric
 
         public static byte[] DecryptWithPrivate(byte[] bytesToDecrypt, AsymmetricCipherKeyPair pair)
         {
-            AsymmetricCipherKeyPair keyPair;
             var decryptEngine = new Pkcs1Encoding(new RsaEngine());
             decryptEngine.Init(false, pair.Private);
 
@@ -147,6 +203,45 @@ namespace EU.CqrXs.Crypt.Cipher.Asymmetric
 
         #endregion EncryptDecryptBytes
 
+        #region EnDecryptString
+
+        /// <summary>
+        /// Encrypts a string
+        /// </summary>
+        /// <param name="inPlainString">plain text string</param>
+        /// <param name="isPublic">true, if it's public key, false if it's private key</param>
+        /// <returns>Base64 encoded encrypted byte[]</returns>
+        public static string EncryptString(string inPlainString, bool isPublic = true)
+        {
+            byte[] plainTextData = System.Text.Encoding.UTF8.GetBytes(inPlainString);
+            byte[] encryptedData = (isPublic) ?
+                Encrypt(plainTextData, RsaKeyPair) :
+                EncryptWithPrivate(plainTextData, RsaKeyPair);
+            string encryptedString = Convert.ToBase64String(encryptedData);
+
+            return encryptedString;
+        }
+
+        /// <summary>
+        /// Decrypts a string, that is truely a base64 encoded encrypted byte[]
+        /// </summary>
+        /// <param name="inCryptString">base64 encoded string from encrypted byte[]</param>
+        /// <param name="isPublic">true, if it's public key, false if it's private key</param>
+        /// <returns>plain text string (decrypted)</returns>
+        public static string DecryptString(string inCryptString, bool isPublic = true)
+        {
+            byte[] cryptData = Convert.FromBase64String(inCryptString);
+            //  EnDeCoder.GetBytes(inCryptString);
+            byte[] decryptedBytes = (isPublic) ? Decrypt(cryptData, RsaKeyPair) : DecryptWithPrivate(cryptData, RsaKeyPair);
+            string decrypted = Encoding.UTF8.GetString(decryptedBytes);
+            string plainTextString = EnDeCodeHelper.GetString(decryptedBytes).TrimEnd('\0');
+
+            return decrypted;
+        }
+
+        #endregion EnDecryptStrin
+
     }
+
 
 }

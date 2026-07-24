@@ -74,12 +74,12 @@ namespace EU.CqrXs.Spooler
     /// -? | --help\n";
         // generic spooler variables
         static bool decryptDirection = false, verbose = false, secureCipher = false;
-        static string inDir = "", outDir = "", keyFile = "";
+        static string inDir = "", outDir = ""; // , keyFile = "";
         static string[] keys = new string[0], files = new string[0];
 
         // specific encrypt/decrypt process variables
-        static string? outEnviron = null, key = null;
-        static FileInfo? inFile = null, outFile = null;
+        static string? key = null; // , outEnviron = null;
+        // static FileInfo? inFile = null, outFile = null;
         static byte[] inBytes = new byte[0], outBytes = new byte[0];
         static string passKey = "";
         static readonly ZipType[] ZipTypes = { ZipType.None, ZipType.GZip, ZipType.BZip2, ZipType.Zip };
@@ -105,7 +105,7 @@ namespace EU.CqrXs.Spooler
 
             DateTime startDate = DateTime.Now;
             TimeSpan duration = startDate - DateTime.Now;
-            CException decryptExc = null, encryptExc = null;
+            CException decryptExc = null; //, encryptExc = null;
             bool keyFromArg = true;
             long filesCount = 0;
             encodingType = EncodingType.None;

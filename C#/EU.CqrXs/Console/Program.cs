@@ -52,7 +52,7 @@ namespace EU.CqrXs.Console
     {
         static readonly string? progName = System.Environment.ProcessPath;
         static readonly string? progDirectory = Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]);
-        static string? inName = null, outName = null, outEnviron = null, key = null;
+        static string? inName = null, outName = null, outEnviron = null;
         static bool reverseDirection = false, verbose = false, secureCipher = false;
         static FileInfo? inFile = null, outFile = null;
         static byte[]? inBytes = null, outBytes = null;
@@ -88,7 +88,7 @@ namespace EU.CqrXs.Console
                     case OptEnum.InParam:
                         inName = optStr;
                         if (string.IsNullOrEmpty(inName))
-                            ; // Else
+                            Utils.Noop();
                         else
                             if (args[i].ToLower().Contains("file") || File.Exists(inName) || File.Exists(Path.Combine(progDirectory, inName)))
                         {
@@ -117,7 +117,7 @@ namespace EU.CqrXs.Console
                     case OptEnum.OutP:
                         outName = optStr;
                         if (string.IsNullOrEmpty(outName))
-                            ; // to stdout                    
+                            Utils.Noop(); // to stdout                    
                         else
                             if (args[i].ToLower().Contains("file") || optStr.Contains(Area23Log._sepCh) || optStr.Contains('.') || !args[i].ToLower().Contains("text"))
                         {

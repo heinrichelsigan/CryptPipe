@@ -1,7 +1,11 @@
-﻿using Org.BouncyCastle.Crypto;
+﻿using EU.CqrXs.Crypt.EnDeCoding;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Encodings;
+using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Crypto.Prng;
+using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
 using System;
 using System.Collections.Generic;
@@ -14,12 +18,9 @@ namespace EU.CqrXs.Crypt.Cipher.Asymmetric
     ///     openssl dsaparam -verbose -out out_des.params 2048
     ///     openssl gendsa -aes256 -verbose -out out_des.pem  out_des.params
     /// </summary>
-    internal class Dsa
+    public static class Dsa
     {
-        #region fields
-
-        private static string privateKey = string.Empty;
-        private static string userHostIpAddress = string.Empty;
+        #region fields        
 
         private static AsymmetricCipherKeyPair dsaKeyPair;
 
@@ -27,22 +28,14 @@ namespace EU.CqrXs.Crypt.Cipher.Asymmetric
 
         #region Properties
 
-        internal static AsymmetricCipherKeyPair DsaKeyPair
-        {
-            get => GetDsaKeyPair();
-        }
+        public static AsymmetricCipherKeyPair DsaKeyPair => GetDsaKeyPair();
 
-        public static AsymmetricKeyParameter DsaPublicKey
-        {
-            get => DsaKeyPair.Public;
-            // private set => rsaKeyPair.Public = value;
-        }
+        public static DsaKeyParameters DsaPublicKey => (DsaKeyParameters)DsaKeyPair.Public;
 
-        private static AsymmetricKeyParameter DsaPrivateKey
-        {
-            get => DsaKeyPair.Private;
-        }
+        private static DsaPrivateKeyParameters DsaPrivateKey => (DsaPrivateKeyParameters)dsaKeyPair.Private;
 
+
+        public static string PrivateKey => DsaPrivateKey.ToString();
 
         #endregion Properties
 
@@ -51,36 +44,60 @@ namespace EU.CqrXs.Crypt.Cipher.Asymmetric
         static Dsa()
         {
             if (dsaKeyPair == null)
-                dsaKeyPair = GetDsaKeyPair();
+                dsaKeyPair = GetDsaKeyPair(1024);
         }
 
-        public static string InitGetPublicKey()
-        {
-            return (DsaPrivateKey != null && DsaPrivateKey != null) ? DsaPublicKey.ToString() : null;
-        }
 
         #endregion Ctor_Gen
 
 
-        public static AsymmetricCipherKeyPair GetDsaKeyPair()
+        public static AsymmetricCipherKeyPair GetDsaKeyPair(int size = 1024)
         {
-            if (dsaKeyPair == null)
-                return dsaKeyPair;
+            // if (dsaKeyPair == null)
+            //     return dsaKeyPair;
 
             DsaParametersGenerator dsaParamsGenerator = new DsaParametersGenerator();
-            SecureRandom rand = new SecureRandom(new VmpcRandomGenerator(), 2048);
 
-            dsaParamsGenerator.Init(1024, 80, rand);
+            IRandomGenerator randGen = new VmpcRandomGenerator();
+            SecureRandom rand = new SecureRandom(randGen, size);
 
-            DsaParameters dsaParams = dsaParamsGenerator.GenerateParameters();
-            DsaKeyGenerationParameters dsaKeyParams = new DsaKeyGenerationParameters(rand, dsaParams);
-            DsaKeyPairGenerator dsaKeyPairGen = new DsaKeyPairGenerator();
+            dsaParamsGenerator.Init(size, 80, rand);
+
+            var dsaParams = dsaParamsGenerator.GenerateParameters();
+            var dsaKeyParams = new DsaKeyGenerationParameters(rand, dsaParams);
+            var dsaKeyPairGen = new DsaKeyPairGenerator();
             dsaKeyPairGen.Init(dsaKeyParams);
 
             dsaKeyPair = dsaKeyPairGen.GenerateKeyPair();
             return dsaKeyPair;
         }
 
+
+        public static Tuple<string, string> GetKeysTuple(AsymmetricCipherKeyPair dsaKeyPair)
+        {
+            string privKey = string.Empty, pubKey = string.Empty;
+            using (TextWriter textWriter1 = new StringWriter())
+            {
+                var pemWriter1 = new PemWriter(textWriter1);
+                pemWriter1.WriteObject(dsaKeyPair.Private);
+                pemWriter1.Writer.Flush();
+
+                privKey = textWriter1.ToString();
+                Console.WriteLine(privKey);
+            }
+
+            using (TextWriter textWriter2 = new StringWriter())
+            {
+                var pemWriter2 = new PemWriter(textWriter2);
+                pemWriter2.WriteObject(dsaKeyPair.Public);
+                pemWriter2.Writer.Flush();
+                pubKey = textWriter2.ToString();
+                Console.WriteLine(pubKey);
+            }
+
+            Tuple<string, string> keyPairTuple = new Tuple<string, string>(privKey, pubKey);
+            return keyPairTuple;
+        }
 
         public static byte[] DsaSign(byte[] msgBytes)
         {
@@ -100,7 +117,7 @@ namespace EU.CqrXs.Crypt.Cipher.Asymmetric
             signer.BlockUpdate(msgBytes, 0, msgBytes.Length);
             return signer.VerifySignature(signatureBytes);
         }
-
     }
+
 
 }

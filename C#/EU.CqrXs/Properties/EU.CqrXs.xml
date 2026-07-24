@@ -14,6 +14,11 @@
             For root first Exception <see cref="P:EU.CqrXs.Crypt.CException.LastException"/> is always <see cref="T:null"/>
             </summary>
         </member>
+        <member name="T:EU.CqrXs.Crypt.Cipher.Asymmetric.DH">
+            <summary>
+            Diffie Hellman key exchange
+            </summary>
+        </member>
         <member name="T:EU.CqrXs.Crypt.Cipher.Asymmetric.Dsa">
             <summary>
             Dsa Asymmetric cipher    
@@ -24,6 +29,10 @@
         <member name="T:EU.CqrXs.Crypt.Cipher.Asymmetric.Rsa">
             <summary>
             Rsa Asymmetric cipher 
+            Rsa Asymmetric cipher 
+            see https://github.dev/Ulterius/server/blob/770d1821de43cf1d0a93c79025995bdd812a76ee/RemoteTaskServer/Utilities/Security/Rsa.cs#L71#L87
+            https://github.dev/ThePBone/GalaxyBudsClient/blob/a06eff7713fde924466ae1a214571a2b6f0d1a42/GalaxyBudsClient/Utils/EncryptionUtils.cs#L18#L34
+            https://github.dev/Ulterius/server/blob/770d1821de43cf1d0a93c79025995bdd812a76ee/RemoteTaskServer/Utilities/Security/Rsa.cs#L71#L87
             #!/usr/bin/bash
                 KLEN=512
                 if [ $# -gt 0 ] ; then KLEN=$1; fi
@@ -33,9 +42,9 @@
                 openssl rsa -in /tmp/rsa_$KLEN.pk8 -pubout | tee rsa_$KLEN.spki
                 sleep 1
                 rm -f /tmp/rsa_$KLEN.pk8
-            </summary>
+            </summary>   
         </member>
-        <member name="M:EU.CqrXs.Crypt.Cipher.Asymmetric.Rsa.GenerateNewRsaKeyPair">
+        <member name="M:EU.CqrXs.Crypt.Cipher.Asymmetric.Rsa.GenerateNewRsaKeyPair(System.Int32)">
             <summary>
             GenerateNewRsaKeyPair - generates a new rsa key pair
             </summary>
@@ -49,21 +58,37 @@
             <param name="privKey"></param>
             <returns><see cref="T:Org.BouncyCastle.Crypto.AsymmetricCipherKeyPair"/></returns>
         </member>
-        <member name="M:EU.CqrXs.Crypt.Cipher.Asymmetric.Rsa.EncryptWithPublic(System.Byte[],Org.BouncyCastle.Crypto.AsymmetricCipherKeyPair)">
+        <member name="M:EU.CqrXs.Crypt.Cipher.Asymmetric.Rsa.Encrypt(System.Byte[],Org.BouncyCastle.Crypto.AsymmetricCipherKeyPair)">
             <summary>
             Rsa encrypt bytes with public key
             </summary>
             <param name="bytesToEncrypt"><see cref="T:byte[]">bytes to encrypt</see></param>
             <param name="pair"></param>
-            <returns>encrypted <see cref="T:yte[]"/></returns>
+            <returns>encrypted <see cref="T:byte[]"/></returns>
         </member>
-        <member name="M:EU.CqrXs.Crypt.Cipher.Asymmetric.Rsa.DecryptWithPublic(System.Byte[],Org.BouncyCastle.Crypto.AsymmetricCipherKeyPair)">
+        <member name="M:EU.CqrXs.Crypt.Cipher.Asymmetric.Rsa.Decrypt(System.Byte[],Org.BouncyCastle.Crypto.AsymmetricCipherKeyPair)">
             <summary>
-            Rsa DecryptWithPublic key
+            Rsa Decrypt
             </summary>
             <param name="bytesToDecrypt"></param>
             <param name="pair"></param>
             <returns></returns>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.Asymmetric.Rsa.EncryptString(System.String,System.Boolean)">
+            <summary>
+            Encrypts a string
+            </summary>
+            <param name="inPlainString">plain text string</param>
+            <param name="isPublic">true, if it's public key, false if it's private key</param>
+            <returns>Base64 encoded encrypted byte[]</returns>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.Asymmetric.Rsa.DecryptString(System.String,System.Boolean)">
+            <summary>
+            Decrypts a string, that is truely a base64 encoded encrypted byte[]
+            </summary>
+            <param name="inCryptString">base64 encoded string from encrypted byte[]</param>
+            <param name="isPublic">true, if it's public key, false if it's private key</param>
+            <returns>plain text string (decrypted)</returns>
         </member>
         <member name="T:EU.CqrXs.Crypt.Cipher.CipherMode2">
             <summary>
@@ -3012,6 +3037,12 @@
             </summary>
             <param name="type">Type object of that class</param>
             <returns></returns>
+        </member>
+        <member name="M:EU.CqrXs.Util.Utils.Noop">
+            <summary>
+            Noop no op
+            no operation
+            </summary>
         </member>
         <member name="M:EU.CqrXs.Util.Utils.FromHtml(System.String)">
             <summary>

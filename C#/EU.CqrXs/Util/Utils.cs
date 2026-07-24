@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
 using System.Xml.Serialization;
 
 namespace EU.CqrXs.Util
@@ -222,6 +223,26 @@ namespace EU.CqrXs.Util
         }
 
 
+        /// <summary>
+        /// Noop no op
+        /// no operation
+        /// </summary>
+        public static void Noop()
+        {
+            string methodBase =  "unknown";
+            try
+            {
+                MethodBase mBase = (new StackFrame(1))?.GetMethod();
+                methodBase = mBase.ToString();
+            }
+            catch
+            {
+                methodBase = "unknown";
+            }
+
+            Area23Log.LogOriginMsg(methodBase, "Noop", 2);
+            return ;
+        }
 
         #region Extensions.ColorFrom static methods
 

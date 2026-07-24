@@ -16,9 +16,9 @@
     <Description>EU.CqrXs.SelfExtract</Description>
     <Copyright>Copyright © 2000-2040 Copyleft https://cqrxs.eu</Copyright>
     <PackageProjectUrl>https://cqrxs.eu/download/</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/heinrichelsigan/PermAgainCrypt</RepositoryUrl>
-    <AssemblyVersion>2.26.707</AssemblyVersion>
-    <FileVersion>2.26.706</FileVersion>
+    <RepositoryUrl>https://github.com/heinrichelsigan/CryptPipe/</RepositoryUrl>
+    <AssemblyVersion>2.26.724</AssemblyVersion>
+    <FileVersion>2.26.724</FileVersion>
     <PackageReadmeFile>README.MD</PackageReadmeFile>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
   </PropertyGroup>

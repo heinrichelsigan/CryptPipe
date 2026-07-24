@@ -246,7 +246,7 @@ namespace EU.CqrXs.Gui.Forms
             if (mi == null && comboItem != null && !string.IsNullOrEmpty(comboItem.ToString()))
             {
                 encodingType = EncodingTypesExtensions.GetEncodingTypeFromString(comboItem.ToString() ?? "None");
-                bool wasChecked = false;
+                //bool wasChecked = false;
                 //foreach (ToolStripMenuItem item in menuEncodings)
                 //    if (item.Name.Contains(encodingType.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 //    {                       
@@ -679,11 +679,9 @@ namespace EU.CqrXs.Gui.Forms
                     if (saved)
                     {
                         string outFileName = Path.GetFileName(outFilePath);
-                        bool isVerified = true;
+                        // bool isVerified = true;
                         
-
                         await groupBoxFiles.labelOutputFile.SetTextVisibleAsync(outFileName, true);
-
 
                         HashFiles.Add(outFilePath);
 

@@ -7,10 +7,10 @@
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <Copyright>Copyleft © 2000-2040</Copyright>
-	<PackageProjectUrl>https://github.com/heinrichelsigan/PermAgainCrypt</PackageProjectUrl>
+	<PackageProjectUrl>https://github.com/heinrichelsigan/CryptPipe/</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/heinrichelsigan/PermAgainCrypt</RepositoryUrl>
-    <AssemblyVersion>2.26.705</AssemblyVersion>
-    <FileVersion>2.26.705</FileVersion>
+    <AssemblyVersion>2.26.724</AssemblyVersion>
+    <FileVersion>2.26.724</FileVersion>
     <IncludeSymbols>true</IncludeSymbols>
     <Title>EU.CqrXs [minimalistic]</Title>
     <Description>EU.CqrXs is a reduced Area23.At.Framework.Core framework with minimalistic helper methods</Description>
@@ -60,6 +60,7 @@
 
   <ItemGroup>
     <Compile Include="Crypt\CException.cs" />
+    <Compile Include="Crypt\Cipher\Asymmetric\DH.cs" />
     <Compile Include="Crypt\Cipher\Asymmetric\Dsa.cs" />
     <Compile Include="Crypt\Cipher\Asymmetric\Rsa.cs" />
     <Compile Include="Crypt\Cipher\CipherMode2.cs" />
@@ -143,7 +144,7 @@
 
   <ItemGroup>
     <PackageReference Include="BouncyCastle.Cryptography" Version="2.6.2" />
-    <PackageReference Include="Microsoft.Bcl.TimeProvider" Version="10.0.7" />
+    <PackageReference Include="Microsoft.Bcl.TimeProvider" Version="10.0.10" />
     <PackageReference Include="Microsoft.NETCore.Platforms" Version="7.0.4" />
     <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
