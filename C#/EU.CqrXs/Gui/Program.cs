@@ -27,6 +27,7 @@ namespace EU.CqrXs.Gui
         internal static Mutex? mutex;
         internal static EncryptFormMultiControls formComplex;
         internal static EncryptFormSimple formSimple;
+        internal static ZenMatrixForm formZenMatrix;
         internal static OneTwoThreeFish form123Fish;
         internal static ApplicationContext applicationContext;
         internal static SystemColorMode colorMode = SystemColorMode.System;

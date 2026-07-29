@@ -73,6 +73,7 @@ namespace EU.CqrXs.Gui.Forms
 
             menuMainItemOneTwoThreeFish.Click += menuMainItemOneTwoThreeFish_Click;
             menuMainItemSimple.Click += menuMainFormSimple_Click;
+            menuMainItemZenMatrixTest.Click += menuMainItemZenMatrixTest_Click;
 
             foreach (ToolStripMenuItem encodingMenu in menuEncodings)
                 encodingMenu.Click += new System.EventHandler(async (sender, e) => await menuEncodingKind_Click(sender, e));
@@ -1187,7 +1188,9 @@ namespace EU.CqrXs.Gui.Forms
                 Program.form123Fish.Show();
             }
             try
-            {                
+            {
+                if (Program.formZenMatrix != null && !Program.formZenMatrix.Disposing)
+                    Program.formZenMatrix.Hide();
                 if (Program.formSimple != null && !Program.formSimple.Disposing)
                     Program.formSimple.Hide();
                 if (Program.formComplex != null && !Program.formComplex.Disposing)
@@ -1206,6 +1209,7 @@ namespace EU.CqrXs.Gui.Forms
             await Program.formComplex.ShowAsync(this);
             Program.formComplex.Focus();
         }
+        
 
         internal void menuMainFormSimple_Click(object sender, EventArgs e)
         {
@@ -1222,6 +1226,8 @@ namespace EU.CqrXs.Gui.Forms
             }
             try
             {
+                if (Program.formZenMatrix != null && !Program.formZenMatrix.Disposing)
+                    Program.formZenMatrix.Hide();
                 if (Program.formComplex != null && !Program.formComplex.Disposing)
                     Program.formComplex.Hide();
                 if (Program.form123Fish != null && !Program.form123Fish.Disposing)
@@ -1234,6 +1240,39 @@ namespace EU.CqrXs.Gui.Forms
 
             Program.formSimple.Focus();
         }
+
+
+
+        internal void menuMainItemZenMatrixTest_Click(object sender, EventArgs e)
+        {
+            if (Program.formZenMatrix == null || Program.formZenMatrix.Disposing)
+                Program.formZenMatrix = new ZenMatrixForm();
+            try
+            {
+                Program.formZenMatrix.Show();
+            }
+            catch (Exception)
+            {
+                Program.formZenMatrix = new ZenMatrixForm();
+                Program.formZenMatrix.Show();
+            }
+            try
+            {
+                if (Program.formComplex != null && !Program.formComplex.Disposing)
+                    Program.formComplex.Hide();
+                if (Program.form123Fish != null && !Program.form123Fish.Disposing)
+                    Program.form123Fish.Hide();
+                if (Program.formSimple != null && !Program.formSimple.Disposing)
+                    Program.formSimple.Hide();
+            }
+            catch (Exception)
+            {
+            }
+            this.Hide();
+
+            Program.formZenMatrix.Focus();
+        }
+
 
         /// <summary>
         /// menuFileOpen_Click opens a file dialog to select a file to encrypt/decrypt
