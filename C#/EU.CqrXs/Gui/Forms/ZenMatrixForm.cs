@@ -23,6 +23,7 @@ namespace EU.CqrXs.Gui.Forms
             {
                 ZenMatrix z = new ZenMatrix(this.textBoxSymmKey.Text, Crypt.Hash.KeyHash.Hex, false);
                 SetTableMapping(z.MatrixPermutationKey);
+                this.textBoxPermKey.Text = "";
                 foreach (byte b in z.MatrixPermutationKey)
                 {
                     this.textBoxPermKey.Text += b.ToString("X1");
