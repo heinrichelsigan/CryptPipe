@@ -34,7 +34,7 @@ namespace EU.CqrXs.Gui.Forms
 
         protected void SetTableMapping(byte[] data)
         {
-            zenMatrixVControl.SetPermutationKey(data);
+            zenMatrixControl.SetPermutationKey(data);
             int l = 0;
             foreach (byte b in data)
             {

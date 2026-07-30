@@ -31,7 +31,7 @@ namespace EU.CqrXs.Gui.Forms
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ZenMatrixForm));
-            zenMatrixVControl = new ZenMatrixVControl();
+            zenMatrixControl = new ZenMatrixVControl();
             textBoxSymmKey = new TextBox();
             labelSymmKey = new Label();
             tableLayoutPanel1 = new TableLayoutPanel();
@@ -90,12 +90,12 @@ namespace EU.CqrXs.Gui.Forms
             // 
             // zenMatrixVControl
             // 
-            zenMatrixVControl.BackgroundImage = (Image)resources.GetObject("zenMatrixVControl.BackgroundImage");
-            zenMatrixVControl.Location = new Point(1, 68);
-            zenMatrixVControl.Margin = new Padding(2);
-            zenMatrixVControl.Name = "zenMatrixVControl";
-            zenMatrixVControl.Size = new Size(514, 514);
-            zenMatrixVControl.TabIndex = 0;
+            zenMatrixControl.BackgroundImage = Properties.Resources.CryptDisk;
+            zenMatrixControl.Location = new Point(1, 68);
+            zenMatrixControl.Margin = new Padding(1);
+            zenMatrixControl.Name = "zenMatrixControl";
+            zenMatrixControl.Size = new Size(512, 512);
+            zenMatrixControl.TabIndex = 0;
             // 
             // textBoxSymmKey
             // 
@@ -491,7 +491,7 @@ namespace EU.CqrXs.Gui.Forms
             // toolStripSeparator
             // 
             toolStripSeparator.Name = "toolStripSeparator";
-            toolStripSeparator.Size = new Size(177, 6);
+            toolStripSeparator.Size = new Size(137, 6);
             // 
             // printToolStripMenuItem
             // 
@@ -499,18 +499,18 @@ namespace EU.CqrXs.Gui.Forms
             printToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             printToolStripMenuItem.Name = "printToolStripMenuItem";
             printToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.P;
-            printToolStripMenuItem.Size = new Size(180, 22);
+            printToolStripMenuItem.Size = new Size(140, 22);
             printToolStripMenuItem.Text = "&Print";
             // 
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(177, 6);
+            toolStripSeparator2.Size = new Size(137, 6);
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(180, 22);
+            exitToolStripMenuItem.Size = new Size(140, 22);
             exitToolStripMenuItem.Text = "E&xit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
@@ -526,14 +526,14 @@ namespace EU.CqrXs.Gui.Forms
             menuOptionsMenuModes.BackColor = SystemColors.Menu;
             menuOptionsMenuModes.DropDownItems.AddRange(new ToolStripItem[] { menuOptionsModesComplex, menuModeZenMatrix, menuOptionsModesSimple, menuOptionsModes123Fish });
             menuOptionsMenuModes.Name = "menuOptionsMenuModes";
-            menuOptionsMenuModes.Size = new Size(180, 22);
+            menuOptionsMenuModes.Size = new Size(110, 22);
             menuOptionsMenuModes.Text = "Modes";
             // 
             // menuOptionsModesComplex
             // 
             menuOptionsModesComplex.BackColor = SystemColors.Menu;
             menuOptionsModesComplex.Name = "menuOptionsModesComplex";
-            menuOptionsModesComplex.Size = new Size(180, 22);
+            menuOptionsModesComplex.Size = new Size(155, 22);
             menuOptionsModesComplex.Text = "Mode Complex";
             menuOptionsModesComplex.Click += menuOptionsModesComplex_Click;
             // 
@@ -544,14 +544,14 @@ namespace EU.CqrXs.Gui.Forms
             menuModeZenMatrix.CheckState = CheckState.Checked;
             menuModeZenMatrix.Enabled = false;
             menuModeZenMatrix.Name = "menuModeZenMatrix";
-            menuModeZenMatrix.Size = new Size(180, 22);
+            menuModeZenMatrix.Size = new Size(155, 22);
             menuModeZenMatrix.Text = "ZenMatrix";
             // 
             // menuOptionsModesSimple
             // 
             menuOptionsModesSimple.BackColor = SystemColors.Menu;
             menuOptionsModesSimple.Name = "menuOptionsModesSimple";
-            menuOptionsModesSimple.Size = new Size(180, 22);
+            menuOptionsModesSimple.Size = new Size(155, 22);
             menuOptionsModesSimple.Text = "Mode Simple";
             menuOptionsModesSimple.Click += menuOptionsModesSimple_Click;
             // 
@@ -559,7 +559,7 @@ namespace EU.CqrXs.Gui.Forms
             // 
             menuOptionsModes123Fish.BackColor = SystemColors.Menu;
             menuOptionsModes123Fish.Name = "menuOptionsModes123Fish";
-            menuOptionsModes123Fish.Size = new Size(180, 22);
+            menuOptionsModes123Fish.Size = new Size(155, 22);
             menuOptionsModes123Fish.Text = "123-Fish";
             menuOptionsModes123Fish.Click += menuOptionsModes123Fish_Click;
             // 
@@ -605,9 +605,13 @@ namespace EU.CqrXs.Gui.Forms
             Controls.Add(tableLayoutPanel1);
             Controls.Add(labelSymmKey);
             Controls.Add(textBoxSymmKey);
-            Controls.Add(zenMatrixVControl);
+            Controls.Add(zenMatrixControl);
             Controls.Add(menuStrip1);
+            FormBorderStyle = FormBorderStyle.None;
             MainMenuStrip = menuStrip1;
+            MaximizeBox = false;
+            MdiChildrenMinimizedAnchorBottom = false;
+            MinimizeBox = false;
             Name = "ZenMatrixForm";
             Text = "ZebMatrixTest";
             tableLayoutPanel1.ResumeLayout(false);
@@ -622,7 +626,7 @@ namespace EU.CqrXs.Gui.Forms
         #endregion
 
 
-        private ZenMatrixVControl zenMatrixVControl;
+        private ZenMatrixVControl zenMatrixControl;
         private TextBox textBoxSymmKey;
         private Label labelSymmKey;
         private TableLayoutPanel tableLayoutPanel1;        
