@@ -8,8 +8,8 @@
     <Copyright>Copyleft © 2000-2040</Copyright>
 	<PackageProjectUrl>https://github.com/heinrichelsigan/CryptPipe/</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/heinrichelsigan/PermAgainCrypt</RepositoryUrl>
-    <AssemblyVersion>2.26.724</AssemblyVersion>
-    <FileVersion>2.26.724</FileVersion>
+    <AssemblyVersion>2.26.730</AssemblyVersion>
+    <FileVersion>2.26.730</FileVersion>
     <IncludeSymbols>true</IncludeSymbols>
     <Title>EU.CqrXs [minimalistic]</Title>
     <Description>EU.CqrXs is a reduced Area23.At.Framework.Core framework with minimalistic helper methods</Description>
@@ -94,7 +94,6 @@
     <Compile Include="Crypt\Hash\Sha256Sum.cs" />
     <Compile Include="Crypt\Hash\Sha512Sum.cs" />
     <Compile Include="Properties\Resource.Designer.cs" />
-    <Compile Include="Properties\ResourcResx.cs" />
     <Compile Include="Util\Area23EventArgs.cs" />
     <Compile Include="Util\Area23Log.cs" />
     <Compile Include="Util\Constants.cs" />

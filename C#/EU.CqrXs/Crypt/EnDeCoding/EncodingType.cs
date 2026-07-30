@@ -167,41 +167,6 @@ namespace EU.CqrXs.Crypt.EnDeCoding
 
         }
 
-/*
-        public static ToolStripMenuItem CheckMenuItemForEncoding(this EncodingType encodingType, ToolStripMenuItem[] items) 
-        {
-            ToolStripMenuItem checkedItem = null;
-            foreach (ToolStripMenuItem item in items)
-            {
-                item.Tag = encodingType;
-                if (item.Name.Contains(encodingType.ToString()))
-                {
-                    item.Checked = true;
-                    checkedItem = item;                    
-                }
-                else
-                    item.Checked = false;
-            }
-            return checkedItem;
-        }
-
-
-        public static EncodingType GetEncodíngTypeFromCheckMenuItem(ToolStripMenuItem[] items)
-        {
-            EncodingType encodingType = EncodingType.None;
-            foreach (ToolStripMenuItem item in items)
-            {
-                if (item.Checked)
-                {
-                   string enncodingName =  string.IsNullOrEmpty(item.Tag.ToString() ?? "") ? 
-                        item.Name.Replace("menuEnc", "") : item.Tag.ToString();
-                    encodingType = Enum.Parse<EncodingType>(enncodingName);
-                    return encodingType;
-                }                
-            }
-            return EncodingType.None; ;
-        }
-        */
     }
 
 }

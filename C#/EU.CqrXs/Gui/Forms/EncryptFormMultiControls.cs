@@ -67,7 +67,7 @@ namespace EU.CqrXs.Gui.Forms
             menuAbout.Click += new System.EventHandler(async (sender, e)
                 => await menuAbout_Click(sender, e));
             menuHelpHelp.Click += new System.EventHandler(async (sender, e)
-                => await menuHelp_Click(sender, e));            
+                => await menuHelp_Click(sender, e));
             menuMainItemExperimental.Click += new System.EventHandler(async (sender, e)
                  => await menuMainFormExperimental_Click(sender, e));
 
@@ -93,8 +93,8 @@ namespace EU.CqrXs.Gui.Forms
 
             this.comboBoxCipherModes.Items.Clear();
             foreach (var chmode in mCipherModes)
-                this.comboBoxCipherModes.Items.Add(chmode.Text.ToString());            
-            comboBoxCipherModes.SelectedIndexChanged += new System.EventHandler(async (sender, e) => await comboCipherMode_Changed(sender, e));            
+                this.comboBoxCipherModes.Items.Add(chmode.Text.ToString());
+            comboBoxCipherModes.SelectedIndexChanged += new System.EventHandler(async (sender, e) => await comboCipherMode_Changed(sender, e));
 
             this.comboBoxAlgo.Items.Clear();
             foreach (string cipher in GetCipherEnums())
@@ -103,7 +103,7 @@ namespace EU.CqrXs.Gui.Forms
             this.comboBoxEncoding.Items.Clear();
             foreach (EncodingType encodingType in EncodingTypesExtensions.GetEncodingTypes())
                 this.comboBoxEncoding.Items.Add(encodingType.ToString());
-            
+
 
             this.Load += new System.EventHandler(async (sender, e)
                 => await EncryptFormMultiControls_LoadAsync(sender, e));
@@ -284,7 +284,7 @@ namespace EU.CqrXs.Gui.Forms
         /// <returns></returns>
         protected internal EncodingType GetEncoding()
         {
-            EncodingType encType = EncodingTypesExtensions.GetEncodíngTypeFromCheckMenuItem(menuEncodings);
+            EncodingType encType = EncodingTypesExtensionMethods.GetEncodíngTypeFromCheckMenuItem(menuEncodings);
             if (menuEncNone.Checked) return EncodingType.None;
             if (menuEncBase16.Checked) return EncodingType.Base16;
             if (menuEncHex16.Checked) return EncodingType.Hex16;
@@ -349,7 +349,7 @@ namespace EU.CqrXs.Gui.Forms
                     case KeyHash.MD5: menuHashMD5.Checked = true; break;
                     case KeyHash.OpenBSDCrypt: menuHashOpenBSDCrypt.Checked = true; break;
                     case KeyHash.SCrypt: menuHashSCrypt.Checked = true; break;
-                    case KeyHash.Sha1: menuHashSha1.Checked = true; break;                    
+                    case KeyHash.Sha1: menuHashSha1.Checked = true; break;
                     case KeyHash.Sha256: menuHashSha256.Checked = true; break;
                     case KeyHash.Sha384: menuHashSha384.Checked = true; break;
                     case KeyHash.Sha512: menuHashSha512.Checked = true; break;
@@ -393,9 +393,9 @@ namespace EU.CqrXs.Gui.Forms
             if (menuHashSCrypt.Checked) return KeyHash.SCrypt;
             if (menuHashSha1.Checked) return KeyHash.Sha1;
             if (menuHashSha256.Checked) return KeyHash.Sha256;
-            if (menuHashSha384.Checked) return KeyHash.Sha384;            
+            if (menuHashSha384.Checked) return KeyHash.Sha384;
             if (menuHashSha512.Checked) return KeyHash.Sha512;
-            if (menuHashWhirlpool.Checked) return KeyHash.Whirlpool;            
+            if (menuHashWhirlpool.Checked) return KeyHash.Whirlpool;
             if (menuHashCShake.Checked) return KeyHash.CShake;
             if (menuHashDstu7564.Checked) return KeyHash.Dstu7564;
             if (menuHashRipeMD256.Checked) return KeyHash.RipeMD256;
@@ -405,7 +405,7 @@ namespace EU.CqrXs.Gui.Forms
             return KeyHash.Hex;
         }
 
-        
+
 
         protected internal async Task menuCipherMode_Click(object sender, EventArgs e)
         {
@@ -419,16 +419,16 @@ namespace EU.CqrXs.Gui.Forms
             {
                 mi.Checked = true;
                 string cipherModeString = mi.Name.Replace("menuCipherModeItem", "").Replace("menuMode", "");
-                                
+
                 for (ix = 0; ix < comboBoxCipherModes.Items.Count; ix++)
                 {
                     if (comboBoxCipherModes.Items[ix].ToString() == cipherModeString)
-                        break;                        
+                        break;
                 }
                 comboBoxCipherModes.SelectedIndex = ix;
 
                 CipherMode2 cmode2 = CipherModeExtensions.ParseText(cipherModeString);
-                CipherMode cmode = cmode2.ToCipherMode();                
+                CipherMode cmode = cmode2.ToCipherMode();
                 if (cPipe != null)
                 {
                     cPipe.CMode2 = cmode2;
@@ -448,8 +448,8 @@ namespace EU.CqrXs.Gui.Forms
                 case "CFB": await menuCipherMode_Click(menuCipherModeItemCFB, e); return;
                 case "CTS": await menuCipherMode_Click(menuCipherModeItemCTS, e); return;
                 // case "EAX": await menuCipherMode_Click(menuCipherModeItemEAX, e); return;
-                case "ECB": await menuCipherMode_Click(menuCipherModeItemECB, e); return;   
-                case "GOFB": await menuCipherMode_Click(menuCipherModeItemGOFB, e); return; 
+                case "ECB": await menuCipherMode_Click(menuCipherModeItemECB, e); return;
+                case "GOFB": await menuCipherMode_Click(menuCipherModeItemGOFB, e); return;
                 default: break;
             }
             switch (comboBoxCipherModes.Items[comboBoxCipherModes.SelectedIndex])
@@ -460,7 +460,7 @@ namespace EU.CqrXs.Gui.Forms
                 case "CTS": await menuCipherMode_Click(menuCipherModeItemCTS, e); return;
                 // case "EAX": await menuCipherMode_Click(menuCipherModeItemEAX, e); return;
                 case "GOFB": await menuCipherMode_Click(menuCipherModeItemGOFB, e); return;
-                case "ECB": 
+                case "ECB":
                 default: await menuCipherMode_Click(menuCipherModeItemECB, e); break;
             }
         }
@@ -586,7 +586,7 @@ namespace EU.CqrXs.Gui.Forms
                             SetPictureBoxImage(groupBoxFiles.pictureBoxFileIn, Properties.Resources.TwoFish, "", true);
                             break;
                         case CipherEnum.Fish3:
-                        //case CipherEnum.ThreeFish256:
+                            //case CipherEnum.ThreeFish256:
                             SetPictureBoxImage(groupBoxFiles.pictureBoxFileIn, Properties.Resources.ThreeFish, "", true);
                             break;
                         case CipherEnum.Serpent:
@@ -609,8 +609,8 @@ namespace EU.CqrXs.Gui.Forms
                         case CipherEnum.RC532:
                         case CipherEnum.RC564:
                         case CipherEnum.RC6:
-                            SetPictureBoxImage(groupBoxFiles.pictureBoxFileIn, Properties.Resources.RC, "", true);                            
-                           break;
+                            SetPictureBoxImage(groupBoxFiles.pictureBoxFileIn, Properties.Resources.RC, "", true);
+                            break;
                         case CipherEnum.Camellia:
                         case CipherEnum.CamelliaLight:
                             SetPictureBoxImage(groupBoxFiles.pictureBoxFileIn, Properties.Resources.Camellia, "", true);
@@ -631,7 +631,7 @@ namespace EU.CqrXs.Gui.Forms
                         }));
                         setInfoMessageTimer.Stop(); // Stop the timer(otherwise keeps on calling)
                     };
-                    setInfoMessageTimer.Start();                    
+                    setInfoMessageTimer.Start();
                 }
                 else
                 {
@@ -1172,7 +1172,7 @@ namespace EU.CqrXs.Gui.Forms
         /// <returns><see cref="T:Task"</returns>
         protected internal virtual void menuMainItemOneTwoThreeFish_Click(object sender, EventArgs e)
         {
-                            
+
             try
             {
                 if (Program.form123Fish == null || Program.form123Fish.Disposing)
@@ -1195,7 +1195,7 @@ namespace EU.CqrXs.Gui.Forms
                     Program.formSimple.Hide();
                 if (Program.formComplex != null && !Program.formComplex.Disposing)
                     Program.formComplex.Hide();
-            } 
+            }
             catch (Exception) { }
             this.Hide();
 
@@ -1209,7 +1209,7 @@ namespace EU.CqrXs.Gui.Forms
             await Program.formComplex.ShowAsync(this);
             Program.formComplex.Focus();
         }
-        
+
 
         internal void menuMainFormSimple_Click(object sender, EventArgs e)
         {
@@ -1218,7 +1218,7 @@ namespace EU.CqrXs.Gui.Forms
             try
             {
                 Program.formSimple.Show();
-            } 
+            }
             catch (Exception)
             {
                 Program.formSimple = new EncryptFormSimple();
@@ -1232,9 +1232,9 @@ namespace EU.CqrXs.Gui.Forms
                     Program.formComplex.Hide();
                 if (Program.form123Fish != null && !Program.form123Fish.Disposing)
                     Program.form123Fish.Hide();
-            } 
-            catch (Exception) 
-            { 
+            }
+            catch (Exception)
+            {
             }
             this.Hide();
 
@@ -1542,7 +1542,50 @@ namespace EU.CqrXs.Gui.Forms
         #endregion Media Methods
 
 
-        
     }
+
+
+    #region EncodingTypesExtensionMethods
+    static class EncodingTypesExtensionMethods
+    {
+
+        public static ToolStripMenuItem CheckMenuItemForEncoding(this EncodingType encodingType, ToolStripMenuItem[] items)
+        {
+            ToolStripMenuItem checkedItem = null;
+            foreach (ToolStripMenuItem item in items)
+            {
+                item.Tag = encodingType;
+                if (item.Name.Contains(encodingType.ToString()))
+                {
+                    item.Checked = true;
+                    checkedItem = item;
+                }
+                else
+                    item.Checked = false;
+            }
+            return checkedItem;
+        }
+
+
+        public static EncodingType GetEncodíngTypeFromCheckMenuItem(ToolStripMenuItem[] items)
+        {
+            EncodingType encodingType = EncodingType.None;
+            foreach (ToolStripMenuItem item in items)
+            {
+                if (item.Checked)
+                {
+                    string enncodingName = string.IsNullOrEmpty(item.Tag.ToString() ?? "") ?
+                         item.Name.Replace("menuEnc", "") : item.Tag.ToString();
+                    encodingType = Enum.Parse<EncodingType>(enncodingName);
+                    return encodingType;
+                }
+            }
+            return EncodingType.None; ;
+        }
+
+    }
+
+    #endregion EncodingTypesExtensionMethods
+
 
 }
