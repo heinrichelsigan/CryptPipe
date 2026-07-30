@@ -491,7 +491,7 @@ namespace EU.CqrXs.Gui.Forms
             // toolStripSeparator
             // 
             toolStripSeparator.Name = "toolStripSeparator";
-            toolStripSeparator.Size = new Size(137, 6);
+            toolStripSeparator.Size = new Size(177, 6);
             // 
             // printToolStripMenuItem
             // 
@@ -499,19 +499,20 @@ namespace EU.CqrXs.Gui.Forms
             printToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             printToolStripMenuItem.Name = "printToolStripMenuItem";
             printToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.P;
-            printToolStripMenuItem.Size = new Size(140, 22);
+            printToolStripMenuItem.Size = new Size(180, 22);
             printToolStripMenuItem.Text = "&Print";
             // 
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(137, 6);
+            toolStripSeparator2.Size = new Size(177, 6);
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(140, 22);
+            exitToolStripMenuItem.Size = new Size(180, 22);
             exitToolStripMenuItem.Text = "E&xit";
+            exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
             // toolsToolStripMenuItem
             // 

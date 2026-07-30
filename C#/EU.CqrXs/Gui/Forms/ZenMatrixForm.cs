@@ -38,7 +38,7 @@ namespace EU.CqrXs.Gui.Forms
             int l = 0;
             foreach (byte b in data)
             {
-                Label lbl = this.Controls.Find("labelPoints" + l, true).FirstOrDefault() as Label;
+                Label lbl = this.Controls.Find("labelPoints" + l.ToString("X1"), true).FirstOrDefault() as Label;
                 if (lbl != null)
                 {
                     lbl.Text = b.ToString("X1");
@@ -74,7 +74,7 @@ namespace EU.CqrXs.Gui.Forms
                         bytes.Add(b);
                     }
                 }
-                SetTableMapping(bytes.ToArray());                
+                SetTableMapping(bytes.ToArray());
             }
         }
 
@@ -168,5 +168,9 @@ namespace EU.CqrXs.Gui.Forms
             Program.form123Fish.Focus();
         }
 
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit(0);
+        }
     }
 }

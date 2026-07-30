@@ -38,18 +38,20 @@ namespace EU.CqrXs.Gui.Controls
 
         public void SetPermutationKey(byte[] pernKey)
         {
-            if (pernKey != null && pernKey.Length == 16)
+            if (pernKey != null && pernKey.Length >= 15)
             {
                 PermKeys = new List<byte>(pernKey);
                 // Update the control with the provided key
                 int i = 0;
                 foreach (byte b in PermKeys)
                 {
-                    TextBox tbx = this.Controls.Find("textBox" + i, true).FirstOrDefault() as TextBox;
+                    TextBox tbx = this.Controls.Find("textBox" + i.ToString("X1"), true).FirstOrDefault() as TextBox;
                     if (tbx != null)
                     {
+                        tbx.Visible = true;
                         tbx.Text = b.ToString("X1");
-                    }                    
+                    }
+                    i++;
                 }
             }
         }
