@@ -49,8 +49,7 @@ namespace EU.CqrXs.Gui.Controls
                     if (tbx != null)
                     {
                         tbx.Text = b.ToString("X1");
-                    }
-                    i++;
+                    }                    
                 }
             }
         }

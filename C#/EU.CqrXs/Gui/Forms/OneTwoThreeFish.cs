@@ -1221,6 +1221,8 @@ namespace EU.CqrXs.Gui.Forms
             }
             try
             {
+                if (Program.formZenMatrix != null && !Program.formZenMatrix.Disposing)
+                    Program.formZenMatrix.Hide();
                 if (Program.form123Fish != null && !Program.form123Fish.Disposing)
                     Program.form123Fish.Hide();
                 if (Program.formSimple != null && !Program.formSimple.Disposing)
@@ -1255,7 +1257,9 @@ namespace EU.CqrXs.Gui.Forms
                 await Program.formSimple.ShowAsync();
             }
             try
-            {                
+            {
+                if (Program.formZenMatrix != null && !Program.formZenMatrix.Disposing)
+                    Program.formZenMatrix.Hide();
                 if (Program.form123Fish != null && !Program.form123Fish.Disposing)
                     Program.form123Fish.Hide();
                 if (Program.formComplex != null && !Program.formComplex.Disposing)
