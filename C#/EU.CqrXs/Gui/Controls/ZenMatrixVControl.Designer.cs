@@ -52,7 +52,7 @@
             textBox0.BackColor = Color.FromArgb(255, 106, 133);
             textBox0.BorderStyle = BorderStyle.None;
             textBox0.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBox0.Location = new Point(236, 468);
+            textBox0.Location = new Point(236, 466);
             textBox0.Margin = new Padding(6);
             textBox0.MaximumSize = new Size(48, 48);
             textBox0.MaxLength = 1;
@@ -69,7 +69,7 @@
             textBox1.BackColor = Color.FromArgb(255, 106, 133);
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBox1.Location = new Point(326, 450);
+            textBox1.Location = new Point(326, 449);
             textBox1.Margin = new Padding(6);
             textBox1.MaximumSize = new Size(48, 48);
             textBox1.MaxLength = 1;
@@ -86,7 +86,7 @@
             textBox2.BackColor = Color.FromArgb(255, 106, 133);
             textBox2.BorderStyle = BorderStyle.None;
             textBox2.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBox2.Location = new Point(402, 401);
+            textBox2.Location = new Point(399, 397);
             textBox2.Margin = new Padding(6);
             textBox2.MaximumSize = new Size(48, 48);
             textBox2.MaxLength = 1;
@@ -103,7 +103,7 @@
             textBox3.BackColor = Color.FromArgb(255, 106, 133);
             textBox3.BorderStyle = BorderStyle.None;
             textBox3.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBox3.Location = new Point(454, 327);
+            textBox3.Location = new Point(449, 323);
             textBox3.Margin = new Padding(6);
             textBox3.MaximumSize = new Size(48, 48);
             textBox3.MaxLength = 1;
@@ -120,7 +120,7 @@
             textBox4.BackColor = Color.FromArgb(255, 106, 133);
             textBox4.BorderStyle = BorderStyle.None;
             textBox4.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBox4.Location = new Point(468, 240);
+            textBox4.Location = new Point(465, 240);
             textBox4.Margin = new Padding(6);
             textBox4.MaximumSize = new Size(48, 48);
             textBox4.MaxLength = 1;
@@ -137,7 +137,7 @@
             textBox5.BackColor = Color.FromArgb(255, 106, 133);
             textBox5.BorderStyle = BorderStyle.None;
             textBox5.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBox5.Location = new Point(453, 148);
+            textBox5.Location = new Point(448, 150);
             textBox5.Margin = new Padding(6);
             textBox5.MaximumSize = new Size(48, 48);
             textBox5.MaxLength = 1;
@@ -154,7 +154,7 @@
             textBox6.BackColor = Color.FromArgb(255, 106, 133);
             textBox6.BorderStyle = BorderStyle.None;
             textBox6.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBox6.Location = new Point(403, 70);
+            textBox6.Location = new Point(401, 76);
             textBox6.Margin = new Padding(6);
             textBox6.MaximumSize = new Size(48, 48);
             textBox6.MaxLength = 1;
@@ -171,7 +171,7 @@
             textBox7.BackColor = Color.FromArgb(255, 106, 133);
             textBox7.BorderStyle = BorderStyle.None;
             textBox7.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBox7.Location = new Point(330, 23);
+            textBox7.Location = new Point(330, 25);
             textBox7.Margin = new Padding(6);
             textBox7.MaximumSize = new Size(48, 48);
             textBox7.MaxLength = 1;
@@ -188,7 +188,7 @@
             textBox8.BackColor = Color.FromArgb(255, 106, 133);
             textBox8.BorderStyle = BorderStyle.None;
             textBox8.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBox8.Location = new Point(237, 5);
+            textBox8.Location = new Point(235, 6);
             textBox8.Margin = new Padding(6);
             textBox8.MaximumSize = new Size(48, 48);
             textBox8.MaxLength = 1;
@@ -205,7 +205,7 @@
             textBox9.BackColor = Color.FromArgb(255, 106, 133);
             textBox9.BorderStyle = BorderStyle.None;
             textBox9.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBox9.Location = new Point(143, 25);
+            textBox9.Location = new Point(141, 27);
             textBox9.Margin = new Padding(6);
             textBox9.MaximumSize = new Size(48, 48);
             textBox9.MaxLength = 1;
@@ -222,7 +222,7 @@
             textBoxA.BackColor = Color.FromArgb(255, 106, 133);
             textBoxA.BorderStyle = BorderStyle.None;
             textBoxA.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBoxA.Location = new Point(70, 76);
+            textBoxA.Location = new Point(72, 78);
             textBoxA.Margin = new Padding(6);
             textBoxA.MaximumSize = new Size(48, 48);
             textBoxA.MaxLength = 1;
@@ -239,7 +239,7 @@
             textBoxB.BackColor = Color.FromArgb(255, 106, 133);
             textBoxB.BorderStyle = BorderStyle.None;
             textBoxB.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBoxB.Location = new Point(22, 157);
+            textBoxB.Location = new Point(24, 157);
             textBoxB.Margin = new Padding(6);
             textBoxB.MaximumSize = new Size(48, 48);
             textBoxB.MaxLength = 1;
@@ -256,7 +256,7 @@
             textBoxC.BackColor = Color.FromArgb(255, 106, 133);
             textBoxC.BorderStyle = BorderStyle.None;
             textBoxC.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBoxC.Location = new Point(7, 245);
+            textBoxC.Location = new Point(8, 244);
             textBoxC.Margin = new Padding(6);
             textBoxC.MaximumSize = new Size(48, 48);
             textBoxC.MaxLength = 1;
@@ -273,7 +273,7 @@
             textBoxD.BackColor = Color.FromArgb(255, 106, 133);
             textBoxD.BorderStyle = BorderStyle.None;
             textBoxD.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBoxD.Location = new Point(23, 328);
+            textBoxD.Location = new Point(26, 326);
             textBoxD.Margin = new Padding(6);
             textBoxD.MaximumSize = new Size(48, 48);
             textBoxD.MaxLength = 1;
@@ -290,7 +290,7 @@
             textBoxE.BackColor = Color.FromArgb(255, 106, 133);
             textBoxE.BorderStyle = BorderStyle.None;
             textBoxE.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBoxE.Location = new Point(76, 403);
+            textBoxE.Location = new Point(78, 401);
             textBoxE.Margin = new Padding(6);
             textBoxE.MaximumSize = new Size(48, 48);
             textBoxE.MaxLength = 1;
