@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	<TargetFramework>net10.0-windows</TargetFramework>
-	<UseWindowsForms>true</UseWindowsForms>
+	<TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
@@ -95,6 +94,7 @@
     <Compile Include="Crypt\Hash\Sha256Sum.cs" />
     <Compile Include="Crypt\Hash\Sha512Sum.cs" />
     <Compile Include="Properties\Resource.Designer.cs" />
+    <Compile Include="Properties\ResourcResx.cs" />
     <Compile Include="Util\Area23EventArgs.cs" />
     <Compile Include="Util\Area23Log.cs" />
     <Compile Include="Util\Constants.cs" />
@@ -148,7 +148,12 @@
     <PackageReference Include="Microsoft.NETCore.Platforms" Version="7.0.4" />
     <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="runtime.osx.10.10-x64.CoreCompat.System.Drawing" Version="6.0.5.128" />
     <PackageReference Include="SharpZipLib" Version="1.4.2" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="11.0.0-preview.6.26359.118" />
+    <PackageReference Include="System.Drawing.Common" Version="11.0.0-preview.6.26359.118" />
+    <PackageReference Include="System.Resources.Extensions" Version="11.0.0-preview.6.26359.118" />
+    <PackageReference Include="System.Runtime.Extensions" Version="4.3.1" />
   </ItemGroup>
 
 </Project>

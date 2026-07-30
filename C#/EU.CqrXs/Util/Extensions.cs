@@ -1,4 +1,5 @@
-﻿using EU.CqrXs.Crypt.Cipher;
+﻿using System.Drawing;
+using EU.CqrXs.Crypt.Cipher;
 using EU.CqrXs.Crypt.EnDeCoding;
 using EU.CqrXs.Crypt.Hash;
 using EU.CqrXs.Zip;
@@ -853,6 +854,7 @@ namespace EU.CqrXs.Util
         /// <returns>base64 encoded <see cref="T:string?"/></returns>
         public static string? ToBase64(this System.Drawing.Image img)
         {
+            
             string? base64 = null;
             byte[] bytes;
             try

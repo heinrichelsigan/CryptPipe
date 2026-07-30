@@ -1,6 +1,7 @@
 ﻿using EU.CqrXs.Crypt.Hash;
 using System.Configuration;
 using System.Text;
+using System.Drawing;
 
 namespace EU.CqrXs.Util
 {

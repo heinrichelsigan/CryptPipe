@@ -342,7 +342,7 @@ namespace EU.CqrXs.Crypt.Hash
 
         public bool Enabled { get; set; }
 
-
+/*
         public System.Windows.Forms.ListViewItem ListItem
         {
             get =>
@@ -354,7 +354,7 @@ namespace EU.CqrXs.Crypt.Hash
                     ToolTipText = Value
                 };
         }
-
+*/
         public KeyHashData()
         {
             Enabled = true;
@@ -370,7 +370,7 @@ namespace EU.CqrXs.Crypt.Hash
             Enabled = enabled;
             Selected = selected;
         }
-
+/*
         public KeyHashData(System.Windows.Forms.ListViewItem listItem) : this()
         {
             Text = listItem.Text.ToLower();
@@ -378,7 +378,7 @@ namespace EU.CqrXs.Crypt.Hash
             Enabled = true;
             Selected = listItem.Selected;
         }
-
+*/
 
     }
 

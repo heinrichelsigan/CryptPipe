@@ -167,7 +167,7 @@ namespace EU.CqrXs.Crypt.EnDeCoding
 
         }
 
-
+/*
         public static ToolStripMenuItem CheckMenuItemForEncoding(this EncodingType encodingType, ToolStripMenuItem[] items) 
         {
             ToolStripMenuItem checkedItem = null;
@@ -201,6 +201,7 @@ namespace EU.CqrXs.Crypt.EnDeCoding
             }
             return EncodingType.None; ;
         }
+        */
     }
 
 }
