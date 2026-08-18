@@ -19,6 +19,7 @@ mono_crash.*
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
+[Dd]eploy/
 [Rr]elease/
 [Rr]eleases/
 x64/
@@ -426,31 +427,34 @@ Deploy/console/*.7z
 /Deploy
 /Deploy/ 
 /Deploy/EU.CqrXs/
-/Deploy/EU.CqrXs/EU.CqrXs.Console/
-/Deploy/EU.CqrXs/EU.CqrXs.Console/*.exe
-/Deploy/EU.CqrXs/EU.CqrXs.Console/Console_Test.bat
+/Deploy/EU.CqrXs/EU.CqrXs.Console
 /Deploy/EU.CqrXs/EU.CqrXs.Console/EU.CqrXs.xml
-/Deploy/EU.CqrXs/EU.CqrXs.Console/README.MD
-/Deploy/EU.CqrXs/EU.CqrXs.Test/
-/Deploy/EU.CqrXs/EU.CqrXs.Test/
+/Deploy/EU.CqrXs/EU.CqrXs.Console/*.exe
+/Deploy/EU.CqrXs/EU.CqrXs.Console/*.log
+/Deploy/EU.CqrXs/EU.CqrXs.Console/README_SECURE.txt
+/Deploy/EU.CqrXs/EU.CqrXs.Console/READ_MD.txt
+/Deploy/EU.CqrXs/EU.CqrXs.Test
 /Deploy/EU.CqrXs/EU.CqrXs.Test/*.dll
 /Deploy/EU.CqrXs/EU.CqrXs.Test/*.pdb
 /Deploy/EU.CqrXs/EU.CqrXs.Test/*.exe
-/Deploy/EU.CqrXs/EU.CqrXs.Gui/
+/Deploy/EU.CqrXs/EU.CqrXs.Gui
 /Deploy/EU.CqrXs/EU.CqrXs.Gui/*.exe
+/Deploy/EU.CqrXs/EU.CqrXs.Gui/*.log
 /Deploy/EU.CqrXs/EU.CqrXs.Gui/EU.CqrXs.xml
-/Deploy/EU.CqrXs/EU.CqrXs.Spooler/
+/Deploy/EU.CqrXs/EU.CqrXs.Spooler
+/Deploy/EU.CqrXs/EU.CqrXs.Spooler/*.log
 /Deploy/EU.CqrXs/EU.CqrXs.Spooler/*.exe
 /Deploy/EU.CqrXs/EU.CqrXs.Spooler/EU.CqrXs.xml
 /Deploy/EU.CqrXs/EU.CqrXs.Spooler/Encrypt/
 /Deploy/EU.CqrXs/EU.CqrXs.Spooler/Encrypt/*.*
-/Deploy/EU.CqrXs/EU.CqrXs.Spooler/Out/
+/Deploy/EU.CqrXs/EU.CqrXs.Spooler/In
+/Deploy/EU.CqrXs/EU.CqrXs.Spooler/In/*.*
+/Deploy/EU.CqrXs/EU.CqrXs.Spooler/Out
 /Deploy/EU.CqrXs/EU.CqrXs.Spooler/Out/*.*
 /Deploy/EU.CqrXs/EU.CqrXs.Spooler/README.MD
 /Deploy/EU.CqrXs/EU.CqrXs.Spooler/Spooler_Test.bat
+/Deploy/EU.CqrXs/*.7z
 
-/Deploy/console/README_MD.txt
-/Deploy/console/TestCryptConsole.bat
 /Deploy/framework
 
 ## java section
@@ -461,11 +465,3 @@ Deploy/console/*.7z
 /java/out/
 # java temp
 /java/temp/
-
-/Deploy/EU.CqrXs/EU.CqrXs.Gui/EU.CqrXs.xml
-/Deploy/EU.CqrXs/EU.CqrXs.Console/Console_Test.bat
-/Deploy/EU.CqrXs/EU.CqrXs.Console/EU.CqrXs.xml
-/Deploy/EU.CqrXs/EU.CqrXs.Console/README.MD
-/Deploy/EU.CqrXs/EU.CqrXs.Spooler/Spooler_Test.bat
-/Deploy/EU.CqrXs/EU.CqrXs.Spooler/README.MD
-/Deploy/EU.CqrXs/EU.CqrXs.Spooler/EU.CqrXs.xml
