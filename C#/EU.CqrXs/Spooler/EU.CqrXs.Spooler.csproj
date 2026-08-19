@@ -17,8 +17,8 @@
     <Copyright>Copyright © 2000-2040 Copyleft https://cqrxs.eu</Copyright>
     <PackageProjectUrl>https://cqrxs.eu/download/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/heinrichelsigan/CryptPipe/</RepositoryUrl>
-    <AssemblyVersion>2.26.730</AssemblyVersion>
-    <FileVersion>2.26.730</FileVersion>
+    <AssemblyVersion>2.26.819</AssemblyVersion>
+    <FileVersion>2.26.819</FileVersion>
     <PackageReadmeFile>README.MD</PackageReadmeFile>
   </PropertyGroup>
 

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace EU.CqrXs.Gui.Controls
 {
-    public partial class ZenMatrixVControl : UserControl
+    public partial class ZenMatrixVControl : Control
     {
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
