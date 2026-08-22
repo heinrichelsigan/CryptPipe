@@ -18,10 +18,10 @@ fi
 # SECPIPE 0 ... secure cipher pipe enabled
 SECPIPE=0
 if [ $# -gt 0 ] ; then
-	if [ $1 =="-S" ] ; then SECPIPE=1; fi
-	if [ $1 =="-s" ] ; then SECPIPE=1; fi
-	if [ $1 =="/S" ] ; then SECPIPE=1; fi
-	if [ $1 =="/s" ] ; then SECPIPE=1; fi
+	if [ $1 == "-S" ] ; then SECPIPE=1; fi
+	if [ $1 == "-s" ] ; then SECPIPE=1; fi
+	if [ $1 == "/S" ] ; then SECPIPE=1; fi
+	if [ $1 == "/s" ] ; then SECPIPE=1; fi
 fi
 #
 # cleaning up
@@ -33,8 +33,8 @@ rm -f  ./Out/*.*
 # switch $SECPIPE
 #
 if [ $SECPIPE -lt 1 ] ; then
-# spool & encrypt
-	echo "$0: Encrypting files in ./In/ to ./Encrypt/ using key bar@ba.area23.at"
+# spool & encrypt 
+ 	echo "$0: Encrypting files in ./In/ to ./Encrypt/ using key bar@ba.area23.at"
 	echo "./EU.CqrXs.Spooler -V -M=CFB -k=bar@ba.area23.at -i=./In/ -o=./Encrypt/"
 	./EU.CqrXs.Spooler -V -M=CFB -k=bar@ba.area23.at -i=./In/ -o=./Encrypt/
 # spool & decrypt
@@ -55,3 +55,4 @@ fi
 # spooler finished
 # 
 echo "$0: finished."
+
