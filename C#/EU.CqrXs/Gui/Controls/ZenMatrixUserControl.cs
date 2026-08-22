@@ -7,6 +7,7 @@ namespace EU.CqrXs.Gui.Controls
 
     /// <summary>
     /// ZenMatrix UserControl for displaying and managing permutation keys ot <see cref="ZenMatrix"/>
+    /// alert-fix-4651: Add curly braces around the nested statement(s) in this 'else' block. #4651
     /// </summary>
     public partial class ZenMatrixUserControl : UserControl
     {
@@ -74,11 +75,17 @@ namespace EU.CqrXs.Gui.Controls
                     if (Char.IsAsciiHexDigit(ch))
                     {
                         if (Char.IsAsciiDigit(ch))
+                        {
                             b = (byte)((int)(ch) - (int)'0');
+                        }
                         else if (Char.IsAsciiHexDigitLower(ch))
+                        {
                             b = (byte)((int)(ch) + 10 - (int)'a');
+                        }
                         else
+                        {
                             b = (byte)((int)(ch) + 10 - (int)'A');
+                        }
 
                         bytes.Add(b);
                     }
