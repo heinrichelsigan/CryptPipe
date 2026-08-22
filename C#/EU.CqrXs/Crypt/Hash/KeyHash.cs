@@ -223,13 +223,6 @@ namespace EU.CqrXs.Crypt.Hash
                 case KeyHash.Empty:
                     return "";
 
-                //case KeyHash.Ascon:
-                //    digest = new Org.BouncyCastle.Crypto.Digests.AsconHash256();
-                //    resBuf = new byte[digest.GetDigestSize()];
-                //    digest.BlockUpdate(inBytes, 0, inBytes.Length);
-                //    digest.DoFinal(resBuf, 0);
-                //    return Hex.ToHexString(resBuf);
-
                 case KeyHash.BCrypt:
                     return BCrypt.HashString(stringToHash);
 
@@ -280,26 +273,12 @@ namespace EU.CqrXs.Crypt.Hash
                     return Hex.ToHexString(SHA1.Create().ComputeHash(inBytes));
 
                 case KeyHash.Sha256:
-                    /* Classical bouncy castle implementation of Sha256Digest
-                        digest = new Org.BouncyCastle.Crypto.Digests.Sha256Digest();
-                        resBuf = new byte[digest.GetDigestSize()];
-                        digest.BlockUpdate(inBytes, 0, inBytes.Length);
-                        digest.DoFinal(resBuf, 0);
-                        return Hex.ToHexString(resBuf);
-                    */
                     return Hex.ToHexString(SHA256.Create().ComputeHash(inBytes)); // Sha256Sum.HashString(stringToHash, "");
 
                 case KeyHash.Sha384:
                     return Hex.ToHexString(SHA384.Create().ComputeHash(inBytes));
 
                 case KeyHash.Sha512:
-                    /*  Classical bouncy castle implementation of Sha512tDigest
-                        digest = new Org.BouncyCastle.Crypto.Digests.Sha512tDigest(inBytes.Length);
-                        resBuf = new byte[digest.GetDigestSize()];
-                        digest.BlockUpdate(inBytes, 0, inBytes.Length);
-                        digest.DoFinal(resBuf, 0);
-                        return Hex.ToHexString(resBuf);
-                    */
                     return Hex.ToHexString(SHA512.Create().ComputeHash(inBytes)); // Sha512Sum.HashString(stringToHash);
 
                 case KeyHash.TupleHash:
@@ -315,15 +294,7 @@ namespace EU.CqrXs.Crypt.Hash
                     digest.BlockUpdate(inBytes, 0, inBytes.Length);
                     digest.DoFinal(resBuf, 0);
                     return Hex.ToHexString(resBuf);
-
-                //case KeyHash.Xodyak:
-                //    bytes = EnDeCodeHelper.GetBytes(stringToHash);
-                //    digest = new Org.BouncyCastle.Crypto.Digests.XoodyakDigest();
-                //    resBuf = new byte[digest.GetDigestSize()];
-                //    digest.BlockUpdate(inBytes, 0, inBytes.Length);
-                //    digest.DoFinal(resBuf, 0);
-                //    return = Hex.ToHexString(resBuf);                
-
+                
                 case KeyHash.Hex:
                 default:
                     return Hex16.ToHex16(inBytes);

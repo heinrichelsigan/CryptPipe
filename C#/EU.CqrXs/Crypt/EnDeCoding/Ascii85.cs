@@ -1,6 +1,4 @@
-﻿using EU.CqrXs.Util;
-using System.Runtime.CompilerServices;
-using System.Text;
+﻿using System.Text;
 
 namespace EU.CqrXs.Crypt.EnDeCoding
 {

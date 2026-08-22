@@ -1,6 +1,4 @@
-﻿using EU.CqrXs.Zip;
-using Org.BouncyCastle.Crypto.Utilities;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Security.Cryptography;
 
 namespace EU.CqrXs.Crypt.Cipher

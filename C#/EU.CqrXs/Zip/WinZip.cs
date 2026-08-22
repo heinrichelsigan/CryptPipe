@@ -1,7 +1,6 @@
 ﻿using EU.CqrXs.Util;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
-using Org.BouncyCastle.Utilities.Zlib;
 
 namespace EU.CqrXs.Zip
 {

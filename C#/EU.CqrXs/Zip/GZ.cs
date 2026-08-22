@@ -1,6 +1,5 @@
 ﻿using EU.CqrXs.Util;
 using ICSharpCode.SharpZipLib.Core;
-using System.Buffers;
 using System.IO.Compression;
 
 namespace EU.CqrXs.Zip

@@ -5,7 +5,6 @@ using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Modes;
 using Org.BouncyCastle.Crypto.Paddings;
 using Org.BouncyCastle.Crypto.Parameters;
-using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace EU.CqrXs.Crypt.Cipher.Symmetric
 {

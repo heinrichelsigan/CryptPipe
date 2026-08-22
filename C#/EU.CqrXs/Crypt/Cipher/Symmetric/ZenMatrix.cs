@@ -2,7 +2,6 @@
 using EU.CqrXs.Util;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
-using System.Security.Policy;
 
 namespace EU.CqrXs.Crypt.Cipher.Symmetric
 {

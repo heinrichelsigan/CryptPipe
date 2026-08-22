@@ -1,5 +1,4 @@
-﻿using EU.CqrXs.Crypt;
-using EU.CqrXs.Util;
+﻿using EU.CqrXs.Util;
 
 namespace EU.CqrXs.Crypt
 {

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Text;
 
 namespace EU.CqrXs.Crypt.EnDeCoding
 {

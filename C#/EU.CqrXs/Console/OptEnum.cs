@@ -1,12 +1,4 @@
-﻿using EU.CqrXs.Crypt.Cipher;
-using EU.CqrXs.Crypt.EnDeCoding;
-using EU.CqrXs.Crypt.Hash;
-using EU.CqrXs.Zip;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EU.CqrXs.Console
+﻿namespace EU.CqrXs.Console
 {
 
     /// <summary>

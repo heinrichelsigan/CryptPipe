@@ -3,7 +3,6 @@ using EU.CqrXs.Crypt.EnDeCoding;
 using EU.CqrXs.Crypt.Hash;
 using EU.CqrXs.Util;
 using EU.CqrXs.Zip;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.Resources;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Reflection;

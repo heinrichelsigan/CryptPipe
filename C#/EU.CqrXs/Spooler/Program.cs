@@ -4,7 +4,6 @@ using EU.CqrXs.Crypt.EnDeCoding;
 using EU.CqrXs.Crypt.Hash;
 using EU.CqrXs.Util;
 using EU.CqrXs.Zip;
-using System.Runtime.CompilerServices;
 
 namespace EU.CqrXs.Spooler
 {
