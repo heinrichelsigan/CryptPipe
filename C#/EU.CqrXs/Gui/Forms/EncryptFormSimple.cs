@@ -811,24 +811,34 @@ namespace EU.CqrXs.Gui.Forms
         protected internal virtual async Task menuMainItemOneTwoThreeFish_Click(object sender, EventArgs e)
         {
             if (Program.form123Fish == null || Program.form123Fish.Disposing)
+            {
                 Program.form123Fish = new OneTwoThreeFish();
+            }
             try
             {
                 Program.form123Fish.Show();
             }
-            catch (Exception)
+            catch (Exception exShow)
             {
+                Area23Log.LogOriginEx("EncryptFormSimple.menuMainItemOneTwoThreeFish_Click", exShow, 1);
                 Program.form123Fish = new OneTwoThreeFish();
                 await Program.form123Fish.ShowAsync();
             }
             try
             {
                 if (Program.formSimple != null && !Program.formSimple.Disposing)
+                {
                     Program.formSimple.Hide();
+                }
                 if (Program.formComplex != null && !Program.formComplex.Disposing)
+                {
                     Program.formComplex.Hide();
+                }
             }
-            catch (Exception) { }
+            catch (Exception exHide)
+            {
+                Area23Log.LogOriginEx("EncryptFormSimple.menuMainItemOneTwoThreeFish_Click", exHide, 1);
+            }
             this.Hide();
             Program.form123Fish.Focus();
         }
@@ -842,25 +852,33 @@ namespace EU.CqrXs.Gui.Forms
         protected internal virtual void menuMainComplex_Click(object sender, EventArgs e)
         {
             if (Program.formComplex == null || Program.formComplex.Disposing)
+            {
                 Program.formComplex = new EncryptFormMultiControls();
+            }
             try
             {
                 Program.formComplex.Show();
             }
-            catch (Exception)
+            catch (Exception exShow)
             {
+                Area23Log.LogOriginEx("EncryptFormSimple.menuMainComplex_Click", exShow, 1);
                 Program.formComplex = new EncryptFormMultiControls();
                 Program.formComplex.Show();
             }
             try
             {
                 if (Program.formSimple != null && !Program.formSimple.Disposing)
+                {
                     Program.formSimple.Hide();
+                }
                 if (Program.form123Fish != null && !Program.form123Fish.Disposing)
-                    Program.form123Fish.Hide();                
+                {
+                    Program.form123Fish.Hide();
+                }
             }
-            catch (Exception)
+            catch (Exception exHide)
             {
+                Area23Log.LogOriginEx("EncryptFormSimple.menuMainComplex_Click", exHide, 1);
             }
 
             this.Hide();
@@ -928,10 +946,17 @@ namespace EU.CqrXs.Gui.Forms
                     if (fi.Exists && fi.Length > 0)
                     {
                         if (fi.Length > 1048576)
+                        {
                             SetStatusLabelText(this.statusLabelDestination, $"FileSize: {(fi.Length / 1048576)} MB");
+                        }
                         else if (fi.Length > 2048)
+                        {
                             SetStatusLabelText(this.statusLabelDestination, $"FileSize: {(fi.Length / 1024)} kb");
-                        else SetStatusLabelText(this.statusLabelDestination, $"FileSize: {fi.Length} bytes");
+                        }
+                        else
+                        {
+                            SetStatusLabelText(this.statusLabelDestination, $"FileSize: {fi.Length} bytes");
+                        }
                     }
 
                     return true;
@@ -981,19 +1006,29 @@ namespace EU.CqrXs.Gui.Forms
                     }
                 }
                 if (!written && writeCnt > 2)
+                {
                     return false;
+                }
                 FileInfo fi = new FileInfo(outFilePath);
                 if (fi.Exists && fi.Length > 0)
                 {
                     if (fi.Length > 1048576)
+                    {
                         SetStatusLabelText(this.statusLabelDestination, $"FileSize: {(fi.Length / 1048576)} MB");
+                    }
                     else if (fi.Length > 2048)
+                    {
                         SetStatusLabelText(this.statusLabelDestination, $"FileSize: {(fi.Length / 1024)} kb");
-                    else SetStatusLabelText(this.statusLabelDestination, $"FileSize: {fi.Length} bytes");
-                }
+                    }
+                    else
+                    {
+                        SetStatusLabelText(this.statusLabelDestination, $"FileSize: {fi.Length} bytes");
+                    }
 
-                return true;
+                    return true;
+                }
             }
+             
             return false;
         }
 
@@ -1026,7 +1061,9 @@ namespace EU.CqrXs.Gui.Forms
                 if (SaveBytesDialog(fileBytes, ref fileName))
                 {
                     if (HashFiles.Contains(fileName))
+                    {
                         HashFiles.Remove(fileName);
+                    }
                     groupBoxFiles.pictureBoxFileOut.Visible = false;
                     groupBoxFiles.labelOutputFile.Visible = false;
                 }

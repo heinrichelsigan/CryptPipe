@@ -1209,27 +1209,37 @@ namespace EU.CqrXs.Gui.Forms
         protected internal virtual void menuOptionsModesComplex_Click(object sender, EventArgs e)
         {
             if (Program.formComplex == null || Program.formComplex.Disposing)
+            {
                 Program.formComplex = new EncryptFormMultiControls();
+            }
             try
             {
                 Program.formComplex.Show();
             }
-            catch (Exception)
+            catch (Exception exShow)
             {
+                Area23Log.LogOriginEx("OneTwoThreeFish.menuOptionsModesComplex_Click", exShow, 1);
                 Program.formComplex = new EncryptFormMultiControls();
                 Program.formComplex.Show();
             }
             try
             {
                 if (Program.formZenMatrix != null && !Program.formZenMatrix.Disposing)
+                {
                     Program.formZenMatrix.Hide();
+                }
                 if (Program.form123Fish != null && !Program.form123Fish.Disposing)
+                {
                     Program.form123Fish.Hide();
+                }
                 if (Program.formSimple != null && !Program.formSimple.Disposing)
+                {
                     Program.formSimple.Hide();
+                }
             }
-            catch (Exception)
+            catch (Exception exHide)
             {
+                Area23Log.LogOriginEx("OneTwoThreeFish.menuOptionsModesComplex_Click", exHide, 1);
             }
             this.Hide();
             Program.formComplex.Focus();
@@ -1246,27 +1256,37 @@ namespace EU.CqrXs.Gui.Forms
         protected internal virtual async Task menuOptionsModesSimple_Click(object sender, EventArgs e)
         {
             if (Program.formSimple == null || Program.formSimple.Disposing)
+            {
                 Program.formSimple = new EncryptFormSimple();
+            }
             try
             {
                 Program.formSimple.Show();
             }
-            catch (Exception)
+            catch (Exception exShow)
             {
+                Area23Log.LogOriginEx("OneTwoThreeFish.menuOptionsModesSimple_Click", exShow, 1);
                 Program.formSimple = new EncryptFormSimple();
                 await Program.formSimple.ShowAsync();
             }
             try
             {
                 if (Program.formZenMatrix != null && !Program.formZenMatrix.Disposing)
+                {
                     Program.formZenMatrix.Hide();
+                }
                 if (Program.form123Fish != null && !Program.form123Fish.Disposing)
+                {
                     Program.form123Fish.Hide();
+                }
                 if (Program.formComplex != null && !Program.formComplex.Disposing)
-                    Program.formComplex.Hide();                
+                {
+                    Program.formComplex.Hide();
+                }
             }
-            catch (Exception)
+            catch (Exception exHide)
             {
+                Area23Log.LogOriginEx("OneTwoThreeFish.menuOptionsModesSimple_Click", exHide, 1);
             }
             this.Hide();
 

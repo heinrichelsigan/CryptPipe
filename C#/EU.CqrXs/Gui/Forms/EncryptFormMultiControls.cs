@@ -1182,21 +1182,31 @@ namespace EU.CqrXs.Gui.Forms
                     ofish.Show();
                 }
             }
-            catch (Exception)
+            catch (Exception exShow)
             {
+                Area23Log.LogOriginEx("EncryptFormMultiControls.menuMainItemOneTwoThreeFish_Click", exShow, 1);
                 Program.form123Fish = new OneTwoThreeFish();
                 Program.form123Fish.Show();
             }
             try
             {
                 if (Program.formZenMatrix != null && !Program.formZenMatrix.Disposing)
+                {
                     Program.formZenMatrix.Hide();
+                }
                 if (Program.formSimple != null && !Program.formSimple.Disposing)
+                {
                     Program.formSimple.Hide();
+                }
                 if (Program.formComplex != null && !Program.formComplex.Disposing)
+                {
                     Program.formComplex.Hide();
+                }
             }
-            catch (Exception) { }
+            catch (Exception exHide)
+            {
+                Area23Log.LogOriginEx("EncryptFormMultiControls.menuMainItemOneTwoThreeFish_Click", exHide, 1);
+            }
             this.Hide();
 
             Program.form123Fish.Focus();
@@ -1214,27 +1224,37 @@ namespace EU.CqrXs.Gui.Forms
         internal void menuMainFormSimple_Click(object sender, EventArgs e)
         {
             if (Program.formSimple == null || Program.formSimple.Disposing)
+            {
                 Program.formSimple = new EncryptFormSimple();
+            }
             try
             {
                 Program.formSimple.Show();
             }
-            catch (Exception)
+            catch (Exception exShow)
             {
+                Area23Log.LogOriginEx("EncryptFormMultiControls.menuMainFormSimple_Click", exShow, 1);
                 Program.formSimple = new EncryptFormSimple();
                 Program.formSimple.Show();
             }
             try
             {
                 if (Program.formZenMatrix != null && !Program.formZenMatrix.Disposing)
+                {
                     Program.formZenMatrix.Hide();
+                }
                 if (Program.formComplex != null && !Program.formComplex.Disposing)
+                {
                     Program.formComplex.Hide();
+                }
                 if (Program.form123Fish != null && !Program.form123Fish.Disposing)
+                {
                     Program.form123Fish.Hide();
+                }
             }
-            catch (Exception)
+            catch (Exception exHide)
             {
+                Area23Log.LogOriginEx("EncryptFormMultiControls.menuMainFormSimple_Click", exHide, 1);
             }
             this.Hide();
 
@@ -1246,27 +1266,37 @@ namespace EU.CqrXs.Gui.Forms
         internal void menuMainItemZenMatrixTest_Click(object sender, EventArgs e)
         {
             if (Program.formZenMatrix == null || Program.formZenMatrix.Disposing)
+            {
                 Program.formZenMatrix = new ZenMatrixForm();
+            }
             try
             {
                 Program.formZenMatrix.Show();
             }
-            catch (Exception)
+            catch (Exception exShow)
             {
+                Area23Log.LogOriginEx("EncryptFormMultiControls.menuMainItemZenMatrixTest_Click", exShow, 1);
                 Program.formZenMatrix = new ZenMatrixForm();
                 Program.formZenMatrix.Show();
             }
             try
             {
                 if (Program.formComplex != null && !Program.formComplex.Disposing)
+                {
                     Program.formComplex.Hide();
+                }
                 if (Program.form123Fish != null && !Program.form123Fish.Disposing)
+                {
                     Program.form123Fish.Hide();
+                }
                 if (Program.formSimple != null && !Program.formSimple.Disposing)
+                {
                     Program.formSimple.Hide();
+                }
             }
-            catch (Exception)
+            catch (Exception exHide)
             {
+                Area23Log.LogOriginEx("EncryptFormMultiControls.menuMainItemZenMatrixTest_Click", exHide, 1);
             }
             this.Hide();
 
