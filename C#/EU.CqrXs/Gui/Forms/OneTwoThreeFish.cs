@@ -7,6 +7,7 @@ using EU.CqrXs.Gui.Properties;
 using EU.CqrXs.Gui.Sound;
 using EU.CqrXs.Util;
 using EU.CqrXs.Zip;
+using System.Text;
 using System.Security.Cryptography;
 
 
@@ -22,6 +23,8 @@ namespace EU.CqrXs.Gui.Forms
 
         protected internal CipherMode2 cmode2 = CipherMode2.CFB;
         protected internal CipherPipe? cPipe = null;
+
+        protected internal CipherEnum[] fishesOrder = new CipherEnum[] { CipherEnum.BlowFish, CipherEnum.Fish2, CipherEnum.Fish2 };
         protected internal string simg = "";
         protected internal ToolStripMenuItem[] menuEncodings;
         ToolStripMenuItem[] mCipherModes = new List<ToolStripMenuItem>().ToArray();
@@ -69,24 +72,34 @@ namespace EU.CqrXs.Gui.Forms
                  => await menuOptionsModesSimple_Click(sender, e));
 
             foreach (var cipherModeItem in mCipherModes)
+            {
                 cipherModeItem.Click += menuCipherMode_Click;
+            }
 
             menuEncodings = new ToolStripMenuItem[] { menuEncNone, menuEncBase16, menuEncHex16, menuEncHex32, menuEncBase32, menuEncBase64, menuEncUu, menuEncXx, menuEncAscii85 };
             foreach (ToolStripMenuItem encodingMenu in menuEncodings)
+            {
                 encodingMenu.Click += new System.EventHandler(async (sender, e) => await menuEncodingKind_Click(sender, e));
+            }
 
             ToolStripMenuItem[] menuZips = new ToolStripMenuItem[] { zmenu7z, zmenuBZip2, zmenuGZip, zmenuZip, zmenuNone };
             foreach (var zipMenuItem in menuZips)
+            {
                 zipMenuItem.Click += new System.EventHandler(async (sender, e) => await menuCompression_Click(sender, e));
+            }
            
             this.comboBoxCompression.Items.Clear();
             foreach (ZipType zipType in ZipTypeExtensions.GetZipTypes())
+            {
                 this.comboBoxCompression.Items.Add(zipType.ToString());
+            }
             this.comboBoxCompression.SelectedItem = ZipType.None.ToString();            
 
             this.comboBoxEncoding.Items.Clear();
             foreach (EncodingType encodingType in EncodingTypesExtensions.GetEncodingTypes())
+            {
                 this.comboBoxEncoding.Items.Add(encodingType.ToString());
+            }
             comboBoxEncoding.SelectedItem = EncodingType.Base64.ToString();
             
             this.comboBoxCipherModes.Items.Clear();
@@ -226,7 +239,9 @@ namespace EU.CqrXs.Gui.Forms
             }
 
             foreach (ToolStripMenuItem item in menuEncodings)
+            {
                 item.Checked = false;
+            }
             
             if (mi != null && mi.Name != null &&
                 (mi.Name.StartsWith("menuEncBase") || mi.Name.StartsWith("menuEncHex") || mi.Name.StartsWith("menuEncUu") ||
@@ -396,6 +411,34 @@ namespace EU.CqrXs.Gui.Forms
             Hash_Click(sender, e);
         }
 
+
+        /// <summary>
+        /// GetOneTwoThreeFishOrder returns the order of 1-2-3-fish dependent on secure key
+        /// </summary>
+        /// <param name="key"><see cref="string"/> secure key</param>
+        /// <returns>a combination of <see cref="CipherEnum.BlowFish"/>, <see cref="CipherEnum.Fish2"/> and <see cref="CipherEnum.Fish3"/>  </returns>
+        protected internal CipherEnum[] GetOneTwoThreeFishOrder(string key)
+        {
+            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
+            ulong ul = 0;
+            foreach (byte b in keyBytes)
+            {
+                ul += (uint)b;
+            }
+            switch (ul % 6)
+            {
+                case 0: break;
+                case 1: return new CipherEnum[] { CipherEnum.BlowFish, CipherEnum.Fish3, CipherEnum.Fish2 };
+                case 2: return new CipherEnum[] { CipherEnum.Fish2, CipherEnum.BlowFish, CipherEnum.Fish3 };
+                case 3: return new CipherEnum[] { CipherEnum.Fish2, CipherEnum.Fish3, CipherEnum.BlowFish };
+                case 4: return new CipherEnum[] { CipherEnum.Fish3, CipherEnum.BlowFish, CipherEnum.Fish2 };
+                case 5: return new CipherEnum[] { CipherEnum.Fish3, CipherEnum.Fish2, CipherEnum.BlowFish };
+                default: break;
+            }
+
+            return new CipherEnum[] { CipherEnum.BlowFish, CipherEnum.Fish2, CipherEnum.Fish3 };
+        }
+
         /// <summary>
         /// Hash_Click - generates hash from key
         /// </summary>
@@ -415,10 +458,14 @@ namespace EU.CqrXs.Gui.Forms
                 this.textBoxHash3.Text = metaHash;
                 this.textBoxHashHash3.Text = KeyHash.Whirlpool.Hash(metaHash);
 
-                cPipe = new CipherPipe(new CipherEnum[] { CipherEnum.BlowFish, CipherEnum.Fish2, CipherEnum.Fish3 }, 3, GetEncoding(), GetZip());
+
+                fishesOrder = GetOneTwoThreeFishOrder(this.textBoxKey.Text);
+                cPipe = new CipherPipe(fishesOrder, 3, GetEncoding(), GetZip());
                 this.textBoxPipe.Text = "";
                 foreach (CipherEnum cipher in cPipe.InPipe)
+                {
                     this.textBoxPipe.Text += cipher.ToString() + ";";
+                }
                 SetPictureBoxImage(groupBoxFiles.pictureBoxRunningPipe, cPipe.GenerateEncryptPipeImage());
             }
         }
@@ -535,7 +582,9 @@ namespace EU.CqrXs.Gui.Forms
                 return;
             }
             if (string.IsNullOrEmpty(this.textBoxHash3.Text))
+            {
                 Hash_Click(sender, e);
+            }
 
             Icon iconSandClock = new Icon(Properties.Resources.icon_sandclock, new Size(60, 60));
             if (string.IsNullOrEmpty(this.textBoxPipe.Text) && this.warnOnEmptyPipeToolStripMenuItem.Checked)
@@ -549,8 +598,8 @@ namespace EU.CqrXs.Gui.Forms
                     return;
             }
             cmode2 = GetCipherMode2();
-            CipherEnum[] pipeAlgos = new CipherEnum[] { CipherEnum.BlowFish, CipherEnum.Fish2, CipherEnum.Fish3 };
-            cPipe = new CipherPipe(pipeAlgos, Constants.PIPE_MAX_LEN, GetEncoding(), GetZip());
+            fishesOrder = GetOneTwoThreeFishOrder(this.textBoxKey.Text);            
+            cPipe = new CipherPipe(fishesOrder, Constants.PIPE_MAX_LEN, GetEncoding(), GetZip());
 
             await groupBoxFiles.pictureBoxRunningPipe.SetImageTagVisibleAsync(cPipe.GenerateEncryptPipeImage());
 
@@ -564,22 +613,22 @@ namespace EU.CqrXs.Gui.Forms
                 try
                 {
                     await this.statusLabelSource.SetTextAsync($"source chars: {tabControlWithHexSrc.AsciiText.Length}");
-                    if (menuEncNone.Checked && (pipeAlgos.Length > 0 || GetZip() != ZipType.None))
+                    if (menuEncNone.Checked && (fishesOrder.Length > 0 || GetZip() != ZipType.None))
                         await SetEncodingAsync(menuEncBase64);
                     byte[] intermediateBytes = GetZip().Zip(System.Text.Encoding.UTF8.GetBytes(this.tabControlWithHexSrc.AsciiText));
                     string metaHash = KeyHash.OpenBSDCrypt.Hash(this.textBoxKey.Text);
                     intermediateBytes = CipherPipe.EncryptBytesFast(
                         intermediateBytes,
-                        CipherEnum.BlowFish,
+                        fishesOrder[0],
                         metaHash,
                         KeyHash.BCrypt.Hash(metaHash),
-                        KeyHash.BCrypt, 
+                        KeyHash.BCrypt,
                         cmode2);
                     
                     metaHash = KeyHash.TupleHash.Hash(this.textBoxKey.Text);
                     intermediateBytes = CipherPipe.EncryptBytesFast(
-                        intermediateBytes, 
-                        CipherEnum.Fish2,
+                        intermediateBytes,
+                        fishesOrder[1],
                         metaHash, 
                         KeyHash.SCrypt.Hash(metaHash),
                         KeyHash.SCrypt,
@@ -587,8 +636,8 @@ namespace EU.CqrXs.Gui.Forms
                     
                     metaHash = KeyHash.Sha384.Hash(this.textBoxKey.Text);
                     intermediateBytes = CipherPipe.EncryptBytesFast(
-                        intermediateBytes, 
-                        CipherEnum.Fish3,
+                        intermediateBytes,
+                        fishesOrder[2],
                         metaHash, 
                         KeyHash.Whirlpool.Hash(metaHash),
                         KeyHash.Whirlpool,
@@ -641,7 +690,7 @@ namespace EU.CqrXs.Gui.Forms
                     string metaHash = KeyHash.OpenBSDCrypt.Hash(this.textBoxKey.Text);
                     intermediateBytes = CipherPipe.EncryptBytesFast(
                         intermediateBytes,
-                        CipherEnum.BlowFish,
+                        fishesOrder[0],
                         metaHash,
                         KeyHash.BCrypt.Hash(metaHash),
                         KeyHash.BCrypt,
@@ -650,7 +699,7 @@ namespace EU.CqrXs.Gui.Forms
                     metaHash = KeyHash.TupleHash.Hash(this.textBoxKey.Text);
                     intermediateBytes = CipherPipe.EncryptBytesFast(
                         intermediateBytes,
-                        CipherEnum.Fish2,
+                        fishesOrder[1],
                         metaHash,
                         KeyHash.SCrypt.Hash(metaHash),
                         KeyHash.SCrypt,
@@ -659,7 +708,7 @@ namespace EU.CqrXs.Gui.Forms
                     metaHash = KeyHash.Sha384.Hash(this.textBoxKey.Text);
                     intermediateBytes = CipherPipe.EncryptBytesFast(
                         intermediateBytes,
-                        CipherEnum.Fish3,
+                        fishesOrder[2],
                         metaHash,
                         KeyHash.Whirlpool.Hash(metaHash),
                         KeyHash.Whirlpool,
@@ -735,8 +784,8 @@ namespace EU.CqrXs.Gui.Forms
 
             Icon iconSandClock = new Icon(Properties.Resources.icon_sandclock, new Size(60, 60));
 
-            CipherEnum[] pipeAlgos = new CipherEnum[] { CipherEnum.BlowFish, CipherEnum.Fish2, CipherEnum.Fish3 };
-            cPipe = new CipherPipe(pipeAlgos, Constants.PIPE_MAX_LEN, GetEncoding(), GetZip());
+            fishesOrder = GetOneTwoThreeFishOrder(this.textBoxKey.Text);                       
+            cPipe = new CipherPipe(fishesOrder, Constants.PIPE_MAX_LEN, GetEncoding(), GetZip());
             // SetPictureBoxImage(groupBoxFiles.pictureBoxRunningPipe, cPipe.GenerateDecryptPipeImage());
             await this.groupBoxFiles.pictureBoxRunningPipe.SetImageTagVisibleAsync(cPipe.GenerateDecryptPipeImage());            
 
@@ -750,7 +799,7 @@ namespace EU.CqrXs.Gui.Forms
                 try
                 {
                     await this.statusLabelSource.SetTextAsync($"source chars: {tabControlWithHexSrc.AsciiText.Length}");
-                    if (menuEncNone.Checked && (pipeAlgos.Length > 0 || GetZip() != ZipType.None))
+                    if (menuEncNone.Checked && (fishesOrder.Length > 0 || GetZip() != ZipType.None))
                         await SetEncodingAsync(menuEncBase64);
 
                     byte[] intermediateBytes = GetEncoding().DeCode(this.tabControlWithHexSrc.AsciiText);
@@ -758,7 +807,7 @@ namespace EU.CqrXs.Gui.Forms
                     string metaHash = KeyHash.Sha384.Hash(this.textBoxKey.Text);
                     intermediateBytes = CipherPipe.DecryptBytesFast(
                         intermediateBytes,
-                        CipherEnum.Fish3,
+                        fishesOrder[2],
                         metaHash,
                         KeyHash.Whirlpool.Hash(metaHash),
                         KeyHash.Whirlpool,
@@ -767,7 +816,7 @@ namespace EU.CqrXs.Gui.Forms
                     metaHash = KeyHash.TupleHash.Hash(this.textBoxKey.Text);
                     intermediateBytes = CipherPipe.DecryptBytesFast(
                         intermediateBytes,
-                        CipherEnum.Fish2,
+                        fishesOrder[1],
                         metaHash,
                         KeyHash.SCrypt.Hash(metaHash),
                         KeyHash.SCrypt,
@@ -776,7 +825,7 @@ namespace EU.CqrXs.Gui.Forms
                     metaHash = KeyHash.OpenBSDCrypt.Hash(this.textBoxKey.Text);
                     intermediateBytes = CipherPipe.DecryptBytesFast(
                         intermediateBytes,
-                        CipherEnum.BlowFish,
+                        fishesOrder[0],
                         metaHash,
                         KeyHash.BCrypt.Hash(metaHash),
                         KeyHash.BCrypt,
@@ -820,7 +869,7 @@ namespace EU.CqrXs.Gui.Forms
                     string metaHash = KeyHash.Sha384.Hash(this.textBoxKey.Text);
                     intermediateBytes = CipherPipe.DecryptBytesFast(
                         intermediateBytes,
-                        CipherEnum.Fish3,
+                        fishesOrder[2],
                         metaHash,
                         KeyHash.Whirlpool.Hash(metaHash),
                         KeyHash.Whirlpool,
@@ -829,7 +878,7 @@ namespace EU.CqrXs.Gui.Forms
                     metaHash = KeyHash.TupleHash.Hash(this.textBoxKey.Text);
                     intermediateBytes = CipherPipe.DecryptBytesFast(
                         intermediateBytes,
-                        CipherEnum.Fish2,
+                        fishesOrder[1],
                         metaHash,
                         KeyHash.SCrypt.Hash(metaHash),
                         KeyHash.SCrypt,
@@ -839,7 +888,7 @@ namespace EU.CqrXs.Gui.Forms
                     metaHash = KeyHash.OpenBSDCrypt.Hash(this.textBoxKey.Text);
                     intermediateBytes = CipherPipe.DecryptBytesFast(
                         intermediateBytes,
-                        CipherEnum.BlowFish,
+                        fishesOrder[0],
                         metaHash,
                         KeyHash.BCrypt.Hash(metaHash),
                         KeyHash.BCrypt,
