@@ -1,9 +1,14 @@
 ﻿using EU.CqrXs.Util;
-using System.Configuration;
 using System.Reflection;
 
 namespace EU.CqrXs.Test
 {
+
+    /// <summary>
+    /// TestInitCleanup is a test class that provides initialization and cleanup methods for unit tests. 
+    /// It ensures that any temporary files created during the tests are deleted before and after each test method is executed. 
+    /// The class also provides a static property to retrieve the system directory path where the tests are running.
+    /// </summary>
     [TestClass]
     public sealed class TestInitCleanup
     {

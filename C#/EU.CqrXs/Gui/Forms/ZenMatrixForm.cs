@@ -1,14 +1,12 @@
 ﻿using EU.CqrXs.Crypt.Cipher.Symmetric;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
+using EU.CqrXs.Gui.Properties;
 
 namespace EU.CqrXs.Gui.Forms
 {
+
+    /// <summary>
+    /// ZenMatrix Form for displaying and managing permutation keys of <see cref="ZenMatrix"/>
+    /// </summary>
     public partial class ZenMatrixForm : EncryptFormBase
     {
         public ZenMatrixForm()
@@ -16,6 +14,7 @@ namespace EU.CqrXs.Gui.Forms
             InitializeComponent();
         }
 
+        #region menu options modes click
 
         private void menuOptionsModesComplex_Click(object sender, EventArgs e)
         {
@@ -107,9 +106,29 @@ namespace EU.CqrXs.Gui.Forms
             Program.form123Fish.Focus();
         }
 
+        #endregion menu options modes click
+
+        #region menu about help exit click
+
+        
+        private void menuAbout_Click_1(object sender, EventArgs e)
+        {
+            AboutDialog aboutDialog = new AboutDialog();
+            aboutDialog.ShowDialog();
+        }
+
+        private void menuHelpHelp_Click(object sender, EventArgs e)
+        {
+            // System.Windows.Forms.Help.ShowHelp(this, Resources.HelpUrl);
+            System.Windows.Forms.Help.ShowHelp(this, Resources.HelpUrl, HelpNavigator.TableOfContents, "cqrxs.eu");
+        }
+
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
+
+        #endregion menu about help exit click
+
     }
 }

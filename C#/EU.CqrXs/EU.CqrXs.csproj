@@ -8,8 +8,8 @@
     <Copyright>Copyleft © 2000-2040</Copyright>
 	<PackageProjectUrl>https://github.com/heinrichelsigan/CryptPipe/</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/heinrichelsigan/PermAgainCrypt</RepositoryUrl>
-    <AssemblyVersion>2.26.819</AssemblyVersion>
-    <FileVersion>2.26.819</FileVersion>
+    <AssemblyVersion>2.26.823</AssemblyVersion>
+    <FileVersion>2.26.823</FileVersion>
     <IncludeSymbols>true</IncludeSymbols>
     <Title>EU.CqrXs [minimalistic]</Title>
     <Description>EU.CqrXs is a reduced Area23.At.Framework.Core framework with minimalistic helper methods</Description>
@@ -142,8 +142,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="BouncyCastle.Cryptography" Version="2.6.2" />
-    <PackageReference Include="Microsoft.Bcl.TimeProvider" Version="10.0.10" />
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.7.0" />
+    <PackageReference Include="Microsoft.Bcl.TimeProvider" Version="10.0.11" />
     <PackageReference Include="Microsoft.NETCore.Platforms" Version="7.0.4" />
     <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />

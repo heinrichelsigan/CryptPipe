@@ -1,13 +1,4 @@
-﻿using EU.CqrXs.Crypt.Cipher;
-using EU.CqrXs.Crypt.EnDeCoding;
-using EU.CqrXs.Crypt.Hash;
-using EU.CqrXs.Util;
-using EU.CqrXs.Zip;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EU.CqrXs.Util;
 
 namespace EU.CqrXs.Gui.Helper
 {

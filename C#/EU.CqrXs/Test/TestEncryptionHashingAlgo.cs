@@ -44,7 +44,7 @@ namespace EU.CqrXs.Test
             Assert.IsTrue(File.Exists(fileTextTest));
             CipherEnum[] cipherTypes = CipherEnumExtensions.GetCipherTypes();
             ZipType[] zTypes = new ZipType[] { ZipType.None };
-            KeyHash kHash = KeyHash.Hex;
+            // KeyHash kHash = KeyHash.Hex;
             ZipType zType = ZipType.None;
             EncodingType[] encodingTypes = new EncodingType[] { EncodingType.Uu, EncodingType.Xx, EncodingType.Base64, EncodingType.Hex32, EncodingType.Hex16 };
             EncodingType encType = EncodingType.Base64;            

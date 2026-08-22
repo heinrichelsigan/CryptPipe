@@ -1,14 +1,12 @@
 ﻿using EU.CqrXs.Crypt.Cipher;
 using EU.CqrXs.Crypt.EnDeCoding;
 using EU.CqrXs.Crypt.Hash;
-using EU.CqrXs.Gui.Controls;
 using EU.CqrXs.Gui.Helper;
 using EU.CqrXs.Gui.Properties;
 using EU.CqrXs.Gui.Sound;
 using EU.CqrXs.Util;
 using EU.CqrXs.Zip;
 using System.Security.Cryptography;
-using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 
 namespace EU.CqrXs.Gui.Forms

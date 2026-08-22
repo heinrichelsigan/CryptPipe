@@ -46,7 +46,7 @@ namespace EU.CqrXs.Gui.Forms
             menuHelp = new ToolStripMenuItem();
             menuAbout = new ToolStripMenuItem();
             menuHelpHelp = new ToolStripMenuItem();
-            zenMatrixÛserControl1 = new ZenMatrixÛserControl();
+            zenMatrixUserControl = new ZenMatrixUserControl();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -69,26 +69,27 @@ namespace EU.CqrXs.Gui.Forms
             // toolStripSeparator
             // 
             toolStripSeparator.Name = "toolStripSeparator";
-            toolStripSeparator.Size = new Size(137, 6);
+            toolStripSeparator.Size = new Size(177, 6);
             // 
             // printToolStripMenuItem
             // 
+            printToolStripMenuItem.Enabled = false;
             printToolStripMenuItem.Image = (Image)resources.GetObject("printToolStripMenuItem.Image");
             printToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             printToolStripMenuItem.Name = "printToolStripMenuItem";
             printToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.P;
-            printToolStripMenuItem.Size = new Size(140, 22);
+            printToolStripMenuItem.Size = new Size(180, 22);
             printToolStripMenuItem.Text = "&Print";
             // 
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(137, 6);
+            toolStripSeparator2.Size = new Size(177, 6);
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(140, 22);
+            exitToolStripMenuItem.Size = new Size(180, 22);
             exitToolStripMenuItem.Text = "E&xit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
@@ -104,14 +105,14 @@ namespace EU.CqrXs.Gui.Forms
             menuOptionsMenuModes.BackColor = SystemColors.Menu;
             menuOptionsMenuModes.DropDownItems.AddRange(new ToolStripItem[] { menuOptionsModesComplex, menuModeZenMatrix, menuOptionsModesSimple, menuOptionsModes123Fish });
             menuOptionsMenuModes.Name = "menuOptionsMenuModes";
-            menuOptionsMenuModes.Size = new Size(110, 22);
+            menuOptionsMenuModes.Size = new Size(180, 22);
             menuOptionsMenuModes.Text = "Modes";
             // 
             // menuOptionsModesComplex
             // 
             menuOptionsModesComplex.BackColor = SystemColors.Menu;
             menuOptionsModesComplex.Name = "menuOptionsModesComplex";
-            menuOptionsModesComplex.Size = new Size(155, 22);
+            menuOptionsModesComplex.Size = new Size(180, 22);
             menuOptionsModesComplex.Text = "Mode Complex";
             menuOptionsModesComplex.Click += menuOptionsModesComplex_Click;
             // 
@@ -122,14 +123,14 @@ namespace EU.CqrXs.Gui.Forms
             menuModeZenMatrix.CheckState = CheckState.Checked;
             menuModeZenMatrix.Enabled = false;
             menuModeZenMatrix.Name = "menuModeZenMatrix";
-            menuModeZenMatrix.Size = new Size(155, 22);
+            menuModeZenMatrix.Size = new Size(180, 22);
             menuModeZenMatrix.Text = "ZenMatrix";
             // 
             // menuOptionsModesSimple
             // 
             menuOptionsModesSimple.BackColor = SystemColors.Menu;
             menuOptionsModesSimple.Name = "menuOptionsModesSimple";
-            menuOptionsModesSimple.Size = new Size(155, 22);
+            menuOptionsModesSimple.Size = new Size(180, 22);
             menuOptionsModesSimple.Text = "Mode Simple";
             menuOptionsModesSimple.Click += menuOptionsModesSimple_Click;
             // 
@@ -137,7 +138,7 @@ namespace EU.CqrXs.Gui.Forms
             // 
             menuOptionsModes123Fish.BackColor = SystemColors.Menu;
             menuOptionsModes123Fish.Name = "menuOptionsModes123Fish";
-            menuOptionsModes123Fish.Size = new Size(155, 22);
+            menuOptionsModes123Fish.Size = new Size(180, 22);
             menuOptionsModes123Fish.Text = "123-Fish";
             menuOptionsModes123Fish.Click += menuOptionsModes123Fish_Click;
             // 
@@ -153,30 +154,32 @@ namespace EU.CqrXs.Gui.Forms
             // 
             menuAbout.BackColor = SystemColors.MenuBar;
             menuAbout.Name = "menuAbout";
-            menuAbout.Size = new Size(161, 22);
+            menuAbout.Size = new Size(180, 22);
             menuAbout.Text = "About";
+            menuAbout.Click += menuAbout_Click_1;
             // 
             // menuHelpHelp
             // 
             menuHelpHelp.BackColor = SystemColors.MenuBar;
             menuHelpHelp.Name = "menuHelpHelp";
             menuHelpHelp.ShortcutKeys = Keys.Alt | Keys.F3;
-            menuHelpHelp.Size = new Size(161, 22);
+            menuHelpHelp.Size = new Size(180, 22);
             menuHelpHelp.Text = "Help";
+            menuHelpHelp.Click += menuHelpHelp_Click;
             // 
-            // zenMatrixÛserControl1
+            // zenMatrixUserControl
             // 
-            zenMatrixÛserControl1.Location = new Point(1, 20);
-            zenMatrixÛserControl1.Name = "zenMatrixÛserControl1";
-            zenMatrixÛserControl1.Size = new Size(691, 559);
-            zenMatrixÛserControl1.TabIndex = 6;
+            zenMatrixUserControl.Location = new Point(1, 20);
+            zenMatrixUserControl.Name = "zenMatrixUserControl";
+            zenMatrixUserControl.Size = new Size(691, 559);
+            zenMatrixUserControl.TabIndex = 6;
             // 
             // ZenMatrixForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(707, 585);
-            Controls.Add(zenMatrixÛserControl1);
+            Controls.Add(zenMatrixUserControl);
             Controls.Add(menuStrip1);
             FormBorderStyle = FormBorderStyle.None;
             MainMenuStrip = menuStrip1;
@@ -208,7 +211,6 @@ namespace EU.CqrXs.Gui.Forms
         protected internal ToolStripMenuItem menuOptionsModesSimple;
         private ToolStripMenuItem menuOptionsModes123Fish;        
         protected internal ToolStripMenuItem menuModeZenMatrix;
-        private TableLayoutPanel tableLayoutPanel2;
-        private ZenMatrixÛserControl zenMatrixÛserControl1;
+        private ZenMatrixUserControl zenMatrixUserControl;
     }
 }

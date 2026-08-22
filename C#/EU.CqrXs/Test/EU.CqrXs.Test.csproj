@@ -13,14 +13,10 @@
     <PackageProjectUrl>https://github.com/heinrichelsigan/PermAgainCrypt</PackageProjectUrl>
     <Copyright>Copyleft © 2000-2040</Copyright>
     <Title>EU.CqrXs.Test</Title>
-    <Description>EU.CqrXs.Test integration tests project
-for CipherEnum CipherPipe en-/decryption
-for EncodingType CipherPipe en-/decoding
-for ZipType CipherPipe un-/zipping
-</Description>
+    <Description>EU.CqrXs.Test integration tests project for CipherEnum CipherPipe en-/decryption for EncodingType CipherPipe en-/decoding for ZipType CipherPipe un-/zipping</Description>
     <RepositoryUrl>https://github.com/heinrichelsigan/CryptPipe/</RepositoryUrl>
-    <AssemblyVersion>2.26.819</AssemblyVersion>
-    <FileVersion>2.26.819</FileVersion>
+    <AssemblyVersion>2.26.823</AssemblyVersion>
+    <FileVersion>2.26.823</FileVersion>
     <StartupObject></StartupObject>
     <PackageReadmeFile>README.MD</PackageReadmeFile>
   </PropertyGroup>
