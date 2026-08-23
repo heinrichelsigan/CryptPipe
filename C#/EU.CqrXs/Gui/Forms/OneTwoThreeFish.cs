@@ -1,14 +1,13 @@
 ﻿using EU.CqrXs.Crypt.Cipher;
 using EU.CqrXs.Crypt.EnDeCoding;
 using EU.CqrXs.Crypt.Hash;
-using EU.CqrXs.Gui.Controls;
 using EU.CqrXs.Gui.Helper;
 using EU.CqrXs.Gui.Properties;
 using EU.CqrXs.Gui.Sound;
 using EU.CqrXs.Util;
 using EU.CqrXs.Zip;
-using System.Text;
 using System.Security.Cryptography;
+using System.Text;
 
 
 namespace EU.CqrXs.Gui.Forms
