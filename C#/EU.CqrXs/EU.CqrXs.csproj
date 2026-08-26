@@ -8,8 +8,8 @@
     <Copyright>Copyleft © 2000-2040</Copyright>
 	<PackageProjectUrl>https://github.com/heinrichelsigan/CryptPipe/</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/heinrichelsigan/PermAgainCrypt</RepositoryUrl>
-    <AssemblyVersion>2.26.823</AssemblyVersion>
-    <FileVersion>2.26.823</FileVersion>
+    <AssemblyVersion>2.26.826</AssemblyVersion>
+    <FileVersion>2.26.826</FileVersion>
     <IncludeSymbols>true</IncludeSymbols>
     <Title>EU.CqrXs [minimalistic]</Title>
     <Description>EU.CqrXs is a reduced Area23.At.Framework.Core framework with minimalistic helper methods</Description>

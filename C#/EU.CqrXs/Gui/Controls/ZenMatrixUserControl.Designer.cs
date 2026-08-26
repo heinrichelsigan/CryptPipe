@@ -31,9 +31,6 @@
             labelSymmKey = new Label();
             textBoxSymmKey = new TextBox();
             panelZenMatrix = new Panel();
-            labelPermKey = new Label();
-            textBoxPermKey = new TextBox();
-            tableLayoutPanel1 = new TableLayoutPanel();
             textBox0 = new TextBox();
             textBox1 = new TextBox();
             textBox2 = new TextBox();
@@ -50,6 +47,9 @@
             textBoxD = new TextBox();
             textBoxE = new TextBox();
             textBoxF = new TextBox();
+            labelPermKey = new Label();
+            textBoxPermKey = new TextBox();
+            tableLayoutPanel1 = new TableLayoutPanel();
             labelPointsF = new Label();
             labelPointsE = new Label();
             labelPointsD = new Label();
@@ -106,9 +106,24 @@
             // panelZenMatrix
             // 
             panelZenMatrix.BackgroundImage = Properties.Resources.CryptDisk;
+            panelZenMatrix.Controls.Add(textBox0);
+            panelZenMatrix.Controls.Add(textBox1);
+            panelZenMatrix.Controls.Add(textBox2);
+            panelZenMatrix.Controls.Add(textBox3);
+            panelZenMatrix.Controls.Add(textBox4);
+            panelZenMatrix.Controls.Add(textBox5);
+            panelZenMatrix.Controls.Add(textBox6);
+            panelZenMatrix.Controls.Add(textBox7);
+            panelZenMatrix.Controls.Add(textBox8);
+            panelZenMatrix.Controls.Add(textBox9);
+            panelZenMatrix.Controls.Add(textBoxA);
+            panelZenMatrix.Controls.Add(textBoxB);
+            panelZenMatrix.Controls.Add(textBoxC);
+            panelZenMatrix.Controls.Add(textBoxD);
+            panelZenMatrix.Controls.Add(textBoxE);
+            panelZenMatrix.Controls.Add(textBoxF);
             panelZenMatrix.Location = new Point(1, 46);
             panelZenMatrix.Margin = new Padding(1);
-            panelZenMatrix.Controls.AddRange(new Control[] { textBox0, textBox1, textBox2, textBox3, textBox4, textBox5, textBox6, textBox7, textBox8, textBox9, textBoxA, textBoxB, textBoxC, textBoxD, textBoxE, textBoxF });
             panelZenMatrix.Name = "panelZenMatrix";
             panelZenMatrix.Size = new Size(512, 512);
             panelZenMatrix.TabIndex = 6;
@@ -116,10 +131,10 @@
             // textBox0
             // 
             textBox0.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            textBox0.BackColor = Color.FromArgb(255, 106, 133);
+            textBox0.BackColor = Color.FromArgb(246, 68, 111);
             textBox0.BorderStyle = BorderStyle.None;
             textBox0.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBox0.Location = new Point(236, 466);
+            textBox0.Location = new Point(235, 369);
             textBox0.Margin = new Padding(6);
             textBox0.MaximumSize = new Size(48, 48);
             textBox0.MaxLength = 1;
@@ -133,10 +148,10 @@
             // textBox1
             // 
             textBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            textBox1.BackColor = Color.FromArgb(255, 106, 133);
+            textBox1.BackColor = Color.FromArgb(246, 68, 111);
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBox1.Location = new Point(326, 449);
+            textBox1.Location = new Point(282, 358);
             textBox1.Margin = new Padding(6);
             textBox1.MaximumSize = new Size(48, 48);
             textBox1.MaxLength = 1;
@@ -150,10 +165,10 @@
             // textBox2
             // 
             textBox2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            textBox2.BackColor = Color.FromArgb(255, 106, 133);
+            textBox2.BackColor = Color.FromArgb(246, 68, 111);
             textBox2.BorderStyle = BorderStyle.None;
             textBox2.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBox2.Location = new Point(399, 397);
+            textBox2.Location = new Point(329, 326);
             textBox2.Margin = new Padding(6);
             textBox2.MaximumSize = new Size(48, 48);
             textBox2.MaxLength = 1;
@@ -167,10 +182,10 @@
             // textBox3
             // 
             textBox3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            textBox3.BackColor = Color.FromArgb(255, 106, 133);
+            textBox3.BackColor = Color.FromArgb(246, 68, 111);
             textBox3.BorderStyle = BorderStyle.None;
             textBox3.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBox3.Location = new Point(449, 323);
+            textBox3.Location = new Point(358, 288);
             textBox3.Margin = new Padding(6);
             textBox3.MaximumSize = new Size(48, 48);
             textBox3.MaxLength = 1;
@@ -184,10 +199,10 @@
             // textBox4
             // 
             textBox4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            textBox4.BackColor = Color.FromArgb(255, 106, 133);
+            textBox4.BackColor = Color.FromArgb(246, 68, 111);
             textBox4.BorderStyle = BorderStyle.None;
             textBox4.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBox4.Location = new Point(465, 240);
+            textBox4.Location = new Point(374, 237);
             textBox4.Margin = new Padding(6);
             textBox4.MaximumSize = new Size(48, 48);
             textBox4.MaxLength = 1;
@@ -201,10 +216,10 @@
             // textBox5
             // 
             textBox5.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            textBox5.BackColor = Color.FromArgb(255, 106, 133);
+            textBox5.BackColor = Color.FromArgb(246, 68, 111);
             textBox5.BorderStyle = BorderStyle.None;
             textBox5.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBox5.Location = new Point(448, 150);
+            textBox5.Location = new Point(358, 184);
             textBox5.Margin = new Padding(6);
             textBox5.MaximumSize = new Size(48, 48);
             textBox5.MaxLength = 1;
@@ -218,10 +233,10 @@
             // textBox6
             // 
             textBox6.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            textBox6.BackColor = Color.FromArgb(255, 106, 133);
+            textBox6.BackColor = Color.FromArgb(246, 68, 111);
             textBox6.BorderStyle = BorderStyle.None;
             textBox6.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBox6.Location = new Point(401, 76);
+            textBox6.Location = new Point(321, 138);
             textBox6.Margin = new Padding(6);
             textBox6.MaximumSize = new Size(48, 48);
             textBox6.MaxLength = 1;
@@ -235,10 +250,10 @@
             // textBox7
             // 
             textBox7.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            textBox7.BackColor = Color.FromArgb(255, 106, 133);
+            textBox7.BackColor = Color.FromArgb(246, 68, 111);
             textBox7.BorderStyle = BorderStyle.None;
             textBox7.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBox7.Location = new Point(330, 25);
+            textBox7.Location = new Point(283, 108);
             textBox7.Margin = new Padding(6);
             textBox7.MaximumSize = new Size(48, 48);
             textBox7.MaxLength = 1;
@@ -252,10 +267,10 @@
             // textBox8
             // 
             textBox8.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            textBox8.BackColor = Color.FromArgb(255, 106, 133);
+            textBox8.BackColor = Color.FromArgb(246, 68, 111);
             textBox8.BorderStyle = BorderStyle.None;
             textBox8.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBox8.Location = new Point(235, 6);
+            textBox8.Location = new Point(235, 99);
             textBox8.Margin = new Padding(6);
             textBox8.MaximumSize = new Size(48, 48);
             textBox8.MaxLength = 1;
@@ -269,10 +284,10 @@
             // textBox9
             // 
             textBox9.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            textBox9.BackColor = Color.FromArgb(255, 106, 133);
+            textBox9.BackColor = Color.FromArgb(246, 68, 111);
             textBox9.BorderStyle = BorderStyle.None;
             textBox9.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBox9.Location = new Point(141, 27);
+            textBox9.Location = new Point(187, 117);
             textBox9.Margin = new Padding(6);
             textBox9.MaximumSize = new Size(48, 48);
             textBox9.MaxLength = 1;
@@ -286,10 +301,10 @@
             // textBoxA
             // 
             textBoxA.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            textBoxA.BackColor = Color.FromArgb(255, 106, 133);
+            textBoxA.BackColor = Color.FromArgb(246, 68, 111);
             textBoxA.BorderStyle = BorderStyle.None;
             textBoxA.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBoxA.Location = new Point(72, 78);
+            textBoxA.Location = new Point(144, 142);
             textBoxA.Margin = new Padding(6);
             textBoxA.MaximumSize = new Size(48, 48);
             textBoxA.MaxLength = 1;
@@ -303,10 +318,10 @@
             // textBoxB
             // 
             textBoxB.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            textBoxB.BackColor = Color.FromArgb(255, 106, 133);
+            textBoxB.BackColor = Color.FromArgb(246, 68, 111);
             textBoxB.BorderStyle = BorderStyle.None;
             textBoxB.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBoxB.Location = new Point(24, 157);
+            textBoxB.Location = new Point(118, 186);
             textBoxB.Margin = new Padding(6);
             textBoxB.MaximumSize = new Size(48, 48);
             textBoxB.MaxLength = 1;
@@ -320,10 +335,10 @@
             // textBoxC
             // 
             textBoxC.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            textBoxC.BackColor = Color.FromArgb(255, 106, 133);
+            textBoxC.BackColor = Color.FromArgb(246, 68, 111);
             textBoxC.BorderStyle = BorderStyle.None;
             textBoxC.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBoxC.Location = new Point(8, 244);
+            textBoxC.Location = new Point(99, 239);
             textBoxC.Margin = new Padding(6);
             textBoxC.MaximumSize = new Size(48, 48);
             textBoxC.MaxLength = 1;
@@ -337,10 +352,10 @@
             // textBoxD
             // 
             textBoxD.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            textBoxD.BackColor = Color.FromArgb(255, 106, 133);
+            textBoxD.BackColor = Color.FromArgb(246, 68, 111);
             textBoxD.BorderStyle = BorderStyle.None;
             textBoxD.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBoxD.Location = new Point(26, 326);
+            textBoxD.Location = new Point(124, 289);
             textBoxD.Margin = new Padding(6);
             textBoxD.MaximumSize = new Size(48, 48);
             textBoxD.MaxLength = 1;
@@ -354,10 +369,10 @@
             // textBoxE
             // 
             textBoxE.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            textBoxE.BackColor = Color.FromArgb(255, 106, 133);
+            textBoxE.BackColor = Color.FromArgb(246, 68, 111);
             textBoxE.BorderStyle = BorderStyle.None;
             textBoxE.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBoxE.Location = new Point(78, 401);
+            textBoxE.Location = new Point(147, 329);
             textBoxE.Margin = new Padding(6);
             textBoxE.MaximumSize = new Size(48, 48);
             textBoxE.MaxLength = 1;
@@ -371,10 +386,10 @@
             // textBoxF
             // 
             textBoxF.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            textBoxF.BackColor = Color.FromArgb(255, 106, 133);
+            textBoxF.BackColor = Color.FromArgb(246, 68, 111);
             textBoxF.BorderStyle = BorderStyle.None;
             textBoxF.Font = new Font("Lucida Sans Unicode", 20F, FontStyle.Bold);
-            textBoxF.Location = new Point(146, 448);
+            textBoxF.Location = new Point(187, 358);
             textBoxF.Margin = new Padding(6);
             textBoxF.MaximumSize = new Size(48, 48);
             textBoxF.MaxLength = 1;
@@ -752,7 +767,7 @@
             labelPoints3.TabIndex = 19;
             labelPoints3.Text = "3";
             // 
-            // ZenMatrixCtrl
+            // ZenMatrixUserControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;

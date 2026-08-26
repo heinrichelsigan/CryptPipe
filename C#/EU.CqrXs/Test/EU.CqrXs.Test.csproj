@@ -15,8 +15,8 @@
     <Title>EU.CqrXs.Test</Title>
     <Description>EU.CqrXs.Test integration tests project for CipherEnum CipherPipe en-/decryption for EncodingType CipherPipe en-/decoding for ZipType CipherPipe un-/zipping</Description>
     <RepositoryUrl>https://github.com/heinrichelsigan/CryptPipe/</RepositoryUrl>
-    <AssemblyVersion>2.26.823</AssemblyVersion>
-    <FileVersion>2.26.823</FileVersion>
+    <AssemblyVersion>2.26.826</AssemblyVersion>
+    <FileVersion>2.26.826</FileVersion>
     <StartupObject></StartupObject>
     <PackageReadmeFile>README.MD</PackageReadmeFile>
   </PropertyGroup>
