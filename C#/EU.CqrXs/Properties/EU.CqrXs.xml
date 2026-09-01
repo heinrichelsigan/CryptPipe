@@ -512,7 +512,7 @@
             <returns>doubled concatendated string of (secretKey + hash)</returns>
             <exception cref="T:System.ArgumentNullException"></exception>
         </member>
-        <member name="M:EU.CqrXs.Crypt.Cipher.CryptHelper.KeyUserHashBytes(System.String,System.String,System.Boolean)">
+        <member name="M:EU.CqrXs.Crypt.Cipher.CryptHelper.KeyUserHashBytes(System.String,System.String,System.Boolean,System.Int32)">
             <summary>
             PrivateKeyWithUserHash, helper to hash merge private user key with hash
             </summary>
@@ -520,9 +520,9 @@
             <param name="keyHash">key hash</param>
             <param name="merge">do merge</param>
             <returns>doubled concatendated string of (secretKey + hash)</returns>
-            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>        
         </member>
-        <member name="M:EU.CqrXs.Crypt.Cipher.CryptHelper.KeyHashBytes(System.Byte[],System.Byte[],System.Boolean)">
+        <member name="M:EU.CqrXs.Crypt.Cipher.CryptHelper.KeyHashBytes(System.Byte[],System.Byte[],System.Boolean,System.Int32)">
             <summary>
             KeyHashBytes
             </summary>

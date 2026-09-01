@@ -1,5 +1,6 @@
 ﻿using EU.CqrXs.Crypt.EnDeCoding;
 using EU.CqrXs.Util;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace EU.CqrXs.Crypt.Cipher
@@ -50,10 +51,9 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="keyHash">key hash</param>
         /// <param name="merge">do merge</param>
         /// <returns>doubled concatendated string of (secretKey + hash)</returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        [Obsolete("Use KeyHashBytes(byte[] keyBytes, byte[] hashBytes, bool mergeKeyHash = true) instead.", false)]
-        internal static byte[] KeyUserHashBytes(string key, string keyHash, bool merge = true) => 
-                                KeyHashBytes(Encoding.UTF8.GetBytes(key), Encoding.UTF8.GetBytes(keyHash), true);        
+        /// <exception cref="ArgumentNullException"></exception>        
+        internal static byte[] KeyUserHashBytes(string key, string keyHash,  bool merge = true, int keyLen = 32) => 
+                                KeyHashBytes(Encoding.UTF8.GetBytes(key), Encoding.UTF8.GetBytes(keyHash), merge);        
 
         /// <summary>
         /// KeyHashBytes
@@ -62,7 +62,7 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="hashBytes">key hash bytes</param>
         /// <param name="merge">do merge</param>
         /// <returns>doubled concatendated string of (secretKey + hash)</returns>
-        internal static byte[] KeyHashBytes(byte[] keyBytes, byte[] hashBytes, bool merge = true)
+        internal static byte[] KeyHashBytes(byte[] keyBytes, byte[] hashBytes, bool merge = true, int keyLen = -1)
         {
             if (keyBytes == null || keyBytes.Length == 0)
                 throw new ArgumentNullException("keyBytes");
@@ -70,28 +70,42 @@ namespace EU.CqrXs.Crypt.Cipher
             if (hashBytes == null || hashBytes.Length == 0)
                 throw new ArgumentNullException("hashBytes");
 
-            if (!merge)
-                return keyBytes.TarBytes(hashBytes);
-
+            int ob = 0;
+            byte[] obyt = new byte[ob];
             List<Byte> outBytes = new List<byte>();
-            int kb = 0, hb = 0;
-            for (int ob = 0; (ob < (keyBytes.Length + hashBytes.Length)); ob++)
-            {
-                if (kb < keyBytes.Length)
-                    outBytes.Add(keyBytes[kb++]);
-                if (hb < hashBytes.Length)
-                    outBytes.Add(hashBytes[hb++]);
-                if (hb < hashBytes.Length)
-                    outBytes.Add(hashBytes[hashBytes.Length - hb]);
-                hb++;
-                if (kb < keyBytes.Length)
-                    outBytes.Add(keyBytes[keyBytes.Length - kb]);
-                kb++;
 
-                ob = outBytes.Count;
+            if (!merge)
+            {
+                outBytes = keyBytes.TarBytes(hashBytes).ToList<byte>();
+            }
+            else
+            {               
+                for (int kb = 0, hb = 0; ob < (keyBytes.Length + hashBytes.Length); ob = outBytes.Count)
+                {
+                    ob = outBytes.Count;
+                    if (kb < keyBytes.Length)
+                        outBytes.Add(keyBytes[kb++]);
+                    if (hb < hashBytes.Length)
+                        outBytes.Add(hashBytes[hb++]);
+
+                    if (hb < hashBytes.Length)
+                        outBytes.Add(hashBytes[hashBytes.Length - hb]);
+                    hb++;
+                    if (kb < keyBytes.Length)
+                        outBytes.Add(keyBytes[keyBytes.Length - kb]);
+                    kb++;
+                }
             }
 
-            return outBytes.ToArray();
+            ob = outBytes.Count;
+            if (keyLen < 0 || ob < keyLen)
+            {
+                keyLen = outBytes.Count;
+            }
+            obyt = new byte[keyLen];
+            Array.Copy(outBytes.ToArray(), 0, obyt, 0, keyLen);
+
+            return obyt;
         }
 
         public static byte[] GetKeyBytesSingle(string keyHash, int keyLen = 16) => GetKeyBytesSingle(Encoding.UTF8.GetBytes(keyHash), keyLen);

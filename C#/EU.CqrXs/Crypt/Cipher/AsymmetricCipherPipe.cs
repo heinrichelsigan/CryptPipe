@@ -5,6 +5,8 @@ using EU.CqrXs.Util;
 using EU.CqrXs.Zip;
 using Newtonsoft.Json;
 using Org.BouncyCastle.Crypto;
+using System.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace EU.CqrXs.Crypt.Cipher
@@ -41,8 +43,8 @@ namespace EU.CqrXs.Crypt.Cipher
 
         #region fields and properties
 
-        protected string asymCipherPublicKey = "";
-        protected string asymCipherPrivateKey = "";
+        protected SecureString asymCipherPublicKey;
+        private SecureString asymCipherPrivateKey;
 
         public AsymmetricCipherKeyPair AsymKeyPair { get; set; }
 
@@ -83,8 +85,8 @@ namespace EU.CqrXs.Crypt.Cipher
         /// </summary>
         public AsymmetricCipherPipe()
         {
-            asymCipherPublicKey = "";
-            asymCipherPrivateKey = "";
+            asymCipherPublicKey = new SecureString();
+            asymCipherPrivateKey = new SecureString();
             AsymmetricCipherAlgo = AsymmetricCipherEnum.Rsa;
             inPipe = (new List<CipherEnum>()).ToArray();
             encodeType = EncodingType.Base64;
@@ -225,10 +227,15 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         /// <param name="verbose"></param>
         public AsymmetricCipherPipe(string publicKey, string privateKey, CipherMode2 cmode2, bool verbose = false)
-            : this(CryptHelper.GetKeyBytesSingle(publicKey + "\r\n" + privateKey, Constants.PIPE_KEY_HASH_LEN), Constants.PIPE_MAX_LEN, cmode2, verbose)
+            : this(CryptHelper.KeyUserHashBytes(publicKey, privateKey, false, Constants.PIPE_KEY_HASH_LEN), Constants.PIPE_MAX_LEN, cmode2, verbose)
         {
-            asymCipherPublicKey = publicKey;
-            asymCipherPrivateKey = privateKey;
+            if (string.IsNullOrEmpty(publicKey))
+                throw new ArgumentException("publicKey");
+            if (string.IsNullOrEmpty(privateKey))
+                throw new ArgumentException("privateKey");
+
+            AssignPubPrivKeys(publicKey, privateKey);
+
             cipherKey = publicKey + "\r\n" + privateKey;
             cipherHash = "";            
         }
@@ -241,8 +248,7 @@ namespace EU.CqrXs.Crypt.Cipher
         public AsymmetricCipherPipe(string publicKey, string privateKey, bool verbose = false)
             : this(publicKey, privateKey, CiffreMode.defaultCipherMode2, verbose)
         {
-            asymCipherPublicKey = publicKey;
-            asymCipherPrivateKey = privateKey;
+            AssignPubPrivKeys(publicKey, privateKey);           
             cipherKey = publicKey + "\r\n" + privateKey;
             cipherHash = "";
         }
@@ -258,9 +264,8 @@ namespace EU.CqrXs.Crypt.Cipher
                         : AsymmetricCipherEnum.Rsa;
                 }                
                 this.cipherKey = ciphPipe.cipherKey;
-                this.asymCipherPublicKey = ciphPipe.cipherKey;
                 this.cipherHash = ciphPipe.cipherHash;
-                this.asymCipherPrivateKey = ciphPipe.cipherHash;
+                AssignPubPrivKeys(cipherKey, cipherHash);                                
                 this.CMode = ciphPipe.CMode;
                 this.CMode2 = ciphPipe.CMode2;
                 this.encodeType = ciphPipe.EncodeType; 
@@ -280,9 +285,8 @@ namespace EU.CqrXs.Crypt.Cipher
                         : AsymmetricCipherEnum.Rsa;
                 }
                 this.cipherKey = aCiphPipe.cipherKey;
-                this.asymCipherPublicKey = aCiphPipe.asymCipherPublicKey;
                 this.cipherHash = aCiphPipe.cipherHash;
-                this.asymCipherPrivateKey = aCiphPipe.asymCipherPrivateKey;
+                AssignPubPrivKeys(aCiphPipe.asymCipherPublicKey.ToString(), aCiphPipe.asymCipherPrivateKey.ToString());
                 if (aCiphPipe.AsymKeyPair != null)
                 {                  
                     this.AsymKeyPair = aCiphPipe.AsymKeyPair;
@@ -295,6 +299,22 @@ namespace EU.CqrXs.Crypt.Cipher
         }
 
         #endregion ctor AsymmetricCipherPipe
+
+
+        public void AssignPubPrivKeys(string publicKey, string privateKey)
+        {
+            char[] pubChars = publicKey.ToCharArray();
+            char[] privChars = privateKey.ToCharArray();
+            unsafe
+            {
+                char cPub = pubChars[0];
+                char* chPub = &cPub;
+                char cPriv = privChars[0];
+                char* chPriv = &cPriv;
+                asymCipherPublicKey = new SecureString(chPub, publicKey.Length);
+                asymCipherPrivateKey = new SecureString(chPriv, privateKey.Length);
+            }
+        }
 
         #region json
 
