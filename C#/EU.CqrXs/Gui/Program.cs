@@ -28,6 +28,7 @@ namespace EU.CqrXs.Gui
         internal static EncryptFormMultiControls formComplex;
         internal static EncryptFormSimple formSimple;
         internal static ZenMatrixForm formZenMatrix;
+        internal static EncryptFormAsymmetric formAsymmetric;
         internal static OneTwoThreeFish form123Fish;
         internal static ApplicationContext applicationContext;
         internal static SystemColorMode colorMode = SystemColorMode.System;

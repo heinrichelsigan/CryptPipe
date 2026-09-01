@@ -65,6 +65,14 @@ namespace EU.CqrXs.Gui.Forms
             menuEncUu = new ToolStripMenuItem();
             menuEncXx = new ToolStripMenuItem();
             menuEncAscii85 = new ToolStripMenuItem();
+            cipherModeToolStripMenuItem = new ToolStripMenuItem();
+            menuCipherModeItemCBC = new ToolStripMenuItem();
+            menuCipherModeItemCCM = new ToolStripMenuItem();
+            menuCipherModeItemCFB = new ToolStripMenuItem();
+            menuCipherModeItemCTS = new ToolStripMenuItem();
+            menuCipherModeItemEAX = new ToolStripMenuItem();
+            menuCipherModeItemECB = new ToolStripMenuItem();
+            menuCipherModeItemGOFB = new ToolStripMenuItem();
             optionsToolStripMenuItem = new ToolStripMenuItem();
             menuOptionsItemsWarnings = new ToolStripMenuItem();
             warnOnEmptyPipeToolStripMenuItem = new ToolStripMenuItem();
@@ -75,14 +83,6 @@ namespace EU.CqrXs.Gui.Forms
             menuOptionsMenuFileSettings = new ToolStripMenuItem();
             menuItemCreatePipeSettingsFromFileName = new ToolStripMenuItem();
             menuFileSettingsItemAutomaticallySaveToTemp = new ToolStripMenuItem();
-            cipherModeToolStripMenuItem = new ToolStripMenuItem();
-            menuCipherModeItemCBC = new ToolStripMenuItem();
-            menuCipherModeItemCCM = new ToolStripMenuItem();
-            menuCipherModeItemCFB = new ToolStripMenuItem();
-            menuCipherModeItemCTS = new ToolStripMenuItem();
-            menuCipherModeItemEAX = new ToolStripMenuItem();
-            menuCipherModeItemECB = new ToolStripMenuItem();
-            menuCipherModeItemGOFB = new ToolStripMenuItem();
             menuOptionsMenuModes = new ToolStripMenuItem();
             menuOptionsModesComplex = new ToolStripMenuItem();
             menuOptionsModesSimple = new ToolStripMenuItem();
@@ -115,6 +115,7 @@ namespace EU.CqrXs.Gui.Forms
             statusLabelMsg = new ToolStripStatusLabel();
             statusLabelDestination = new ToolStripStatusLabel();
             panel1 = new Panel();
+            comboBoxCipherModes = new ComboBox();
             textBoxHashHash3 = new TextBox();
             textBoxHashHash2 = new TextBox();
             textBoxHashHash1 = new TextBox();
@@ -126,7 +127,7 @@ namespace EU.CqrXs.Gui.Forms
             tabControlWithHexSrc = new EU.CqrXs.Gui.Controls.TabControlWithHex();
             tabControlWithHexDest = new EU.CqrXs.Gui.Controls.TabControlWithHex();
             groupBoxFiles = new EU.CqrXs.Gui.Controls.GroupBoxFiles();
-            comboBoxCipherModes = new ComboBox();
+            menuOptionsModesAsymmetric = new ToolStripMenuItem();
             menuStripEncrypt.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)enumOptionsBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxKey).BeginInit();
@@ -549,7 +550,7 @@ namespace EU.CqrXs.Gui.Forms
             // menuOptionsMenuModes
             // 
             menuOptionsMenuModes.BackColor = SystemColors.Menu;
-            menuOptionsMenuModes.DropDownItems.AddRange(new ToolStripItem[] { menuOptionsModesComplex, menuOptionsModesSimple, menuOptionsModes123Fish });
+            menuOptionsMenuModes.DropDownItems.AddRange(new ToolStripItem[] { menuOptionsModes123Fish, menuOptionsModesComplex, menuOptionsModesSimple, menuOptionsModesAsymmetric });
             menuOptionsMenuModes.Name = "menuOptionsMenuModes";
             menuOptionsMenuModes.Size = new Size(210, 22);
             menuOptionsMenuModes.Text = "Modes";
@@ -558,14 +559,14 @@ namespace EU.CqrXs.Gui.Forms
             // 
             menuOptionsModesComplex.BackColor = SystemColors.Menu;
             menuOptionsModesComplex.Name = "menuOptionsModesComplex";
-            menuOptionsModesComplex.Size = new Size(170, 22);
+            menuOptionsModesComplex.Size = new Size(180, 22);
             menuOptionsModesComplex.Text = "Mode Complex";
             // 
             // menuOptionsModesSimple
             // 
             menuOptionsModesSimple.BackColor = SystemColors.Menu;
             menuOptionsModesSimple.Name = "menuOptionsModesSimple";
-            menuOptionsModesSimple.Size = new Size(170, 22);
+            menuOptionsModesSimple.Size = new Size(180, 22);
             menuOptionsModesSimple.Text = "Mode Simple";
             // 
             // menuOptionsModes123Fish
@@ -574,8 +575,9 @@ namespace EU.CqrXs.Gui.Forms
             menuOptionsModes123Fish.Checked = true;
             menuOptionsModes123Fish.CheckState = CheckState.Checked;
             menuOptionsModes123Fish.Enabled = false;
+            menuOptionsModes123Fish.ForeColor = SystemColors.MenuText;
             menuOptionsModes123Fish.Name = "menuOptionsModes123Fish";
-            menuOptionsModes123Fish.Size = new Size(170, 22);
+            menuOptionsModes123Fish.Size = new Size(180, 22);
             menuOptionsModes123Fish.Text = "123-Fish";
             // 
             // menuSerialize
@@ -863,6 +865,21 @@ namespace EU.CqrXs.Gui.Forms
             panel1.Size = new Size(1013, 173);
             panel1.TabIndex = 20;
             // 
+            // comboBoxCipherModes
+            // 
+            comboBoxCipherModes.BackColor = SystemColors.Control;
+            comboBoxCipherModes.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxCipherModes.DropDownWidth = 144;
+            comboBoxCipherModes.Font = new Font("Lucida Sans Typewriter", 10F);
+            comboBoxCipherModes.FormattingEnabled = true;
+            comboBoxCipherModes.Items.AddRange(new object[] { "None", "Base16", "Hex16", "Base32", "Hex32", "Base64", "Uu", "Xx" });
+            comboBoxCipherModes.Location = new Point(520, 2);
+            comboBoxCipherModes.Margin = new Padding(1);
+            comboBoxCipherModes.MaxDropDownItems = 32;
+            comboBoxCipherModes.Name = "comboBoxCipherModes";
+            comboBoxCipherModes.Size = new Size(72, 23);
+            comboBoxCipherModes.TabIndex = 54;
+            // 
             // textBoxHashHash3
             // 
             textBoxHashHash3.BackColor = SystemColors.Control;
@@ -991,20 +1008,13 @@ namespace EU.CqrXs.Gui.Forms
             groupBoxFiles.TabStop = false;
             groupBoxFiles.Text = "groupBoxFiles";
             // 
-            // comboBoxCipherModes
+            // menuOptionsModesAsymmetric
             // 
-            comboBoxCipherModes.BackColor = SystemColors.Control;
-            comboBoxCipherModes.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBoxCipherModes.DropDownWidth = 144;
-            comboBoxCipherModes.Font = new Font("Lucida Sans Typewriter", 10F);
-            comboBoxCipherModes.FormattingEnabled = true;
-            comboBoxCipherModes.Items.AddRange(new object[] { "None", "Base16", "Hex16", "Base32", "Hex32", "Base64", "Uu", "Xx" });
-            comboBoxCipherModes.Location = new Point(520, 2);
-            comboBoxCipherModes.Margin = new Padding(1);
-            comboBoxCipherModes.MaxDropDownItems = 32;
-            comboBoxCipherModes.Name = "comboBoxCipherModes";
-            comboBoxCipherModes.Size = new Size(72, 23);
-            comboBoxCipherModes.TabIndex = 54;
+            menuOptionsModesAsymmetric.BackColor = SystemColors.Menu;
+            menuOptionsModesAsymmetric.ForeColor = SystemColors.MenuText;
+            menuOptionsModesAsymmetric.Name = "menuOptionsModesAsymmetric";
+            menuOptionsModesAsymmetric.Size = new Size(180, 22);
+            menuOptionsModesAsymmetric.Text = "Asymmetric";
             // 
             // OneTwoThreeFish
             // 
@@ -1141,6 +1151,7 @@ namespace EU.CqrXs.Gui.Forms
         private ToolStripMenuItem menuOptionsModes123Fish;
         protected internal ToolStripMenuItem menuOptionsModesSimple;
         protected internal ComboBox comboBoxCipherModes;
+        private ToolStripMenuItem menuOptionsModesAsymmetric;
     }
 
 

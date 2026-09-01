@@ -152,6 +152,7 @@ namespace EU.CqrXs.Gui.Forms
             tabControlWithHexSrc = new EU.CqrXs.Gui.Controls.TabControlWithHex();
             tabControlWithHexDest = new EU.CqrXs.Gui.Controls.TabControlWithHex();
             comboBoxCipherModes = new ComboBox();
+            menuMainAsymmetric = new ToolStripMenuItem();
             menuStripEncrypt.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)enumOptionsBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxKey).BeginInit();
@@ -741,7 +742,7 @@ namespace EU.CqrXs.Gui.Forms
             // menuOptionsMenuModes
             // 
             menuOptionsMenuModes.BackColor = SystemColors.Menu;
-            menuOptionsMenuModes.DropDownItems.AddRange(new ToolStripItem[] { menuMainItemSimple, menuMainItemExperimental, menuMainItemOneTwoThreeFish, menuMainItemZenMatrixTest });
+            menuOptionsMenuModes.DropDownItems.AddRange(new ToolStripItem[] { menuMainItemExperimental, menuMainItemSimple, menuMainAsymmetric, menuMainItemOneTwoThreeFish, menuMainItemZenMatrixTest });
             menuOptionsMenuModes.Name = "menuOptionsMenuModes";
             menuOptionsMenuModes.Size = new Size(210, 22);
             menuOptionsMenuModes.Text = "Modes";
@@ -749,8 +750,9 @@ namespace EU.CqrXs.Gui.Forms
             // menuMainItemSimple
             // 
             menuMainItemSimple.BackColor = SystemColors.Menu;
+            menuMainItemSimple.ForeColor = SystemColors.MenuText;
             menuMainItemSimple.Name = "menuMainItemSimple";
-            menuMainItemSimple.Size = new Size(194, 22);
+            menuMainItemSimple.Size = new Size(180, 22);
             menuMainItemSimple.Text = "Simple mode";
             // 
             // menuMainItemExperimental
@@ -759,22 +761,25 @@ namespace EU.CqrXs.Gui.Forms
             menuMainItemExperimental.Checked = true;
             menuMainItemExperimental.CheckState = CheckState.Checked;
             menuMainItemExperimental.Enabled = false;
+            menuMainItemExperimental.ForeColor = SystemColors.MenuText;
             menuMainItemExperimental.Name = "menuMainItemExperimental";
-            menuMainItemExperimental.Size = new Size(194, 22);
+            menuMainItemExperimental.Size = new Size(180, 22);
             menuMainItemExperimental.Text = "Complex mode";
             // 
             // menuMainItemOneTwoThreeFish
             // 
             menuMainItemOneTwoThreeFish.BackColor = SystemColors.Menu;
+            menuMainItemOneTwoThreeFish.ForeColor = SystemColors.MenuText;
             menuMainItemOneTwoThreeFish.Name = "menuMainItemOneTwoThreeFish";
-            menuMainItemOneTwoThreeFish.Size = new Size(194, 22);
-            menuMainItemOneTwoThreeFish.Text = "OneTwoThreeFish";
+            menuMainItemOneTwoThreeFish.Size = new Size(180, 22);
+            menuMainItemOneTwoThreeFish.Text = "123-Fish";
             // 
             // menuMainItemZenMatrixTest
             // 
             menuMainItemZenMatrixTest.BackColor = SystemColors.Menu;
+            menuMainItemZenMatrixTest.ForeColor = SystemColors.MenuText;
             menuMainItemZenMatrixTest.Name = "menuMainItemZenMatrixTest";
-            menuMainItemZenMatrixTest.Size = new Size(194, 22);
+            menuMainItemZenMatrixTest.Size = new Size(180, 22);
             menuMainItemZenMatrixTest.Text = "ZenMatrixTest";
             // 
             // menuSerialize
@@ -1216,6 +1221,14 @@ namespace EU.CqrXs.Gui.Forms
             comboBoxCipherModes.Size = new Size(120, 23);
             comboBoxCipherModes.TabIndex = 47;
             // 
+            // menuMainAsymmetric
+            // 
+            menuMainAsymmetric.BackColor = SystemColors.Menu;
+            menuMainAsymmetric.ForeColor = SystemColors.MenuText;
+            menuMainAsymmetric.Name = "menuMainAsymmetric";
+            menuMainAsymmetric.Size = new Size(180, 22);
+            menuMainAsymmetric.Text = "Asymmetric";
+            // 
             // EncryptFormMultiControls
             // 
             AutoScaleDimensions = new SizeF(7F, 16F);
@@ -1387,6 +1400,7 @@ namespace EU.CqrXs.Gui.Forms
         protected internal ToolStripMenuItem menuMainItemSimple;
         protected internal ToolStripMenuItem menuMainItemOneTwoThreeFish;
         private ToolStripMenuItem menuMainItemZenMatrixTest;
+        private ToolStripMenuItem menuMainAsymmetric;
     }
 
 

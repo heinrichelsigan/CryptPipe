@@ -67,6 +67,7 @@
     <Compile Include="Crypt\Cipher\CipherPipe.cs" />
     <Compile Include="Crypt\Cipher\CryptHelper.cs" />
     <Compile Include="Crypt\Cipher\CryptParams.cs" />
+    <Compile Include="Crypt\Cipher\AsymmetricCipherPipe.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\AesNet.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\CryptBounceCastle.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\Des3Net.cs" />

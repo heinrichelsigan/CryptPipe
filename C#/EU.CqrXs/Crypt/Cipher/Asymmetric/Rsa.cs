@@ -58,6 +58,7 @@ namespace EU.CqrXs.Crypt.Cipher.Asymmetric
                 rsaKeyPair = GenerateNewRsaKeyPair(1024);
         }
 
+
         public static AsymmetricCipherKeyPair RsaGenWithKey(string pub, string priv)
         {
             //if (rsaKeyPair != null)

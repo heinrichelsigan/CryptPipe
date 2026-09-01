@@ -26,6 +26,33 @@
                 openssl gendsa -aes256 -verbose -out out_des.pem  out_des.params
             </summary>
         </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.Asymmetric.Dsa.#cctor">
+            <summary>
+            static constructor to initialize the DSA key pair.
+            </summary>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.Asymmetric.Dsa.GetDsaKeyPairByKeys(System.String,System.String)">
+            <summary>
+            Gets a DSA key pair from the provided private and public keys in PEM format.
+            </summary>
+            <param name="privateKey"></param>
+            <param name="publicKey"></param>
+            <returns>The specific DSA key pair.</returns>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.Asymmetric.Dsa.GenerateDsaKeyPair(System.Int32)">
+            <summary>
+            Generates a new DSA key pair with the specified size (default is 1024 bits).
+            </summary>
+            <param name="size">The size of the key in bits.</param>
+            <returns>The generated DSA key pair.</returns>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.Asymmetric.Dsa.GetKeysTuple(Org.BouncyCastle.Crypto.AsymmetricCipherKeyPair)">
+            <summary>
+            Gets the private and public keys from the provided DSA key pair as a tuple of strings in PEM format.
+            </summary>
+            <param name="dsaKeyPair">The DSA key pair.</param>
+            <returns>A tuple containing the private and public keys in PEM format.</returns>
+        </member>
         <member name="T:EU.CqrXs.Crypt.Cipher.Asymmetric.Rsa">
             <summary>
             Rsa Asymmetric cipher 
@@ -569,6 +596,201 @@
             </summary>
             <param name="cipherAlgo"><see cref="T:EU.CqrXs.Crypt.Cipher.CipherEnum"/></param>
             <returns><see cref="T:EU.CqrXs.Crypt.Cipher.CryptParams"/></returns>
+        </member>
+        <member name="T:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe">
+            <summary>
+            Provides a simple asymmetric crypt pipe for <see cref="T:EU.CqrXs.Crypt.Cipher.CipherEnum"/>
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <listheader>code changes</listheader>
+            <item>
+            2026-02-11 alert-fix-13 changed mode from "ECB" to "CFB" 
+            Reason: Git security scans
+            consequences: no more fully deterministic math bijective proper symmertric cipher en-/decryption in pipe
+            fixed attacks: not so easy REPLY attacks with binary format header and heuristic key collection
+            </item>
+            <item>
+            2026-03-02 alert changed mode back from  "CFB" to "ECB"
+            Reason: Ugly bug in following pipeline SM4 => SkipJack => Serpent => Seed => Fish3 => Des3 in CFB mode
+            consequences:  more fully deterministic math bijective again proper symmertric cipher en-/decryption in pipe
+            fixed attacks: not so easy REPLY attacks with binary format header and heuristic key collection
+            </item>    
+            <item>
+            2026-mm-dd [enter pull request name here] [enter what you did here]
+            Reason: [enter a senseful reason]
+            consequences: [describe most impactful consequences of bugfix or code change request]
+            fixed [vulnerability, code smell]: [Describe understandable precise in 1-2 setences]
+            </item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe.#ctor">
+            <summary>
+            parameterless default constructor for <see cref="T:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe"/>
+            </summary>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe.#ctor(EU.CqrXs.Crypt.Cipher.CipherEnum[],System.UInt32,EU.CqrXs.Crypt.Cipher.CipherMode2)">
+            <summary>
+            AsymmetricCipherPipe constructor with an array of <see cref="T:CipherEnum[]"/> as inpipe
+            </summary>
+            <param name="cipherEnums">array of <see cref="T:CipherEnum[]"/> as inpipe</param>
+            <param name="maxpipe">size of max. pipe stages, can't be greater than <see cref="F:EU.CqrXs.Util.Constants.PIPE_MAX_LEN"/></param>
+            <param name="cmode2"><see cref="T:EU.CqrXs.Crypt.Cipher.CipherMode2"/></param>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe.#ctor(System.String[],System.UInt32,EU.CqrXs.Crypt.Cipher.CipherMode2)">
+            <summary>
+            SecureCipherPipe constructor with an array of <see cref="T:string[]"/> cipherAlgos as inpipe
+            </summary>
+            <param name="cipherAlgos">array of <see cref="T:string[]"/> as inpipe</param>
+            <param name="maxpipe">maximum lentgh <see cref="F:EU.CqrXs.Util.Constants.PIPE_MAX_LEN"/></param>
+            <param name="cmode2"><see cref="T:EU.CqrXs.Crypt.Cipher.CipherMode2"/></param>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe.#ctor(System.Byte[],System.UInt32,EU.CqrXs.Crypt.Cipher.CipherMode2,System.Boolean)">
+            <summary>
+            AsymmetricCipherPipe ctor with array of user key bytes
+            </summary>
+            <param name="keyBytes">user key bytes</param>
+            <param name="maxpipe">maximum lentgh <see cref="F:EU.CqrXs.Util.Constants.PIPE_MAX_LEN"/></param>        
+            <param name="cmode2"><see cref="T:EU.CqrXs.Crypt.Cipher.CipherMode2"/></param>
+            <param name="verbose"></param>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe.#ctor(System.String,System.String,EU.CqrXs.Crypt.Cipher.CipherMode2,System.Boolean)">
+            <summary>
+            Constructs a <see cref="T:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe"/> from key and hash
+            by getting <see cref="T:byte[]">byte[] keybytes</see> with <see cref="M:EU.CqrXs.Crypt.Cipher.CryptHelper.GetUserKeyBytes(System.String,System.String,System.Int32)"/>
+            </summary>
+            <param name="keyHash">secret key to generate pipe</param>
+            <param name="cmode2"><see cref="T:EU.CqrXs.Crypt.Cipher.CipherMode2"/></param>
+            <param name="verbose"></param>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe.#ctor(System.String,System.String,System.Boolean)">
+            <summary>
+            AsymmetricCipherPipe ctor with only key
+            </summary>
+            <param name="key"></param>
+            <param name="verbose"></param>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe.ToJson">
+            <summary>
+            ToJson 
+            </summary>
+            <returns>serialized string</returns>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe.FromJson(System.String)">
+            <summary>
+            FromJson
+            </summary>
+            <param name="json">serialized json</param>
+            <returns><see cref="T:EU.CqrXs.Crypt.Cipher.SecureCipherPipe"/></returns>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe.EncryptBytesFast(System.Byte[],EU.CqrXs.Crypt.Cipher.CipherEnum,System.String,System.String,EU.CqrXs.Crypt.Cipher.CipherMode2)">
+            <summary>
+            Generic encrypt bytes to bytes
+            </summary>
+            <param name="inBytes">Array of byte</param>
+            <param name="cipherAlgo"><see cref="T:EU.CqrXs.Crypt.Cipher.CipherEnum"/> both symmetric and asymetric cipher algorithms</param>
+            <param name="secretKey">secret key to decrypt</param>
+            <param name="cmode2"></param>
+            <returns>encrypted byte Array</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe.DecryptBytesFast(System.Byte[],EU.CqrXs.Crypt.Cipher.CipherEnum,System.String,System.String,System.Byte[],EU.CqrXs.Crypt.Cipher.CipherMode2)">
+            <summary>
+            Generic decrypt bytes to bytes
+            </summary>
+            <param name="cipherBytes">Encrypted array of byte</param>
+            <param name="cipherAlgo"><see cref="T:EU.CqrXs.Crypt.Cipher.CipherEnum"/>both symmetric and asymetric cipher algorithms</param>
+            <param name="secretKey">secret key to decrypt</param>
+            <returns>decrypted byte Array</returns>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe.EncrpytT``2(``1,System.String,System.String,EU.CqrXs.Crypt.Cipher.CipherMode2)">
+            <summary>
+            EncrpytT
+            </summary>
+            <typeparam name="TRet">
+                <see cref="T:string"/>
+                <see cref="T:char[]"/>  <see cref="T:IEnumerable{char}"/>
+                <see cref="T:bytes[]"/> <see cref="T:IEnumerable{byte}"/>
+            </typeparam>
+            <typeparam name="TIn">
+                <see cref="T:string"/>
+                <see cref="T:char[]"/>  <see cref="T:IEnumerable{char}"/>
+                <see cref="T:bytes[]"/> <see cref="T:IEnumerable{byte}"/>
+            </typeparam>
+            <param name="tinSource">plain string, char[], byte[], IEnumerable{char}, IEnumerable{bytes}</param>
+            <param name="cryptKey">Unique deterministic key for either generating the mix of symmetric cipher algorithms in the crypt pipeline 
+            and unique crypt key for each symmetric cipher algorithm in each stage of the pipe</param>
+            <param name="cmode2"></param>
+            <returns>encrypted generic type</returns>
+            <exception cref="T:EU.CqrXs.Crypt.CException">is thrown on unknown type</exception>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe.DecrpytT``2(``1,System.String,System.String,EU.CqrXs.Crypt.Cipher.CipherMode2)">
+            <summary>
+             DecrpytT generic decryption method
+            </summary>
+            <typeparam name="TRet">return type 
+                <see cref="T:string"/>
+                <see cref="T:char[]"/>  <see cref="T:IEnumerable{char}"/>
+                <see cref="T:bytes[]"/> <see cref="T:IEnumerable{byte}"/>
+            </typeparam>
+            <typeparam name="TIn"></typeparam>
+            <param name="tinSource">encrypted message</param>
+            <param name="cryptKey">Unique deterministic key for either generating the mix of symmetric cipher algorithms in the crypt pipeline 
+            and unique crypt key for each symmetric cipher algorithm in each stage of the pipe</param>
+            <param name="cmode2"></param>
+            <returns>Decrypted generic TRet</returns>
+            <exception cref="T:EU.CqrXs.Crypt.CException">is thrown on unknown type</exception>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe.MerryAsymGoRoundEncrpyt(System.Byte[],System.String,System.String,EU.CqrXs.Crypt.Cipher.CipherMode2)">
+            <summary>
+            MerryGoRoundEncrpyt starts merry to go arround from left to right in clock hour cycle
+            </summary>
+            <param name="inBytes">plain <see cref="T:byte[]"/> to encrypt</param>
+            <param name="secretKey">user secret key to use for all symmetric cipher algorithms in the pipe</param>
+            <param name="cmode2"><see cref="T:EU.CqrXs.Crypt.Cipher.CipherMode2"/></param>
+            <returns>encrypted byte[]</returns>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe.DecrpytRoundGoMerryAsym(System.Byte[],System.String,System.String,EU.CqrXs.Crypt.Cipher.CipherMode2)">
+            <summary>
+            DecrpytRoundGoMerry against clock turn -
+            starts merry to turn arround from right to left against clock hour cycle 
+            </summary>
+            <param name="cipherBytes">encrypted byte array</param>
+            <param name="secretKey">user secret key, normally email address</param>
+            <param name="cmode2"><see cref="T:EU.CqrXs.Crypt.Cipher.CipherMode2"/></param>
+            <returns><see cref="T:byte[]"/> plain bytes</returns>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe.EncrpytTextGoRounds(System.String,System.String,System.String,EU.CqrXs.Crypt.Cipher.CipherMode2)">
+            <summary>
+            EncrpytTextGoRounds encrypts text with cipher pipe pipeline
+            </summary>
+            <param name="inString">plain text to encrypt</param>
+            <param name="cryptKey">prviate key for encryption</param>
+            <param name="cmode2"></param>
+            <returns>UTF9 emcoded encrypted string without binary data</returns>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe.DecryptTextRoundsGo(System.String,System.String,System.String,EU.CqrXs.Crypt.Cipher.CipherMode2)">
+            <summary>
+            decrypt encoded encrypted text
+            </summary>
+            <param name="cryptedEncodedMsg">encoded encrypted ASCII string</param>
+            <param name="cryptKey">prviate key for encryption</param>
+            <param name="cmode2"></param>
+            <returns>decrypted UTF8 string, containing no binary data</returns>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe.CryptCodeBytes(System.Byte[],System.String,System.String,System.Boolean,EU.CqrXs.Crypt.Cipher.CipherMode2)">
+            <summary>
+            Multi functional 
+            <see cref="!:EncryptEncodeBytes(byte[], string, CipherMode2)"/>
+            <see cref="!:DecodeDecrpytBytes(byte[], string, CipherMode2)"/>
+            </summary>
+            <param name="inBytes">incoming bytes</param>
+            <param name="secretKey">user private key</param>
+            <param name="directionDecrypt">true for decryption, false for encryption</param>        
+            <param name="cmode2"></param>
+            <returns>transformed byte array</returns>
         </member>
         <member name="T:EU.CqrXs.Crypt.Cipher.Symmetric.AesNet">
             <summary>

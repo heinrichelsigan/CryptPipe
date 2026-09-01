@@ -62,6 +62,7 @@ namespace EU.CqrXs.Gui.Forms
             menuMainComplex.Click += menuMainComplex_Click;   
             menuMainItemOneTwoThreeFish.Click += new System.EventHandler(async (sender, e)
                  => await menuMainItemOneTwoThreeFish_Click(sender, e));
+            menuMainAsymmetric.Click += menuMainAsymmetric_Click;
 
             foreach (var cipherModeItem in mCipherModes)
                 cipherModeItem.Click += new System.EventHandler(async (sender, e) => await menuCipherMode_Click(sender, e));
@@ -802,6 +803,8 @@ namespace EU.CqrXs.Gui.Forms
         }
 
 
+        
+
         /// <summary>
         /// Shows OneTwoThreeFish Demo form 
         /// </summary>
@@ -826,14 +829,7 @@ namespace EU.CqrXs.Gui.Forms
             }
             try
             {
-                if (Program.formSimple != null && !Program.formSimple.Disposing)
-                {
-                    Program.formSimple.Hide();
-                }
-                if (Program.formComplex != null && !Program.formComplex.Disposing)
-                {
-                    Program.formComplex.Hide();
-                }
+                HideAllOtherForms("OneTwoThreeFish");               
             }
             catch (Exception exHide)
             {
@@ -867,14 +863,7 @@ namespace EU.CqrXs.Gui.Forms
             }
             try
             {
-                if (Program.formSimple != null && !Program.formSimple.Disposing)
-                {
-                    Program.formSimple.Hide();
-                }
-                if (Program.form123Fish != null && !Program.form123Fish.Disposing)
-                {
-                    Program.form123Fish.Hide();
-                }
+                HideAllOtherForms("EncryptFormMultiControls");                
             }
             catch (Exception exHide)
             {
@@ -885,6 +874,36 @@ namespace EU.CqrXs.Gui.Forms
             Program.formComplex.Focus();
         }
 
+        protected internal virtual void menuMainAsymmetric_Click(object sender, EventArgs e)
+        {
+            if (Program.formAsymmetric == null || Program.formAsymmetric.Disposing)
+            {
+                Program.formAsymmetric = new EncryptFormAsymmetric();
+            }
+            try
+            {
+                Program.formAsymmetric.Show();
+            }
+            catch (Exception exShow)
+            {
+                Area23Log.LogOriginEx("EncryptFormSimple.menuMainAsymmetric_Click", exShow, 1);
+                Program.formAsymmetric = new EncryptFormAsymmetric();
+                Program.formAsymmetric.Show();
+            }
+            try
+            {
+                HideAllOtherForms("EncryptFormAsymmetric");
+            }
+            catch (Exception exHide)
+            {
+                Area23Log.LogOriginEx("EncryptFormSimple.menuMainAsymmetric_Click", exHide, 1);
+            }
+
+            this.Hide();
+            Program.formAsymmetric.Focus();
+        }
+
+        
 
         /// <summary>
         /// menuFileOpen_Click opens a file dialog to select a file to encrypt/decrypt

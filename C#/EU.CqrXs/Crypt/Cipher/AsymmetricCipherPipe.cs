@@ -11,7 +11,7 @@ namespace EU.CqrXs.Crypt.Cipher
 {
 
     /// <summary>
-    /// Provides a simple crypt pipe for <see cref="CipherEnum"/>
+    /// Provides a simple asymmetric crypt pipe for <see cref="CipherEnum"/>
     /// </summary>
     /// <remarks>
     /// <list type="bullet">
@@ -36,28 +36,32 @@ namespace EU.CqrXs.Crypt.Cipher
     /// </item>
     /// </list>
     /// </remarks>
-    public class SecureCipherPipe : CipherPipe
+    public class AsymmetricCipherPipe : CipherPipe
     {
 
         #region fields and properties
 
-        /// <summary>
-        /// <see cref="T:KeyHash[]"/> array of 8 keyhashes (not KeyHash.Empty, KeyHash.Oct)
-        /// </summary>
-        private static readonly KeyHash[] secureHashes = {
-            KeyHash.BCrypt,     // KeyHash.CShake, KeyHash.Dstu7564,
-            KeyHash.MD5, 
-            KeyHash.Hex,        // KeyHash.Oct, 
-            KeyHash.OpenBSDCrypt,
-            KeyHash.SCrypt,     // KeyHash.Sha1,
-            KeyHash.Sha256,     // KeyHash.Sha384, KeyHash.Sha512,
-            KeyHash.RipeMD256,  // KeyHash.TupleHash,
-            KeyHash.Whirlpool
-        };
+        protected string asymCipherPublicKey = "";
+        protected string asymCipherPrivateKey = "";
 
-        protected string cipherKeyHash; // this is the hash of the user key, e.g. email address, which is used to generate the pipe and the keys for each stage in pipe
-      
-        
+        public AsymmetricCipherKeyPair AsymKeyPair { get; set; }
+
+        public byte[] signatureBytes = (new List<byte>()).ToArray();
+
+        public enum AsymmetricCipherEnum
+        {
+            Rsa,
+            Dsa,
+            DH, 
+            Ecdsa,
+            Ed25519,
+            Ed448,
+            X25519,
+            X448,
+            GPG
+        }
+        public AsymmetricCipherEnum AsymmetricCipherAlgo { get; set; } = AsymmetricCipherEnum.Rsa;
+
         public new string PipeFullExtension
         {
             get
@@ -68,20 +72,20 @@ namespace EU.CqrXs.Crypt.Cipher
                 return miniPipeExt;
             }
         }
-        
+
 
         #endregion fields and properties
 
-        #region ctor SecureCipherPipe
+        #region ctor AsymmetricCipherPipe
 
         /// <summary>
-        /// parameterless default constructor for <see cref="SecureCipherPipe"/>
+        /// parameterless default constructor for <see cref="AsymmetricCipherPipe"/>
         /// </summary>
-        public SecureCipherPipe()
+        public AsymmetricCipherPipe()
         {
-            cipherKeyHash = ""; //
-            cipherHash = "";
-            cipherKey = "";
+            asymCipherPublicKey = "";
+            asymCipherPrivateKey = "";
+            AsymmetricCipherAlgo = AsymmetricCipherEnum.Rsa;
             inPipe = (new List<CipherEnum>()).ToArray();
             encodeType = EncodingType.Base64;
             zType = ZipType.GZip;
@@ -90,12 +94,12 @@ namespace EU.CqrXs.Crypt.Cipher
 
 
         /// <summary>
-        /// SecureCipherPipe constructor with an array of <see cref="T:CipherEnum[]"/> as inpipe
+        /// AsymmetricCipherPipe constructor with an array of <see cref="T:CipherEnum[]"/> as inpipe
         /// </summary>
         /// <param name="cipherEnums">array of <see cref="T:CipherEnum[]"/> as inpipe</param>
         /// <param name="maxpipe">size of max. pipe stages, can't be greater than <see cref="Constants.PIPE_MAX_LEN"/></param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
-        public SecureCipherPipe(CipherEnum[] cipherEnums, uint maxpipe, CipherMode2 cmode2)
+        public AsymmetricCipherPipe(CipherEnum[] cipherEnums, uint maxpipe, CipherMode2 cmode2)
         {
             // What ever is entered here as parameter, maxpipe has to be not greater Constants.PIPE_MAX_LEN, because of no such agency
             maxpipe = (maxpipe > Constants.PIPE_MAX_LEN) ? Constants.PIPE_MAX_LEN : maxpipe; // if somebody wants more, he/she/it gets less
@@ -103,6 +107,12 @@ namespace EU.CqrXs.Crypt.Cipher
             int isize = Math.Min(((int)cipherEnums.Length), ((int)maxpipe));
             inPipe = new CipherEnum[isize];
             Array.Copy(cipherEnums, inPipe, isize);
+
+            if (cipherEnums.Length > 0)
+            {
+                this.AsymmetricCipherAlgo = Enum.TryParse<AsymmetricCipherEnum>(cipherEnums[0].ToString(), true, out AsymmetricCipherEnum asymCipher) ? asymCipher
+                    : AsymmetricCipherEnum.Rsa;
+            }
 
             encodeType = EncodingType.Base64;
             zType = ZipType.GZip;
@@ -115,7 +125,7 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="cipherAlgos">array of <see cref="T:string[]"/> as inpipe</param>
         /// <param name="maxpipe">maximum lentgh <see cref="Constants.PIPE_MAX_LEN"/></param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
-        public SecureCipherPipe(string[] cipherAlgos, uint maxpipe, CipherMode2 cmode2)
+        public AsymmetricCipherPipe(string[] cipherAlgos, uint maxpipe, CipherMode2 cmode2)
         {
             // What ever is entered here as parameter, maxpipe has to be not greater Constants.PIPE_MAX_LEN, because of no such agency
             maxpipe = (maxpipe > Constants.PIPE_MAX_LEN) ? Constants.PIPE_MAX_LEN : maxpipe; // if somebody wants more, he/she/it gets less
@@ -141,20 +151,26 @@ namespace EU.CqrXs.Crypt.Cipher
             inPipe = new CipherEnum[pipeSize];
             Array.Copy(cipherEnums.ToArray(), inPipe, pipeSize);
 
+            if (cipherEnums.ToArray().Length > 0)
+            {
+                this.AsymmetricCipherAlgo = Enum.TryParse<AsymmetricCipherEnum>(cipherEnums.ToArray()[0].ToString(), true, out AsymmetricCipherEnum asymCipher) ? asymCipher
+                    : AsymmetricCipherEnum.Rsa;
+            }
+
             zType = ZipType.GZip;
             encodeType = EncodingType.Base64;
             CMode2 = cmode2;
         }
 
         /// <summary>
-        /// SecureCipherPipe ctor with array of user key bytes
+        /// AsymmetricCipherPipe ctor with array of user key bytes
         /// </summary>
         /// <param name="keyBytes">user key bytes</param>
         /// <param name="maxpipe">maximum lentgh <see cref="Constants.PIPE_MAX_LEN"/></param>        
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         /// <param name="verbose"></param>
         /// <exception cref="ArgumentException"></exception>
-        public SecureCipherPipe(byte[] keyBytes, uint maxpipe, CipherMode2 cmode2, bool verbose = false)
+        public AsymmetricCipherPipe(byte[] keyBytes, uint maxpipe, CipherMode2 cmode2, bool verbose = false)
         {
             // What ever is entered here as parameter, maxpipe has to be not greater Constants.PIPE_MAX_LEN, because of no such agency
             maxpipe = (maxpipe > Constants.PIPE_MAX_LEN) ? Constants.PIPE_MAX_LEN : maxpipe; // if somebody wants more, he/she/it gets less
@@ -189,6 +205,12 @@ namespace EU.CqrXs.Crypt.Cipher
             inPipe = new CipherEnum[pipeSize];
             Array.Copy(pipeList.ToArray(), inPipe, pipeSize);
 
+            if (pipeList.ToArray().Length > 0)
+            {
+                this.AsymmetricCipherAlgo = Enum.TryParse<AsymmetricCipherEnum>(pipeList.ToArray()[0].ToString(), true, out AsymmetricCipherEnum asymCipher) ? asymCipher
+                    : AsymmetricCipherEnum.Rsa;
+            }
+
             zType = ZipType.GZip;
             encodeType = EncodingType.Base64;
             CMode2 = cmode2;
@@ -196,64 +218,83 @@ namespace EU.CqrXs.Crypt.Cipher
         }
 
         /// <summary>
-        /// Constructs a <see cref="SecureCipherPipe"/> from key and hash
+        /// Constructs a <see cref="AsymmetricCipherPipe"/> from key and hash
         /// by getting <see cref="T:byte[]">byte[] keybytes</see> with <see cref="CryptHelper.GetUserKeyBytes(string, string, int)"/>
         /// </summary>
         /// <param name="keyHash">secret key to generate pipe</param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         /// <param name="verbose"></param>
-        public SecureCipherPipe(string keyHash, CipherMode2 cmode2, bool verbose = false)
-            : this(CryptHelper.GetKeyBytesSingle(keyHash, Constants.PIPE_KEY_HASH_LEN), Constants.PIPE_MAX_LEN, cmode2, verbose)
+        public AsymmetricCipherPipe(string publicKey, string privateKey, CipherMode2 cmode2, bool verbose = false)
+            : this(CryptHelper.GetKeyBytesSingle(publicKey + "\r\n" + privateKey, Constants.PIPE_KEY_HASH_LEN), Constants.PIPE_MAX_LEN, cmode2, verbose)
         {
-            cipherKeyHash = keyHash;
-            cipherKey = cipherKeyHash;
+            asymCipherPublicKey = publicKey;
+            asymCipherPrivateKey = privateKey;
+            cipherKey = publicKey + "\r\n" + privateKey;
             cipherHash = "";            
         }
 
         /// <summary>
-        /// SecureCipherPipe ctor with only key
+        /// AsymmetricCipherPipe ctor with only key
         /// </summary>
         /// <param name="key"></param>
         /// <param name="verbose"></param>
-        public SecureCipherPipe(string key, bool verbose = false)
-            : this(key, CiffreMode.defaultCipherMode2, verbose)
+        public AsymmetricCipherPipe(string publicKey, string privateKey, bool verbose = false)
+            : this(publicKey, privateKey, CiffreMode.defaultCipherMode2, verbose)
         {
-            cipherKeyHash = key;
-            cipherKey = cipherKeyHash;
+            asymCipherPublicKey = publicKey;
+            asymCipherPrivateKey = privateKey;
+            cipherKey = publicKey + "\r\n" + privateKey;
             cipherHash = "";
         }
 
-        public SecureCipherPipe(CipherPipe ciphPipe) : this()
+        public AsymmetricCipherPipe(CipherPipe ciphPipe) : this()
         {
             if (ciphPipe != null)
             {
                 this.inPipe = ciphPipe.InPipe;
-                this.cipherKeyHash = ciphPipe.cipherKey;
+                if (inPipe.Length > 0)
+                {
+                    this.AsymmetricCipherAlgo = Enum.TryParse<AsymmetricCipherEnum>(inPipe[0].ToString(), true, out AsymmetricCipherEnum asymCipher) ? asymCipher
+                        : AsymmetricCipherEnum.Rsa;
+                }                
                 this.cipherKey = ciphPipe.cipherKey;
-                this.cipherHash = "";
+                this.asymCipherPublicKey = ciphPipe.cipherKey;
+                this.cipherHash = ciphPipe.cipherHash;
+                this.asymCipherPrivateKey = ciphPipe.cipherHash;
                 this.CMode = ciphPipe.CMode;
                 this.CMode2 = ciphPipe.CMode2;
-                this.encodeType = EncodingType.Base64; // default is base64, because it is the most common encoding type for encrypted binary data
-                this.zType = ZipType.GZip; // default is GZip, because it is the most common zip type
+                this.encodeType = ciphPipe.EncodeType; 
+                this.zType = ciphPipe.ZType; 
             }
         }
 
-        public SecureCipherPipe(SecureCipherPipe sCiphPipe) : this()
+        public AsymmetricCipherPipe(AsymmetricCipherPipe aCiphPipe) : this()
         {
-            if (sCiphPipe != null)
+            if (aCiphPipe != null)
             {
-                this.inPipe = sCiphPipe.InPipe;
-                this.cipherKeyHash = sCiphPipe.cipherKey;
-                this.cipherKey = sCiphPipe.cipherKey;
-                this.cipherHash = "";
-                this.CMode = sCiphPipe.CMode;
-                this.CMode2 = sCiphPipe.CMode2;
-                this.encodeType = EncodingType.Base64; // default is base64, because it is the most common encoding type for encrypted binary data
-                this.zType = ZipType.GZip; // default is GZip, because it is the most common zip type
+                this.inPipe = aCiphPipe.InPipe;
+                this.AsymmetricCipherAlgo = aCiphPipe.AsymmetricCipherAlgo;
+                if (inPipe.Length > 0)
+                {
+                    this.AsymmetricCipherAlgo = Enum.TryParse<AsymmetricCipherEnum>(inPipe[0].ToString(), true, out AsymmetricCipherEnum asymCipher) ? asymCipher
+                        : AsymmetricCipherEnum.Rsa;
+                }
+                this.cipherKey = aCiphPipe.cipherKey;
+                this.asymCipherPublicKey = aCiphPipe.asymCipherPublicKey;
+                this.cipherHash = aCiphPipe.cipherHash;
+                this.asymCipherPrivateKey = aCiphPipe.asymCipherPrivateKey;
+                if (aCiphPipe.AsymKeyPair != null)
+                {                  
+                    this.AsymKeyPair = aCiphPipe.AsymKeyPair;
+                }
+                this.CMode = aCiphPipe.CMode;
+                this.CMode2 = aCiphPipe.CMode2;
+                this.encodeType = aCiphPipe.EncodeType; 
+                this.zType = aCiphPipe.ZType; 
             }
         }
 
-        #endregion ctor SecureCipherPipe
+        #endregion ctor AsymmetricCipherPipe
 
         #region json
 
@@ -268,15 +309,29 @@ namespace EU.CqrXs.Crypt.Cipher
         /// </summary>
         /// <param name="json">serialized json</param>
         /// <returns><see cref="SecureCipherPipe"/></returns>
-        public new SecureCipherPipe FromJson(string json)
+        public new AsymmetricCipherPipe FromJson(string json)
         {
-            SecureCipherPipe pipe = JsonConvert.DeserializeObject<SecureCipherPipe>(json);
+            AsymmetricCipherPipe pipe = JsonConvert.DeserializeObject<AsymmetricCipherPipe>(json);
             if (pipe != null)
             {
                 this.inPipe = pipe.InPipe;
+                this.AsymmetricCipherAlgo = pipe.AsymmetricCipherAlgo;                
+                if (inPipe.Length > 0)
+                {
+                    this.AsymmetricCipherAlgo = Enum.TryParse<AsymmetricCipherEnum>(inPipe[0].ToString(), true, out AsymmetricCipherEnum asymCipher) ? asymCipher
+                        : AsymmetricCipherEnum.Rsa;
+                }
                 this.encodeType = pipe.EncodeType;
                 this.zType = pipe.ZType;
-                this.cipherKeyHash = pipe.cipherKeyHash;
+                this.asymCipherPublicKey = pipe.asymCipherPublicKey;
+                this.asymCipherPrivateKey = pipe.asymCipherPrivateKey;
+                this.cipherKey = pipe.cipherKey;
+                this.cipherKey = pipe.cipherHash;
+                if (pipe.AsymKeyPair != null)
+                {
+
+                    this.AsymKeyPair = pipe.AsymKeyPair;
+                }
                 this.CMode2 = pipe.CMode2;
             }
             return pipe;
@@ -296,38 +351,30 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <returns>encrypted byte Array</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static byte[] EncryptBytesFast(byte[] inBytes, CipherEnum cipherAlgo,
-            string secretKey, CipherMode2 cmode2)
+            string publicKey, string privateKey, CipherMode2 cmode2)
         {
-            if (string.IsNullOrEmpty(secretKey))
-                throw new ArgumentNullException("seretkey");
+            if (string.IsNullOrEmpty(publicKey))
+                throw new ArgumentNullException("publicKey");
 
-            CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, secretKey) { CMode2 = cmode2 };
+            CryptParams cpParams = new CryptParams(cipherAlgo, publicKey, privateKey) { CMode2 = cmode2 };
             byte[] encryptBytes = inBytes;
+            AsymmetricCipherKeyPair keyPair; 
 
             switch (cipherAlgo)
             {
-                case CipherEnum.AesNet:
-                    AesNet aesNet = new AesNet(cpParams);
-                    encryptBytes = aesNet.Encrypt(inBytes);
-                    break;
-                case CipherEnum.Des3Net:
-                    Des3Net des3 = new Des3Net(cpParams);
-                    encryptBytes = des3.Encrypt(inBytes);
-                    break;
                 case CipherEnum.Rsa:
-                    AsymmetricCipherKeyPair keyPair = Asymmetric.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
+                    keyPair = Asymmetric.Rsa.RsaGenWithKey(publicKey, privateKey);
                     encryptBytes = Asymmetric.Rsa.Encrypt(inBytes, keyPair);
                     break;
-                case CipherEnum.ZenMatrix:
-                    encryptBytes = (new ZenMatrix(secretKey, secretKey, false)).Encrypt(inBytes, true);
+                case CipherEnum.Dsa:
+                    keyPair = Asymmetric.Dsa.GetDsaKeyPairByKeys(privateKey, publicKey);
+                    encryptBytes = Asymmetric.Dsa.DsaSign(inBytes);
                     break;
-                case CipherEnum.ZenMatrix2:
-                     encryptBytes = (new ZenMatrix2(secretKey, secretKey, false)).Encrypt(inBytes);
-                    break;                
+                case CipherEnum.DH:
+                case CipherEnum.GPG:
                 default:
-                    CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
-                    encryptBytes = cryptBounceCastle.Encrypt(inBytes);
-                    break;
+                    encryptBytes = inBytes;
+                    break;                 
             }
 
             return encryptBytes;
@@ -341,38 +388,29 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="secretKey">secret key to decrypt</param>
         /// <returns>decrypted byte Array</returns>
         public static byte[] DecryptBytesFast(byte[] cipherBytes, CipherEnum cipherAlgo,
-            string secretKey, CipherMode2 cmode2)
+            string publicKey, string privateKey, byte[] signedBytes, CipherMode2 cmode2)
         {
-            if (string.IsNullOrEmpty(secretKey))
-                throw new ArgumentNullException("seretkey");
+            if (string.IsNullOrEmpty(publicKey))
+                throw new ArgumentNullException("publicKey");
 
             // bool sameKey = true;
-            CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, secretKey) { CMode2 = cmode2 };
+            CryptParams cpParams = new CryptParams(cipherAlgo, publicKey, privateKey) { CMode2 = cmode2 };
             byte[] decryptBytes = cipherBytes;
-
+            AsymmetricCipherKeyPair keyPair;
             switch (cipherAlgo)
-            {
-                case CipherEnum.AesNet:
-                    AesNet aesNet = new AesNet(cpParams);
-                    decryptBytes = aesNet.Decrypt(cipherBytes);
-                    break;
-                case CipherEnum.Des3Net:
-                    Des3Net des3 = new Des3Net(cpParams);
-                    decryptBytes = des3.Decrypt(cipherBytes);
-                    break;
+            {               
                 case CipherEnum.Rsa:
-                    AsymmetricCipherKeyPair keyPair = Asymmetric.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
+                    keyPair = Asymmetric.Rsa.RsaGenWithKey(publicKey, privateKey);
                     decryptBytes = Asymmetric.Rsa.Decrypt(cipherBytes, keyPair);
                     break;
-                case CipherEnum.ZenMatrix:
-                    decryptBytes = (new ZenMatrix(secretKey, secretKey, false)).Decrypt(cipherBytes);
+                case CipherEnum.Dsa:                    
+                    keyPair = Asymmetric.Dsa.GetDsaKeyPairByKeys(privateKey, publicKey);
+                    if (!Asymmetric.Dsa.DsaVerify(cipherBytes, signedBytes))
+                        throw new InvalidOperationException("Signature verification failed.");
+                    decryptBytes = cipherBytes;
                     break;
-                case CipherEnum.ZenMatrix2:
-                    decryptBytes = (new ZenMatrix2(secretKey, secretKey, false)).Decrypt(cipherBytes);
-                break;
                 default:
-                    CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
-                    decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
+                    decryptBytes = cipherBytes;
                     break;
             }
 
@@ -401,11 +439,11 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="cmode2"></param>
         /// <returns>encrypted generic type</returns>
         /// <exception cref="CException">is thrown on unknown type</exception>
-        public static TRet EncrpytT<TRet, TIn>(TIn tinSource, string cryptKey, CipherMode2 cmode2)
+        public static TRet EncrpytT<TRet, TIn>(TIn tinSource, string cryptKey, string privKey, CipherMode2 cmode2)
         {
             byte[] stringBytes = new List<byte>().ToArray();
             // construct symmetric cipher pipeline with cryptKey and cmode2
-            SecureCipherPipe cipherPipe = new SecureCipherPipe(cryptKey, cmode2, false);
+            AsymmetricCipherPipe cipherPipe = new AsymmetricCipherPipe(cryptKey, privKey, cmode2, false);
 
             if (tinSource is string inString)   // Transform string to bytes
                 stringBytes = Encoding.UTF8.GetBytes(inString);
@@ -422,7 +460,7 @@ namespace EU.CqrXs.Crypt.Cipher
             // zip GZ
             byte[] zippedBytes = ZipType.GZip.Zip(stringBytes);
             // encrypt in a marry go round way
-            byte[] encryptedBytes = cipherPipe.MerryGoRoundEncrpyt(zippedBytes, cryptKey, cmode2);
+            byte[] encryptedBytes = cipherPipe.MerryAsymGoRoundEncrpyt(zippedBytes, cryptKey, privKey, cmode2);
             // encode after encryption pipe
             String encryptedString = EncodingType.Base64.GetEnCoder().Encode(encryptedBytes);
 
@@ -457,11 +495,11 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="cmode2"></param>
         /// <returns>Decrypted generic TRet</returns>
         /// <exception cref="CException">is thrown on unknown type</exception>
-        public static TRet DecrpytT<TRet, TIn>(TIn tinSource, string cryptKey, CipherMode2 cmode2)
+        public static TRet DecrpytT<TRet, TIn>(TIn tinSource, string cryptKey, string privKey, CipherMode2 cmode2)
         {
             byte[] stringBytes = new List<byte>().ToArray();
             // create symmetric cipher pipe for decryption with crypt key and pass pipeString as out param
-            SecureCipherPipe cPipe = new SecureCipherPipe(cryptKey, cmode2, false);
+            AsymmetricCipherPipe cPipe = new AsymmetricCipherPipe(cryptKey, privKey, cmode2, false);
             string pipeString = cPipe.PipeString;
             string incomingEncoded = string.Empty;
 
@@ -480,7 +518,7 @@ namespace EU.CqrXs.Crypt.Cipher
             // get bytes from encrypted encoded string dependent on the encoding type (uu, base64, base32,..)
             byte[] cipherBytes = EncodingType.Base64.GetEnCoder().Decode(incomingEncoded);
             // staged decryption of bytes
-            byte[] intermediatBytes = cPipe.DecrpytRoundGoMerry(cipherBytes, cryptKey, cmode2);
+            byte[] intermediatBytes = cPipe.DecrpytRoundGoMerryAsym(cipherBytes, cryptKey, privKey, cmode2);
             // Unzip after if necessary
             byte[] decryptedBytes = ZipType.GZip.Unzip(intermediatBytes);
 
@@ -512,24 +550,17 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="secretKey">user secret key to use for all symmetric cipher algorithms in the pipe</param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         /// <returns>encrypted byte[]</returns>
-        public virtual byte[] MerryGoRoundEncrpyt(byte[] inBytes, string secretKey, CipherMode2 cmode2)
+        public virtual byte[] MerryAsymGoRoundEncrpyt(byte[] inBytes, string publicKey, string privateKey, CipherMode2 cmode2)
         {
             if (InPipe == null || inPipe.Length == 0)   // return immideate, when zero round cipher merry go round
                 return inBytes;
-
-            cipherKeyHash = string.IsNullOrEmpty(secretKey) ? secretKey : secretKey;
-            if (cipherKeyHash.Length > 31)
-                cipherKeyHash = cipherKeyHash.Substring(0, 32);
+           
             CMode2 = cmode2;
-
-            int merry = 0;            
+  
             byte[] encryptedBytes = new byte[inBytes.Length];
             foreach (CipherEnum cipher in InPipe)
-            {
-                string cipherHashKey = secureHashes[merry % (this.inPipe.Length)].Hash(cipherKeyHash);
-                if ((++merry) > ((this.inPipe.Length) -1)) merry = 0;
-
-                encryptedBytes = EncryptBytesFast(inBytes, cipher, cipherHashKey, CMode2);
+            {               
+                encryptedBytes = EncryptBytesFast(inBytes, cipher, publicKey, privateKey, CMode2);
                 inBytes = encryptedBytes;
             }
 
@@ -544,24 +575,17 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="secretKey">user secret key, normally email address</param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         /// <returns><see cref="T:byte[]"/> plain bytes</returns>
-        public virtual byte[] DecrpytRoundGoMerry(byte[] cipherBytes, string secretKey, CipherMode2 cmode2)
+        public virtual byte[] DecrpytRoundGoMerryAsym(byte[] cipherBytes, string publicKey, string privateKey, CipherMode2 cmode2)
         {
             if (OutPipe == null || OutPipe.Length == 0) // when 0 rounds carusell, return immideate inBytes
-                return cipherBytes;
-
-            cipherKeyHash = string.IsNullOrEmpty(secretKey) ? cipherKeyHash : secretKey;
-            if (cipherKeyHash.Length > 31)
-                cipherKeyHash = cipherKeyHash.Substring(0, 32);
+                return cipherBytes;            
             CMode2 = cmode2;
-            int merry = this.inPipe.Length - 1;
+            
 
             byte[] decryptedBytes = new byte[cipherBytes.Length];
             foreach (CipherEnum cipher in OutPipe)
-            {
-                string cipherHashKey = secureHashes[merry % (this.inPipe.Length)].Hash(cipherKeyHash);                
-                if ((--merry) < 0) merry = this.inPipe.Length - 1;
-
-                decryptedBytes = DecryptBytesFast(cipherBytes, cipher, cipherHashKey, cmode2);
+            {                
+                decryptedBytes = DecryptBytesFast(cipherBytes, cipher, publicKey, privateKey, this.signatureBytes, cmode2);
                 cipherBytes = decryptedBytes;
             }
 
@@ -576,10 +600,9 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="cryptKey">prviate key for encryption</param>
         /// <param name="cmode2"></param>
         /// <returns>UTF9 emcoded encrypted string without binary data</returns>
-        public virtual string EncrpytTextGoRounds(string inString, string cryptKey, CipherMode2 cmode2)
+        public virtual string EncrpytTextGoRounds(string inString, string publicKey, string privateKey, CipherMode2 cmode2)
         {
-            cipherKeyHash = (string.IsNullOrEmpty(cryptKey)) ? cipherKeyHash : cryptKey;
-
+            
             // Transform string to bytes
             // byte[] inBytes = EnDeCodeHelper.GetBytesFromString(inString);
             byte[] inBytes = System.Text.Encoding.UTF8.GetBytes(inString);
@@ -587,7 +610,7 @@ namespace EU.CqrXs.Crypt.Cipher
             byte[] zippedBytes = (ZType != ZipType.None) ? ZType.Zip(inBytes) : inBytes;
 
             // now encrypt with pipe
-            byte[] encryptedBytes = MerryGoRoundEncrpyt(zippedBytes, cipherKeyHash, CMode2);
+            byte[] encryptedBytes = MerryAsymGoRoundEncrpyt(zippedBytes, publicKey, privateKey, CMode2);
 
             // Encode pipes by encodingType, e.g. base64, uu, hex16, ...
             string encrypted = encodeType.GetEnCoder().Encode(encryptedBytes);
@@ -603,11 +626,9 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="cryptKey">prviate key for encryption</param>
         /// <param name="cmode2"></param>
         /// <returns>decrypted UTF8 string, containing no binary data</returns>
-        public virtual string DecryptTextRoundsGo(string cryptedEncodedMsg, string cryptKey, CipherMode2 cmode2)
+        public virtual string DecryptTextRoundsGo(string cryptedEncodedMsg, string publicKey, string privateKey, CipherMode2 cmode2)
         {
-
-            cipherKeyHash = (string.IsNullOrEmpty(cryptKey)) ? cipherKeyHash : cryptKey;
-
+            
             // Decoded encoded bytes first, if necessary
             byte[] cipherBytes = (encodeType != EncodingType.None) ?
                 encodeType.GetEnCoder().Decode(cryptedEncodedMsg) :
@@ -615,7 +636,7 @@ namespace EU.CqrXs.Crypt.Cipher
 
 
             // perform multi crypt pipe stages
-            byte[] intermediatBytes = DecrpytRoundGoMerry(cipherBytes, cipherKeyHash, CMode2);
+            byte[] intermediatBytes = DecrpytRoundGoMerryAsym(cipherBytes, publicKey, privateKey, CMode2);
             // Unzip after all, if it's necessary
             byte[] decryptedBytes = (ZType != ZipType.None) ? ZType.Unzip(intermediatBytes) : intermediatBytes;
 
@@ -629,25 +650,23 @@ namespace EU.CqrXs.Crypt.Cipher
         }
 
 
-        public virtual byte[] EncrpytGoRounds(byte[] inBytes, string secretKey, CipherMode2 cmode2)
+        public virtual byte[] EncrpytGoRounds(byte[] inBytes, string publicKey, string privateKey, CipherMode2 cmode2)
         {
-            cipherKeyHash = (string.IsNullOrEmpty(secretKey)) ? cipherKeyHash : secretKey;
             CMode2 = cmode2;
 
             // zip if requested
             byte[] zippedBytes = zType.Zip(inBytes);
             // encrypt in a marry go round way
-            return MerryGoRoundEncrpyt(zippedBytes, cipherKeyHash, cmode2);
+            return MerryAsymGoRoundEncrpyt(zippedBytes, publicKey, privateKey, cmode2);
         }
 
 
-        public virtual byte[] DecrpytRoundsGo(byte[] cipherBytes, string secretKey, CipherMode2 cmode2)
+        public virtual byte[] DecrpytRoundsGo(byte[] cipherBytes, string publicKey, string privateKey, CipherMode2 cmode2)
         {
-            cipherKeyHash = (string.IsNullOrEmpty(secretKey)) ? cipherKeyHash : secretKey;
             CMode2 = cmode2;
 
             // perform multi crypt pipe stages
-            byte[] intermediatBytes = DecrpytRoundGoMerry(cipherBytes, cipherKeyHash, cmode2);
+            byte[] intermediatBytes = DecrpytRoundGoMerryAsym(cipherBytes, publicKey, privateKey, cmode2);
             // Unzip after if necessary
             byte[] decryptedBytes = ZType.Unzip(intermediatBytes);
 
@@ -655,15 +674,14 @@ namespace EU.CqrXs.Crypt.Cipher
         }
 
 
-        public virtual byte[] EncryptEncodeBytes(byte[] inBytes, string secretKey, CipherMode2 cmode2)
+        public virtual byte[] EncryptEncodeBytes(byte[] inBytes, string publicKey, string privateKey, CipherMode2 cmode2)
         {
-            cipherKeyHash = (string.IsNullOrEmpty(secretKey)) ? cipherKeyHash : secretKey;            
             CMode2 = cmode2;
 
             // zip if requested
             byte[] zippedBytes = (ZType != ZipType.None) ? ZType.Zip(inBytes) : inBytes;
             // now encrypt with pipe
-            byte[] outBytes = MerryGoRoundEncrpyt(zippedBytes, cipherKeyHash, CMode2);
+            byte[] outBytes = MerryAsymGoRoundEncrpyt(zippedBytes, publicKey, privateKey, CMode2);
             // encode after encryption pipe
             if (encodeType == EncodingType.None)
                 return outBytes;
@@ -671,9 +689,8 @@ namespace EU.CqrXs.Crypt.Cipher
             return System.Text.Encoding.UTF8.GetBytes(encodeType.GetEnCoder().Encode(outBytes));
         }
 
-        public virtual byte[] DecodeDecrpytBytes(byte[] encodedBytes, string secretKey, CipherMode2 cmode2)
+        public virtual byte[] DecodeDecrpytBytes(byte[] encodedBytes, string publicKey, string privateKey, CipherMode2 cmode2)
         {
-            cipherKeyHash = (string.IsNullOrEmpty(secretKey)) ? cipherKeyHash : secretKey;            
             CMode2 = cmode2;
 
             // Decoded encoded bytes first, if necessary
@@ -681,7 +698,7 @@ namespace EU.CqrXs.Crypt.Cipher
                 encodeType.GetEnCoder().Decode(System.Text.Encoding.UTF8.GetString(encodedBytes)) :
                 encodedBytes;
             // perform multi crypt pipe stages
-            byte[] intermediatBytes = DecrpytRoundGoMerry(cipherBytes, cipherKeyHash, CMode2);
+            byte[] intermediatBytes = DecrpytRoundGoMerryAsym(cipherBytes, publicKey, privateKey, CMode2);
             // Unzip after all, if it's necessary
             byte[] decryptedBytes = (ZType != ZipType.None) ? ZType.Unzip(intermediatBytes) : intermediatBytes;
 
@@ -700,12 +717,12 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="directionDecrypt">true for decryption, false for encryption</param>        
         /// <param name="cmode2"></param>
         /// <returns>transformed byte array</returns>
-        public virtual byte[] CryptCodeBytes(byte[] inBytes, string secretKey,
+        public virtual byte[] CryptCodeBytes(byte[] inBytes, string publicKey, string privateKey,
             bool directionDecrypt, CipherMode2 cmode2)
         {
             return (!directionDecrypt) ?
-                EncryptEncodeBytes(inBytes, secretKey, cmode2) :
-                DecodeDecrpytBytes(inBytes, secretKey, cmode2);
+                EncryptEncodeBytes(inBytes, publicKey, privateKey, cmode2) :
+                DecodeDecrpytBytes(inBytes, publicKey, privateKey, cmode2);
         }
 
 

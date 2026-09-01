@@ -47,7 +47,16 @@ namespace EU.CqrXs.Crypt.Cipher
 
         ZenMatrix2 = 0x1f,
 
-        Rsa = 0x20
+        Rsa = 0x20,
+        Dsa = 0x21,
+        DH = 0x22,
+        Ecdsa = 0x23,
+        Ed25519 = 0x24,
+        Ed448 = 0x25,
+        X25519 = 0x26,
+        X448 = 0x27,
+        GPG = 0x28
+
         // DH = 0x22,
         // Ascon = 0x1d
 

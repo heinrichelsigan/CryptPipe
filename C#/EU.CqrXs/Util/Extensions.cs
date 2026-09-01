@@ -1,11 +1,12 @@
-﻿using System.Drawing;
-using EU.CqrXs.Crypt.Cipher;
+﻿using EU.CqrXs.Crypt.Cipher;
 using EU.CqrXs.Crypt.EnDeCoding;
 using EU.CqrXs.Crypt.Hash;
 using EU.CqrXs.Zip;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO.Pipelines;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -1498,6 +1499,90 @@ namespace EU.CqrXs.Util
 
             if (secCipherPipe == null || secCipherPipe.InPipe.Length == 0)
                 secCipherPipe = new SecureCipherPipe(cipherEnums.ToArray(), Constants.PIPE_MAX_LEN, cmode2);
+
+            return strippedFileName;
+        }
+
+
+        public static string StripAsymmetricCipherPipeFromFileName(this string fileName, out AsymmetricCipherPipe? aCPipe)
+        {
+            if (string.IsNullOrEmpty(fileName))
+                throw new ArgumentNullException(nameof(fileName));
+
+            aCPipe = null;
+            string strippedFileName = fileName;
+
+            if (!fileName.IsPermAgainCryptFile())
+                return strippedFileName;
+
+            KeyHash kHash = KeyHash.Hex;
+
+            EncodingType eType = EncodingType.None;
+            foreach (EncodingType encTyp in EncodingTypesExtensions.GetEncodingTypes())
+            {
+                if (fileName.EndsWith("." + encTyp.ToString(), StringComparison.CurrentCultureIgnoreCase))
+                {
+                    eType = encTyp;
+                    strippedFileName = fileName.Replace("." + encTyp.ToString(), "").Replace("." + encTyp.ToString().ToLower(), "");
+                    break;
+                }
+            }
+
+            CipherMode2[] cmodes2 = { CipherMode2.ECB };
+            CipherMode2 cmode2 = CipherMode2.ECB;
+            ZipType[] zipTypes = { ZipType.BZip2, ZipType.GZip, ZipType.Zip };
+            ZipType zipTyp = ZipType.None;
+            foreach (ZipType zType in zipTypes)
+            {
+                if (strippedFileName.EndsWith(zType.GetZipTypeExtension(), StringComparison.CurrentCultureIgnoreCase))
+                {
+                    zipTyp = zType;
+                    strippedFileName = strippedFileName.Replace(zipTyp.GetZipTypeExtension(), "");
+                }
+                else if (strippedFileName.Contains(zType.GetZipTypeExtension() + ".", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    zipTyp = zType;
+                    strippedFileName = strippedFileName.Replace(zipTyp.GetZipTypeExtension() + ".", ".");
+                }
+            }
+
+            foreach (CipherMode2 cMode in cmodes2)
+            {
+                if (strippedFileName.EndsWith("." + cMode.ToString(), StringComparison.CurrentCultureIgnoreCase))
+                {
+                    cmode2 = cMode;
+                    strippedFileName = strippedFileName.Replace("." + cMode.ToString(), "");
+                }
+                else if (strippedFileName.Contains("." + cMode.ToString(), StringComparison.CurrentCultureIgnoreCase))
+                {
+                    cmode2 = cMode;
+                    strippedFileName = strippedFileName.Replace("." + cMode.ToString(), "");
+                }
+            }
+
+
+            List<CipherEnum> cipherEnums = new List<CipherEnum>();
+            string pipeRestString = strippedFileName.Substring(strippedFileName.LastIndexOf("."));
+            foreach (char ch in pipeRestString)
+            {
+                foreach (CipherEnum cipher in CipherEnumExtensions.GetCipherTypes())
+                {
+                    if (cipher.GetCipherChar() == ch)
+                        cipherEnums.Add(cipher);
+                }
+            }
+
+            if (cipherEnums.Count > 0)
+            {
+                aCPipe = new AsymmetricCipherPipe(cipherEnums.ToArray(), Constants.PIPE_MAX_LEN, cmode2);
+                if (strippedFileName.Contains("." + aCPipe.PipeString))
+                {
+                    strippedFileName = strippedFileName.Replace("." + aCPipe.PipeString, "");
+                }
+            }
+
+            if (aCPipe == null || aCPipe.InPipe.Length == 0)
+                aCPipe = new AsymmetricCipherPipe(cipherEnums.ToArray(), Constants.PIPE_MAX_LEN, cmode2);
 
             return strippedFileName;
         }

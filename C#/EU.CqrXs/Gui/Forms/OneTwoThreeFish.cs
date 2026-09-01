@@ -69,6 +69,7 @@ namespace EU.CqrXs.Gui.Forms
             menuOptionsModesComplex.Click += menuOptionsModesComplex_Click;
             menuOptionsModesSimple.Click += new System.EventHandler(async (sender, e)
                  => await menuOptionsModesSimple_Click(sender, e));
+            menuOptionsModesAsymmetric.Click += menuOptionsModesAsymmetric_Click;
 
             foreach (var cipherModeItem in mCipherModes)
             {
@@ -1272,18 +1273,7 @@ namespace EU.CqrXs.Gui.Forms
             }
             try
             {
-                if (Program.formZenMatrix != null && !Program.formZenMatrix.Disposing)
-                {
-                    Program.formZenMatrix.Hide();
-                }
-                if (Program.form123Fish != null && !Program.form123Fish.Disposing)
-                {
-                    Program.form123Fish.Hide();
-                }
-                if (Program.formSimple != null && !Program.formSimple.Disposing)
-                {
-                    Program.formSimple.Hide();
-                }
+                HideAllOtherForms("EncryptFormMultiControls");
             }
             catch (Exception exHide)
             {
@@ -1293,7 +1283,33 @@ namespace EU.CqrXs.Gui.Forms
             Program.formComplex.Focus();
         }
 
-
+        protected internal virtual void menuOptionsModesAsymmetric_Click(object sender, EventArgs e)
+        {
+            if (Program.formAsymmetric == null || Program.formAsymmetric.Disposing)
+            {
+                Program.formAsymmetric = new EncryptFormAsymmetric();
+            }
+            try
+            {
+                Program.formAsymmetric.Show();
+            }
+            catch (Exception exShow)
+            {
+                Area23Log.LogOriginEx("OneTwoThreeFish.menuOptionsModesAsymmetric_Click", exShow, 1);
+                Program.formAsymmetric = new EncryptFormAsymmetric();
+                Program.formAsymmetric.Show();
+            }
+            try
+            {
+                HideAllOtherForms("EncryptFormAsymmetric");
+            }
+            catch (Exception exHide)
+            {
+                Area23Log.LogOriginEx("OneTwoThreeFish.menuOptionsModesAsymmetric_Click", exHide, 1);
+            }
+            this.Hide();
+            Program.formAsymmetric.Focus();
+        }
 
         /// <summary>
         /// menuOptionsModesSimple_Click - Shows menuMainSimple 
@@ -1302,11 +1318,11 @@ namespace EU.CqrXs.Gui.Forms
         /// <param name="e"></param>
         /// <returns><see cref="T:Task"</returns>
         protected internal virtual async Task menuOptionsModesSimple_Click(object sender, EventArgs e)
-        {
+        {            
             if (Program.formSimple == null || Program.formSimple.Disposing)
             {
                 Program.formSimple = new EncryptFormSimple();
-            }
+            }            
             try
             {
                 Program.formSimple.Show();
@@ -1319,18 +1335,7 @@ namespace EU.CqrXs.Gui.Forms
             }
             try
             {
-                if (Program.formZenMatrix != null && !Program.formZenMatrix.Disposing)
-                {
-                    Program.formZenMatrix.Hide();
-                }
-                if (Program.form123Fish != null && !Program.form123Fish.Disposing)
-                {
-                    Program.form123Fish.Hide();
-                }
-                if (Program.formComplex != null && !Program.formComplex.Disposing)
-                {
-                    Program.formComplex.Hide();
-                }
+                HideAllOtherForms("EncryptFormSimple");
             }
             catch (Exception exHide)
             {

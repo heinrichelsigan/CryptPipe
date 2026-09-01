@@ -397,6 +397,23 @@ namespace EU.CqrXs.Gui.Forms
             return null;
         }
 
+        public AsymmetricCipherPipe? GetACPipeFromFileName(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName))
+                throw new ArgumentNullException(nameof(fileName));
+
+            string origName = fileName.StripAsymmetricCipherPipeFromFileName(out AsymmetricCipherPipe? aCPipe);
+            if (aCPipe != null &&
+                (!string.IsNullOrEmpty(aCPipe.PipeString) || aCPipe.ZType != ZipType.None || aCPipe.EncodeType != EncodingType.None || aCPipe.KHash != KeyHash.Hex))
+            {
+                aCPipe = new AsymmetricCipherPipe(aCPipe);
+                return aCPipe;
+            }
+
+            return null;
+        }
+
+
         public CipherPipe? GetCPipeFromFileName(string fileName)
         {
             if (string.IsNullOrEmpty(fileName))
@@ -494,9 +511,31 @@ namespace EU.CqrXs.Gui.Forms
             }
             return false;
         }
-        
+
         #endregion verify output file
 
-
+        protected internal virtual void HideAllOtherForms(string formToKeepVisibleName)
+        {
+            if (Program.formZenMatrix != null && !Program.formZenMatrix.Disposing && Program.formZenMatrix.Name != formToKeepVisibleName)
+            {
+                Program.formZenMatrix.Hide();
+            }
+            if (Program.form123Fish != null && !Program.form123Fish.Disposing && Program.form123Fish.Name != formToKeepVisibleName)
+            {
+                Program.form123Fish.Hide();
+            }
+            if (Program.formSimple != null && !Program.formSimple.Disposing && Program.formSimple.Name != formToKeepVisibleName)
+            {
+                Program.formSimple.Hide();
+            }
+            if (Program.formComplex != null && !Program.formComplex.Disposing && Program.formComplex.Name != formToKeepVisibleName)
+            {
+                Program.formComplex.Hide();
+            }
+            if (Program.formAsymmetric != null && !Program.formAsymmetric.Disposing && Program.formAsymmetric.Name != formToKeepVisibleName)
+            {
+                Program.formAsymmetric.Hide();
+            }
+        }
     }
 }
