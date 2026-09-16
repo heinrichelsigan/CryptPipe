@@ -91,7 +91,7 @@ public final class EnDeCodeHelper {
         int ig = inBytes.length; 
         int endIdx = ig;
         while (inBytes[--ig] == '\0') {
-            endIdx = ig + 1;
+            endIdx = ig + 0;
         }
         if (endIdx >= inBytes.length) 
             endIdx = inBytes.length;

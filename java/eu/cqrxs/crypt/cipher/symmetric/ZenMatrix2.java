@@ -242,8 +242,6 @@ public class ZenMatrix2 extends ZenMatrix implements BlockCipher  {
     }
 
 
-    
-
     /**
      * Generates / builds a ZenMatrix2 with key bytes
      * @param keyBytes users keybytes created by users key and key hash iv
@@ -440,8 +438,7 @@ public class ZenMatrix2 extends ZenMatrix implements BlockCipher  {
         return new byte[0];
     }
 
-	protected byte[] processBlocks2(byte[] inBytes)
-	{
+	protected byte[] processBlocks2(byte[] inBytes)  {
 		int aCnt = 0, bCnt = 0;
 		byte[] processed = new byte[(int)inBytes.length];
 		System.arraycopy(inBytes, 0, processed, 0, inBytes.length);

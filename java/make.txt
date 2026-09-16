@@ -1,0 +1,574 @@
+javac -classpath "./:./"bcpkix-jdk18on-1.86.jar:bcprov-jdk18on-1.86.jar":./eu/cqrxs/:./eu/cqrxs/gui/:./eu/cqrxs/net/:./eu/cqrxs/util/:./eu/cqrxs/crypt/:./eu/cqrxs/crypt/encoding/:./eu/cqrxs/crypt/cipher/:./eu/cqrxs/crypt/cipher/symmetric/:./eu/cqrxs/crypt/hash/:." -Xlint:unchecked -Xlint:deprecation eu/cqrxs/util/CException.java eu/cqrxs/util/NotImplementedError.java eu/cqrxs/util/Constants.java eu/cqrxs/util/Fortune.java eu/cqrxs/util/DbgWriter.java eu/cqrxs/gui/ImageHelper.java 
+javac -classpath "./:./"bcpkix-jdk18on-1.86.jar:bcprov-jdk18on-1.86.jar":./eu/cqrxs/:./eu/cqrxs/gui/:./eu/cqrxs/net/:./eu/cqrxs/util/:./eu/cqrxs/crypt/:./eu/cqrxs/crypt/encoding/:./eu/cqrxs/crypt/cipher/:./eu/cqrxs/crypt/cipher/symmetric/:./eu/cqrxs/crypt/hash/:." -Xlint:unchecked -Xlint:deprecation eu/cqrxs/crypt/encoding/uu/CEFormatException.java eu/cqrxs/crypt/encoding/uu/CEStreamExhausted.java eu/cqrxs/crypt/encoding/uu/CharacterDecoder.java eu/cqrxs/crypt/encoding/uu/CharacterEncoder.java  eu/cqrxs/crypt/encoding/uu/UUDecoder.java  eu/cqrxs/crypt/encoding/uu/UUEncoder.java eu/cqrxs/crypt/encoding/EnDeCodeHelper.java eu/cqrxs/crypt/encoding/EncodeEnum.java eu/cqrxs/crypt/encoding/IEncodable.java  eu/cqrxs/crypt/encoding/Base16Coder.java eu/cqrxs/crypt/encoding/Hex16Coder.java eu/cqrxs/crypt/encoding/Hex32Coder.java eu/cqrxs/crypt/encoding/Base64Coder.java eu/cqrxs/crypt/encoding/Hex64Coder.java  eu/cqrxs/crypt/encoding/UuCoder.java eu/cqrxs/crypt/encoding/XxEncoder.java eu/cqrxs/crypt/encoding/Ascii85Coder.java
+javac -classpath "./:./"bcpkix-jdk18on-1.86.jar:bcprov-jdk18on-1.86.jar":./eu/cqrxs/:./eu/cqrxs/gui/:./eu/cqrxs/net/:./eu/cqrxs/util/:./eu/cqrxs/crypt/:./eu/cqrxs/crypt/encoding/:./eu/cqrxs/crypt/cipher/:./eu/cqrxs/crypt/cipher/symmetric/:./eu/cqrxs/crypt/hash/:." -Xlint:unchecked -Xlint:deprecation eu/cqrxs/crypt/cipher/CipherEnum.java eu/cqrxs/crypt/cipher/CipherPipe.java eu/cqrxs/crypt/cipher/SecureCipherPipe.java eu/cqrxs/crypt/cipher/symmetric/CryptBounceCastle.java eu/cqrxs/crypt/cipher/CryptHelper.java eu/cqrxs/crypt/cipher/CryptParams.java  eu/cqrxs/crypt/cipher/symmetric/ZenMatrix.java  eu/cqrxs/crypt/cipher/symmetric/ZenMatrix2.java  eu/cqrxs/crypt/cipher/symmetric/ZenMatrix3.java  eu/cqrxs/crypt/cipher/asymmetric/RsaCipher.java
+./org/bouncycastle/openssl/PEMParser.java:19: error: package org.bouncycastle.asn1.cms does not exist
+import org.bouncycastle.asn1.cms.ContentInfo;
+                                ^
+./org/bouncycastle/openssl/PEMParser.java:83: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Map
+        parsers.put(TYPE_CERTIFICATE_REQUEST, new PKCS10CertificationRequestParser());
+                   ^
+  where K,V are type-variables:
+    K extends Object declared in interface Map
+    V extends Object declared in interface Map
+./org/bouncycastle/openssl/PEMParser.java:84: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Map
+        parsers.put(TYPE_NEW_CERTIFICATE_REQUEST, new PKCS10CertificationRequestParser());
+                   ^
+  where K,V are type-variables:
+    K extends Object declared in interface Map
+    V extends Object declared in interface Map
+./org/bouncycastle/openssl/PEMParser.java:85: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Map
+        parsers.put(TYPE_CERTIFICATE, new X509CertificateParser());
+                   ^
+  where K,V are type-variables:
+    K extends Object declared in interface Map
+    V extends Object declared in interface Map
+./org/bouncycastle/openssl/PEMParser.java:86: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Map
+        parsers.put(TYPE_TRUSTED_CERTIFICATE, new X509TrustedCertificateParser());
+                   ^
+  where K,V are type-variables:
+    K extends Object declared in interface Map
+    V extends Object declared in interface Map
+./org/bouncycastle/openssl/PEMParser.java:87: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Map
+        parsers.put(TYPE_X509_CERTIFICATE, new X509CertificateParser());
+                   ^
+  where K,V are type-variables:
+    K extends Object declared in interface Map
+    V extends Object declared in interface Map
+./org/bouncycastle/openssl/PEMParser.java:88: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Map
+        parsers.put(TYPE_X509_CRL, new X509CRLParser());
+                   ^
+  where K,V are type-variables:
+    K extends Object declared in interface Map
+    V extends Object declared in interface Map
+./org/bouncycastle/openssl/PEMParser.java:89: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Map
+        parsers.put(TYPE_PKCS7, new PKCS7Parser());
+                   ^
+  where K,V are type-variables:
+    K extends Object declared in interface Map
+    V extends Object declared in interface Map
+./org/bouncycastle/openssl/PEMParser.java:90: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Map
+        parsers.put(TYPE_CMS, new PKCS7Parser());
+                   ^
+  where K,V are type-variables:
+    K extends Object declared in interface Map
+    V extends Object declared in interface Map
+./org/bouncycastle/openssl/PEMParser.java:91: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Map
+        parsers.put(TYPE_ATTRIBUTE_CERTIFICATE, new X509AttributeCertificateParser());
+                   ^
+  where K,V are type-variables:
+    K extends Object declared in interface Map
+    V extends Object declared in interface Map
+./org/bouncycastle/openssl/PEMParser.java:92: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Map
+        parsers.put(TYPE_EC_PARAMETERS, new ECCurveParamsParser());
+                   ^
+  where K,V are type-variables:
+    K extends Object declared in interface Map
+    V extends Object declared in interface Map
+./org/bouncycastle/openssl/PEMParser.java:93: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Map
+        parsers.put(TYPE_PUBLIC_KEY, new PublicKeyParser());
+                   ^
+  where K,V are type-variables:
+    K extends Object declared in interface Map
+    V extends Object declared in interface Map
+./org/bouncycastle/openssl/PEMParser.java:94: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Map
+        parsers.put(TYPE_RSA_PUBLIC_KEY, new RSAPublicKeyParser());
+                   ^
+  where K,V are type-variables:
+    K extends Object declared in interface Map
+    V extends Object declared in interface Map
+./org/bouncycastle/openssl/PEMParser.java:95: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Map
+        parsers.put(TYPE_RSA_PRIVATE_KEY, new KeyPairParser(new RSAKeyPairParser()));
+                   ^
+  where K,V are type-variables:
+    K extends Object declared in interface Map
+    V extends Object declared in interface Map
+./org/bouncycastle/openssl/PEMParser.java:96: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Map
+        parsers.put(TYPE_DSA_PRIVATE_KEY, new KeyPairParser(new DSAKeyPairParser()));
+                   ^
+  where K,V are type-variables:
+    K extends Object declared in interface Map
+    V extends Object declared in interface Map
+./org/bouncycastle/openssl/PEMParser.java:97: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Map
+        parsers.put(TYPE_EC_PRIVATE_KEY, new KeyPairParser(new ECDSAKeyPairParser()));
+                   ^
+  where K,V are type-variables:
+    K extends Object declared in interface Map
+    V extends Object declared in interface Map
+./org/bouncycastle/openssl/PEMParser.java:98: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Map
+        parsers.put(TYPE_ENCRYPTED_PRIVATE_KEY, new EncryptedPrivateKeyParser());
+                   ^
+  where K,V are type-variables:
+    K extends Object declared in interface Map
+    V extends Object declared in interface Map
+./org/bouncycastle/openssl/PEMParser.java:99: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Map
+        parsers.put(TYPE_PRIVATE_KEY, new PrivateKeyParser());
+                   ^
+  where K,V are type-variables:
+    K extends Object declared in interface Map
+    V extends Object declared in interface Map
+./org/bouncycastle/openssl/PEMParser.java:134: warning: [unchecked] unchecked method invocation: method unmodifiableSet in class Collections is applied to given types
+        return Collections.unmodifiableSet(parsers.keySet());
+                                          ^
+  required: Set<? extends T>
+  found:    Set
+  where T is a type-variable:
+    T extends Object declared in method <T>unmodifiableSet(Set<? extends T>)
+./org/bouncycastle/openssl/PEMParser.java:134: warning: [unchecked] unchecked conversion
+        return Collections.unmodifiableSet(parsers.keySet());
+                                          ^
+  required: Set<String>
+  found:    Set
+./org/bouncycastle/openssl/PEMParser.java:494: error: cannot find symbol
+                return ContentInfo.getInstance(obj.getContent());
+                       ^
+  symbol:   variable ContentInfo
+  location: class PKCS7Parser
+./org/bouncycastle/cert/X509AttributeCertificateHolder.java:187: warning: [unchecked] unchecked call to add(E) as a member of the raw type List
+                list.add(attr);
+                        ^
+  where E is a type-variable:
+    E extends Object declared in interface List
+./org/bouncycastle/cert/X509AttributeCertificateHolder.java:196: warning: [unchecked] unchecked call to <T>toArray(T[]) as a member of the raw type List
+        return (Attribute[])list.toArray(new Attribute[list.size()]);
+                                        ^
+  where T is a type-variable:
+    T extends Object declared in method <T>toArray(T[])
+./org/bouncycastle/cert/AttributeCertificateHolder.java:221: warning: [unchecked] unchecked call to add(E) as a member of the raw type List
+                l.add(X500Name.getInstance(names[i].getName()));
+                     ^
+  where E is a type-variable:
+    E extends Object declared in interface List
+./org/bouncycastle/cert/AttributeCertificateHolder.java:225: warning: [unchecked] unchecked call to <T>toArray(T[]) as a member of the raw type List
+        return (X500Name[])l.toArray(new X500Name[l.size()]);
+                                    ^
+  where T is a type-variable:
+    T extends Object declared in method <T>toArray(T[])
+./org/bouncycastle/cert/AttributeCertificateIssuer.java:58: warning: [unchecked] unchecked call to add(E) as a member of the raw type List
+                l.add(X500Name.getInstance(names[i].getName()));
+                     ^
+  where E is a type-variable:
+    E extends Object declared in interface List
+./org/bouncycastle/cert/AttributeCertificateIssuer.java:62: warning: [unchecked] unchecked call to <T>toArray(T[]) as a member of the raw type List
+        return (X500Name[])l.toArray(new X500Name[l.size()]);
+                                    ^
+  where T is a type-variable:
+    T extends Object declared in method <T>toArray(T[])
+./org/bouncycastle/cert/X509CertificateHolder.java:94: warning: [dep-ann] deprecated item is not annotated with @Deprecated
+    public int getVersion()
+               ^
+./org/bouncycastle/asn1/x500/X500Name.java:44: warning: [dep-ann] deprecated item is not annotated with @Deprecated
+    public X500Name(X500NameStyle style, X500Name name)
+           ^
+./org/bouncycastle/asn1/x509/TBSCertificate.java:112: warning: [unchecked] unchecked call to add(E) as a member of the raw type List
+            errors.add(e);
+                      ^
+  where E is a type-variable:
+    E extends Object declared in interface List
+./org/bouncycastle/asn1/x509/TBSCertificate.java:209: warning: [unchecked] unchecked call to add(E) as a member of the raw type List
+                        errors.add(new AggregateRuntimeException("invalid extension(s)", extProblems));
+                                  ^
+  where E is a type-variable:
+    E extends Object declared in interface List
+./org/bouncycastle/asn1/x509/TBSCertificate.java:234: warning: [unchecked] unchecked call to add(E) as a member of the raw type List
+        errors.add(problem);
+                  ^
+  where E is a type-variable:
+    E extends Object declared in interface List
+./org/bouncycastle/asn1/x509/GeneralName.java:68: warning: [dep-ann] deprecated item is not annotated with @Deprecated
+        public GeneralName(
+               ^
+./org/bouncycastle/asn1/x509/X509Name.java:46: warning: [dep-ann] deprecated item is not annotated with @Deprecated
+    public static final ASN1ObjectIdentifier C = new ASN1ObjectIdentifier("2.5.4.6");
+                                             ^
+./org/bouncycastle/asn1/x509/X509Name.java:52: warning: [dep-ann] deprecated item is not annotated with @Deprecated
+    public static final ASN1ObjectIdentifier O = new ASN1ObjectIdentifier("2.5.4.10");
+                                             ^
+./org/bouncycastle/asn1/x509/X509Name.java:58: warning: [dep-ann] deprecated item is not annotated with @Deprecated
+    public static final ASN1ObjectIdentifier OU = new ASN1ObjectIdentifier("2.5.4.11");
+                                             ^
+./org/bouncycastle/asn1/x509/X509Name.java:64: warning: [dep-ann] deprecated item is not annotated with @Deprecated
+    public static final ASN1ObjectIdentifier T = new ASN1ObjectIdentifier("2.5.4.12");
+                                             ^
+./org/bouncycastle/asn1/x509/X509Name.java:70: warning: [dep-ann] deprecated item is not annotated with @Deprecated
+    public static final ASN1ObjectIdentifier CN = new ASN1ObjectIdentifier("2.5.4.3");
+                                             ^
+./org/bouncycastle/asn1/x509/X509Name.java:195: warning: [dep-ann] deprecated item is not annotated with @Deprecated
+    public static final ASN1ObjectIdentifier EmailAddress = PKCSObjectIdentifiers.pkcs_9_at_emailAddress;
+                                             ^
+./org/bouncycastle/asn1/x509/X509Name.java:251: warning: [dep-ann] deprecated item is not annotated with @Deprecated
+    public static final Hashtable OIDLookUp = DefaultSymbols;
+                                  ^
+./org/bouncycastle/asn1/x509/X509Name.java:257: warning: [dep-ann] deprecated item is not annotated with @Deprecated
+    public static final Hashtable SymbolLookUp = DefaultLookUp;
+                                  ^
+./org/bouncycastle/asn1/x509/X509Name.java:264: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(C, "C");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:265: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(O, "O");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:266: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(T, "T");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:267: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(OU, "OU");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:268: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(CN, "CN");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:269: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(L, "L");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:270: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(ST, "ST");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:271: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(SN, "SERIALNUMBER");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:272: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(EmailAddress, "E");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:273: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(DC, "DC");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:274: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(UID, "UID");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:275: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(STREET, "STREET");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:276: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(SURNAME, "SURNAME");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:277: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(GIVENNAME, "GIVENNAME");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:278: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(INITIALS, "INITIALS");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:279: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(GENERATION, "GENERATION");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:280: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(UnstructuredAddress, "unstructuredAddress");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:281: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(UnstructuredName, "unstructuredName");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:282: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(UNIQUE_IDENTIFIER, "UniqueIdentifier");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:283: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(DN_QUALIFIER, "DN");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:284: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(PSEUDONYM, "Pseudonym");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:285: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(POSTAL_ADDRESS, "PostalAddress");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:286: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(NAME_AT_BIRTH, "NameAtBirth");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:287: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(COUNTRY_OF_CITIZENSHIP, "CountryOfCitizenship");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:288: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(COUNTRY_OF_RESIDENCE, "CountryOfResidence");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:289: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(GENDER, "Gender");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:290: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(PLACE_OF_BIRTH, "PlaceOfBirth");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:291: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(DATE_OF_BIRTH, "DateOfBirth");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:292: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(POSTAL_CODE, "PostalCode");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:293: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(BUSINESS_CATEGORY, "BusinessCategory");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:294: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(TELEPHONE_NUMBER, "TelephoneNumber");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:295: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultSymbols.put(NAME, "Name");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:297: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        RFC2253Symbols.put(C, "C");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:298: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        RFC2253Symbols.put(O, "O");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:299: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        RFC2253Symbols.put(OU, "OU");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:300: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        RFC2253Symbols.put(CN, "CN");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:301: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        RFC2253Symbols.put(L, "L");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:302: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        RFC2253Symbols.put(ST, "ST");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:303: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        RFC2253Symbols.put(STREET, "STREET");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:304: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        RFC2253Symbols.put(DC, "DC");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:305: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        RFC2253Symbols.put(UID, "UID");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:307: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        RFC1779Symbols.put(C, "C");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:308: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        RFC1779Symbols.put(O, "O");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:309: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        RFC1779Symbols.put(OU, "OU");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:310: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        RFC1779Symbols.put(CN, "CN");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:311: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        RFC1779Symbols.put(L, "L");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:312: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        RFC1779Symbols.put(ST, "ST");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:313: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        RFC1779Symbols.put(STREET, "STREET");
+                          ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:315: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultLookUp.put("c", C);
+                         ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:316: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultLookUp.put("o", O);
+                         ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:317: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultLookUp.put("t", T);
+                         ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:318: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultLookUp.put("ou", OU);
+                         ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:319: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultLookUp.put("cn", CN);
+                         ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:320: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultLookUp.put("l", L);
+                         ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:321: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultLookUp.put("st", ST);
+                         ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:322: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultLookUp.put("sn", SN);
+                         ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:323: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultLookUp.put("serialnumber", SN);
+                         ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:324: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultLookUp.put("street", STREET);
+                         ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:325: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultLookUp.put("emailaddress", E);
+                         ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:326: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultLookUp.put("dc", DC);
+                         ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+./org/bouncycastle/asn1/x509/X509Name.java:327: warning: [unchecked] unchecked call to put(K,V) as a member of the raw type Hashtable
+        DefaultLookUp.put("e", E);
+                         ^
+  where K,V are type-variables:
+    K extends Object declared in class Hashtable
+    V extends Object declared in class Hashtable
+Note: Some input files additionally use unchecked or unsafe operations.
+2 errors
+100 warnings
+only showing the first 100 warnings, of 114 total; use -Xmaxwarns if you would like to see more
+make: *** [Makefile:24: cqrxs] Error 1

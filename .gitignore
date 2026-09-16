@@ -404,7 +404,11 @@ FodyWeavers.xsd
 *.des3
 *.aes
 
-java/META-INF
+java/META-INF/services
+java/META-INF/versions
+java/META-INF/BCRSA204.RSA
+java/META-INF/BCRSA204.SF
+
 java/native
 java/org
 java/out

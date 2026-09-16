@@ -10,6 +10,7 @@
 package eu.cqrxs.crypt.cipher.symmetric;
 
 import eu.cqrxs.crypt.cipher.CryptHelper;
+import eu.cqrxs.crypt.encoding.EnDeCodeHelper;
 import eu.cqrxs.util.CException;
 import eu.cqrxs.util.DbgWriter;
 import org.bouncycastle.crypto.BlockCipher;
@@ -35,7 +36,7 @@ public class JAes implements BlockCipher {
 
     private boolean initialised = false, forEncryption = true;
     private static final String SYMMCIPHERALGONAME = "JAes";
-    private static int BLOCK_SIZE = 128;
+    private static int BLOCK_SIZE = 64;
 
     public String getAlgorithmName()  {
         return SYMMCIPHERALGONAME;
@@ -225,6 +226,8 @@ public class JAes implements BlockCipher {
         int oSize = (BLOCK_SIZE - (ilen % BLOCK_SIZE));     // oSize is rounded up to next number % BLOCK_SIZE == 0
         byte[] outBytes;
 
+        oSize += (oSize < 2) ? BLOCK_SIZE : 0;
+
         if (forEncryption)  {                               // add buffer for encryption to inbytes
             int olen = ((int)(ilen + oSize));             // olen is (long)(ilen + oSize)
             byte[] padbuf = new byte[oSize];                // padding buffer
@@ -263,7 +266,7 @@ public class JAes implements BlockCipher {
                 }
             }
     
-            outBytes = (olen > 1) ? new byte[olen] : new byte[ilen];
+            outBytes = (olen > 1) ? new byte[olen - 2] : new byte[ilen];
             System.arraycopy(inBytes, 0, outBytes, 0, outBytes.length);
         }
 
@@ -347,8 +350,13 @@ public class JAes implements BlockCipher {
         byte[] decBytes;
         try {
             decBytes = c.doFinal(ecdata);
-        } catch (Exception finalExc) {
-            throw new CException("Cipher Exception on doFinal", (Throwable)finalExc);
+        } catch (Exception final2ndStageEx) {
+            try {
+                byte[] trimmedNullData = EnDeCodeHelper.getBytesTrimNulls(ecdata);
+                decBytes = c.doFinal(trimmedNullData);
+            } catch (Exception finalExc) {
+                throw new CException("Cipher Exception on doFinal", (Throwable) finalExc);
+            }
         }
 
         byte[] retBytes = padBuffer(decBytes, false);
