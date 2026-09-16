@@ -189,8 +189,25 @@ public class JAes implements BlockCipher {
     public JAes(int bs, String key) {
         this(bs);
         secretKey = key;
+        privateBytes = getPrivateBytes(secretKey);
     }
 
+
+    public byte[] getPrivateBytes(String key) {
+
+        byte[] secretBytes = key.getBytes(Charset.forName("UTF-8"));
+        byte[] transferBytes = new byte[secretBytes.length];
+        byte[] outBytes = new byte[32];
+
+        System.arraycopy(secretBytes, 0, transferBytes, 0, secretBytes.length);
+
+        while (secretBytes.length < 32) {
+            secretBytes = CryptHelper.tarBytes(secretBytes, transferBytes);
+        }
+        outBytes = CryptHelper.getKeyBytesSingle(secretBytes, 32);
+
+        return outBytes;
+    }
 
     /**
      * in case of encryption,
@@ -266,8 +283,11 @@ public class JAes implements BlockCipher {
             throw new IllegalArgumentException("ZenMatrix byte[] Encrypt(byte[] pdata): ArgumentNullException pdata = null or Lenght 0.");
 
         forEncryption = true;
+
         if (!initialised) {
-            privateBytes = secretKey.getBytes(Charset.forName("UTF-8"));
+
+            privateBytes = getPrivateBytes(secretKey);
+
             try {
                 c = Cipher.getInstance("AES");
             } catch (Exception noche) {
@@ -280,6 +300,7 @@ public class JAes implements BlockCipher {
                 throw new CException("Invalid Key", (Throwable)invKey);
             }
         }
+
         byte[] obytes = padBuffer(pdata, randomBuffer);
         byte[] retBytes;
         try {
@@ -308,7 +329,9 @@ public class JAes implements BlockCipher {
         int eclen = ecdata.length;
 
         if (!initialised) {
-            privateBytes = secretKey.getBytes(Charset.forName("UTF-8"));
+
+            privateBytes = getPrivateBytes(secretKey);
+
             try {
                 c = Cipher.getInstance("AES");
             } catch (Exception noche) {

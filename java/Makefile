@@ -6,7 +6,8 @@ JAVAFLAGS=--enable-native-access=ALL-UNNAMED
 JAVACFLAGS=-Xlint:unchecked -Xlint:deprecation
 
 # BCJAR=bcprov-jdk18on-1.79.jar
-BCJAR="bcprov-lts8on-2.73.10.jar:bcpkix-jdk18on-1.85.jar:bcprov-jdk18on-1.85.jar"
+# BCJAR="bcprov-lts8on-2.73.10.jar:bcpkix-jdk18on-1.86.jar:bcprov-jdk18on-1.86.jar"
+BCJAR="bcpkix-jdk18on-1.86.jar:bcprov-jdk18on-1.86.jar"
 
 # MYCLASSPATH local java classpath
 MYCLASSPATH="./:./$(BCJAR):./eu/cqrxs/:./eu/cqrxs/gui/:./eu/cqrxs/net/:./eu/cqrxs/util/:./eu/cqrxs/crypt/:./eu/cqrxs/crypt/encoding/:./eu/cqrxs/crypt/cipher/:./eu/cqrxs/crypt/cipher/symmetric/:./eu/cqrxs/crypt/hash/:."

@@ -22,7 +22,6 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
-// import java.awt.Window;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -44,24 +43,40 @@ public class CqrJDialog extends JDialog { /* implements MouseListener  { */
 	File file;
 	ImageIcon icon;
 	static final String NEWLINE = System.getProperty("line.separator");
-	
-	public CqrJDialog() throws IOException {
+
+	/**
+	 * parameterless constructor of {@link CqrJDialog}
+	 * @throws IOException {@link IOException}
+	 */
+	public CqrJDialog() throws IOException{
         Init();
 	}
 
+
+	/**
+	 * showDialog parent window
+	 * @param parent {@link Window}
+	 * @return 0
+	 */
     public int showDialog(Window parent) {
         setLocationRelativeTo(parent);
         setVisible(true);
         return 0;
     }
-	
+
+	/**
+	 * showDialog with parameter parent JFrame
+	 * @param parentJFrame {@link JFrame}
+	 */
 	public void showDialog(JFrame parentJFrame) {
         setLocationRelativeTo(parentJFrame);
         setVisible(true);
         return ;
     }
-	
-	
+
+	/**
+	 * init method of graphical components of JDialog
+	 */
 	public void Init() {
 		
 		setLayout(null);
@@ -110,17 +125,22 @@ public class CqrJDialog extends JDialog { /* implements MouseListener  { */
 		setModal(true);
 	}
 
-	
-	class SymAction implements ActionListener
-	{
-		public void actionPerformed(ActionEvent event)
-		{
+	/**
+	 * SymAction inner class implementing {@link ActionListener}
+	 */
+	class SymAction implements ActionListener {
+		public void actionPerformed(ActionEvent event)  {
 			Object object = event.getSource();
 			if (object == jButtonExit)
 				closeJDialog(event);
 		}
 	}
 
+	/**
+	 * closeJDialog
+	 * closes the JDialog
+	 * @param event {@link ActionEvent}
+	 */
 	public void closeJDialog(ActionEvent event) {
 		// We don't log exit events ;)
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

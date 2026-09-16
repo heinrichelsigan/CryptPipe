@@ -116,7 +116,7 @@ public class CqrJdFrame extends JFrame {
      * main entry method
      * @param args command line arguments
      */
-	public static void main(String[] args) {
+	static void main(String[] args) {
 
 		Constants.DEBUG = false;
 		if (args != null && args.length > 0) {
@@ -152,7 +152,10 @@ public class CqrJdFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-
+	/**
+	 * ctor with main CqrJdFrame as argument
+	 * @param jdFrame complex JFrame
+	 */
 	public CqrJdFrame(CqrJdFrame jdFrame) {
 		this();
 		if (jdFrame != null)
@@ -162,6 +165,10 @@ public class CqrJdFrame extends JFrame {
 	}
 
 
+	/**
+	 * ctor with CqrJFrameSimple as argument
+	 * @param jFrameSimple sumple JFrame
+	 */
 	public CqrJdFrame(CqrJFrameSimple jFrameSimple) {
         this();
         if (jFrameSimple != null)
@@ -670,6 +677,9 @@ public class CqrJdFrame extends JFrame {
         return jBar;
 	}
 
+	/**
+	 * main init method of graphical JFrame
+	 */
 	public void Init() {
 		
 		// getRootPane().putClientProperty("defeatSystemEventQueueCheck", Boolean.TRUE);					
@@ -693,6 +703,13 @@ public class CqrJdFrame extends JFrame {
         // Posted by Mr CooL, modified by community. See post 'Timeline' for change history
         // Retrieved 2026-05-12, License - CC BY-SA 3.0
         // setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("eu/cqrxs/gui/img/key_ring.gif")));
+
+		jLabel_infoMessage = new JLabel();
+		jLabel_infoMessage.setFont(cryptFont);
+		jLabel_infoMessage.setBounds(512, 244, 468, 25);
+		jLabel_infoMessage.setText("");
+		jLabel_infoMessage.setBackground(Color.YELLOW);
+		getContentPane().add(jLabel_infoMessage);
 
 		jLabelImgKey = new JLabel(ImageHelper.getKeyRing());
 		jLabelImgKey.setBounds(12,25,30,30);
@@ -719,7 +736,7 @@ public class CqrJdFrame extends JFrame {
 		jComboBox_Hash.setName("jComboBox_Hash");
 		jComboBox_Hash.setBounds(700, 30, 168, 25);
 		jComboBox_Hash.setFont(cryptFont);
-		jComboBox_Hash.addItemListener(new HashChangeListener());
+		jComboBox_Hash.addItemListener(new JComboBoxChangeListener());
 		getContentPane().add(jComboBox_Hash);
 		selectItemByString(jComboBox_Hash, menuHash, "Empty");
 
@@ -754,14 +771,14 @@ public class CqrJdFrame extends JFrame {
 		jComboBox_Zip = new JComboBox<>(ZipType.getNames());
 		jComboBox_Zip.setBounds(8, 112, 96, 25);
 		jComboBox_Zip.setFont(cryptFont);
-		jComboBox_Zip.addItemListener(new ZipChangeListener());
+		jComboBox_Zip.addItemListener(new JComboBoxChangeListener());
 		getContentPane().add(jComboBox_Zip);
 		selectItemByString(jComboBox_Zip, menuZip, "None");
 
 		jComboBox_Algo = new JComboBox<>(CipherEnum.getNames());
 		jComboBox_Algo.setBounds(108, 112, 120, 25);
 		jComboBox_Algo.setFont(cryptFont);
-		jComboBox_Algo.addItemListener(new CipherChangeListener());
+		jComboBox_Algo.addItemListener(new JComboBoxChangeListener());
 		getContentPane().add(jComboBox_Algo);
 
 		jLabelImgAddAlgo = new JLabel(ImageHelper.getAesArrowHover());
@@ -788,11 +805,11 @@ public class CqrJdFrame extends JFrame {
 		jComboBox_Encoding =  new JComboBox<>(EncodeEnum.getNames());
 		jComboBox_Encoding.setBounds(876, 112, 120, 25);
 		jComboBox_Encoding.setFont(cryptFont);
-		jComboBox_Encoding.addItemListener(new EncodeChangeListener());
+		jComboBox_Encoding.addItemListener(new JComboBoxChangeListener());
 		getContentPane().add(jComboBox_Encoding);
 		selectItemByString(jComboBox_Encoding, menuEncoding, "Base64");
 
-		selectCipherMode2MenuItem(menuCMode2, CipherMode2.ECB);
+		selectCipherMode2MenuItem(CipherMode2.ECB);
 
 		if (cqrJdFrame == null)
 			cqrJdFrame = (CqrJdFrame)(getRootPane().getParent());
@@ -824,13 +841,6 @@ public class CqrJdFrame extends JFrame {
 		jButton_randomText.setText("Random Text");
 		jButton_randomText.addActionListener(lSymAction);
 		getContentPane().add(jButton_randomText);
-				
-		jLabel_infoMessage = new JLabel();
-		jLabel_infoMessage.setFont(cryptFont);
-		jLabel_infoMessage.setBounds(512, 244, 468, 25);
-		jLabel_infoMessage.setText("");
-		jLabel_infoMessage.setBackground(Color.YELLOW);
-		getContentPane().add(jLabel_infoMessage);
 				
 		jButton_resetForm = new JButton();
 		jButton_resetForm.setFont(cryptFont);
@@ -886,73 +896,57 @@ public class CqrJdFrame extends JFrame {
 	}
 
 
-	protected class HashChangeListener implements ItemListener {
+
+	/**
+	 * JComboBoxChangeListener is an selected item changed listener for all JComboBoxes
+	 */
+	protected class JComboBoxChangeListener implements ItemListener {
 		@Override
 		public void itemStateChanged(ItemEvent event) {
 			if (event.getStateChange() == ItemEvent.SELECTED) {
 				Object item = event.getItem();
-				String selectedHash = item.toString();
-				selectMenuItemByString(menuHash, selectedHash);
-				keyHash = KeyHash.getEnum(selectedHash);
-				// DbgWriter.msg("KeyHash: " + keyHash.toString() + " selectedHash "  + selectedHash.toLowerCase(), false);
-				// do something with object
-				String keyValue = "";
-                try {
-                    keyValue = jTextField_Key.getText().toString();
-                } catch (Exception exi) {
-                    keyValue = Constants.AUTHOR_EMAIL;
-			        jTextField_Key.setText(keyValue);
-                }
-                String hashed = "";
-                try {
-                    hashed = keyHash.hash(keyValue);
-                    jTextField_Hash.setText(hashed);
-                } catch (Exception exh) {
-                }
-			}
-		}       
-	}
-	
-	protected class ZipChangeListener implements ItemListener {
-		@Override
-		public void itemStateChanged(ItemEvent event) {
-			if (event.getStateChange() == ItemEvent.SELECTED) {
-				Object item = event.getItem();
-				String selectedZip = item.toString();
-				selectMenuItemByString(menuZip, selectedZip);
-				zipType = ZipType.getEnum(selectedZip);
-				// do something with object
-				String zipTypeString = zipType.toString();
-                // TODO: message it
-			}
-		}       
-	}
-	
-	protected class CipherChangeListener implements ItemListener {
-		@Override
-		public void itemStateChanged(ItemEvent event) {
-			if (event.getStateChange() == ItemEvent.SELECTED) {
-				Object item = event.getItem();
-				String selectedCipher = item.toString();
-				cipherEnum = CipherEnum.getEnum(selectedCipher);
-				// do something with object
-				cipherString = cipherEnum.toString();
-                // TODO: message it
-			}
-		}       
-	}
-	
-	protected class EncodeChangeListener implements ItemListener {
-		@Override
-		public void itemStateChanged(ItemEvent event) {
-			if (event.getStateChange() == ItemEvent.SELECTED) {
-				Object item = event.getItem();
-				String selectedEncoding = item.toString();
-				selectMenuItemByString(menuEncoding, selectedEncoding);
-				encodeType = EncodeEnum.getEnum(selectedEncoding);
-				// do something with object
-				encodeString = encodeType.toString();
-                // TODO: message it
+				String selectedItem = item.toString();
+				Object sender = event.getSource();
+
+				if (sender == jComboBox_Hash) {
+					selectMenuItemByString(menuHash, selectedItem);
+					keyHash = KeyHash.getEnum(selectedItem);
+					// DbgWriter.msg("KeyHash: " + keyHash.toString() + " selectedItem "  + selectedItem.toLowerCase(), false);
+					// do something with object
+					String keyValue = "";
+					try {
+						keyValue = jTextField_Key.getText();
+					} catch (Exception exi) {
+						keyValue = Constants.AUTHOR_EMAIL;
+						jTextField_Key.setText(keyValue);
+					}
+					String hashed = "";
+					try {
+						hashed = keyHash.hash(keyValue);
+						jTextField_Hash.setText(hashed);
+					} catch (Exception exh) {
+					}
+				}
+				if (sender == jComboBox_Zip) {
+					selectMenuItemByString(menuZip, selectedItem);
+					zipType = ZipType.getEnum(selectedItem);
+					// do something with object
+					String zipTypeString = zipType.toString();
+					setInfoMsg("Set zip type to " + zipTypeString + ".");
+				}
+				if (sender == jComboBox_Algo) {
+					cipherEnum = CipherEnum.getEnum(selectedItem);
+					// do something with object
+					cipherString = cipherEnum.toString();
+					// TODO: message it)
+				}
+				if (sender == jComboBox_Encoding) {
+					selectMenuItemByString(menuEncoding, selectedItem);
+					encodeType = EncodeEnum.getEnum(selectedItem);
+					// do something with object
+					encodeString = encodeType.toString();
+					setInfoMsg("Set EncodeType to " + encodeString + ".");
+				}
 			}
 		}       
 	}
@@ -982,6 +976,50 @@ public class CqrJdFrame extends JFrame {
 		}
 	}
 
+	/**
+	 * MouseEventAction
+	 * @param e {@link MouseEvent}
+	 */
+	protected void MouseEventAction(MouseEvent e) {
+		Object object = e.getSource();
+		if (object != null) {
+			if (object == jLabelImgAddAlgo) {
+
+				cipherString = cipherEnum.toString();
+				String pipeText = jTextField_Pipe.getText();
+				jTextField_Pipe.setText(pipeText + cipherString + ";");
+
+				String cipherPipeString = jTextField_Pipe.getText();
+				CipherEnum[] ciphers = new CipherEnum[0];
+				if (cipherPipeString.length() > 0)
+					ciphers = CipherEnum.parsePipeText(cipherPipeString);
+
+				CipherPipe pipe = new CipherPipe(ciphers, 8, encodeType, zipType, keyHash, cmode2);
+				BufferedImage pipeImg = CipherPipe.drawCipherPipe(pipe);
+				dropPanel.setPipeImg(pipeImg, pipe.getPipeString());
+
+			} else if (object == jLabelImgKey) {
+				; // keyHash.Hash(
+			} else if (object == jLabelImgHash) {
+				hashKey_action();
+			} else if (object == jLabelImgX) {
+				jTextField_Pipe.setText("");
+				// } else if (object == imInFile) {
+				// 	if (openFileBytes == null || openFileBytes.length < 1)
+				// 		open_action();
+				// } else if (object == imOutFile) {
+				// 	if (saveFileBytes == null || saveFileBytes.length < 1)
+				// 		save_action();
+			} else {
+				;
+			}
+		}
+	}
+
+	/**
+	 * inner class SymAction implementing ActionListener
+	 * to handle all fired action events
+	 */
 	protected class SymAction implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			Object object = event.getSource();
@@ -1085,19 +1123,19 @@ public class CqrJdFrame extends JFrame {
 			}
 
 			else if (object == menuCMode2_ECB)
-				selectCipherMode2MenuItem(menuCMode2, CipherMode2.ECB);
+				selectCipherMode2MenuItem(CipherMode2.ECB);
 			else if (object == menuCMode2_CBC)
-				selectCipherMode2MenuItem(menuCMode2, CipherMode2.CBC);
+				selectCipherMode2MenuItem(CipherMode2.CBC);
 			else if (object == menuCMode2_CFB)
-				selectCipherMode2MenuItem(menuCMode2, CipherMode2.CFB);
+				selectCipherMode2MenuItem(CipherMode2.CFB);
 			else if (object == menuCMode2_CCM)
-				selectCipherMode2MenuItem(menuCMode2, CipherMode2.CCM);
+				selectCipherMode2MenuItem(CipherMode2.CCM);
 			else if (object == menuCMode2_CTS)
-				selectCipherMode2MenuItem(menuCMode2, CipherMode2.CTS);
+				selectCipherMode2MenuItem(CipherMode2.CTS);
 			else if (object == menuCMode2_EAX)
-				selectCipherMode2MenuItem(menuCMode2, CipherMode2.EAX);
+				selectCipherMode2MenuItem(CipherMode2.EAX);
 			else if (object == menuCMode2_GOFB)
-				selectCipherMode2MenuItem(menuCMode2, CipherMode2.GOFB);
+				selectCipherMode2MenuItem(CipherMode2.GOFB);
 
 			else if (object == menuHelp_itemAbout)
 				about_action(event);
@@ -1121,51 +1159,22 @@ public class CqrJdFrame extends JFrame {
 		}
 	}
 
-
-
-	protected void MouseEventAction(MouseEvent e) {
-		Object object = e.getSource();
-		if (object != null) {
-			if (object == jLabelImgAddAlgo) {
-
-				cipherString = cipherEnum.toString();
-				String pipeText = jTextField_Pipe.getText();
-				jTextField_Pipe.setText(pipeText + cipherString + ";");
-
-				String cipherPipeString = jTextField_Pipe.getText();
-				String pipeString = "";
-				CipherEnum[] ciphers = new CipherEnum[0];
-				if (cipherPipeString.length() > 0)
-					ciphers = CipherEnum.parsePipeText(cipherPipeString);
-
-				CipherPipe pipe = new CipherPipe(ciphers, 8, encodeType, zipType, keyHash, cmode2);
-				BufferedImage pipeImg = CipherPipe.drawCipherPipe(pipe);
-				dropPanel.setPipeImg(pipeImg, pipe.getPipeString());
-
-			} else if (object == jLabelImgKey) {
-				; // keyHash.Hash(
-			} else if (object == jLabelImgHash) {
-				hashKey_action();
-			} else if (object == jLabelImgX) {
-				jTextField_Pipe.setText("");
-				// } else if (object == imInFile) {
-				// 	if (openFileBytes == null || openFileBytes.length < 1)
-				// 		open_action();
-				// } else if (object == imOutFile) {
-				// 	if (saveFileBytes == null || saveFileBytes.length < 1)
-				// 		save_action();
-			} else {
-				;
-			}
-		}
-	}
-
-
-	protected void selectCipherMode2MenuItem(JMenu m, CipherMode2 cmod2) {
+	/**
+	 * selectCipherMode2MenuItem
+	 * sets menuCMode2 to selected CipherMode2
+	 * @param cmod2 {@link CipherMode2}
+	 */
+	protected void selectCipherMode2MenuItem(CipherMode2 cmod2) {
 		cmode2 = cmod2;
-		selectMenuItemByString(m, cmod2.getName());
+		selectMenuItemByString(menuCMode2, cmod2.getName());
 	}
 
+	/**
+	 * selectItemByString sets a JComboBox and JMenu with selected string s
+	 * @param cb {@link JComboBox}
+	 * @param m {@link JMenu}
+	 * @param s {@link String}
+	 */
 	protected static void selectItemByString(JComboBox cb, JMenu m, String s) {
 		if (cb != null) {
 			for (int i = 0; i < cb.getItemCount(); i++) {
@@ -1179,6 +1188,11 @@ public class CqrJdFrame extends JFrame {
 		selectMenuItemByString(m, s);
 	}
 
+	/**
+	 * selectMenuItemByString marks inside a JMenu MenuItem that names like s
+	 * @param m {@link JMenu}
+	 * @param s {@link String}
+	 */
 	protected static void selectMenuItemByString(JMenu m, String s) {
 
 		if (m != null) {
@@ -1192,7 +1206,23 @@ public class CqrJdFrame extends JFrame {
 		}
 	}
 
-	protected String saveFileToTemp(String fname, byte[] fbytes) {
+
+	/**
+	 * setInfoMsg - displays an info message
+	 * @param msg the message
+	 */
+	protected void setInfoMsg(String msg) {
+		jLabel_infoMessage.setText(msg);
+	}
+
+
+	/**
+	 * saveFileToTemp saves an binary content to file in temp directory
+	 * @param fileName {@link String}
+	 * @param fileBytes {@link byte[]}
+	 * @return file name of savaed file without path
+	 */
+	protected String saveFileToTemp(String fileName, byte[] fileBytes) {
 		String temp = System.getenv("TEMP");
 		if (temp.isEmpty())
 			temp = System.getenv("TMP");
@@ -1202,38 +1232,33 @@ public class CqrJdFrame extends JFrame {
 			temp = ".";
 
 		String dirSep = (File.pathSeparatorChar == ':') ? "/" : "\\";
-		String fonly = fname;
+		String destName = fileName;
 		int idx = 0;
-		while ((idx = fonly.indexOf(dirSep)) > -1) {
-			int len = fonly.length();
-			fonly = fonly.substring(idx + 1, len -1);
+		while ((idx = destName.indexOf(dirSep)) > -1) {
+			int len = destName.length();
+			destName = destName.substring(idx + 1, len -1);
 		}
 
-		String spath = temp + dirSep + fonly;
-		DbgWriter.msg("fname=" + fname + " fonly=" + fonly + " spath = " + spath, false);
-		Path fpath = java.nio.file.Paths.get(spath);
+		String desPath = temp + dirSep + destName;
+		DbgWriter.msg("original file name: " + fileName + " destination name: " + destName + " desPath = " + desPath, false);
+		Path fpath = java.nio.file.Paths.get(desPath);
 
 		try {
-			if (fbytes != null && fbytes.length > 0) {
-				Files.write(fpath, fbytes);
-				DbgWriter.msg("filea: " + fbytes.length + " bytes writtem.", false);
+			if (fileBytes != null && fileBytes.length > 0) {
+				Files.write(fpath, fileBytes);
+				DbgWriter.msg("file: " + destName + " " + fileBytes.length + " bytes written.", false);
 			} else
-				throw new java.lang.IllegalStateException("fbytes is null or len == 0");
+				throw new java.lang.IllegalStateException("fileBytes is null or len == 0");
 		} catch (Exception ex) {
 			setInfoMsg("Exception during file save.");
 		}
 
-		return fonly;
-
+		return destName;
 	}
-
-	protected void setInfoMsg(String msg) {
-		jLabel_infoMessage.setText(msg);
-	}
-
 
 	/**
 	 * open_delegate
+	 * @param fpath {@link String}
 	 */
 	public void open_delegate(String fpath) {
 
@@ -1359,6 +1384,7 @@ public class CqrJdFrame extends JFrame {
 			
 	}
 
+
 	/**
 	 * hashKey_action hashes key
 	 */
@@ -1470,7 +1496,7 @@ public class CqrJdFrame extends JFrame {
 			selectItemByString(jComboBox_Hash, menuHash, "Empty");
 			selectItemByString(jComboBox_Zip, menuZip, "None");
 			// reset CipherMode2 to CFB
-			selectCipherMode2MenuItem(menuCMode2, CipherMode2.ECB);
+			selectCipherMode2MenuItem(CipherMode2.ECB);
 
 			dropPanel.setPipeImg(null, "");
 			dropPanel.resetFileLabels();			
@@ -1551,8 +1577,8 @@ public class CqrJdFrame extends JFrame {
 
 				try {
 					dropPanel.setFileIconLabelOut(saveFileName);
-				} catch (Exception exImgLablOut) {
-					DbgWriter.msgex(exImgLablOut, true);
+				} catch (Exception exImgLabelOut) {
+					DbgWriter.msgex(exImgLabelOut, true);
 				}
 				
 				if (saveFileBytes.length < 2048)
@@ -1644,8 +1670,8 @@ public class CqrJdFrame extends JFrame {
 
 				try {
 					dropPanel.setFileIconLabelOut(saveFileName);
-				} catch (Exception exImgLablOut) {
-					DbgWriter.msgex(exImgLablOut, true);
+				} catch (Exception exImgLabelOut) {
+					DbgWriter.msgex(exImgLabelOut, true);
 				}
                 
 				if (saveFileBytes.length < 2048)
@@ -1666,7 +1692,7 @@ public class CqrJdFrame extends JFrame {
 
 	/**
 	 * about_action
-	 * shows about dialoh
+	 * shows about dialog
 	 * @param event {@link ActionEvent)
 	 */
 	protected void about_action(ActionEvent event) {
@@ -1677,7 +1703,12 @@ public class CqrJdFrame extends JFrame {
 			DbgWriter.msgex(exIO, true);
 		}
 	}
-	
+
+	/**
+	 * showSimple_action
+	 * show simple encryption mode JFrame
+	 * @param event {@link ActionEvent)
+	 */
 	@SuppressWarnings("deprecation")
     protected void showSimple_action(ActionEvent event) {
         try {
@@ -1692,7 +1723,12 @@ public class CqrJdFrame extends JFrame {
 			DbgWriter.msgex(exIO, true);
 		}
 	}
-	
+
+	/**
+	 * help_action
+	 * shows online help im browser
+	 * @param event {@link ActionEvent}}
+	 */
 	@SuppressWarnings("deprecation")
     protected void help_action(ActionEvent event) {
 	
@@ -1714,9 +1750,9 @@ public class CqrJdFrame extends JFrame {
 		}
 		if (!success) {
 			try {
-				if (os.indexOf("win") >= 0)	
+				if (os.contains("win"))
 					rt.exec("rundll32 url.dll,FileProtocolHandler " + url);
-				else if (os.indexOf("mac") >= 0) 
+				else if (os.contains("mac"))
 					rt.exec("open " + url);
 				else // if (os.indexOf("x") >=0 || os.indexOf("bsd") >= 0)
 					rt.exec("xdg-open "  + url);	
@@ -1735,6 +1771,5 @@ public class CqrJdFrame extends JFrame {
 		// We don't log exit events ;)
 		System.exit(0);
 	}
-	
 
 }

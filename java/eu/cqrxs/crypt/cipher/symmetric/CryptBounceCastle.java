@@ -265,9 +265,9 @@ public class CryptBounceCastle  {
 			keyParam = new org.bouncycastle.crypto.params.KeyParameter(key);
         CipherParameters keyParamIV = new org.bouncycastle.crypto.params.ParametersWithIV(keyParam, iv);
 
-        if (cmode2 == CipherMode2.ECB || !canAlgoKeyIV(CryptoBlockCipher))
-			cipherMode.init(true, keyParam);
-        else {
+        if (cmode2 == CipherMode2.ECB || !canAlgoKeyIV(CryptoBlockCipher)) {
+            cipherMode.init(true, keyParam);
+        } else {
 			try {
 				cipherMode.init(true, keyParamIV);
 			} catch (Exception exInit) {
@@ -347,8 +347,9 @@ public class CryptBounceCastle  {
 
         // Decrypt with initialization vector only when !ECB + algorithm is IV capable
 
-        if (cmode2 == CipherMode2.ECB || !canAlgoKeyIV(CryptoBlockCipher))
-			cipherMode.init(false, keyParam);
+        if (cmode2 == CipherMode2.ECB || !canAlgoKeyIV(CryptoBlockCipher)) {
+            cipherMode.init(false, keyParam);
+        }
         else {
 			try {
 				cipherMode.init(false, keyParamIV);
