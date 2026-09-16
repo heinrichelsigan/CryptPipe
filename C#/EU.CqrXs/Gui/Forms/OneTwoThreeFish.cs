@@ -71,6 +71,10 @@ namespace EU.CqrXs.Gui.Forms
                  => await menuOptionsModesSimple_Click(sender, e));
             menuOptionsModesAsymmetric.Click += menuOptionsModesAsymmetric_Click;
 
+            menuVisualModesItemClassic.Click += menuVisualMode_Change;
+            menuVisualModesItemDark.Click += menuVisualMode_Change;
+            menuVisualModesItemSystem.Click += menuVisualMode_Change;
+
             foreach (var cipherModeItem in mCipherModes)
             {
                 cipherModeItem.Click += menuCipherMode_Click;

@@ -64,6 +64,10 @@ namespace EU.CqrXs.Gui.Forms
                  => await menuMainItemOneTwoThreeFish_Click(sender, e));
             menuMainAsymmetric.Click += menuMainAsymmetric_Click;
 
+            menuVisualModesItemClassic.Click += menuVisualMode_Change;
+            menuVisualModesItemDark.Click += menuVisualMode_Change;
+            menuVisualModesItemSystem.Click += menuVisualMode_Change;
+
             foreach (var cipherModeItem in mCipherModes)
                 cipherModeItem.Click += new System.EventHandler(async (sender, e) => await menuCipherMode_Click(sender, e));
 

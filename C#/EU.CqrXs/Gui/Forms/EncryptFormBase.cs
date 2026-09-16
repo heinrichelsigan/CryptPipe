@@ -310,6 +310,40 @@ namespace EU.CqrXs.Gui.Forms
 
         #region AboutHelpExitClose
 
+        protected internal virtual void menuVisualMode_Change(object sender, EventArgs e)
+        {
+            string formNowName = this.Name;
+            if (sender != null && sender is ToolStripMenuItem tsmi)
+            {
+                if (tsmi.Checked == false)
+                {
+                    if (tsmi.Name.Contains("menuVisualModes"))
+                    {                        
+                        tsmi.Checked = true;
+
+                        this.Hide();
+                        HideAllOtherForms(formNowName);
+                        
+                        if (tsmi.Name == "menuVisualModesItemClassic")
+                        {
+                            Application.SetColorMode(SystemColorMode.Classic);
+                        }
+                        else if (tsmi.Name == "menuVisualModesItemDark")
+                        {
+                            Application.SetColorMode(SystemColorMode.Dark);
+                        }
+                        else if (tsmi.Name == "menuVisualModesItemSystem")
+                        {
+                            Application.SetColorMode(SystemColorMode.System);
+                        }
+
+                        this.Refresh();
+                        this.Show();
+                    }
+                }
+            }
+        }
+
         protected internal virtual async Task menuAbout_Click(object sender, EventArgs e)
         {
             AboutDialog aboutDialog = new AboutDialog();
