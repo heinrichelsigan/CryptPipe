@@ -6,16 +6,19 @@ if "%1"=="Coretto" goto coretto
 if "%1"=="amazon" goto coretto
 if "%1"=="Amazon" goto coretto
 if "%1"=="MicrosoftJDK" goto msjdk
+if "%1"=="MICROSOFTJDK" goto msjdk
 if "%1"=="microsoftjdk" goto msjdk
 if "%1"=="Microsoft" goto msjdk
 if "%1"=="microsoft" goto msjdk
 if "%1"=="MSJDK" goto msjdk
 if "%1"=="semeru" goto semeru
 if "%1"=="Semeru" goto semeru
+if "%1"=="SEMERU" goto semeru
 if "%1"=="ibm" goto semeru
 if "%1"=="IBM" goto semeru
 if "%1"=="jetbrains" goto jetbrains
 if "%1"=="JetBrains" goto jetbrains
+if "%1"=="JETBRAINS" goto jetbrains
 if "%1"=="jbr" goto jetbrains
 if "%1"=="JBR" goto jetbrains
 if "%1"=="yourjdk" goto yourjdk
@@ -23,6 +26,7 @@ if "%1"=="YourJdk" goto yourjdk
 if "%1"=="YOURJDK" goto yourjdk
 if "%1"=="openjdk" goto openjdk
 if "%1"=="OpenJDK" goto openjdk
+if "%1"=="OPENJDK" goto openjdk
 if "%1"=="del" goto del
 if "%1"=="DEL" goto del
 if "%1"=="delete" goto del
@@ -74,8 +78,7 @@ goto ende
 
 :bouncycastle
 echo Setting bouncy-castle jar and MYCLASSPATH
-REM set BCJAR=bcprov-lts8on-2.73.10.jar
-set BCJAR=bcprov-jdk18on-1.85.jar;.\bcpkix-jdk18on-1.85.jar
+set BCJAR=bcprov-jdk18on-1.86.jar;.\bcpkix-jdk18on-1.86.jar
 set MYCLASSPATH=%CLASSPATH%;.\;.\%BCJAR%;.\eu\cqrxs\;.\eu\cqrxs\gui\;.\eu\cqrxs\net\;eu\cqrxs\net\addr\;.\eu\cqrxs\net\server6;.\eu\cqrxs\util\;.\eu\cqrxs\crypt\;.\eu\cqrxs\crypt\encoding\;.\eu\cqrxs\crypt\cipher\;.\eu\cqrxs\crypt\hash\;	
 
 echo "compiling CqrXs.Eu.* now with javac"

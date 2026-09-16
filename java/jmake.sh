@@ -7,9 +7,9 @@
 # set Path=%Path%;c:/Users/heinr/.jdks/semeru-21.0.2/bin
 
 echo "setting bouncy castle jar and MYCLASSPATH"
-# BCJAR=bcprov-jdk18on-1.79.jar
+# BCJAR=org/bouncycastle/
 # BCJAR=bcprov-lts8on-2.73.10.jar
-BCJAR=org/bouncycastle/
+BCJAR=bcprov-jdk18on-1.86.jar;.\bcpkix-jdk18on-1.86.jar
 
 # CLASSPATH = %CLASSPATH%;C:/Users/heinrich.elsigan/.jdks/openjdk-25/lib
 MYCLASSPATH="$CLASSPATH:./:./$BCJAR:./eu/cqrxs/:./eu/cqrxs/gui/:./eu/cqrxs/net:./eu/cqrxs/net/addr:./eu/cqrxs/net/server6:./eu/cqrxs/util/:./eu/cqrxs/crypt/:./eu/cqrxs/crypt/encoding/:./eu/cqrxs/crypt/cipher/:./eu/cqrxs/crypt/hash/:"
