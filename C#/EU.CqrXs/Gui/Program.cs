@@ -66,13 +66,15 @@ namespace EU.CqrXs.Gui
                         formMode = FormMode.Simple;
                 }
             }
-
-
+                                   
             // set Application basic settings
             Application.EnableVisualStyles();
             Application.SetColorMode(colorMode);
+            //plication.SetCompatibleTextRenderingDefault(true);
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            Application.VisualStyleState = System.Windows.Forms.VisualStyles.VisualStyleState.ClientAndNonClientAreasEnabled;
+            Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
+            // Application.SetHighDpiMode(HighDpiMode.SystemAware);
 
             applicationContext = new ApplicationContext();
             if (formMode == FormMode.Simple) 

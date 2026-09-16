@@ -42,7 +42,7 @@ namespace EU.CqrXs.Gui.Forms
             this.comboBoxCompression.SelectedItem = ZipType.GZip.ToString();
             this.comboBoxEncoding.SelectedItem = EncodingType.Base64.ToString();
 
-            tabControlWithHexDest.AsciiTextReadonly = true;
+            tabControlWithHexDest.ReadOnly = true;
             buttonEncrypt.Click += new System.EventHandler(async (sender, e)
                 => await Encrypt_Click(sender, e));
             buttonDecrypt.Click += new System.EventHandler(async (sender, e)
@@ -66,6 +66,10 @@ namespace EU.CqrXs.Gui.Forms
             menuMainOneTwoThreeFish.Click += new System.EventHandler(async (sender, e)
                  => await menuMainOneTwoThreeFish_Click(sender, e));
             menuMainSimple.Click += menuMainSimple_Click;
+
+            menuVisualModesItemClassic.Click += menuVisualMode_Change;
+            menuVisualModesItemDark.Click += menuVisualMode_Change;
+            menuVisualModesItemSystem.Click += menuVisualMode_Change;
 
             foreach (var cipherModeItem in mCipherModes)
                 cipherModeItem.Click += new System.EventHandler(async (sender, e) => await menuCipherMode_Click(sender, e));
@@ -360,7 +364,7 @@ namespace EU.CqrXs.Gui.Forms
             {
                 Random rand = new Random(DateTime.Now.Millisecond + DateTime.Now.Second);
                 int rIdx = rand.Next(0, fortunes.Length - 1);
-                this.tabControlWithHexSrc.AsciiText = fortunes[rIdx];
+                tabControlWithHexSrc.Text = fortunes[rIdx];
             }
         }
 
@@ -373,10 +377,10 @@ namespace EU.CqrXs.Gui.Forms
         {
             this.textBoxKey.Text = string.Empty;
             this.textBoxPipe.Text = string.Empty;
-            this.tabControlWithHexSrc.EncoderType = EncodingType.None;
-            this.tabControlWithHexSrc.AsciiText = string.Empty;
-            this.tabControlWithHexDest.EncoderType = EncodingType.None;
-            this.tabControlWithHexDest.AsciiText = string.Empty;
+            // this.tabControlWithHexSrc.EncoderType = EncodingType.None;
+            tabControlWithHexSrc.Text = string.Empty;
+            // this.tabControlWithHexDest.EncoderType = EncodingType.None;
+            tabControlWithHexDest.Text = string.Empty;
             aCPipe = null;
             await this.groupBoxFiles.ResetPictureBoxFilesAsync(sender, e);
 
@@ -493,20 +497,23 @@ namespace EU.CqrXs.Gui.Forms
             await groupBoxFiles.pictureBoxRunningPipe.SetImageTagVisibleAsync(aCPipe.GenerateEncryptPipeImage());
 
             DateTime start = DateTime.Now;
-            if (!string.IsNullOrEmpty(this.tabControlWithHexSrc.AsciiText))
+            string getText = tabControlWithHexSrc.Text;
+
+            if (!string.IsNullOrEmpty(getText))
             {
-                this.tabControlWithHexDest.EncoderType = EncodingType.None;
-                this.tabControlWithHexDest.AsciiText = "";
+                tabControlWithHexDest.Text = "";
+                // this.tabControlWithHexDest.EncoderType = EncodingType.None;
+                // this.tabControlWithHexDest.AsciiSetText("");
                 Cursor.Current = new Cursor(iconSandClock.Handle);
                 await SetInfoMessageAsync("Starting encryption plain text", ToolTipIcon.Info, -1);
                 try
                 {
-                    await this.statusLabelSource.SetTextAsync($"source chars: {tabControlWithHexSrc.AsciiText.Length}");
+                    await this.statusLabelSource.SetTextAsync($"source chars: {getText.Length}");
 
-                    string encrypted = aCPipe.EncrpytTextGoRounds(this.tabControlWithHexSrc.AsciiText, this.textBoxKey.Text, this.textBoxPrivateKey.Text, GetCipherMode2());
-                    this.tabControlWithHexDest.EncoderType = GetEncoding();
-                    this.tabControlWithHexDest.AsciiText = encrypted;
-                    await this.statusLabelDestination.SetTextAsync($"destination chars: {this.tabControlWithHexDest.AsciiText.Length}");
+                    string encrypted = aCPipe.EncrpytTextGoRounds(tabControlWithHexSrc.Text, this.textBoxKey.Text, this.textBoxPrivateKey.Text, GetCipherMode2());
+                    // this.tabControlWithHexDest.EncoderType = GetEncoding();
+                    this.tabControlWithHexDest.Text = encrypted;
+                    await this.statusLabelDestination.SetTextAsync($"destination chars: {this.tabControlWithHexDest.Text.Length}");
                     await SetInfoMessageAsync("Encryption finished", ToolTipIcon.Info, 5000);
                 }
                 catch (Exception ex)
@@ -524,7 +531,7 @@ namespace EU.CqrXs.Gui.Forms
                 string fileName = FileMatches();
                 if (string.IsNullOrEmpty(fileName))
                 {
-                    if (string.IsNullOrEmpty(this.tabControlWithHexSrc.AsciiText))
+                    if (string.IsNullOrEmpty(this.tabControlWithHexSrc.Text))
                     {
                         await SetInfoMessageAsync("No file found to encrypt", ToolTipIcon.Warning, 6000);
                         await this.statusLabelSource.SetTextAsync("No file found to encrypt");
@@ -630,25 +637,25 @@ namespace EU.CqrXs.Gui.Forms
             // SetPictureBoxImage(groupBoxFiles.pictureBoxRunningPipe, cPipe.GenerateDecryptPipeImage());
             await this.groupBoxFiles.pictureBoxRunningPipe.SetImageTagVisibleAsync(aCPipe.GenerateDecryptPipeImage());
 
-            if (!string.IsNullOrEmpty(this.tabControlWithHexSrc.AsciiText))
+            if (!string.IsNullOrEmpty(this.tabControlWithHexSrc.Text))
             {
-                this.tabControlWithHexDest.EncoderType = EncodingType.None;
-                this.tabControlWithHexDest.AsciiText = "";
+                // this.tabControlWithHexDest.EncoderType = EncodingType.None;
+                this.tabControlWithHexDest.Text = "";
                 Cursor.Current = new Cursor(iconSandClock.Handle);
                 await SetInfoMessageAsync("Starting decryption of cipher text", ToolTipIcon.Info, -1);
 
                 try
                 {
-                    await this.statusLabelSource.SetTextAsync($"source chars: {tabControlWithHexSrc.AsciiText.Length}");
+                    await this.statusLabelSource.SetTextAsync($"source chars: {tabControlWithHexSrc.Text.Length}");
 
-                    string decrypted = aCPipe.DecryptTextRoundsGo(this.tabControlWithHexSrc.AsciiText, textBoxKey.Text, this.textBoxPrivateKey.Text, GetCipherMode2());
+                    string decrypted = aCPipe.DecryptTextRoundsGo(this.tabControlWithHexSrc.Text, textBoxKey.Text, this.textBoxPrivateKey.Text, GetCipherMode2());
                     if (!decrypted.Contains("\r\n") && decrypted.Contains("\n")) 
                         decrypted = decrypted.Replace("\n", Environment.NewLine);
-                    this.tabControlWithHexDest.EncoderType = GetEncoding();
-                    this.tabControlWithHexDest.AsciiText = decrypted;
+                    // this.tabControlWithHexDest.EncoderType = GetEncoding();
+                    this.tabControlWithHexDest.Text = decrypted;
 
                     await SetInfoMessageAsync("Decryption finished", ToolTipIcon.Info, 6000);
-                    await this.statusLabelDestination.SetTextAsync($"destination chars: {this.tabControlWithHexDest.AsciiText.Length}");
+                    await this.statusLabelDestination.SetTextAsync($"destination chars: {this.tabControlWithHexDest.Text.Length}");
                 }
                 catch (Exception ex)
                 {
@@ -775,10 +782,10 @@ namespace EU.CqrXs.Gui.Forms
             FileInfo fi = new FileInfo(fileName);
             if (fi.Exists && fi.Length > 0)
             {
-                this.tabControlWithHexSrc.EncoderType = EncodingType.None;
-                this.tabControlWithHexSrc.AsciiText = string.Empty;
-                this.tabControlWithHexDest.EncoderType = EncodingType.None;
-                this.tabControlWithHexDest.AsciiText = string.Empty;
+                // this.tabControlWithHexSrc.EncoderType = EncodingType.None;
+                this.tabControlWithHexSrc.Text = string.Empty;
+                // this.tabControlWithHexDest.EncoderType = EncodingType.None;
+                this.tabControlWithHexDest.Text = string.Empty;
 
                 SetGBoxText(this.groupBoxFiles, "Files Group Box");
 

@@ -13,6 +13,10 @@ namespace EU.CqrXs.Gui.Forms
         public ZenMatrixForm()
         {
             InitializeComponent();
+
+            menuVisualModesItemClassic.Click += menuVisualMode_Change;
+            menuVisualModesItemDark.Click += menuVisualMode_Change;
+            menuVisualModesItemSystem.Click += menuVisualMode_Change;
         }
 
         #region menu options modes click

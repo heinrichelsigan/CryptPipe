@@ -340,5 +340,23 @@ namespace EU.CqrXs.Gui.Helper
 
         #endregion async invoke gui extensions
 
+
+        public static string AsciiGetText(this TextBox txtBox)
+        {
+            if (txtBox != null)
+                return txtBox.Text ?? "";
+            return "";
+        }
+
+
+        public static void AsciiSetText(this TextBox txtBox, string text)
+        {
+            if (txtBox != null && text != null)
+            {
+                txtBox.Text = text;
+            }
+            return;
+        }
+
     }
 }
