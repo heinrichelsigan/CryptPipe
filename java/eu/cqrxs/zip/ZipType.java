@@ -51,6 +51,8 @@ public enum ZipType /* implements Serializable */ {
     public byte[] zip(byte[] plainBytes) throws IOException {
         switch(this) {
             case GZip: return GZ.gzip(plainBytes);
+			case Zip: return WZ.zip(plainBytes);
+			case BZip2: return BZ2.bzip2(plainBytes);
             case None: return plainBytes;
             default: break;
         }
@@ -60,11 +62,12 @@ public enum ZipType /* implements Serializable */ {
     public byte[] unzip(byte[] zippedBytes) throws IOException {
         switch(this) {
             case GZip: return GZ.gunzip(zippedBytes);
+			case Zip: return WZ.unzip(zippedBytes);
+			case BZip2: return BZ2.bunzip2(zippedBytes);
             case None: return zippedBytes;
             default: break;
         }
         throw new NotImplementedError("unzipping not implemented");
-
     }
 
     /**
@@ -186,51 +189,6 @@ public enum ZipType /* implements Serializable */ {
         }
         return ZipType.None;
     }
-
-	
-	
-
-	/*
-	public static string Hash(this KeyHash hash, string stringToHash) {
-		switch (hash) {
-			case KeyHash.SCrypt:
-				return SCrypt.HashString(stringToHash);
-			case KeyHash.BCrypt:
-				return BCrypt.HashString(stringToHash);
-			case KeyHash.OpenBSDCrypt:
-				return OpenBSDCrypt.HashString(stringToHash);
-			case KeyHash.MD5:
-				return MD5Sum.HashString(stringToHash, "");
-			case KeyHash.Sha1:
-				return Sha1.HashString(stringToHash);
-			case KeyHash.Sha256:
-				return Sha256Sum.HashString(stringToHash, "");
-			case KeyHash.Sha384:
-				return Sha384.HashString(stringToHash);
-			case KeyHash.Sha512:
-				return Sha512Sum.HashString(stringToHash);
-			case KeyHash.Whirlpool: 
-				return Whirlpool.HashString(stringToHash);
-			case KeyHash.Ascon256: 
-				return Ascon256.HashString(stringToHash);
-			case KeyHash.Blake2xs:
-				return Blake2xs.HashString(stringToHash);
-			case KeyHash.CShake:
-				return CShake.HashString(stringToHash);
-			case KeyHash.Dstu7564:
-				return Dstu7564.HashString(stringToHash);
-			case KeyHash.RipeMD256:
-				return RipeMD256.HashString(stringToHash);
-			case KeyHash.Xoodyak:                    
-				return Zodiac.HashString(stringToHash);
-			case KeyHash.Hex:
-			default:
-				return Hex16.ToHex16(Encoding.UTF8.GetBytes(stringToHash));
-		}
-	}
-	*/
- 
- 
 
 
 }

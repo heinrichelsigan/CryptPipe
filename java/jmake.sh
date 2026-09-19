@@ -7,12 +7,12 @@
 # set Path=%Path%;c:/Users/heinr/.jdks/semeru-21.0.2/bin
 
 echo "setting bouncy castle jar and MYCLASSPATH"
-# BCJAR=org/bouncycastle/
-# BCJAR=bcprov-lts8on-2.73.10.jar
-BCJAR=bcprov-jdk18on-1.86.jar;.\bcpkix-jdk18on-1.86.jar
+# EXTJAR=org/bouncycastle/
+# EXTJAR=bcprov-jdk18on-1.86.jar
+EXTJAR=bcprov-jdk18on-1.86.jar:bcpkix-jdk18on-1.86.jar:commons-compress-1.28.0.jar:commons-io-2.22.0.jar
 
 # CLASSPATH = %CLASSPATH%;C:/Users/heinrich.elsigan/.jdks/openjdk-25/lib
-MYCLASSPATH="$CLASSPATH:./:./$BCJAR:./eu/cqrxs/:./eu/cqrxs/gui/:./eu/cqrxs/net:./eu/cqrxs/net/addr:./eu/cqrxs/net/server6:./eu/cqrxs/util/:./eu/cqrxs/crypt/:./eu/cqrxs/crypt/encoding/:./eu/cqrxs/crypt/cipher/:./eu/cqrxs/crypt/hash/:"
+MYCLASSPATH="$CLASSPATH:./:./$EXTJAR:./eu/cqrxs/:./eu/cqrxs/gui/:./eu/cqrxs/net:./eu/cqrxs/net/addr:./eu/cqrxs/net/server6:./eu/cqrxs/util/:./eu/cqrxs/crypt/:./eu/cqrxs/crypt/encoding/:./eu/cqrxs/crypt/cipher/:./eu/cqrxs/crypt/hash/:"
 
 echo "$0: cleaning classes from last build in eu/cqrxs/ eu/cqrxs/cqrframe/ eu/cqrxs/gui/ "
 echo -n "$0: rm -f "
@@ -46,7 +46,7 @@ echo "javac -classpath $MYCLASSPATH -Xlint:unchecked -Xlint:deprecation eu/cqrxs
 javac -classpath $MYCLASSPATH -Xlint:unchecked -Xlint:deprecation eu/cqrxs/crypt/hash/OpenBSDCrypt.java eu/cqrxs/crypt/hash/BCrypt.java eu/cqrxs/crypt/hash/SCrypt.java eu/cqrxs/crypt/hash/MD5.java eu/cqrxs/crypt/hash/Sha256.java eu/cqrxs/crypt/hash/Sha512.java eu/cqrxs/crypt/hash/KeyHash.java
 
 echo "javac -classpath $MYCLASSPATH -Xlint:deprecation eu/cqrxs/zip/GZ.java  eu/cqrxs/zip/ZipType.java"
-javac -classpath $MYCLASSPATH -Xlint:deprecation eu/cqrxs/zip/GZ.java  eu/cqrxs/zip/ZipType.java
+javac -classpath $MYCLASSPATH -Xlint:deprecation eu/cqrxs/zip/GZ.java eu/cqrxs/zip/BZ2.java eu/cqrxs/zip/WZ.java eu/cqrxs/zip/ZipType.java
 
 
 echo "$0: javac -classpath $MYCLASSPATH -Xlint:unchecked -Xlint:deprecation eu/cqrxs/gui/DropPanel.java eu/cqrxs/gui/CqrJDialog.java eu/cqrxs/gui/CqrJdFrame.java eu/cqrxs/gui/CqrJFrameSimple.java "

@@ -3,7 +3,7 @@
  * @version          V 2.26.428
  * @since            API 27 Oreo 8.1
  *
- * eu.cqrxs.zip.GZ
+ * eu.cqrxs.zip.BZip2
  * Coded 2021-2033 by <a href="mailto:he@area23.at">Heinrich Elsigan</a>
  * <a href="https://heinrichelsigan.area23.at">heinrichelsigan.area23.at</a>
  */
@@ -12,46 +12,47 @@ package eu.cqrxs.zip;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.zip.*;
-// import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.input.CloseShieldInputStream;
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
 
-public class GZ  {
+public class BZ2 {
 
     // const int BUFSZE = 1024;
-    GZIPInputStream in = null;
+    BZip2CompressorInputStream in = null;
     OutputStream out = null;
 
 
     /**
-     * GZip directly
+     * bzip2 directly
      * @param bytes byte[] to zip
-     * @return gzipped byte[]
+     * @return bz2 zipped byte[]
      */
-    public static byte[] gzip(final byte[] bytes) throws IOException {
+    public static byte[] bzip2(final byte[] bytes) throws IOException {
         if (bytes == null || bytes.length == 0) {
             return new byte[0];
         }
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
-        try (final OutputStream gzip = new GZIPOutputStream(out)) {
-            gzip.write(bytes);
+        try (final OutputStream bzip2 = new BZip2CompressorOutputStream(out)) {
+            bzip2.write(bytes);
         }
         return out.toByteArray();
     }
 
     /**
-     * gzips gzip's a string
+     * bzip2s bzip2's a string
      * @param str String to zip
      * @return zipped String as byte[]
      */
-    public static byte[] gzips(final String str) {
+    public static byte[] bzip2s(final String str) {
         if ((str == null) || (str.length() == 0)) {
             throw new IllegalArgumentException("Cannot zip null or empty string");
         }
 
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
 
-            try (GZIPOutputStream gzipOutputStream = new GZIPOutputStream(byteArrayOutputStream)) {
-                gzipOutputStream.write(str.getBytes(StandardCharsets.UTF_8));
+            try (BZip2CompressorOutputStream bzip2OutputStream = new BZip2CompressorOutputStream(byteArrayOutputStream)) {
+                bzip2OutputStream.write(str.getBytes(StandardCharsets.UTF_8));
             }
 
             return byteArrayOutputStream.toByteArray();
@@ -63,19 +64,19 @@ public class GZ  {
 
 
     /**
-     * gunzip gunzips a byte array (same as gzip -d )
-     * @param gzBytes gzipped byte[]
+     * bunzip2 hunzip2's a byte array (same as bzip2 -d )
+     * @param bz2Bytes gzipped byte[]
      * @return unzipped plain byte[]
      */
-    public static byte[] gunzip(final byte[] gzBytes) throws IOException {
-        if (gzBytes == null || gzBytes.length == 0) {
+    public static byte[] bunzip2(final byte[] bz2Bytes) throws IOException {
+        if (bz2Bytes == null || bz2Bytes.length == 0) {
             throw new IllegalArgumentException("Cannot unzip null or empty byte array");
         }
-        try (final GZIPInputStream gunzipStream = new GZIPInputStream(new ByteArrayInputStream(gzBytes))) {
+        try (final BZip2CompressorInputStream bunzip2Stream = new BZip2CompressorInputStream(new ByteArrayInputStream(bz2Bytes))) {
             final ByteArrayOutputStream byteArrayOutStream = new ByteArrayOutputStream();
             final byte[] data = new byte[16384];
             int nRead;
-            while ((nRead = gunzipStream.read(data)) != -1) {
+            while ((nRead = bunzip2Stream.read(data)) != -1) {
                 byteArrayOutStream.write(data, 0, nRead);
             }
             return byteArrayOutStream.toByteArray();
@@ -83,21 +84,21 @@ public class GZ  {
     }
 
     /**
-     * gunzips a gzipped byte[] to a plain text String
+     * bunzip2s a bz2 zipped byte[] to a plain text String
      * @param compressed gzipped byte[]
      * @return plain text String
      */
-    public static String gunzips(final byte[] compressed) {
+    public static String bunzip2s(final byte[] compressed) {
         if ((compressed == null) || (compressed.length == 0)) {
             throw new IllegalArgumentException("Cannot unzip null or empty bytes");
         }
-        if (!isGZipped(compressed)) {
+        if (!isBZipped(compressed)) {
             return new String(compressed);
         }
 
         try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(compressed)) {
-            try (GZIPInputStream gzipInputStream = new GZIPInputStream(byteArrayInputStream)) {
-                try (InputStreamReader inputStreamReader = new InputStreamReader(gzipInputStream, StandardCharsets.UTF_8)) {
+            try (BZip2CompressorInputStream bunzip2Stream = new BZip2CompressorInputStream(byteArrayInputStream)) {
+                try (InputStreamReader inputStreamReader = new InputStreamReader(bunzip2Stream, StandardCharsets.UTF_8)) {
                     try (BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
                         StringBuilder output = new StringBuilder();
                         String line;
@@ -114,9 +115,10 @@ public class GZ  {
     }
 
 
-    public static boolean isGZipped(final byte[] compressed) {
-        return (compressed[0] == (byte) (GZIPInputStream.GZIP_MAGIC))
-                && (compressed[1] == (byte) (GZIPInputStream.GZIP_MAGIC >> 8));
+    public static boolean isBZipped(final byte[] compressed) {
+        return (compressed[0] == (byte) (0x42) &&
+                compressed[1] == (byte) (0x5A) &&
+                compressed[2] == (byte) (0x68));
     }
 
 }

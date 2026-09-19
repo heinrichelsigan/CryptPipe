@@ -5758,6 +5758,8 @@
 ./org/bouncycastle/util/IPAddress.class
 ./eu/cqrxs/zip/ZipType.class
 ./eu/cqrxs/zip/GZ.class
+./eu/cqrxs/zip/BZ2.class
+./eu/cqrxs/zip/WZ.class
 ./eu/cqrxs/gui/CqrJFrameSimple$EncodeChangeListener.class
 ./eu/cqrxs/gui/CqrJFrameSimple$SymMouse.class
 ./eu/cqrxs/gui/CqrJdFrame.class

@@ -78,8 +78,8 @@ goto ende
 
 :bouncycastle
 echo Setting bouncy-castle jar and MYCLASSPATH
-set BCJAR=bcprov-jdk18on-1.86.jar;.\bcpkix-jdk18on-1.86.jar
-set MYCLASSPATH=%CLASSPATH%;.\;.\%BCJAR%;.\eu\cqrxs\;.\eu\cqrxs\gui\;.\eu\cqrxs\net\;eu\cqrxs\net\addr\;.\eu\cqrxs\net\server6;.\eu\cqrxs\util\;.\eu\cqrxs\crypt\;.\eu\cqrxs\crypt\encoding\;.\eu\cqrxs\crypt\cipher\;.\eu\cqrxs\crypt\hash\;	
+set EXTJAR=bcprov-jdk18on-1.86.jar;bcpkix-jdk18on-1.86.jar;commons-compress-1.28.0.jar;commons-io-2.22.0.jar
+set MYCLASSPATH=%CLASSPATH%;.\;.\%EXTJAR%;.\eu\cqrxs\;.\eu\cqrxs\gui\;.\eu\cqrxs\net\;eu\cqrxs\net\addr\;.\eu\cqrxs\net\server6;.\eu\cqrxs\util\;.\eu\cqrxs\crypt\;.\eu\cqrxs\crypt\encoding\;.\eu\cqrxs\crypt\cipher\;.\eu\cqrxs\crypt\hash\;	
 
 echo "compiling CqrXs.Eu.* now with javac"
 
@@ -103,7 +103,7 @@ echo "javac.exe  -classpath %MYCLASSPATH% -Xlint:unchecked -Xlint:deprecation  e
 javac.exe  -classpath %MYCLASSPATH% -Xlint:unchecked -Xlint:deprecation  eu\cqrxs\util\CException.java eu\cqrxs\util\Constants.java eu\cqrxs\util\ContextLazy.java
 
 echo "javac.exe -classpath %MYCLASSPATH% -Xlint:deprecation eu\cqrxs\zip\GZ.java  eu\cqrxs\zip\ZipType.java"
-javac.exe -classpath %MYCLASSPATH% -Xlint:deprecation eu\cqrxs\zip\GZ.java  eu\cqrxs\zip\ZipType.java
+javac.exe -classpath %MYCLASSPATH% -Xlint:deprecation eu\cqrxs\zip\GZ.java  eu\cqrxs\zip\BZ2.java eu\cqrxs\zip\WZ.java eu\cqrxs\zip\ZipType.java
 
 echo "javac -classpath %MYCLASSPATH% -Xlint:unchecked -Xlint:deprecation eu/cqrxs/util/Fortune.java eu/cqrxs/gui/DropPanel.java eu/cqrxs/gui/CqrJDialog.java eu/cqrxs/gui/CqrJdFrame.java eu/cqrxs/gui/CqrJFrameSimple.java "
 javac -classpath %MYCLASSPATH% -Xlint:unchecked -Xlint:deprecation eu/cqrxs/util/Fortune.java eu/cqrxs/gui/DropPanel.java eu/cqrxs/gui/CqrJDialog.java eu/cqrxs/gui/CqrJdFrame.java eu/cqrxs/gui/CqrJFrameSimple.java
