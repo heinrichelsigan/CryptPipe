@@ -456,7 +456,7 @@ public class ZenMatrix implements BlockCipher  {
         int oSize = (BLOCK_SIZE - (ilen % BLOCK_SIZE));     // oSize is rounded up to next number % BLOCK_SIZE == 0
         byte[] outBytes;
 
-        oSize += (oSize < 2) ? BLOCK_SIZE : 0;
+        // oSize += (oSize < 2) ? BLOCK_SIZE : 0;
 
         if (forEncryption)  {                               // add buffer for encryption to inbytes
             int olen = ((int)(ilen + oSize));             // olen is (long)(ilen + oSize)
