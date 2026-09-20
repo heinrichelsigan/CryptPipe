@@ -5,8 +5,8 @@ JAVAFLAGS=--enable-native-access=ALL-UNNAMED
 # JAVACFLAGS flags for javac compiler
 JAVACFLAGS=-Xlint:unchecked -Xlint:deprecation
 
-# EXTJAR="bcpkix-jdk18on-1.86.jar:bcprov-jdk18on-1.86.jar"
-EXTJAR="bcpkix-jdk18on-1.86.jar:bcprov-jdk18on-1.86.jar:commons-io-2.22.0.jar:commons-compress-1.28.0.jar"
+EXTJAR="bcpkix-jdk18on-1.86.jar:bcprov-jdk18on-1.86.jar"
+# EXTJAR="bcpkix-jdk18on-1.86.jar:bcprov-jdk18on-1.86.jar:commons-io-2.22.0.jar:commons-compress-1.28.0.jar"
 
 # MYCLASSPATH local java classpath
 MYCLASSPATH="./:./$(EXTJAR):./eu/cqrxs/:./eu/cqrxs/gui/:./eu/cqrxs/net/:./eu/cqrxs/util/:./eu/cqrxs/crypt/:./eu/cqrxs/crypt/encoding/:./eu/cqrxs/crypt/cipher/:./eu/cqrxs/crypt/cipher/symmetric/:./eu/cqrxs/crypt/hash/:."
