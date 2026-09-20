@@ -71,10 +71,11 @@
                 rm -f /tmp/rsa_$KLEN.pk8
             </summary>   
         </member>
-        <member name="M:EU.CqrXs.Crypt.Cipher.Asymmetric.Rsa.GenerateNewRsaKeyPair(System.Int32,System.Byte[])">
+        <member name="M:EU.CqrXs.Crypt.Cipher.Asymmetric.Rsa.GenerateNewRsaKeyPair(System.Int32)">
             <summary>
             GenerateNewRsaKeyPair - generates a new rsa key pair
             </summary>
+            <param name="size">key size in bits</param>
             <returns><see cref="T:Org.BouncyCastle.Crypto.AsymmetricCipherKeyPair"/></returns>
         </member>
         <member name="M:EU.CqrXs.Crypt.Cipher.Asymmetric.Rsa.GetRsaKeyPair(System.String,System.String)">
@@ -661,7 +662,8 @@
             Constructs a <see cref="T:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe"/> from key and hash
             by getting <see cref="T:byte[]">byte[] keybytes</see> with <see cref="M:EU.CqrXs.Crypt.Cipher.CryptHelper.GetUserKeyBytes(System.String,System.String,System.Int32)"/>
             </summary>
-            <param name="keyHash">secret key to generate pipe</param>
+            <param name="publicKey">publicKey to generate pipe</param>
+            <param name="privateKey">privateKey to generate pipe</param>
             <param name="cmode2"><see cref="T:EU.CqrXs.Crypt.Cipher.CipherMode2"/></param>
             <param name="verbose"></param>
         </member>
@@ -669,7 +671,8 @@
             <summary>
             AsymmetricCipherPipe ctor with only key
             </summary>
-            <param name="key"></param>
+            <param name="publicKey">publicKey to generate pipe</param>
+            <param name="privateKey">privateKey to generate pipe</param>
             <param name="verbose"></param>
         </member>
         <member name="M:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe.ToJson">
@@ -691,7 +694,8 @@
             </summary>
             <param name="inBytes">Array of byte</param>
             <param name="cipherAlgo"><see cref="T:EU.CqrXs.Crypt.Cipher.CipherEnum"/> both symmetric and asymetric cipher algorithms</param>
-            <param name="secretKey">secret key to decrypt</param>
+            <param name="publicKey">publicKey to generate pipe</param>
+            <param name="privateKey">privateKey to generate pipe</param>
             <param name="cmode2"></param>
             <returns>encrypted byte Array</returns>
             <exception cref="T:System.ArgumentNullException"></exception>
@@ -702,7 +706,10 @@
             </summary>
             <param name="cipherBytes">Encrypted array of byte</param>
             <param name="cipherAlgo"><see cref="T:EU.CqrXs.Crypt.Cipher.CipherEnum"/>both symmetric and asymetric cipher algorithms</param>
-            <param name="secretKey">secret key to decrypt</param>
+            <param name="publicKey">publicKey to generate pipe</param>
+            <param name="privateKey">privateKey to generate pipe</param>
+            <param name="signedBytes">Signed bytes for verification</param>
+            <param name="cmode2">Cipher mode</param>
             <returns>decrypted byte Array</returns>
         </member>
         <member name="M:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe.EncrpytT``2(``1,System.String,System.String,EU.CqrXs.Crypt.Cipher.CipherMode2)">
@@ -748,7 +755,8 @@
             MerryGoRoundEncrpyt starts merry to go arround from left to right in clock hour cycle
             </summary>
             <param name="inBytes">plain <see cref="T:byte[]"/> to encrypt</param>
-            <param name="secretKey">user secret key to use for all symmetric cipher algorithms in the pipe</param>
+            <param name="publicKey">publicKey to generate pipe</param>
+            <param name="privateKey">privateKey to generate pipe</param>
             <param name="cmode2"><see cref="T:EU.CqrXs.Crypt.Cipher.CipherMode2"/></param>
             <returns>encrypted byte[]</returns>
         </member>
@@ -758,7 +766,8 @@
             starts merry to turn arround from right to left against clock hour cycle 
             </summary>
             <param name="cipherBytes">encrypted byte array</param>
-            <param name="secretKey">user secret key, normally email address</param>
+            <param name="publicKey">publicKey to generate pipe</param>
+            <param name="privateKey">privateKey to generate pipe</param>
             <param name="cmode2"><see cref="T:EU.CqrXs.Crypt.Cipher.CipherMode2"/></param>
             <returns><see cref="T:byte[]"/> plain bytes</returns>
         </member>
@@ -767,7 +776,8 @@
             EncrpytTextGoRounds encrypts text with cipher pipe pipeline
             </summary>
             <param name="inString">plain text to encrypt</param>
-            <param name="cryptKey">prviate key for encryption</param>
+            <param name="publicKey">publicKey to generate pipe</param>
+            <param name="privateKey">privateKey to generate pipe</param>
             <param name="cmode2"></param>
             <returns>UTF9 emcoded encrypted string without binary data</returns>
         </member>
@@ -776,18 +786,20 @@
             decrypt encoded encrypted text
             </summary>
             <param name="cryptedEncodedMsg">encoded encrypted ASCII string</param>
-            <param name="cryptKey">prviate key for encryption</param>
+            <param name="publicKey">publicKey to generate pipe</param>
+            <param name="privateKey">privateKey to generate pipe</param>
             <param name="cmode2"></param>
             <returns>decrypted UTF8 string, containing no binary data</returns>
         </member>
         <member name="M:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe.CryptCodeBytes(System.Byte[],System.String,System.String,System.Boolean,EU.CqrXs.Crypt.Cipher.CipherMode2)">
             <summary>
             Multi functional 
-            <see cref="!:EncryptEncodeBytes(byte[], string, CipherMode2)"/>
-            <see cref="!:DecodeDecrpytBytes(byte[], string, CipherMode2)"/>
+            <see cref="M:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe.EncryptEncodeBytes(System.Byte[],System.String,System.String,EU.CqrXs.Crypt.Cipher.CipherMode2)"/>
+            <see cref="M:EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe.DecodeDecrpytBytes(System.Byte[],System.String,System.String,EU.CqrXs.Crypt.Cipher.CipherMode2)"/>
             </summary>
             <param name="inBytes">incoming bytes</param>
-            <param name="secretKey">user private key</param>
+            <param name="publicKey">publicKey to generate pipe</param>
+            <param name="privateKey">privateKey to generate pipe</param>
             <param name="directionDecrypt">true for decryption, false for encryption</param>        
             <param name="cmode2"></param>
             <returns>transformed byte array</returns>

@@ -223,7 +223,8 @@ namespace EU.CqrXs.Crypt.Cipher
         /// Constructs a <see cref="AsymmetricCipherPipe"/> from key and hash
         /// by getting <see cref="T:byte[]">byte[] keybytes</see> with <see cref="CryptHelper.GetUserKeyBytes(string, string, int)"/>
         /// </summary>
-        /// <param name="keyHash">secret key to generate pipe</param>
+        /// <param name="publicKey">publicKey to generate pipe</param>
+        /// <param name="privateKey">privateKey to generate pipe</param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         /// <param name="verbose"></param>
         public AsymmetricCipherPipe(string publicKey, string privateKey, CipherMode2 cmode2, bool verbose = false)
@@ -243,7 +244,8 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <summary>
         /// AsymmetricCipherPipe ctor with only key
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="publicKey">publicKey to generate pipe</param>
+        /// <param name="privateKey">privateKey to generate pipe</param>
         /// <param name="verbose"></param>
         public AsymmetricCipherPipe(string publicKey, string privateKey, bool verbose = false)
             : this(publicKey, privateKey, CiffreMode.defaultCipherMode2, verbose)
@@ -366,7 +368,8 @@ namespace EU.CqrXs.Crypt.Cipher
         /// </summary>
         /// <param name="inBytes">Array of byte</param>
         /// <param name="cipherAlgo"><see cref="CipherEnum"/> both symmetric and asymetric cipher algorithms</param>
-        /// <param name="secretKey">secret key to decrypt</param>
+        /// <param name="publicKey">publicKey to generate pipe</param>
+        /// <param name="privateKey">privateKey to generate pipe</param>
         /// <param name="cmode2"></param>
         /// <returns>encrypted byte Array</returns>
         /// <exception cref="ArgumentNullException"></exception>
@@ -383,8 +386,9 @@ namespace EU.CqrXs.Crypt.Cipher
             switch (cipherAlgo)
             {
                 case CipherEnum.Rsa:
-                    keyPair = Asymmetric.Rsa.RsaGenWithKey(publicKey, privateKey);
-                    encryptBytes = Asymmetric.Rsa.Encrypt(inBytes, keyPair);
+                    keyPair = Asymmetric.Rsa.GetRsaKeyPair(publicKey, privateKey);
+                    // encryptBytes = Asymmetric.Rsa.Encrypt(inBytes, keyPair);
+                    encryptBytes = Asymmetric.Rsa.EncryptWithPrivate(inBytes, keyPair);
                     break;
                 case CipherEnum.Dsa:
                     keyPair = Asymmetric.Dsa.GetDsaKeyPairByKeys(privateKey, publicKey);
@@ -405,7 +409,10 @@ namespace EU.CqrXs.Crypt.Cipher
         /// </summary>
         /// <param name="cipherBytes">Encrypted array of byte</param>
         /// <param name="cipherAlgo"><see cref="CipherEnum"/>both symmetric and asymetric cipher algorithms</param>
-        /// <param name="secretKey">secret key to decrypt</param>
+        /// <param name="publicKey">publicKey to generate pipe</param>
+        /// <param name="privateKey">privateKey to generate pipe</param>
+        /// <param name="signedBytes">Signed bytes for verification</param>
+        /// <param name="cmode2">Cipher mode</param>
         /// <returns>decrypted byte Array</returns>
         public static byte[] DecryptBytesFast(byte[] cipherBytes, CipherEnum cipherAlgo,
             string publicKey, string privateKey, byte[] signedBytes, CipherMode2 cmode2)
@@ -420,7 +427,8 @@ namespace EU.CqrXs.Crypt.Cipher
             switch (cipherAlgo)
             {               
                 case CipherEnum.Rsa:
-                    keyPair = Asymmetric.Rsa.RsaGenWithKey(publicKey, privateKey);
+                    keyPair = Asymmetric.Rsa.GetRsaKeyPair(publicKey, privateKey);
+                    // decryptBytes = Asymmetric.Rsa.DecryptWithPrivate(cipherBytes, keyPair);
                     decryptBytes = Asymmetric.Rsa.Decrypt(cipherBytes, keyPair);
                     break;
                 case CipherEnum.Dsa:                    
@@ -567,7 +575,8 @@ namespace EU.CqrXs.Crypt.Cipher
         /// MerryGoRoundEncrpyt starts merry to go arround from left to right in clock hour cycle
         /// </summary>
         /// <param name="inBytes">plain <see cref="T:byte[]"/> to encrypt</param>
-        /// <param name="secretKey">user secret key to use for all symmetric cipher algorithms in the pipe</param>
+        /// <param name="publicKey">publicKey to generate pipe</param>
+        /// <param name="privateKey">privateKey to generate pipe</param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         /// <returns>encrypted byte[]</returns>
         public virtual byte[] MerryAsymGoRoundEncrpyt(byte[] inBytes, string publicKey, string privateKey, CipherMode2 cmode2)
@@ -592,7 +601,8 @@ namespace EU.CqrXs.Crypt.Cipher
         /// starts merry to turn arround from right to left against clock hour cycle 
         /// </summary>
         /// <param name="cipherBytes">encrypted byte array</param>
-        /// <param name="secretKey">user secret key, normally email address</param>
+        /// <param name="publicKey">publicKey to generate pipe</param>
+        /// <param name="privateKey">privateKey to generate pipe</param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
         /// <returns><see cref="T:byte[]"/> plain bytes</returns>
         public virtual byte[] DecrpytRoundGoMerryAsym(byte[] cipherBytes, string publicKey, string privateKey, CipherMode2 cmode2)
@@ -617,7 +627,8 @@ namespace EU.CqrXs.Crypt.Cipher
         /// EncrpytTextGoRounds encrypts text with cipher pipe pipeline
         /// </summary>
         /// <param name="inString">plain text to encrypt</param>
-        /// <param name="cryptKey">prviate key for encryption</param>
+        /// <param name="publicKey">publicKey to generate pipe</param>
+        /// <param name="privateKey">privateKey to generate pipe</param>
         /// <param name="cmode2"></param>
         /// <returns>UTF9 emcoded encrypted string without binary data</returns>
         public virtual string EncrpytTextGoRounds(string inString, string publicKey, string privateKey, CipherMode2 cmode2)
@@ -643,7 +654,8 @@ namespace EU.CqrXs.Crypt.Cipher
         /// decrypt encoded encrypted text
         /// </summary>
         /// <param name="cryptedEncodedMsg">encoded encrypted ASCII string</param>
-        /// <param name="cryptKey">prviate key for encryption</param>
+        /// <param name="publicKey">publicKey to generate pipe</param>
+        /// <param name="privateKey">privateKey to generate pipe</param>
         /// <param name="cmode2"></param>
         /// <returns>decrypted UTF8 string, containing no binary data</returns>
         public virtual string DecryptTextRoundsGo(string cryptedEncodedMsg, string publicKey, string privateKey, CipherMode2 cmode2)
@@ -729,11 +741,12 @@ namespace EU.CqrXs.Crypt.Cipher
 
         /// <summary>
         /// Multi functional 
-        /// <see cref="EncryptEncodeBytes(byte[], string, CipherMode2)"/>
-        /// <see cref="DecodeDecrpytBytes(byte[], string, CipherMode2)"/>
+        /// <see cref="EncryptEncodeBytes(byte[], string, string, CipherMode2)"/>
+        /// <see cref="DecodeDecrpytBytes(byte[], string, string, CipherMode2)"/>
         /// </summary>
         /// <param name="inBytes">incoming bytes</param>
-        /// <param name="secretKey">user private key</param>
+        /// <param name="publicKey">publicKey to generate pipe</param>
+        /// <param name="privateKey">privateKey to generate pipe</param>
         /// <param name="directionDecrypt">true for decryption, false for encryption</param>        
         /// <param name="cmode2"></param>
         /// <returns>transformed byte array</returns>

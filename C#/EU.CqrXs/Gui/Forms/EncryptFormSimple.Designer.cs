@@ -355,6 +355,7 @@ namespace EU.CqrXs.Gui.Forms
             // menuMainAsymmetric
             // 
             menuMainAsymmetric.BackColor = SystemColors.Menu;
+            menuMainAsymmetric.Enabled = false;
             menuMainAsymmetric.ForeColor = SystemColors.MenuText;
             menuMainAsymmetric.Name = "menuMainAsymmetric";
             menuMainAsymmetric.Size = new Size(170, 22);
@@ -577,8 +578,9 @@ namespace EU.CqrXs.Gui.Forms
             // 
             // buttonSetPipeline
             // 
-            buttonSetPipeline.BackColor = SystemColors.Control;
+            buttonSetPipeline.BackColor = SystemColors.ButtonHighlight;
             buttonSetPipeline.Font = new Font("Lucida Sans Typewriter", 10F);
+            buttonSetPipeline.ForeColor = SystemColors.GrayText;
             buttonSetPipeline.Location = new Point(876, 24);
             buttonSetPipeline.Margin = new Padding(1);
             buttonSetPipeline.Name = "buttonSetPipeline";
@@ -590,8 +592,9 @@ namespace EU.CqrXs.Gui.Forms
             // 
             // buttonReset
             // 
-            buttonReset.BackColor = SystemColors.Control;
+            buttonReset.BackColor = SystemColors.ButtonFace;
             buttonReset.Font = new Font("Lucida Sans Typewriter", 9.75F);
+            buttonReset.ForeColor = SystemColors.GrayText;
             buttonReset.Location = new Point(874, 4);
             buttonReset.Margin = new Padding(1);
             buttonReset.Name = "buttonReset";
@@ -614,8 +617,9 @@ namespace EU.CqrXs.Gui.Forms
             // 
             // buttonEncrypt
             // 
-            buttonEncrypt.BackColor = SystemColors.Control;
+            buttonEncrypt.BackColor = SystemColors.ButtonHighlight;
             buttonEncrypt.Font = new Font("Lucida Sans Typewriter", 9.75F);
+            buttonEncrypt.ForeColor = SystemColors.GrayText;
             buttonEncrypt.Location = new Point(4, 4);
             buttonEncrypt.Margin = new Padding(1);
             buttonEncrypt.Name = "buttonEncrypt";
@@ -626,8 +630,9 @@ namespace EU.CqrXs.Gui.Forms
             // 
             // buttonDecrypt
             // 
-            buttonDecrypt.BackColor = SystemColors.Control;
+            buttonDecrypt.BackColor = SystemColors.ButtonHighlight;
             buttonDecrypt.Font = new Font("Lucida Sans Typewriter", 9.75F);
+            buttonDecrypt.ForeColor = SystemColors.GrayText;
             buttonDecrypt.Location = new Point(135, 4);
             buttonDecrypt.Margin = new Padding(1);
             buttonDecrypt.Name = "buttonDecrypt";
@@ -650,8 +655,9 @@ namespace EU.CqrXs.Gui.Forms
             // 
             // buttonRandomText
             // 
-            buttonRandomText.BackColor = SystemColors.Control;
+            buttonRandomText.BackColor = SystemColors.ButtonFace;
             buttonRandomText.Font = new Font("Lucida Sans Typewriter", 9.75F);
+            buttonRandomText.ForeColor = SystemColors.GrayText;
             buttonRandomText.Location = new Point(372, 4);
             buttonRandomText.Margin = new Padding(1);
             buttonRandomText.Name = "buttonRandomText";
@@ -663,8 +669,9 @@ namespace EU.CqrXs.Gui.Forms
             // 
             // buttonHashPipe
             // 
-            buttonHashPipe.BackColor = SystemColors.Control;
+            buttonHashPipe.BackColor = SystemColors.ButtonFace;
             buttonHashPipe.Font = new Font("Lucida Sans Typewriter", 10F);
+            buttonHashPipe.ForeColor = SystemColors.GrayText;
             buttonHashPipe.Location = new Point(751, 24);
             buttonHashPipe.Margin = new Padding(1);
             buttonHashPipe.Name = "buttonHashPipe";

@@ -315,8 +315,9 @@ namespace EU.CqrXs.Crypt.Cipher
                     encryptBytes = des3.Encrypt(inBytes);
                     break;
                 case CipherEnum.Rsa:
-                    AsymmetricCipherKeyPair keyPair = Asymmetric.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
-                    encryptBytes = Asymmetric.Rsa.Encrypt(inBytes, keyPair);
+                    AsymmetricCipherKeyPair keyPair = Asymmetric.Rsa.GetRsaKeyPair(Constants.RSA_PUB, Constants.RSA_PRV);
+                    // encryptBytes = Asymmetric.Rsa.Encrypt(inBytes, keyPair);
+                    encryptBytes = Asymmetric.Rsa.EncryptWithPrivate(inBytes, keyPair);
                     break;
                 case CipherEnum.ZenMatrix:
                     encryptBytes = (new ZenMatrix(secretKey, secretKey, false)).Encrypt(inBytes, true);
@@ -361,8 +362,9 @@ namespace EU.CqrXs.Crypt.Cipher
                     decryptBytes = des3.Decrypt(cipherBytes);
                     break;
                 case CipherEnum.Rsa:
-                    AsymmetricCipherKeyPair keyPair = Asymmetric.Rsa.RsaGenWithKey(Constants.RSA_PUB, Constants.RSA_PRV);
-                    decryptBytes = Asymmetric.Rsa.Decrypt(cipherBytes, keyPair);
+                    AsymmetricCipherKeyPair keyPair = Asymmetric.Rsa.GetRsaKeyPair(Constants.RSA_PUB, Constants.RSA_PRV);
+                    // decryptBytes = Asymmetric.Rsa.DecryptWithPrivate(cipherBytes, keyPair);
+                    decryptBytes = Asymmetric.Rsa.Decrypt(cipherBytes, keyPair);                    
                     break;
                 case CipherEnum.ZenMatrix:
                     decryptBytes = (new ZenMatrix(secretKey, secretKey, false)).Decrypt(cipherBytes);

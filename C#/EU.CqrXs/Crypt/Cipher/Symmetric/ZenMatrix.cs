@@ -579,7 +579,7 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
             int oSize = BLOCK_SIZE - ilen % BLOCK_SIZE;     // oSize is rounded up to next number % BLOCK_SIZE == 0
             byte[] outBytes;
 
-            // oSize += (oSize < 2) ? BLOCK_SIZE : 0;
+            oSize += (oSize < 2) ? BLOCK_SIZE : 0;
             
             if (forEncryption)                                  // add buffer for encryption to inbytes
             {
@@ -629,8 +629,8 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
                     }
                 }
 
-                outBytes = olen > 1 ? new byte[olen] : new byte[ilen];
-                // outBytes = olen > 1 ? new byte[olen - 2] : new byte[ilen];
+                // outBytes = olen > 1 ? new byte[olen] : new byte[ilen];
+                outBytes = olen > 1 ? new byte[olen - 2] : new byte[ilen];
                 Array.Copy(inBytes, 0, outBytes, 0, outBytes.Length);
             }
 

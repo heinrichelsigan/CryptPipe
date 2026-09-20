@@ -189,10 +189,6 @@
   <data name="img_excel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\symbols\img_excel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="a_hash1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\symbols\a_hash1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-    <comment>a_hash1</comment>
-  </data>
   <data name="file" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\symbols\file1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -240,9 +236,6 @@
   <data name="sound_sputnik" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sounds\sound_sputnik.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="TwoFish" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Algos\TwoFish.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="icon_warning" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\symbols\icon_warning.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -284,9 +277,6 @@
     <value>..\Resources\sounds\sound_wind.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     <comment>sound_wind</comment>
   </data>
-  <data name="ThreeFish" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Algos\ThreeFish.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="sound_error" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sounds\sound_error.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     <comment>sound_error</comment>
@@ -296,5 +286,17 @@
   </data>
   <data name="CryptDisk" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CryptDisk.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="a_hash1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\symbols\a_hash1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <comment>a_hash1</comment>
+  </data>
+  <data name="TwoFish" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Algos\TwoFish.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <comment>TwoFish</comment>
+  </data>
+  <data name="ThreeFish" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Algos\ThreeFish.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <comment>ThreeFish</comment>
   </data>
 </root>

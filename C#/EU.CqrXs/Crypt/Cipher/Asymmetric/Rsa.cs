@@ -60,37 +60,28 @@ namespace EU.CqrXs.Crypt.Cipher.Asymmetric
         }
 
 
-        public static AsymmetricCipherKeyPair RsaGenWithKey(string pub, string priv)
-        {
-            //if (rsaKeyPair != null)
-            //    return rsaKeyPair;
-            rsaKeyPair = GetRsaKeyPair(pub, priv);
-
-            return rsaKeyPair;
-        }
-
         #endregion Ctor_Gen
 
         /// <summary>
         /// GenerateNewRsaKeyPair - generates a new rsa key pair
         /// </summary>
+        /// <param name="size">key size in bits</param>
         /// <returns><see cref="AsymmetricCipherKeyPair"/></returns>
-        public static AsymmetricCipherKeyPair GenerateNewRsaKeyPair(int size = 1024, byte[] inBytes = null)
-        {
-            if (inBytes == null)
-                inBytes = System.Text.Encoding.UTF8.GetBytes("default");
-
+        public static AsymmetricCipherKeyPair GenerateNewRsaKeyPair(int size = 1024)
+        {            
             RsaKeyPairGenerator rsaKeyPairGen = new RsaKeyPairGenerator();
-            IDigest digest = new CShakeDigest(size, inBytes, CryptHelper.GetKeyBytesFromBytes(inBytes, size / 16));
-            IRandomGenerator randGen = new Org.BouncyCastle.Crypto.Prng.DigestRandomGenerator(digest);
+            IRandomGenerator randGen = new VmpcRandomGenerator();
 
             SecureRandom rand = new SecureRandom(randGen, size);
             KeyGenerationParameters rsaKeyParams = new KeyGenerationParameters(rand, size);
             rsaKeyPairGen.Init(rsaKeyParams);
-
             rsaKeyPair = rsaKeyPairGen.GenerateKeyPair();
-            return rsaKeyPair;
 
+            string[] keys = GetStringKeys(rsaKeyPair);
+            privateKey = keys[0];
+            publicKey = keys[1];
+            
+            return rsaKeyPair;
         }
 
         /// <summary>
@@ -99,7 +90,7 @@ namespace EU.CqrXs.Crypt.Cipher.Asymmetric
         /// <param name="pubKey"></param>
         /// <param name="privKey"></param>
         /// <returns><see cref="AsymmetricCipherKeyPair"/></returns>
-        internal static AsymmetricCipherKeyPair GetRsaKeyPair(string pubKey, string privKey)
+        public static AsymmetricCipherKeyPair GetRsaKeyPair(string pubKey, string privKey)
         {
             privateKey = privKey;
             publicKey = pubKey;

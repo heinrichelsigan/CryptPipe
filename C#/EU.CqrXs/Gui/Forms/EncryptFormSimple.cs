@@ -801,6 +801,15 @@ namespace EU.CqrXs.Gui.Forms
 
         #region menus
 
+
+        protected internal override void menuVisualMode_Change(object sender, EventArgs e)
+        {
+            menuVisualModesItemClassic.Checked = false;
+            menuVisualModesItemDark.Checked = false;
+            menuVisualModesItemSystem.Checked = false;
+            base.menuVisualMode_Change(sender, e);
+        }
+
         protected internal override async Task menuHelp_Click(object sender, EventArgs e)
         {
             await base.menuHelp_Click(sender, e);

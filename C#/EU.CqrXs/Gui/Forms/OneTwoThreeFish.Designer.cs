@@ -395,7 +395,7 @@ namespace EU.CqrXs.Gui.Forms
             // 
             menuEncNone.BackColor = SystemColors.Menu;
             menuEncNone.Name = "menuEncNone";
-            menuEncNone.Size = new Size(130, 22);
+            menuEncNone.Size = new Size(180, 22);
             menuEncNone.Text = "None";
             menuEncNone.ToolTipText = "no encoding, let it be binary as it is";
             // 
@@ -403,7 +403,7 @@ namespace EU.CqrXs.Gui.Forms
             // 
             menuEncBase16.BackColor = SystemColors.Menu;
             menuEncBase16.Name = "menuEncBase16";
-            menuEncBase16.Size = new Size(130, 22);
+            menuEncBase16.Size = new Size(180, 22);
             menuEncBase16.Text = "Base16";
             menuEncBase16.ToolTipText = "base16 en-/decoding";
             // 
@@ -411,7 +411,7 @@ namespace EU.CqrXs.Gui.Forms
             // 
             menuEncHex16.BackColor = SystemColors.Menu;
             menuEncHex16.Name = "menuEncHex16";
-            menuEncHex16.Size = new Size(130, 22);
+            menuEncHex16.Size = new Size(180, 22);
             menuEncHex16.Text = "Hex16";
             menuEncHex16.ToolTipText = "hexadecimal half byte encoding";
             // 
@@ -419,7 +419,7 @@ namespace EU.CqrXs.Gui.Forms
             // 
             menuEncBase32.BackColor = SystemColors.Menu;
             menuEncBase32.Name = "menuEncBase32";
-            menuEncBase32.Size = new Size(130, 22);
+            menuEncBase32.Size = new Size(180, 22);
             menuEncBase32.Text = "Base32";
             menuEncBase32.ToolTipText = "base32 en-/decoding";
             // 
@@ -427,7 +427,7 @@ namespace EU.CqrXs.Gui.Forms
             // 
             menuEncHex32.BackColor = SystemColors.Menu;
             menuEncHex32.Name = "menuEncHex32";
-            menuEncHex32.Size = new Size(130, 22);
+            menuEncHex32.Size = new Size(180, 22);
             menuEncHex32.Text = "Hex32";
             // 
             // menuEncBase64
@@ -436,7 +436,7 @@ namespace EU.CqrXs.Gui.Forms
             menuEncBase64.Checked = true;
             menuEncBase64.CheckState = CheckState.Checked;
             menuEncBase64.Name = "menuEncBase64";
-            menuEncBase64.Size = new Size(130, 22);
+            menuEncBase64.Size = new Size(180, 22);
             menuEncBase64.Text = "Base64";
             menuEncBase64.ToolTipText = "base64 mime en-/decoding";
             // 
@@ -444,7 +444,7 @@ namespace EU.CqrXs.Gui.Forms
             // 
             menuEncUu.BackColor = SystemColors.Menu;
             menuEncUu.Name = "menuEncUu";
-            menuEncUu.Size = new Size(130, 22);
+            menuEncUu.Size = new Size(180, 22);
             menuEncUu.Text = "Uu";
             menuEncUu.ToolTipText = "unix 2 unix en-/decoding, see uuencode, uudecode";
             // 
@@ -452,14 +452,14 @@ namespace EU.CqrXs.Gui.Forms
             // 
             menuEncXx.BackColor = SystemColors.Menu;
             menuEncXx.Name = "menuEncXx";
-            menuEncXx.Size = new Size(130, 22);
+            menuEncXx.Size = new Size(180, 22);
             menuEncXx.Text = "Xx";
             // 
             // menuEncAscii85
             // 
             menuEncAscii85.BackColor = SystemColors.Menu;
             menuEncAscii85.Name = "menuEncAscii85";
-            menuEncAscii85.Size = new Size(130, 22);
+            menuEncAscii85.Size = new Size(180, 22);
             menuEncAscii85.Text = "Ascii85";
             // 
             // menuForms
@@ -480,29 +480,30 @@ namespace EU.CqrXs.Gui.Forms
             menuOptionsModes123Fish.Enabled = false;
             menuOptionsModes123Fish.ForeColor = SystemColors.MenuText;
             menuOptionsModes123Fish.Name = "menuOptionsModes123Fish";
-            menuOptionsModes123Fish.Size = new Size(170, 22);
+            menuOptionsModes123Fish.Size = new Size(180, 22);
             menuOptionsModes123Fish.Text = "123-Fish";
             // 
             // menuOptionsModesComplex
             // 
             menuOptionsModesComplex.BackColor = SystemColors.Menu;
             menuOptionsModesComplex.Name = "menuOptionsModesComplex";
-            menuOptionsModesComplex.Size = new Size(170, 22);
+            menuOptionsModesComplex.Size = new Size(180, 22);
             menuOptionsModesComplex.Text = "Mode Complex";
             // 
             // menuOptionsModesSimple
             // 
             menuOptionsModesSimple.BackColor = SystemColors.Menu;
             menuOptionsModesSimple.Name = "menuOptionsModesSimple";
-            menuOptionsModesSimple.Size = new Size(170, 22);
+            menuOptionsModesSimple.Size = new Size(180, 22);
             menuOptionsModesSimple.Text = "Mode Simple";
             // 
             // menuOptionsModesAsymmetric
             // 
             menuOptionsModesAsymmetric.BackColor = SystemColors.Menu;
+            menuOptionsModesAsymmetric.Enabled = false;
             menuOptionsModesAsymmetric.ForeColor = SystemColors.MenuText;
             menuOptionsModesAsymmetric.Name = "menuOptionsModesAsymmetric";
-            menuOptionsModesAsymmetric.Size = new Size(170, 22);
+            menuOptionsModesAsymmetric.Size = new Size(180, 22);
             menuOptionsModesAsymmetric.Text = "Asymmetric";
             // 
             // optionsToolStripMenuItem

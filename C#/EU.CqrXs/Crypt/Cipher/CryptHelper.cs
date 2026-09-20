@@ -132,7 +132,16 @@ namespace EU.CqrXs.Crypt.Cipher
         public static byte[] GetKeyBytesSimple(string key, string keyHash, int keyLen = 16)
         {
             if (string.IsNullOrEmpty(key))
-                throw new ArgumentNullException("key");
+            {
+                if (string.IsNullOrEmpty(keyHash))
+                    throw new ArgumentNullException("key");
+                else
+                {
+                    key = keyHash;
+                    keyHash = string.Empty;
+                }
+            }
+
 
             byte[] outBytes = new byte[keyLen];
             for (int kb = 0; kb < keyLen; kb++)

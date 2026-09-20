@@ -75,7 +75,7 @@ namespace EU.CqrXs.Gui.Forms
             // toolStripSeparator
             // 
             toolStripSeparator.Name = "toolStripSeparator";
-            toolStripSeparator.Size = new Size(177, 6);
+            toolStripSeparator.Size = new Size(166, 6);
             // 
             // printToolStripMenuItem
             // 
@@ -86,20 +86,20 @@ namespace EU.CqrXs.Gui.Forms
             printToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             printToolStripMenuItem.Name = "printToolStripMenuItem";
             printToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.P;
-            printToolStripMenuItem.Size = new Size(180, 22);
+            printToolStripMenuItem.Size = new Size(169, 22);
             printToolStripMenuItem.Text = "&Print";
             // 
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(177, 6);
+            toolStripSeparator2.Size = new Size(166, 6);
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.BackColor = SystemColors.Menu;
             exitToolStripMenuItem.ForeColor = SystemColors.MenuText;
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(180, 22);
+            exitToolStripMenuItem.Size = new Size(169, 22);
             exitToolStripMenuItem.Text = "E&xit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
@@ -118,7 +118,7 @@ namespace EU.CqrXs.Gui.Forms
             menuOptionsModesComplex.BackColor = SystemColors.Menu;
             menuOptionsModesComplex.ForeColor = SystemColors.MenuText;
             menuOptionsModesComplex.Name = "menuOptionsModesComplex";
-            menuOptionsModesComplex.Size = new Size(170, 22);
+            menuOptionsModesComplex.Size = new Size(180, 22);
             menuOptionsModesComplex.Text = "Mode Complex";
             // 
             // menuModeZenMatrix
@@ -129,7 +129,7 @@ namespace EU.CqrXs.Gui.Forms
             menuModeZenMatrix.Enabled = false;
             menuModeZenMatrix.ForeColor = SystemColors.MenuText;
             menuModeZenMatrix.Name = "menuModeZenMatrix";
-            menuModeZenMatrix.Size = new Size(170, 22);
+            menuModeZenMatrix.Size = new Size(180, 22);
             menuModeZenMatrix.Text = "ZenMatrix";
             // 
             // menuOptionsModesSimple
@@ -137,15 +137,16 @@ namespace EU.CqrXs.Gui.Forms
             menuOptionsModesSimple.BackColor = SystemColors.Menu;
             menuOptionsModesSimple.ForeColor = SystemColors.MenuText;
             menuOptionsModesSimple.Name = "menuOptionsModesSimple";
-            menuOptionsModesSimple.Size = new Size(170, 22);
+            menuOptionsModesSimple.Size = new Size(180, 22);
             menuOptionsModesSimple.Text = "Mode Simple";
             // 
             // menuOptionsModes123Fish
             // 
             menuOptionsModes123Fish.BackColor = SystemColors.Menu;
+            menuOptionsModes123Fish.Enabled = false;
             menuOptionsModes123Fish.ForeColor = SystemColors.MenuText;
             menuOptionsModes123Fish.Name = "menuOptionsModes123Fish";
-            menuOptionsModes123Fish.Size = new Size(170, 22);
+            menuOptionsModes123Fish.Size = new Size(180, 22);
             menuOptionsModes123Fish.Text = "123-Fish";
             // 
             // toolsToolStripMenuItem

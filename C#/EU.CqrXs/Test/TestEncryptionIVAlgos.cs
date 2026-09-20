@@ -75,7 +75,7 @@ namespace EU.CqrXs.Test
             Console.WriteLine($"{DateTime.Now.Area23DateTimeWithSeconds()} \t{className}.{methodBase}() \t[started]");
 
             DateTime startOp = DateTime.Now, midOp = DateTime.Now, endOp = DateTime.Now;
-            TimeSpan encOpTime = TimeSpan.Zero, decOpTime = TimeSpan.Zero, allOpTime = TimeSpan.Zero;
+            TimeSpan encOpTime, decOpTime, allOpTime = TimeSpan.Zero;
             string fileByesTest = AppDomain.CurrentDomain.BaseDirectory + Path.DirectorySeparatorChar + "2025-09-23_Stats.gif";
             string fileTextTest = AppDomain.CurrentDomain.BaseDirectory + Path.DirectorySeparatorChar + "README.MD";
             string fileCsvOut = AppContext.BaseDirectory + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd_hh_") + $"{className}_{methodBase}.csv";
@@ -87,9 +87,9 @@ namespace EU.CqrXs.Test
             ZipType[] zTypes = new ZipType[] { ZipType.BZip2, ZipType.GZip, ZipType.Zip, ZipType.None };
             KeyHash[] kHashes = KeyHash_Extensions.GetHashTypes();
             KeyHash kHash;
-            ZipType zType = ZipType.None;
+            ZipType zType;
             EncodingType[] encodingTypes = new EncodingType[] { EncodingType.Uu, EncodingType.Xx, EncodingType.Base64, EncodingType.Base16, EncodingType.Hex32, EncodingType.Hex16 };
-            EncodingType encType = EncodingType.Base64;            
+            EncodingType encType;            
             string plainText = File.ReadAllText(fileTextTest);            
             for (int i = 0; i < cipherEnums.Length - 3; i++)
             {

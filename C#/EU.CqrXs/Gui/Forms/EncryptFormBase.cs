@@ -316,7 +316,7 @@ namespace EU.CqrXs.Gui.Forms
             if (sender != null && sender is ToolStripMenuItem tsmi)
             {
                 if (tsmi.Checked == false)
-                {
+                {                    
                     if (tsmi.Name.Contains("menuVisualModes"))
                     {                        
                         tsmi.Checked = true;
@@ -468,11 +468,13 @@ namespace EU.CqrXs.Gui.Forms
         {
             byte[] fileBytes = await System.IO.File.ReadAllBytesAsync(outFilePath);
             // string encodingOutFile = await System.IO.File.ReadAllTextAsync(outFilePath);
-            byte[] outBytes = cPipe.DecodeDecrpytBytes(fileBytes, key, hash, cPipe.EncodeType, cPipe.ZType, cPipe.KHash);
+            byte[] outBytes = cPipe.DecodeDecrpytBytes(fileBytes, key, hash, cPipe.EncodeType, cPipe.ZType, cPipe.KHash, cPipe.CMode2);
             // string outFileDecrypt = Path.GetFileName(outFilePath).Replace(cPipe.ZType.GetZipTypeExtension(), "").Replace("." + cPipe.PipeString, "").Replace(cPipe.EncodeType.GetEnCodingExtension(), "");
             byte[] inBytes = await File.ReadAllBytesAsync(inFilePath);
+            byte[] trimmedBytes = new byte[inBytes.Length];
+            Array.Copy(outBytes, 0, trimmedBytes, 0, inBytes.Length);
 
-            bool success = await Task.Run(() => CompareBytes(inBytes, outBytes));
+            bool success = await Task.Run(() => CompareBytes(inBytes, trimmedBytes));
             return success;
         }
 
@@ -483,6 +485,8 @@ namespace EU.CqrXs.Gui.Forms
             byte[] outBytes = sPipe.DecodeDecrpytBytes(fileBytes, key, sPipe.CMode2);
             // string outFileDecrypt = Path.GetFileName(outFilePath).Replace(cPipe.ZType.GetZipTypeExtension(), "").Replace("." + cPipe.PipeString, "").Replace(cPipe.EncodeType.GetEnCodingExtension(), "");
             byte[] inBytes = await File.ReadAllBytesAsync(inFilePath);
+            byte[] trimmedBytes = new byte[inBytes.Length];
+            Array.Copy(outBytes, 0, trimmedBytes, 0, inBytes.Length);
 
             bool success = await Task.Run(() => CompareBytes(inBytes, outBytes));
             return success;
@@ -492,11 +496,14 @@ namespace EU.CqrXs.Gui.Forms
         {
             // string encodingOutFile = await System.IO.File.ReadAllTextAsync(outFilePath);
             byte[] fileBytes = await System.IO.File.ReadAllBytesAsync(outFilePath);
-            byte[] outBytes = cPipe.DecodeDecrpytBytes(fileBytes, key, hash, cPipe.EncodeType, cPipe.ZType, cPipe.KHash);
+            byte[] outBytes = cPipe.DecodeDecrpytBytes(fileBytes, key, hash, cPipe.EncodeType, cPipe.ZType, cPipe.KHash, cPipe.CMode2);
+            
             // string outFileDecrypt = Path.GetFileName(outFilePath).Replace(cPipe.ZType.GetZipTypeExtension(), "").Replace("." + cPipe.PipeString, "").Replace(cPipe.EncodeType.GetEnCodingExtension(), "");
             byte[] inBytes = await File.ReadAllBytesAsync(inFilePath);
+            byte[] trimmedBytes = new byte[inBytes.Length];
+            Array.Copy(outBytes, 0, trimmedBytes, 0, inBytes.Length);
 
-            bool shaSuccess = CompareSha512HashSum(inBytes, outBytes);
+            bool shaSuccess = CompareSha512HashSum(inBytes, trimmedBytes);
             return shaSuccess;
         }
 
@@ -507,8 +514,10 @@ namespace EU.CqrXs.Gui.Forms
             byte[] outBytes = sPipe.DecodeDecrpytBytes(fileBytes, key, sPipe.CMode2);
             // string outFileDecrypt = Path.GetFileName(outFilePath).Replace(cPipe.ZType.GetZipTypeExtension(), "").Replace("." + cPipe.PipeString, "").Replace(cPipe.EncodeType.GetEnCodingExtension(), "");
             byte[] inBytes = await File.ReadAllBytesAsync(inFilePath);
+            byte[] trimmedBytes = new byte[inBytes.Length];
+            Array.Copy(outBytes, 0, trimmedBytes, 0, inBytes.Length);
 
-            bool shaSuccess = CompareSha512HashSum(inBytes, outBytes);
+            bool shaSuccess = CompareSha512HashSum(inBytes, trimmedBytes);
             return shaSuccess;
         }
 

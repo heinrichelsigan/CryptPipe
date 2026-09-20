@@ -518,7 +518,7 @@ namespace EU.CqrXs.Gui.Forms
             menuMainItemExperimental.Enabled = false;
             menuMainItemExperimental.ForeColor = SystemColors.MenuText;
             menuMainItemExperimental.Name = "menuMainItemExperimental";
-            menuMainItemExperimental.Size = new Size(178, 22);
+            menuMainItemExperimental.Size = new Size(180, 22);
             menuMainItemExperimental.Text = "Complex mode";
             // 
             // menuMainItemSimple
@@ -526,15 +526,16 @@ namespace EU.CqrXs.Gui.Forms
             menuMainItemSimple.BackColor = SystemColors.Menu;
             menuMainItemSimple.ForeColor = SystemColors.MenuText;
             menuMainItemSimple.Name = "menuMainItemSimple";
-            menuMainItemSimple.Size = new Size(178, 22);
+            menuMainItemSimple.Size = new Size(180, 22);
             menuMainItemSimple.Text = "Simple mode";
             // 
             // menuMainAsymmetric
             // 
             menuMainAsymmetric.BackColor = SystemColors.Menu;
+            menuMainAsymmetric.Enabled = false;
             menuMainAsymmetric.ForeColor = SystemColors.MenuText;
             menuMainAsymmetric.Name = "menuMainAsymmetric";
-            menuMainAsymmetric.Size = new Size(178, 22);
+            menuMainAsymmetric.Size = new Size(180, 22);
             menuMainAsymmetric.Text = "Asymmetric";
             // 
             // menuMainItemOneTwoThreeFish
@@ -542,7 +543,7 @@ namespace EU.CqrXs.Gui.Forms
             menuMainItemOneTwoThreeFish.BackColor = SystemColors.Menu;
             menuMainItemOneTwoThreeFish.ForeColor = SystemColors.MenuText;
             menuMainItemOneTwoThreeFish.Name = "menuMainItemOneTwoThreeFish";
-            menuMainItemOneTwoThreeFish.Size = new Size(178, 22);
+            menuMainItemOneTwoThreeFish.Size = new Size(180, 22);
             menuMainItemOneTwoThreeFish.Text = "123-Fish";
             // 
             // menuMainItemZenMatrixTest
@@ -550,7 +551,7 @@ namespace EU.CqrXs.Gui.Forms
             menuMainItemZenMatrixTest.BackColor = SystemColors.Menu;
             menuMainItemZenMatrixTest.ForeColor = SystemColors.MenuText;
             menuMainItemZenMatrixTest.Name = "menuMainItemZenMatrixTest";
-            menuMainItemZenMatrixTest.Size = new Size(178, 22);
+            menuMainItemZenMatrixTest.Size = new Size(180, 22);
             menuMainItemZenMatrixTest.Text = "ZenMatrixTest";
             // 
             // menuHash
@@ -962,7 +963,7 @@ namespace EU.CqrXs.Gui.Forms
             comboBoxAlgo.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxAlgo.DropDownWidth = 160;
             comboBoxAlgo.Font = new Font("Lucida Sans Typewriter", 10F);
-            comboBoxAlgo.ForeColor = SystemColors.ControlText;
+            comboBoxAlgo.ForeColor = SystemColors.GrayText;
             comboBoxAlgo.FormattingEnabled = true;
             comboBoxAlgo.Location = new Point(102, 4);
             comboBoxAlgo.Margin = new Padding(1);
@@ -973,9 +974,9 @@ namespace EU.CqrXs.Gui.Forms
             // 
             // textBoxKey
             // 
-            textBoxKey.BackColor = SystemColors.Control;
+            textBoxKey.BackColor = SystemColors.ControlLightLight;
             textBoxKey.Font = new Font("Lucida Sans Typewriter", 10F);
-            textBoxKey.ForeColor = SystemColors.ControlText;
+            textBoxKey.ForeColor = SystemColors.GrayText;
             textBoxKey.Location = new Point(48, 28);
             textBoxKey.Margin = new Padding(1);
             textBoxKey.Name = "textBoxKey";
@@ -1013,6 +1014,7 @@ namespace EU.CqrXs.Gui.Forms
             // 
             textBoxHash.BackColor = SystemColors.Control;
             textBoxHash.Font = new Font("Lucida Sans Typewriter", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxHash.ForeColor = SystemColors.GrayText;
             textBoxHash.Location = new Point(48, 105);
             textBoxHash.Margin = new Padding(1);
             textBoxHash.Name = "textBoxHash";
@@ -1022,9 +1024,9 @@ namespace EU.CqrXs.Gui.Forms
             // 
             // buttonSetPipeline
             // 
-            buttonSetPipeline.BackColor = SystemColors.ButtonHighlight;
+            buttonSetPipeline.BackColor = SystemColors.Control;
             buttonSetPipeline.Font = new Font("Lucida Sans Typewriter", 10F);
-            buttonSetPipeline.ForeColor = SystemColors.ControlText;
+            buttonSetPipeline.ForeColor = SystemColors.GrayText;
             buttonSetPipeline.Location = new Point(751, 28);
             buttonSetPipeline.Margin = new Padding(1);
             buttonSetPipeline.Name = "buttonSetPipeline";
@@ -1038,7 +1040,7 @@ namespace EU.CqrXs.Gui.Forms
             // 
             buttonReset.BackColor = SystemColors.ButtonHighlight;
             buttonReset.Font = new Font("Lucida Sans Typewriter", 9.75F);
-            buttonReset.ForeColor = SystemColors.ControlText;
+            buttonReset.ForeColor = SystemColors.GrayText;
             buttonReset.Location = new Point(874, 4);
             buttonReset.Margin = new Padding(1);
             buttonReset.Name = "buttonReset";
@@ -1063,7 +1065,7 @@ namespace EU.CqrXs.Gui.Forms
             // 
             textBoxPipe.BackColor = SystemColors.ControlLightLight;
             textBoxPipe.Font = new Font("Lucida Sans Typewriter", 10F);
-            textBoxPipe.ForeColor = SystemColors.ControlText;
+            textBoxPipe.ForeColor = SystemColors.GrayText;
             textBoxPipe.Location = new Point(257, 4);
             textBoxPipe.Margin = new Padding(1);
             textBoxPipe.MaxLength = 8192;
@@ -1074,28 +1076,30 @@ namespace EU.CqrXs.Gui.Forms
             // 
             // buttonEncrypt
             // 
-            buttonEncrypt.BackColor = SystemColors.ButtonHighlight;
+            buttonEncrypt.BackColor = SystemColors.ButtonFace;
             buttonEncrypt.Font = new Font("Lucida Sans Typewriter", 9.75F);
-            buttonEncrypt.ForeColor = SystemColors.ControlText;
+            buttonEncrypt.ForeColor = SystemColors.GrayText;
             buttonEncrypt.Location = new Point(4, 4);
             buttonEncrypt.Margin = new Padding(1);
             buttonEncrypt.Name = "buttonEncrypt";
             buttonEncrypt.Size = new Size(120, 27);
             buttonEncrypt.TabIndex = 21;
             buttonEncrypt.Text = "Encrypt";
+            buttonEncrypt.UseCompatibleTextRendering = true;
             buttonEncrypt.UseVisualStyleBackColor = false;
             // 
             // buttonDecrypt
             // 
-            buttonDecrypt.BackColor = SystemColors.ButtonHighlight;
+            buttonDecrypt.BackColor = SystemColors.ButtonFace;
             buttonDecrypt.Font = new Font("Lucida Sans Typewriter", 9.75F);
-            buttonDecrypt.ForeColor = SystemColors.ControlText;
+            buttonDecrypt.ForeColor = SystemColors.GrayText;
             buttonDecrypt.Location = new Point(135, 4);
             buttonDecrypt.Margin = new Padding(1);
             buttonDecrypt.Name = "buttonDecrypt";
             buttonDecrypt.Size = new Size(120, 27);
             buttonDecrypt.TabIndex = 22;
             buttonDecrypt.Text = "Decrypt";
+            buttonDecrypt.UseCompatibleTextRendering = true;
             buttonDecrypt.UseVisualStyleBackColor = false;
             // 
             // pictureBoxDelete
@@ -1115,7 +1119,7 @@ namespace EU.CqrXs.Gui.Forms
             comboBoxCompression.BackColor = SystemColors.Control;
             comboBoxCompression.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxCompression.Font = new Font("Lucida Sans Typewriter", 10F);
-            comboBoxCompression.ForeColor = SystemColors.ControlText;
+            comboBoxCompression.ForeColor = SystemColors.GrayText;
             comboBoxCompression.FormattingEnabled = true;
             comboBoxCompression.Items.AddRange(new object[] { "None", "BZip2", "GZip", "Zip" });
             comboBoxCompression.Location = new Point(6, 4);
@@ -1131,7 +1135,7 @@ namespace EU.CqrXs.Gui.Forms
             comboBoxEncoding.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxEncoding.DropDownWidth = 144;
             comboBoxEncoding.Font = new Font("Lucida Sans Typewriter", 10F);
-            comboBoxEncoding.ForeColor = SystemColors.ControlText;
+            comboBoxEncoding.ForeColor = SystemColors.GrayText;
             comboBoxEncoding.FormattingEnabled = true;
             comboBoxEncoding.Items.AddRange(new object[] { "None", "Base16", "Hex16", "Base32", "Hex32", "Base64", "Uu", "Xx" });
             comboBoxEncoding.Location = new Point(874, 4);
@@ -1143,9 +1147,9 @@ namespace EU.CqrXs.Gui.Forms
             // 
             // buttonRandomText
             // 
-            buttonRandomText.BackColor = SystemColors.ButtonHighlight;
+            buttonRandomText.BackColor = SystemColors.ButtonFace;
             buttonRandomText.Font = new Font("Lucida Sans Typewriter", 9.75F);
-            buttonRandomText.ForeColor = SystemColors.ControlText;
+            buttonRandomText.ForeColor = SystemColors.GrayText;
             buttonRandomText.Location = new Point(372, 4);
             buttonRandomText.Margin = new Padding(1);
             buttonRandomText.Name = "buttonRandomText";
@@ -1157,9 +1161,9 @@ namespace EU.CqrXs.Gui.Forms
             // 
             // buttonHashPipe
             // 
-            buttonHashPipe.BackColor = SystemColors.ButtonHighlight;
+            buttonHashPipe.BackColor = SystemColors.Control;
             buttonHashPipe.Font = new Font("Lucida Sans Typewriter", 10F);
-            buttonHashPipe.ForeColor = SystemColors.ControlText;
+            buttonHashPipe.ForeColor = SystemColors.GrayText;
             buttonHashPipe.Location = new Point(876, 28);
             buttonHashPipe.Margin = new Padding(1);
             buttonHashPipe.Name = "buttonHashPipe";
@@ -1264,6 +1268,7 @@ namespace EU.CqrXs.Gui.Forms
             panelPipe.Controls.Add(pictureBoxDelete);
             panelPipe.Controls.Add(comboBoxCompression);
             panelPipe.Controls.Add(comboBoxEncoding);
+            panelPipe.ForeColor = SystemColors.GrayText;
             panelPipe.Location = new Point(0, 137);
             panelPipe.Margin = new Padding(2);
             panelPipe.Name = "panelPipe";
