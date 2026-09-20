@@ -35,7 +35,7 @@ namespace EU.CqrXs.Test
 
             
             DateTime startOp = DateTime.Now, midOp = DateTime.Now, endOp = DateTime.Now;
-            TimeSpan encOpTime = TimeSpan.Zero, decOpTime = TimeSpan.Zero, allOpTime = TimeSpan.Zero;
+            TimeSpan encOpTime, decOpTime, allOpTime = TimeSpan.Zero;
             string fileByesTest = AppDomain.CurrentDomain.BaseDirectory + Path.DirectorySeparatorChar + "2025-09-23_Stats.gif";
             string fileTextTest = AppDomain.CurrentDomain.BaseDirectory + Path.DirectorySeparatorChar + "README.MD";
 

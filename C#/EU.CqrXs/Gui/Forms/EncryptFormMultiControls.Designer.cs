@@ -1004,7 +1004,7 @@ namespace EU.CqrXs.Gui.Forms
             pictureBoxHash.Location = new Point(8, 104);
             pictureBoxHash.Margin = new Padding(1);
             pictureBoxHash.Name = "pictureBoxHash";
-            pictureBoxHash.Size = new Size(32, 30);
+            pictureBoxHash.Size = new Size(32, 26);
             pictureBoxHash.TabIndex = 8;
             pictureBoxHash.TabStop = false;
             pictureBoxHash.Click += Hash_Click;
@@ -1017,7 +1017,7 @@ namespace EU.CqrXs.Gui.Forms
             textBoxHash.Margin = new Padding(1);
             textBoxHash.Name = "textBoxHash";
             textBoxHash.ReadOnly = true;
-            textBoxHash.Size = new Size(789, 22);
+            textBoxHash.Size = new Size(823, 22);
             textBoxHash.TabIndex = 9;
             // 
             // buttonSetPipeline
@@ -1293,9 +1293,10 @@ namespace EU.CqrXs.Gui.Forms
             tabControlWithHexSrc.Font = new Font("Lucida Sans Typewriter", 9F);
             tabControlWithHexSrc.Location = new Point(0, 380);
             tabControlWithHexSrc.Margin = new Padding(1);
+            tabControlWithHexSrc.Multiline = true;
             tabControlWithHexSrc.Name = "tabControlWithHexSrc";
-            tabControlWithHexSrc.Padding = new Padding(1);
-            tabControlWithHexSrc.Size = new Size(504, 306);
+            tabControlWithHexSrc.ScrollBars = ScrollBars.Vertical;
+            tabControlWithHexSrc.Size = new Size(502, 306);
             tabControlWithHexSrc.TabIndex = 40;
             // 
             // tabControlWithHexDest
@@ -1304,8 +1305,9 @@ namespace EU.CqrXs.Gui.Forms
             tabControlWithHexDest.Font = new Font("Lucida Console", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tabControlWithHexDest.Location = new Point(506, 380);
             tabControlWithHexDest.Margin = new Padding(1);
+            tabControlWithHexDest.Multiline = true;
             tabControlWithHexDest.Name = "tabControlWithHexDest";
-            tabControlWithHexDest.Padding = new Padding(1);
+            tabControlWithHexDest.ScrollBars = ScrollBars.Vertical;
             tabControlWithHexDest.Size = new Size(502, 306);
             tabControlWithHexDest.TabIndex = 46;
             // 
@@ -1347,7 +1349,7 @@ namespace EU.CqrXs.Gui.Forms
             Controls.Add(textBoxKey);
             Controls.Add(menuStripEncrypt);
             Font = new Font("Lucida Sans Unicode", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStripEncrypt;
             Margin = new Padding(3, 2, 3, 2);

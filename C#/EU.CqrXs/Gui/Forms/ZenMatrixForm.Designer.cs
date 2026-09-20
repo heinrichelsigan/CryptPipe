@@ -37,20 +37,20 @@ namespace EU.CqrXs.Gui.Forms
             printToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator2 = new ToolStripSeparator();
             exitToolStripMenuItem = new ToolStripMenuItem();
-            toolsToolStripMenuItem = new ToolStripMenuItem();
-            menuHelp = new ToolStripMenuItem();
-            menuAbout = new ToolStripMenuItem();
-            menuHelpHelp = new ToolStripMenuItem();
-            zenMatrixUserControl = new ZenMatrixUserControl();
-            menuOptionsMenuVisualModes = new ToolStripMenuItem();
-            menuVisualModesItemClassic = new ToolStripMenuItem();
-            menuVisualModesItemDark = new ToolStripMenuItem();
-            menuVisualModesItemSystem = new ToolStripMenuItem();
             menuForms = new ToolStripMenuItem();
             menuOptionsModesComplex = new ToolStripMenuItem();
             menuModeZenMatrix = new ToolStripMenuItem();
             menuOptionsModesSimple = new ToolStripMenuItem();
             menuOptionsModes123Fish = new ToolStripMenuItem();
+            toolsToolStripMenuItem = new ToolStripMenuItem();
+            menuOptionsMenuVisualModes = new ToolStripMenuItem();
+            menuVisualModesItemClassic = new ToolStripMenuItem();
+            menuVisualModesItemDark = new ToolStripMenuItem();
+            menuVisualModesItemSystem = new ToolStripMenuItem();
+            menuHelp = new ToolStripMenuItem();
+            menuAbout = new ToolStripMenuItem();
+            menuHelpHelp = new ToolStripMenuItem();
+            zenMatrixUserControl = new ZenMatrixUserControl();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -75,7 +75,7 @@ namespace EU.CqrXs.Gui.Forms
             // toolStripSeparator
             // 
             toolStripSeparator.Name = "toolStripSeparator";
-            toolStripSeparator.Size = new Size(166, 6);
+            toolStripSeparator.Size = new Size(177, 6);
             // 
             // printToolStripMenuItem
             // 
@@ -86,100 +86,22 @@ namespace EU.CqrXs.Gui.Forms
             printToolStripMenuItem.ImageTransparentColor = Color.Magenta;
             printToolStripMenuItem.Name = "printToolStripMenuItem";
             printToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.P;
-            printToolStripMenuItem.Size = new Size(169, 22);
+            printToolStripMenuItem.Size = new Size(180, 22);
             printToolStripMenuItem.Text = "&Print";
             // 
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(166, 6);
+            toolStripSeparator2.Size = new Size(177, 6);
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.BackColor = SystemColors.Menu;
             exitToolStripMenuItem.ForeColor = SystemColors.MenuText;
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(169, 22);
+            exitToolStripMenuItem.Size = new Size(180, 22);
             exitToolStripMenuItem.Text = "E&xit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
-            // 
-            // toolsToolStripMenuItem
-            // 
-            toolsToolStripMenuItem.BackColor = SystemColors.MenuBar;
-            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { menuOptionsMenuVisualModes });
-            toolsToolStripMenuItem.Font = new Font("Lucida Sans Typewriter", 10F);
-            toolsToolStripMenuItem.ForeColor = SystemColors.MenuText;
-            toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            toolsToolStripMenuItem.Size = new Size(75, 20);
-            toolsToolStripMenuItem.Text = "Options";
-            // 
-            // menuHelp
-            // 
-            menuHelp.DropDownItems.AddRange(new ToolStripItem[] { menuAbout, menuHelpHelp });
-            menuHelp.Font = new Font("Lucida Sans Typewriter", 10F);
-            menuHelp.ForeColor = SystemColors.MenuText;
-            menuHelp.Name = "menuHelp";
-            menuHelp.Size = new Size(27, 20);
-            menuHelp.Text = "?";
-            // 
-            // menuAbout
-            // 
-            menuAbout.BackColor = SystemColors.MenuBar;
-            menuAbout.ForeColor = SystemColors.MenuText;
-            menuAbout.Name = "menuAbout";
-            menuAbout.Size = new Size(180, 22);
-            menuAbout.Text = "About";
-            menuAbout.Click += menuAbout_Click_1;
-            // 
-            // menuHelpHelp
-            // 
-            menuHelpHelp.BackColor = SystemColors.MenuBar;
-            menuHelpHelp.ForeColor = SystemColors.MenuText;
-            menuHelpHelp.Name = "menuHelpHelp";
-            menuHelpHelp.ShortcutKeys = Keys.Alt | Keys.F3;
-            menuHelpHelp.Size = new Size(180, 22);
-            menuHelpHelp.Text = "Help";
-            menuHelpHelp.Click += menuHelpHelp_Click;
-            // 
-            // zenMatrixUserControl
-            // 
-            zenMatrixUserControl.Location = new Point(1, 20);
-            zenMatrixUserControl.Name = "zenMatrixUserControl";
-            zenMatrixUserControl.Size = new Size(691, 559);
-            zenMatrixUserControl.TabIndex = 6;
-            // 
-            // menuOptionsMenuVisualModes
-            // 
-            menuOptionsMenuVisualModes.BackColor = SystemColors.MenuBar;
-            menuOptionsMenuVisualModes.DropDownItems.AddRange(new ToolStripItem[] { menuVisualModesItemClassic, menuVisualModesItemDark, menuVisualModesItemSystem });
-            menuOptionsMenuVisualModes.ForeColor = SystemColors.MenuText;
-            menuOptionsMenuVisualModes.Name = "menuOptionsMenuVisualModes";
-            menuOptionsMenuVisualModes.Size = new Size(180, 22);
-            menuOptionsMenuVisualModes.Text = "Visual Modes";
-            // 
-            // menuVisualModesItemClassic
-            // 
-            menuVisualModesItemClassic.BackColor = SystemColors.Menu;
-            menuVisualModesItemClassic.ForeColor = SystemColors.MenuText;
-            menuVisualModesItemClassic.Name = "menuVisualModesItemClassic";
-            menuVisualModesItemClassic.Size = new Size(180, 22);
-            menuVisualModesItemClassic.Text = "Classic";
-            // 
-            // menuVisualModesItemDark
-            // 
-            menuVisualModesItemDark.BackColor = SystemColors.Menu;
-            menuVisualModesItemDark.ForeColor = SystemColors.MenuText;
-            menuVisualModesItemDark.Name = "menuVisualModesItemDark";
-            menuVisualModesItemDark.Size = new Size(180, 22);
-            menuVisualModesItemDark.Text = "Dark";
-            // 
-            // menuVisualModesItemSystem
-            // 
-            menuVisualModesItemSystem.BackColor = SystemColors.Menu;
-            menuVisualModesItemSystem.ForeColor = SystemColors.MenuText;
-            menuVisualModesItemSystem.Name = "menuVisualModesItemSystem";
-            menuVisualModesItemSystem.Size = new Size(180, 22);
-            menuVisualModesItemSystem.Text = "System";
             // 
             // menuForms
             // 
@@ -196,7 +118,7 @@ namespace EU.CqrXs.Gui.Forms
             menuOptionsModesComplex.BackColor = SystemColors.Menu;
             menuOptionsModesComplex.ForeColor = SystemColors.MenuText;
             menuOptionsModesComplex.Name = "menuOptionsModesComplex";
-            menuOptionsModesComplex.Size = new Size(180, 22);
+            menuOptionsModesComplex.Size = new Size(170, 22);
             menuOptionsModesComplex.Text = "Mode Complex";
             // 
             // menuModeZenMatrix
@@ -207,7 +129,7 @@ namespace EU.CqrXs.Gui.Forms
             menuModeZenMatrix.Enabled = false;
             menuModeZenMatrix.ForeColor = SystemColors.MenuText;
             menuModeZenMatrix.Name = "menuModeZenMatrix";
-            menuModeZenMatrix.Size = new Size(180, 22);
+            menuModeZenMatrix.Size = new Size(170, 22);
             menuModeZenMatrix.Text = "ZenMatrix";
             // 
             // menuOptionsModesSimple
@@ -215,7 +137,7 @@ namespace EU.CqrXs.Gui.Forms
             menuOptionsModesSimple.BackColor = SystemColors.Menu;
             menuOptionsModesSimple.ForeColor = SystemColors.MenuText;
             menuOptionsModesSimple.Name = "menuOptionsModesSimple";
-            menuOptionsModesSimple.Size = new Size(180, 22);
+            menuOptionsModesSimple.Size = new Size(170, 22);
             menuOptionsModesSimple.Text = "Mode Simple";
             // 
             // menuOptionsModes123Fish
@@ -223,8 +145,86 @@ namespace EU.CqrXs.Gui.Forms
             menuOptionsModes123Fish.BackColor = SystemColors.Menu;
             menuOptionsModes123Fish.ForeColor = SystemColors.MenuText;
             menuOptionsModes123Fish.Name = "menuOptionsModes123Fish";
-            menuOptionsModes123Fish.Size = new Size(180, 22);
+            menuOptionsModes123Fish.Size = new Size(170, 22);
             menuOptionsModes123Fish.Text = "123-Fish";
+            // 
+            // toolsToolStripMenuItem
+            // 
+            toolsToolStripMenuItem.BackColor = SystemColors.MenuBar;
+            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { menuOptionsMenuVisualModes });
+            toolsToolStripMenuItem.Font = new Font("Lucida Sans Typewriter", 10F);
+            toolsToolStripMenuItem.ForeColor = SystemColors.MenuText;
+            toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            toolsToolStripMenuItem.Size = new Size(75, 20);
+            toolsToolStripMenuItem.Text = "Options";
+            // 
+            // menuOptionsMenuVisualModes
+            // 
+            menuOptionsMenuVisualModes.BackColor = SystemColors.MenuBar;
+            menuOptionsMenuVisualModes.DropDownItems.AddRange(new ToolStripItem[] { menuVisualModesItemClassic, menuVisualModesItemDark, menuVisualModesItemSystem });
+            menuOptionsMenuVisualModes.ForeColor = SystemColors.MenuText;
+            menuOptionsMenuVisualModes.Name = "menuOptionsMenuVisualModes";
+            menuOptionsMenuVisualModes.Size = new Size(170, 22);
+            menuOptionsMenuVisualModes.Text = "Visual Modes";
+            // 
+            // menuVisualModesItemClassic
+            // 
+            menuVisualModesItemClassic.BackColor = SystemColors.Menu;
+            menuVisualModesItemClassic.ForeColor = SystemColors.MenuText;
+            menuVisualModesItemClassic.Name = "menuVisualModesItemClassic";
+            menuVisualModesItemClassic.Size = new Size(130, 22);
+            menuVisualModesItemClassic.Text = "Classic";
+            // 
+            // menuVisualModesItemDark
+            // 
+            menuVisualModesItemDark.BackColor = SystemColors.Menu;
+            menuVisualModesItemDark.ForeColor = SystemColors.MenuText;
+            menuVisualModesItemDark.Name = "menuVisualModesItemDark";
+            menuVisualModesItemDark.Size = new Size(130, 22);
+            menuVisualModesItemDark.Text = "Dark";
+            // 
+            // menuVisualModesItemSystem
+            // 
+            menuVisualModesItemSystem.BackColor = SystemColors.Menu;
+            menuVisualModesItemSystem.ForeColor = SystemColors.MenuText;
+            menuVisualModesItemSystem.Name = "menuVisualModesItemSystem";
+            menuVisualModesItemSystem.Size = new Size(130, 22);
+            menuVisualModesItemSystem.Text = "System";
+            // 
+            // menuHelp
+            // 
+            menuHelp.DropDownItems.AddRange(new ToolStripItem[] { menuAbout, menuHelpHelp });
+            menuHelp.Font = new Font("Lucida Sans Typewriter", 10F);
+            menuHelp.ForeColor = SystemColors.MenuText;
+            menuHelp.Name = "menuHelp";
+            menuHelp.Size = new Size(27, 20);
+            menuHelp.Text = "?";
+            // 
+            // menuAbout
+            // 
+            menuAbout.BackColor = SystemColors.MenuBar;
+            menuAbout.ForeColor = SystemColors.MenuText;
+            menuAbout.Name = "menuAbout";
+            menuAbout.Size = new Size(161, 22);
+            menuAbout.Text = "About";
+            menuAbout.Click += menuAbout_Click_1;
+            // 
+            // menuHelpHelp
+            // 
+            menuHelpHelp.BackColor = SystemColors.MenuBar;
+            menuHelpHelp.ForeColor = SystemColors.MenuText;
+            menuHelpHelp.Name = "menuHelpHelp";
+            menuHelpHelp.ShortcutKeys = Keys.Alt | Keys.F3;
+            menuHelpHelp.Size = new Size(161, 22);
+            menuHelpHelp.Text = "Help";
+            menuHelpHelp.Click += menuHelpHelp_Click;
+            // 
+            // zenMatrixUserControl
+            // 
+            zenMatrixUserControl.Location = new Point(1, 20);
+            zenMatrixUserControl.Name = "zenMatrixUserControl";
+            zenMatrixUserControl.Size = new Size(691, 559);
+            zenMatrixUserControl.TabIndex = 6;
             // 
             // ZenMatrixForm
             // 
@@ -233,7 +233,8 @@ namespace EU.CqrXs.Gui.Forms
             ClientSize = new Size(707, 585);
             Controls.Add(zenMatrixUserControl);
             Controls.Add(menuStrip1);
-            FormBorderStyle = FormBorderStyle.None;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStrip1;
             MaximizeBox = false;
             MdiChildrenMinimizedAnchorBottom = false;

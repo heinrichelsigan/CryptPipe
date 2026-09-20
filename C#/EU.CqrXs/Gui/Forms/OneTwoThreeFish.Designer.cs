@@ -49,6 +49,14 @@ namespace EU.CqrXs.Gui.Forms
             menuMainReset = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             menuFileExit = new ToolStripMenuItem();
+            cipherModeToolStripMenuItem = new ToolStripMenuItem();
+            menuCipherModeItemCBC = new ToolStripMenuItem();
+            menuCipherModeItemCCM = new ToolStripMenuItem();
+            menuCipherModeItemCFB = new ToolStripMenuItem();
+            menuCipherModeItemCTS = new ToolStripMenuItem();
+            menuCipherModeItemEAX = new ToolStripMenuItem();
+            menuCipherModeItemECB = new ToolStripMenuItem();
+            menuCipherModeItemGOFB = new ToolStripMenuItem();
             menuCompression = new ToolStripMenuItem();
             zmenu7z = new ToolStripMenuItem();
             zmenuBZip2 = new ToolStripMenuItem();
@@ -65,14 +73,11 @@ namespace EU.CqrXs.Gui.Forms
             menuEncUu = new ToolStripMenuItem();
             menuEncXx = new ToolStripMenuItem();
             menuEncAscii85 = new ToolStripMenuItem();
-            cipherModeToolStripMenuItem = new ToolStripMenuItem();
-            menuCipherModeItemCBC = new ToolStripMenuItem();
-            menuCipherModeItemCCM = new ToolStripMenuItem();
-            menuCipherModeItemCFB = new ToolStripMenuItem();
-            menuCipherModeItemCTS = new ToolStripMenuItem();
-            menuCipherModeItemEAX = new ToolStripMenuItem();
-            menuCipherModeItemECB = new ToolStripMenuItem();
-            menuCipherModeItemGOFB = new ToolStripMenuItem();
+            menuForms = new ToolStripMenuItem();
+            menuOptionsModes123Fish = new ToolStripMenuItem();
+            menuOptionsModesComplex = new ToolStripMenuItem();
+            menuOptionsModesSimple = new ToolStripMenuItem();
+            menuOptionsModesAsymmetric = new ToolStripMenuItem();
             optionsToolStripMenuItem = new ToolStripMenuItem();
             menuOptionsItemsWarnings = new ToolStripMenuItem();
             warnOnEmptyPipeToolStripMenuItem = new ToolStripMenuItem();
@@ -83,6 +88,10 @@ namespace EU.CqrXs.Gui.Forms
             menuOptionsMenuFileSettings = new ToolStripMenuItem();
             menuItemCreatePipeSettingsFromFileName = new ToolStripMenuItem();
             menuFileSettingsItemAutomaticallySaveToTemp = new ToolStripMenuItem();
+            menuOptionsMenuVisualModes = new ToolStripMenuItem();
+            menuVisualModesItemClassic = new ToolStripMenuItem();
+            menuVisualModesItemDark = new ToolStripMenuItem();
+            menuVisualModesItemSystem = new ToolStripMenuItem();
             menuSerialize = new ToolStripMenuItem();
             menuJson = new ToolStripMenuItem();
             menuXml = new ToolStripMenuItem();
@@ -123,15 +132,6 @@ namespace EU.CqrXs.Gui.Forms
             tabControlWithHexSrc = new EU.CqrXs.Gui.Controls.TabControlWithHex();
             tabControlWithHexDest = new EU.CqrXs.Gui.Controls.TabControlWithHex();
             groupBoxFiles = new EU.CqrXs.Gui.Controls.GroupBoxFiles();
-            menuForms = new ToolStripMenuItem();
-            menuOptionsModes123Fish = new ToolStripMenuItem();
-            menuOptionsModesComplex = new ToolStripMenuItem();
-            menuOptionsModesSimple = new ToolStripMenuItem();
-            menuOptionsModesAsymmetric = new ToolStripMenuItem();
-            menuOptionsMenuVisualModes = new ToolStripMenuItem();
-            menuVisualModesItemClassic = new ToolStripMenuItem();
-            menuVisualModesItemDark = new ToolStripMenuItem();
-            menuVisualModesItemSystem = new ToolStripMenuItem();
             menuStripEncrypt.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)enumOptionsBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxKey).BeginInit();
@@ -169,7 +169,7 @@ namespace EU.CqrXs.Gui.Forms
             menuFileOpen.BackColor = SystemColors.Menu;
             menuFileOpen.Name = "menuFileOpen";
             menuFileOpen.ShortcutKeys = Keys.Control | Keys.O;
-            menuFileOpen.Size = new Size(180, 22);
+            menuFileOpen.Size = new Size(170, 22);
             menuFileOpen.Text = "Open";
             menuFileOpen.Click += menuFileOpen_Click;
             // 
@@ -178,20 +178,20 @@ namespace EU.CqrXs.Gui.Forms
             menuMainSave.BackColor = SystemColors.Menu;
             menuMainSave.Name = "menuMainSave";
             menuMainSave.ShortcutKeys = Keys.Control | Keys.S;
-            menuMainSave.Size = new Size(180, 22);
+            menuMainSave.Size = new Size(170, 22);
             menuMainSave.Text = "Save";
             menuMainSave.Click += menuMainSave_Click;
             // 
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(177, 6);
+            toolStripSeparator2.Size = new Size(167, 6);
             // 
             // menuMainSetPipe
             // 
             menuMainSetPipe.BackColor = SystemColors.Menu;
             menuMainSetPipe.Name = "menuMainSetPipe";
-            menuMainSetPipe.Size = new Size(180, 22);
+            menuMainSetPipe.Size = new Size(170, 22);
             menuMainSetPipe.Text = "Set Pipe";
             menuMainSetPipe.Click += SetPipeline_Click;
             // 
@@ -199,7 +199,7 @@ namespace EU.CqrXs.Gui.Forms
             // 
             menuMainHashKey.BackColor = SystemColors.Menu;
             menuMainHashKey.Name = "menuMainHashKey";
-            menuMainHashKey.Size = new Size(180, 22);
+            menuMainHashKey.Size = new Size(170, 22);
             menuMainHashKey.Text = "Hash Key";
             menuMainHashKey.Click += Hash_Click;
             // 
@@ -207,34 +207,34 @@ namespace EU.CqrXs.Gui.Forms
             // 
             menuMainHashPipe.BackColor = SystemColors.Menu;
             menuMainHashPipe.Name = "menuMainHashPipe";
-            menuMainHashPipe.Size = new Size(180, 22);
+            menuMainHashPipe.Size = new Size(170, 22);
             menuMainHashPipe.Text = "Hash Pipe";
             menuMainHashPipe.Click += Hash_Pipe_Click;
             // 
             // toolStripSeparator3
             // 
             toolStripSeparator3.Name = "toolStripSeparator3";
-            toolStripSeparator3.Size = new Size(177, 6);
+            toolStripSeparator3.Size = new Size(167, 6);
             // 
             // menuMainEncrypt
             // 
             menuMainEncrypt.BackColor = SystemColors.Menu;
             menuMainEncrypt.Name = "menuMainEncrypt";
-            menuMainEncrypt.Size = new Size(180, 22);
+            menuMainEncrypt.Size = new Size(170, 22);
             menuMainEncrypt.Text = "Encrypt";
             // 
             // menuMainDecrypt
             // 
             menuMainDecrypt.BackColor = SystemColors.Menu;
             menuMainDecrypt.Name = "menuMainDecrypt";
-            menuMainDecrypt.Size = new Size(180, 22);
+            menuMainDecrypt.Size = new Size(170, 22);
             menuMainDecrypt.Text = "Decrypt";
             // 
             // menuMainDownloadImage
             // 
             menuMainDownloadImage.BackColor = SystemColors.Menu;
             menuMainDownloadImage.Name = "menuMainDownloadImage";
-            menuMainDownloadImage.Size = new Size(180, 22);
+            menuMainDownloadImage.Size = new Size(170, 22);
             menuMainDownloadImage.Text = "Ramdom Image";
             menuMainDownloadImage.Click += LoadImage_Click;
             // 
@@ -242,7 +242,7 @@ namespace EU.CqrXs.Gui.Forms
             // 
             menuMainRandomText.BackColor = SystemColors.Menu;
             menuMainRandomText.Name = "menuMainRandomText";
-            menuMainRandomText.Size = new Size(180, 22);
+            menuMainRandomText.Size = new Size(170, 22);
             menuMainRandomText.Text = "Random Text";
             menuMainRandomText.Click += RandomText_Click;
             // 
@@ -250,22 +250,85 @@ namespace EU.CqrXs.Gui.Forms
             // 
             menuMainReset.BackColor = SystemColors.Menu;
             menuMainReset.Name = "menuMainReset";
-            menuMainReset.Size = new Size(180, 22);
+            menuMainReset.Size = new Size(170, 22);
             menuMainReset.Text = "Reset";
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(177, 6);
+            toolStripSeparator1.Size = new Size(167, 6);
             // 
             // menuFileExit
             // 
             menuFileExit.BackColor = SystemColors.Menu;
             menuFileExit.Name = "menuFileExit";
             menuFileExit.ShortcutKeys = Keys.Alt | Keys.F4;
-            menuFileExit.Size = new Size(180, 22);
+            menuFileExit.Size = new Size(170, 22);
             menuFileExit.Text = "Exit";
             menuFileExit.Click += menuFileExit_Click;
+            // 
+            // cipherModeToolStripMenuItem
+            // 
+            cipherModeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { menuCipherModeItemCBC, menuCipherModeItemCCM, menuCipherModeItemCFB, menuCipherModeItemCTS, menuCipherModeItemEAX, menuCipherModeItemECB, menuCipherModeItemGOFB });
+            cipherModeToolStripMenuItem.Font = new Font("Lucida Sans Typewriter", 10F);
+            cipherModeToolStripMenuItem.Name = "cipherModeToolStripMenuItem";
+            cipherModeToolStripMenuItem.Size = new Size(99, 20);
+            cipherModeToolStripMenuItem.Text = "CipherMode";
+            // 
+            // menuCipherModeItemCBC
+            // 
+            menuCipherModeItemCBC.BackColor = SystemColors.Menu;
+            menuCipherModeItemCBC.Name = "menuCipherModeItemCBC";
+            menuCipherModeItemCBC.Size = new Size(106, 22);
+            menuCipherModeItemCBC.Text = "CBC";
+            // 
+            // menuCipherModeItemCCM
+            // 
+            menuCipherModeItemCCM.BackColor = SystemColors.GradientInactiveCaption;
+            menuCipherModeItemCCM.Enabled = false;
+            menuCipherModeItemCCM.Name = "menuCipherModeItemCCM";
+            menuCipherModeItemCCM.Size = new Size(106, 22);
+            menuCipherModeItemCCM.Text = "CCM";
+            // 
+            // menuCipherModeItemCFB
+            // 
+            menuCipherModeItemCFB.BackColor = SystemColors.Menu;
+            menuCipherModeItemCFB.Checked = true;
+            menuCipherModeItemCFB.CheckState = CheckState.Checked;
+            menuCipherModeItemCFB.Name = "menuCipherModeItemCFB";
+            menuCipherModeItemCFB.Size = new Size(106, 22);
+            menuCipherModeItemCFB.Text = "CFB";
+            // 
+            // menuCipherModeItemCTS
+            // 
+            menuCipherModeItemCTS.BackColor = SystemColors.GradientInactiveCaption;
+            menuCipherModeItemCTS.Enabled = false;
+            menuCipherModeItemCTS.Name = "menuCipherModeItemCTS";
+            menuCipherModeItemCTS.Size = new Size(106, 22);
+            menuCipherModeItemCTS.Text = "CTS";
+            // 
+            // menuCipherModeItemEAX
+            // 
+            menuCipherModeItemEAX.BackColor = SystemColors.GradientInactiveCaption;
+            menuCipherModeItemEAX.Enabled = false;
+            menuCipherModeItemEAX.Name = "menuCipherModeItemEAX";
+            menuCipherModeItemEAX.Size = new Size(106, 22);
+            menuCipherModeItemEAX.Text = "EAX";
+            // 
+            // menuCipherModeItemECB
+            // 
+            menuCipherModeItemECB.BackColor = SystemColors.Menu;
+            menuCipherModeItemECB.Name = "menuCipherModeItemECB";
+            menuCipherModeItemECB.Size = new Size(106, 22);
+            menuCipherModeItemECB.Text = "ECB";
+            // 
+            // menuCipherModeItemGOFB
+            // 
+            menuCipherModeItemGOFB.BackColor = SystemColors.GradientInactiveCaption;
+            menuCipherModeItemGOFB.Enabled = false;
+            menuCipherModeItemGOFB.Name = "menuCipherModeItemGOFB";
+            menuCipherModeItemGOFB.Size = new Size(106, 22);
+            menuCipherModeItemGOFB.Text = "GOFB";
             // 
             // menuCompression
             // 
@@ -281,7 +344,7 @@ namespace EU.CqrXs.Gui.Forms
             zmenu7z.Enabled = false;
             zmenu7z.Name = "zmenu7z";
             zmenu7z.ShortcutKeys = Keys.Control | Keys.D7;
-            zmenu7z.Size = new Size(180, 22);
+            zmenu7z.Size = new Size(169, 22);
             zmenu7z.Text = "7z";
             // 
             // zmenuBZip2
@@ -290,7 +353,7 @@ namespace EU.CqrXs.Gui.Forms
             zmenuBZip2.Enabled = false;
             zmenuBZip2.Name = "zmenuBZip2";
             zmenuBZip2.ShortcutKeys = Keys.Control | Keys.B;
-            zmenuBZip2.Size = new Size(180, 22);
+            zmenuBZip2.Size = new Size(169, 22);
             zmenuBZip2.Text = "BZip2";
             // 
             // zmenuGZip
@@ -298,7 +361,7 @@ namespace EU.CqrXs.Gui.Forms
             zmenuGZip.BackColor = SystemColors.Menu;
             zmenuGZip.Name = "zmenuGZip";
             zmenuGZip.ShortcutKeys = Keys.Control | Keys.G;
-            zmenuGZip.Size = new Size(180, 22);
+            zmenuGZip.Size = new Size(169, 22);
             zmenuGZip.Text = "GZip";
             // 
             // zmenuZip
@@ -306,7 +369,7 @@ namespace EU.CqrXs.Gui.Forms
             zmenuZip.BackColor = SystemColors.Menu;
             zmenuZip.Name = "zmenuZip";
             zmenuZip.ShortcutKeys = Keys.Control | Keys.Z;
-            zmenuZip.Size = new Size(180, 22);
+            zmenuZip.Size = new Size(169, 22);
             zmenuZip.Text = "Zip";
             // 
             // zmenuNone
@@ -316,7 +379,7 @@ namespace EU.CqrXs.Gui.Forms
             zmenuNone.CheckState = CheckState.Checked;
             zmenuNone.Name = "zmenuNone";
             zmenuNone.ShortcutKeys = Keys.Control | Keys.N;
-            zmenuNone.Size = new Size(180, 22);
+            zmenuNone.Size = new Size(169, 22);
             zmenuNone.Text = "None";
             // 
             // menuEncoding
@@ -332,7 +395,7 @@ namespace EU.CqrXs.Gui.Forms
             // 
             menuEncNone.BackColor = SystemColors.Menu;
             menuEncNone.Name = "menuEncNone";
-            menuEncNone.Size = new Size(180, 22);
+            menuEncNone.Size = new Size(130, 22);
             menuEncNone.Text = "None";
             menuEncNone.ToolTipText = "no encoding, let it be binary as it is";
             // 
@@ -340,7 +403,7 @@ namespace EU.CqrXs.Gui.Forms
             // 
             menuEncBase16.BackColor = SystemColors.Menu;
             menuEncBase16.Name = "menuEncBase16";
-            menuEncBase16.Size = new Size(180, 22);
+            menuEncBase16.Size = new Size(130, 22);
             menuEncBase16.Text = "Base16";
             menuEncBase16.ToolTipText = "base16 en-/decoding";
             // 
@@ -348,7 +411,7 @@ namespace EU.CqrXs.Gui.Forms
             // 
             menuEncHex16.BackColor = SystemColors.Menu;
             menuEncHex16.Name = "menuEncHex16";
-            menuEncHex16.Size = new Size(180, 22);
+            menuEncHex16.Size = new Size(130, 22);
             menuEncHex16.Text = "Hex16";
             menuEncHex16.ToolTipText = "hexadecimal half byte encoding";
             // 
@@ -356,7 +419,7 @@ namespace EU.CqrXs.Gui.Forms
             // 
             menuEncBase32.BackColor = SystemColors.Menu;
             menuEncBase32.Name = "menuEncBase32";
-            menuEncBase32.Size = new Size(180, 22);
+            menuEncBase32.Size = new Size(130, 22);
             menuEncBase32.Text = "Base32";
             menuEncBase32.ToolTipText = "base32 en-/decoding";
             // 
@@ -364,7 +427,7 @@ namespace EU.CqrXs.Gui.Forms
             // 
             menuEncHex32.BackColor = SystemColors.Menu;
             menuEncHex32.Name = "menuEncHex32";
-            menuEncHex32.Size = new Size(180, 22);
+            menuEncHex32.Size = new Size(130, 22);
             menuEncHex32.Text = "Hex32";
             // 
             // menuEncBase64
@@ -373,7 +436,7 @@ namespace EU.CqrXs.Gui.Forms
             menuEncBase64.Checked = true;
             menuEncBase64.CheckState = CheckState.Checked;
             menuEncBase64.Name = "menuEncBase64";
-            menuEncBase64.Size = new Size(180, 22);
+            menuEncBase64.Size = new Size(130, 22);
             menuEncBase64.Text = "Base64";
             menuEncBase64.ToolTipText = "base64 mime en-/decoding";
             // 
@@ -381,7 +444,7 @@ namespace EU.CqrXs.Gui.Forms
             // 
             menuEncUu.BackColor = SystemColors.Menu;
             menuEncUu.Name = "menuEncUu";
-            menuEncUu.Size = new Size(180, 22);
+            menuEncUu.Size = new Size(130, 22);
             menuEncUu.Text = "Uu";
             menuEncUu.ToolTipText = "unix 2 unix en-/decoding, see uuencode, uudecode";
             // 
@@ -389,78 +452,58 @@ namespace EU.CqrXs.Gui.Forms
             // 
             menuEncXx.BackColor = SystemColors.Menu;
             menuEncXx.Name = "menuEncXx";
-            menuEncXx.Size = new Size(180, 22);
+            menuEncXx.Size = new Size(130, 22);
             menuEncXx.Text = "Xx";
             // 
             // menuEncAscii85
             // 
             menuEncAscii85.BackColor = SystemColors.Menu;
             menuEncAscii85.Name = "menuEncAscii85";
-            menuEncAscii85.Size = new Size(180, 22);
+            menuEncAscii85.Size = new Size(130, 22);
             menuEncAscii85.Text = "Ascii85";
             // 
-            // cipherModeToolStripMenuItem
+            // menuForms
             // 
-            cipherModeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { menuCipherModeItemCBC, menuCipherModeItemCCM, menuCipherModeItemCFB, menuCipherModeItemCTS, menuCipherModeItemEAX, menuCipherModeItemECB, menuCipherModeItemGOFB });
-            cipherModeToolStripMenuItem.Font = new Font("Lucida Sans Typewriter", 10F);
-            cipherModeToolStripMenuItem.Name = "cipherModeToolStripMenuItem";
-            cipherModeToolStripMenuItem.Size = new Size(99, 20);
-            cipherModeToolStripMenuItem.Text = "CipherMode";
+            menuForms.BackColor = SystemColors.Menu;
+            menuForms.DropDownItems.AddRange(new ToolStripItem[] { menuOptionsModes123Fish, menuOptionsModesComplex, menuOptionsModesSimple, menuOptionsModesAsymmetric });
+            menuForms.Font = new Font("Lucida Sans Typewriter", 10F);
+            menuForms.ForeColor = SystemColors.MenuText;
+            menuForms.Name = "menuForms";
+            menuForms.Size = new Size(59, 20);
+            menuForms.Text = "Forms";
             // 
-            // menuCipherModeItemCBC
+            // menuOptionsModes123Fish
             // 
-            menuCipherModeItemCBC.BackColor = SystemColors.Menu;
-            menuCipherModeItemCBC.Name = "menuCipherModeItemCBC";
-            menuCipherModeItemCBC.Size = new Size(180, 22);
-            menuCipherModeItemCBC.Text = "CBC";
+            menuOptionsModes123Fish.BackColor = SystemColors.GradientInactiveCaption;
+            menuOptionsModes123Fish.Checked = true;
+            menuOptionsModes123Fish.CheckState = CheckState.Checked;
+            menuOptionsModes123Fish.Enabled = false;
+            menuOptionsModes123Fish.ForeColor = SystemColors.MenuText;
+            menuOptionsModes123Fish.Name = "menuOptionsModes123Fish";
+            menuOptionsModes123Fish.Size = new Size(170, 22);
+            menuOptionsModes123Fish.Text = "123-Fish";
             // 
-            // menuCipherModeItemCCM
+            // menuOptionsModesComplex
             // 
-            menuCipherModeItemCCM.BackColor = SystemColors.GradientInactiveCaption;
-            menuCipherModeItemCCM.Enabled = false;
-            menuCipherModeItemCCM.Name = "menuCipherModeItemCCM";
-            menuCipherModeItemCCM.Size = new Size(180, 22);
-            menuCipherModeItemCCM.Text = "CCM";
+            menuOptionsModesComplex.BackColor = SystemColors.Menu;
+            menuOptionsModesComplex.Name = "menuOptionsModesComplex";
+            menuOptionsModesComplex.Size = new Size(170, 22);
+            menuOptionsModesComplex.Text = "Mode Complex";
             // 
-            // menuCipherModeItemCFB
+            // menuOptionsModesSimple
             // 
-            menuCipherModeItemCFB.BackColor = SystemColors.Menu;
-            menuCipherModeItemCFB.Checked = true;
-            menuCipherModeItemCFB.CheckState = CheckState.Checked;
-            menuCipherModeItemCFB.Name = "menuCipherModeItemCFB";
-            menuCipherModeItemCFB.Size = new Size(180, 22);
-            menuCipherModeItemCFB.Text = "CFB";
+            menuOptionsModesSimple.BackColor = SystemColors.Menu;
+            menuOptionsModesSimple.Name = "menuOptionsModesSimple";
+            menuOptionsModesSimple.Size = new Size(170, 22);
+            menuOptionsModesSimple.Text = "Mode Simple";
             // 
-            // menuCipherModeItemCTS
+            // menuOptionsModesAsymmetric
             // 
-            menuCipherModeItemCTS.BackColor = SystemColors.GradientInactiveCaption;
-            menuCipherModeItemCTS.Enabled = false;
-            menuCipherModeItemCTS.Name = "menuCipherModeItemCTS";
-            menuCipherModeItemCTS.Size = new Size(180, 22);
-            menuCipherModeItemCTS.Text = "CTS";
-            // 
-            // menuCipherModeItemEAX
-            // 
-            menuCipherModeItemEAX.BackColor = SystemColors.GradientInactiveCaption;
-            menuCipherModeItemEAX.Enabled = false;
-            menuCipherModeItemEAX.Name = "menuCipherModeItemEAX";
-            menuCipherModeItemEAX.Size = new Size(180, 22);
-            menuCipherModeItemEAX.Text = "EAX";
-            // 
-            // menuCipherModeItemECB
-            // 
-            menuCipherModeItemECB.BackColor = SystemColors.Menu;
-            menuCipherModeItemECB.Name = "menuCipherModeItemECB";
-            menuCipherModeItemECB.Size = new Size(180, 22);
-            menuCipherModeItemECB.Text = "ECB";
-            // 
-            // menuCipherModeItemGOFB
-            // 
-            menuCipherModeItemGOFB.BackColor = SystemColors.GradientInactiveCaption;
-            menuCipherModeItemGOFB.Enabled = false;
-            menuCipherModeItemGOFB.Name = "menuCipherModeItemGOFB";
-            menuCipherModeItemGOFB.Size = new Size(180, 22);
-            menuCipherModeItemGOFB.Text = "GOFB";
+            menuOptionsModesAsymmetric.BackColor = SystemColors.Menu;
+            menuOptionsModesAsymmetric.ForeColor = SystemColors.MenuText;
+            menuOptionsModesAsymmetric.Name = "menuOptionsModesAsymmetric";
+            menuOptionsModesAsymmetric.Size = new Size(170, 22);
+            menuOptionsModesAsymmetric.Text = "Asymmetric";
             // 
             // optionsToolStripMenuItem
             // 
@@ -552,6 +595,39 @@ namespace EU.CqrXs.Gui.Forms
             menuFileSettingsItemAutomaticallySaveToTemp.Text = "Automatically Save to Temp";
             menuFileSettingsItemAutomaticallySaveToTemp.ToolTipText = "Don't show a save file dialog, when processimg files";
             // 
+            // menuOptionsMenuVisualModes
+            // 
+            menuOptionsMenuVisualModes.BackColor = SystemColors.MenuBar;
+            menuOptionsMenuVisualModes.DropDownItems.AddRange(new ToolStripItem[] { menuVisualModesItemClassic, menuVisualModesItemDark, menuVisualModesItemSystem });
+            menuOptionsMenuVisualModes.ForeColor = SystemColors.MenuText;
+            menuOptionsMenuVisualModes.Name = "menuOptionsMenuVisualModes";
+            menuOptionsMenuVisualModes.Size = new Size(210, 22);
+            menuOptionsMenuVisualModes.Text = "Visual Modes";
+            // 
+            // menuVisualModesItemClassic
+            // 
+            menuVisualModesItemClassic.BackColor = SystemColors.Menu;
+            menuVisualModesItemClassic.ForeColor = SystemColors.MenuText;
+            menuVisualModesItemClassic.Name = "menuVisualModesItemClassic";
+            menuVisualModesItemClassic.Size = new Size(130, 22);
+            menuVisualModesItemClassic.Text = "Classic";
+            // 
+            // menuVisualModesItemDark
+            // 
+            menuVisualModesItemDark.BackColor = SystemColors.Menu;
+            menuVisualModesItemDark.ForeColor = SystemColors.MenuText;
+            menuVisualModesItemDark.Name = "menuVisualModesItemDark";
+            menuVisualModesItemDark.Size = new Size(130, 22);
+            menuVisualModesItemDark.Text = "Dark";
+            // 
+            // menuVisualModesItemSystem
+            // 
+            menuVisualModesItemSystem.BackColor = SystemColors.Menu;
+            menuVisualModesItemSystem.ForeColor = SystemColors.MenuText;
+            menuVisualModesItemSystem.Name = "menuVisualModesItemSystem";
+            menuVisualModesItemSystem.Size = new Size(130, 22);
+            menuVisualModesItemSystem.Text = "System";
+            // 
             // menuSerialize
             // 
             menuSerialize.DropDownItems.AddRange(new ToolStripItem[] { menuJson, menuXml, menuRaw, toolStripMenuItem1 });
@@ -568,7 +644,7 @@ namespace EU.CqrXs.Gui.Forms
             menuJson.Enabled = false;
             menuJson.Name = "menuJson";
             menuJson.ShortcutKeys = Keys.Control | Keys.J;
-            menuJson.Size = new Size(180, 22);
+            menuJson.Size = new Size(161, 22);
             menuJson.Text = "Json";
             // 
             // menuXml
@@ -577,7 +653,7 @@ namespace EU.CqrXs.Gui.Forms
             menuXml.Enabled = false;
             menuXml.Name = "menuXml";
             menuXml.ShortcutKeys = Keys.Control | Keys.X;
-            menuXml.Size = new Size(180, 22);
+            menuXml.Size = new Size(161, 22);
             menuXml.Text = "Xml";
             // 
             // menuRaw
@@ -586,13 +662,13 @@ namespace EU.CqrXs.Gui.Forms
             menuRaw.Enabled = false;
             menuRaw.Name = "menuRaw";
             menuRaw.ShortcutKeys = Keys.Control | Keys.R;
-            menuRaw.Size = new Size(180, 22);
+            menuRaw.Size = new Size(161, 22);
             menuRaw.Text = "Raw";
             // 
             // toolStripMenuItem1
             // 
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(180, 22);
+            toolStripMenuItem1.Size = new Size(161, 22);
             toolStripMenuItem1.Text = "?";
             // 
             // menuHelp
@@ -607,7 +683,7 @@ namespace EU.CqrXs.Gui.Forms
             // 
             menuAbout.BackColor = SystemColors.MenuBar;
             menuAbout.Name = "menuAbout";
-            menuAbout.Size = new Size(180, 22);
+            menuAbout.Size = new Size(161, 22);
             menuAbout.Text = "About";
             // 
             // menuHelpHelp
@@ -615,7 +691,7 @@ namespace EU.CqrXs.Gui.Forms
             menuHelpHelp.BackColor = SystemColors.MenuBar;
             menuHelpHelp.Name = "menuHelpHelp";
             menuHelpHelp.ShortcutKeys = Keys.Alt | Keys.F3;
-            menuHelpHelp.Size = new Size(180, 22);
+            menuHelpHelp.Size = new Size(161, 22);
             menuHelpHelp.Text = "Help";
             // 
             // menuHelpUrlFetch
@@ -980,82 +1056,6 @@ namespace EU.CqrXs.Gui.Forms
             groupBoxFiles.TabStop = false;
             groupBoxFiles.Text = "groupBoxFiles";
             // 
-            // menuForms
-            // 
-            menuForms.BackColor = SystemColors.Menu;
-            menuForms.DropDownItems.AddRange(new ToolStripItem[] { menuOptionsModes123Fish, menuOptionsModesComplex, menuOptionsModesSimple, menuOptionsModesAsymmetric });
-            menuForms.Font = new Font("Lucida Sans Typewriter", 10F);
-            menuForms.ForeColor = SystemColors.MenuText;
-            menuForms.Name = "menuForms";
-            menuForms.Size = new Size(59, 20);
-            menuForms.Text = "Forms";
-            // 
-            // menuOptionsModes123Fish
-            // 
-            menuOptionsModes123Fish.BackColor = SystemColors.GradientInactiveCaption;
-            menuOptionsModes123Fish.Checked = true;
-            menuOptionsModes123Fish.CheckState = CheckState.Checked;
-            menuOptionsModes123Fish.Enabled = false;
-            menuOptionsModes123Fish.ForeColor = SystemColors.MenuText;
-            menuOptionsModes123Fish.Name = "menuOptionsModes123Fish";
-            menuOptionsModes123Fish.Size = new Size(180, 22);
-            menuOptionsModes123Fish.Text = "123-Fish";
-            // 
-            // menuOptionsModesComplex
-            // 
-            menuOptionsModesComplex.BackColor = SystemColors.Menu;
-            menuOptionsModesComplex.Name = "menuOptionsModesComplex";
-            menuOptionsModesComplex.Size = new Size(180, 22);
-            menuOptionsModesComplex.Text = "Mode Complex";
-            // 
-            // menuOptionsModesSimple
-            // 
-            menuOptionsModesSimple.BackColor = SystemColors.Menu;
-            menuOptionsModesSimple.Name = "menuOptionsModesSimple";
-            menuOptionsModesSimple.Size = new Size(180, 22);
-            menuOptionsModesSimple.Text = "Mode Simple";
-            // 
-            // menuOptionsModesAsymmetric
-            // 
-            menuOptionsModesAsymmetric.BackColor = SystemColors.Menu;
-            menuOptionsModesAsymmetric.ForeColor = SystemColors.MenuText;
-            menuOptionsModesAsymmetric.Name = "menuOptionsModesAsymmetric";
-            menuOptionsModesAsymmetric.Size = new Size(180, 22);
-            menuOptionsModesAsymmetric.Text = "Asymmetric";
-            // 
-            // menuOptionsMenuVisualModes
-            // 
-            menuOptionsMenuVisualModes.BackColor = SystemColors.MenuBar;
-            menuOptionsMenuVisualModes.DropDownItems.AddRange(new ToolStripItem[] { menuVisualModesItemClassic, menuVisualModesItemDark, menuVisualModesItemSystem });
-            menuOptionsMenuVisualModes.ForeColor = SystemColors.MenuText;
-            menuOptionsMenuVisualModes.Name = "menuOptionsMenuVisualModes";
-            menuOptionsMenuVisualModes.Size = new Size(210, 22);
-            menuOptionsMenuVisualModes.Text = "Visual Modes";
-            // 
-            // menuVisualModesItemClassic
-            // 
-            menuVisualModesItemClassic.BackColor = SystemColors.Menu;
-            menuVisualModesItemClassic.ForeColor = SystemColors.MenuText;
-            menuVisualModesItemClassic.Name = "menuVisualModesItemClassic";
-            menuVisualModesItemClassic.Size = new Size(180, 22);
-            menuVisualModesItemClassic.Text = "Classic";
-            // 
-            // menuVisualModesItemDark
-            // 
-            menuVisualModesItemDark.BackColor = SystemColors.Menu;
-            menuVisualModesItemDark.ForeColor = SystemColors.MenuText;
-            menuVisualModesItemDark.Name = "menuVisualModesItemDark";
-            menuVisualModesItemDark.Size = new Size(180, 22);
-            menuVisualModesItemDark.Text = "Dark";
-            // 
-            // menuVisualModesItemSystem
-            // 
-            menuVisualModesItemSystem.BackColor = SystemColors.Menu;
-            menuVisualModesItemSystem.ForeColor = SystemColors.MenuText;
-            menuVisualModesItemSystem.Name = "menuVisualModesItemSystem";
-            menuVisualModesItemSystem.Size = new Size(180, 22);
-            menuVisualModesItemSystem.Text = "System";
-            // 
             // OneTwoThreeFish
             // 
             AutoScaleDimensions = new SizeF(7F, 16F);
@@ -1069,7 +1069,7 @@ namespace EU.CqrXs.Gui.Forms
             Controls.Add(statusStrip);
             Controls.Add(menuStripEncrypt);
             Font = new Font("Lucida Sans Unicode", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStripEncrypt;
             Margin = new Padding(3, 2, 3, 2);

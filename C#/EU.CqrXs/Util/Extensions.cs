@@ -1776,7 +1776,6 @@ namespace EU.CqrXs.Util
             {
                 if (strippedFileName.EndsWith("." + kh.ToString(), StringComparison.CurrentCultureIgnoreCase))
                 {
-                    kHash = kh;
                     strippedFileName = strippedFileName.Replace("." + kh.ToString(), "").Replace("." + kh.ToString().ToLower(), "");
 
                     break;

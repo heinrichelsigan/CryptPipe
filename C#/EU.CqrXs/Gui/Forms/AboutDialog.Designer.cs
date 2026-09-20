@@ -27,6 +27,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutDialog));
             tableLayoutPanel = new TableLayoutPanel();
             logoPictureBox = new PictureBox();
             labelProductName = new Label();
@@ -128,6 +129,7 @@
             // 
             // textBoxDescription
             // 
+            textBoxDescription.BackColor = SystemColors.ControlLight;
             textBoxDescription.Dock = DockStyle.Fill;
             textBoxDescription.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxDescription.Location = new Point(363, 150);
@@ -158,17 +160,18 @@
             AcceptButton = okButton;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ControlLight;
             ClientSize = new Size(726, 377);
             Controls.Add(tableLayoutPanel);
             Font = new Font("Microsoft Sans Serif", 9.25F);
             FormBorderStyle = FormBorderStyle.FixedDialog;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4, 2, 4, 2);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "AboutDialog";
-            Opacity = 0.66D;
+            Opacity = 0.75D;
             Padding = new Padding(4, 2, 4, 2);
-            ShowIcon = false;
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
             Text = "Modal About Dialog";

@@ -1,5 +1,6 @@
 ﻿using EU.CqrXs.Crypt.EnDeCoding;
 using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Crypto.Encodings;
 using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Generators;
@@ -74,13 +75,14 @@ namespace EU.CqrXs.Crypt.Cipher.Asymmetric
         /// GenerateNewRsaKeyPair - generates a new rsa key pair
         /// </summary>
         /// <returns><see cref="AsymmetricCipherKeyPair"/></returns>
-        public static AsymmetricCipherKeyPair GenerateNewRsaKeyPair(int size = 1024)
+        public static AsymmetricCipherKeyPair GenerateNewRsaKeyPair(int size = 1024, byte[] inBytes = null)
         {
-            //if (rsaKeyPair != null)
-            //    return rsaKeyPair;
+            if (inBytes == null)
+                inBytes = System.Text.Encoding.UTF8.GetBytes("default");
 
             RsaKeyPairGenerator rsaKeyPairGen = new RsaKeyPairGenerator();
-            IRandomGenerator randGen = new VmpcRandomGenerator();
+            IDigest digest = new CShakeDigest(size, inBytes, CryptHelper.GetKeyBytesFromBytes(inBytes, size / 16));
+            IRandomGenerator randGen = new Org.BouncyCastle.Crypto.Prng.DigestRandomGenerator(digest);
 
             SecureRandom rand = new SecureRandom(randGen, size);
             KeyGenerationParameters rsaKeyParams = new KeyGenerationParameters(rand, size);

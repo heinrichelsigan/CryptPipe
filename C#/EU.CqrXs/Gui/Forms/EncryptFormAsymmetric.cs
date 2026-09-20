@@ -9,7 +9,6 @@ using EU.CqrXs.Zip;
 using System.Security.Cryptography;
 using static EU.CqrXs.Crypt.Cipher.AsymmetricCipherPipe;
 using static EU.CqrXs.Crypt.Cipher.SecureCipherPipe;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace EU.CqrXs.Gui.Forms
@@ -97,7 +96,7 @@ namespace EU.CqrXs.Gui.Forms
         internal async Task EncryptFormAsymmetric_LoadAsync(object sender, EventArgs e)
         {
             this.labelInfoMessage.Visible = false;
-            this.textBoxKey.Text = Constants.RSA_PUB;
+            this.textBoxPublicKey.Text = Constants.RSA_PUB;
             this.textBoxPrivateKey.Text = Constants.RSA_PRV;
 
             await menuCipherMode_Click(menuCipherAlgoRsa, e);

@@ -86,7 +86,7 @@ namespace EU.CqrXs.Test
             CipherEnum[] cipherEnums = chipherEList.ToArray();
             ZipType[] zTypes = new ZipType[] { ZipType.BZip2, ZipType.GZip, ZipType.Zip, ZipType.None };
             KeyHash[] kHashes = KeyHash_Extensions.GetHashTypes();
-            KeyHash kHash = KeyHash.Hex;
+            KeyHash kHash;
             ZipType zType = ZipType.None;
             EncodingType[] encodingTypes = new EncodingType[] { EncodingType.Uu, EncodingType.Xx, EncodingType.Base64, EncodingType.Base16, EncodingType.Hex32, EncodingType.Hex16 };
             EncodingType encType = EncodingType.Base64;            

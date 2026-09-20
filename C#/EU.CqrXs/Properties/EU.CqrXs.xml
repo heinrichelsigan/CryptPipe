@@ -71,7 +71,7 @@
                 rm -f /tmp/rsa_$KLEN.pk8
             </summary>   
         </member>
-        <member name="M:EU.CqrXs.Crypt.Cipher.Asymmetric.Rsa.GenerateNewRsaKeyPair(System.Int32)">
+        <member name="M:EU.CqrXs.Crypt.Cipher.Asymmetric.Rsa.GenerateNewRsaKeyPair(System.Int32,System.Byte[])">
             <summary>
             GenerateNewRsaKeyPair - generates a new rsa key pair
             </summary>
