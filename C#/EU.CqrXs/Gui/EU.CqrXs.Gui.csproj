@@ -18,8 +18,8 @@
     <Copyright>Copyleft ©  2000 - 2040</Copyright>
     <RepositoryUrl>https://github.com/heinrichelsigan/CryptPipe/</RepositoryUrl>
     <PackageProjectUrl>https://github.com/heinrichelsigan/CryptPipe/</PackageProjectUrl>
-    <AssemblyVersion>2.26.920</AssemblyVersion>
-	<FileVersion>2.26.920</FileVersion>
+    <AssemblyVersion>2.26.921</AssemblyVersion>
+	<FileVersion>2.26.921</FileVersion>
     <Description>Symmetric Crypt Pipe WinForm Heinrich Elsigan he@area23.at</Description>
     <StartupObject>EU.CqrXs.Gui.Program</StartupObject>
     <Title>Symmetric Crypt Permutation Pipe Form .NetCore</Title>
@@ -66,6 +66,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="EU.CqrXs.Gui.Restart.bat" />
     <None Remove="Program.cs.txt" />
     <None Remove="Resources\ChiffrePentacle2.gif" />
     <None Remove="Resources\sounds\sound_pluckpcm.wav" />
@@ -77,6 +78,11 @@
 
   <ItemGroup>
     <Content Include="CryptPipe.ico" />
+    <Content Include="EU.CqrXs.Gui.Restart.bat">
+      <PackagePath>\</PackagePath>
+      <Pack>True</Pack>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
     
 	<ItemGroup>

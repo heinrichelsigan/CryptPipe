@@ -6,6 +6,7 @@ using EU.CqrXs.Gui.Properties;
 using EU.CqrXs.Gui.Sound;
 using EU.CqrXs.Util;
 using EU.CqrXs.Zip;
+using System.Diagnostics;
 
 namespace EU.CqrXs.Gui.Forms
 {
@@ -312,7 +313,8 @@ namespace EU.CqrXs.Gui.Forms
 
         protected internal virtual void menuVisualMode_Change(object sender, EventArgs e)
         {
-            string formNowName = this.Name;
+            string args = string.Empty;
+
             if (sender != null && sender is ToolStripMenuItem tsmi)
             {
                 if (tsmi.Checked == false)
@@ -320,25 +322,63 @@ namespace EU.CqrXs.Gui.Forms
                     if (tsmi.Name.Contains("menuVisualModes"))
                     {                        
                         tsmi.Checked = true;
-
-                        this.Hide();
-                        HideAllOtherForms(formNowName);
                         
+                        Program.mainFormName = this.Name;
+                        args += this.Name;
+                        HideAllOtherForms(Program.mainFormName, true);
+
                         if (tsmi.Name == "menuVisualModesItemClassic")
                         {
+                            args += " classic";
                             Application.SetColorMode(SystemColorMode.Classic);
                         }
                         else if (tsmi.Name == "menuVisualModesItemDark")
                         {
+                            args += " dark";
                             Application.SetColorMode(SystemColorMode.Dark);
                         }
                         else if (tsmi.Name == "menuVisualModesItemSystem")
                         {
+                            args += " system";
                             Application.SetColorMode(SystemColorMode.System);
                         }
 
-                        this.Refresh();
-                        this.Show();
+                        this.Hide();
+
+                        try
+                        {
+                            Program.ReleaseCloseDisposeMutex();
+                        }
+                        catch { }
+                        try
+                        {
+                            this.RemoveOwnedForm(this.Owner);
+                        }
+                        catch { }
+                        
+                        // Task.Run(() => 
+                        Process.Start(new ProcessStartInfo
+                        {
+                            UseShellExecute = true,
+                            WorkingDirectory = Environment.CurrentDirectory,
+                            FileName = Path.Combine(Program.ProgDirPazh, "EU.CqrXs.Gui.Restart.bat"),
+                            Arguments = args
+                        });
+                        // );
+
+                        Application.ExitThread();
+                        this.Dispose(true);
+                        try
+                        {
+                            System.Windows.Forms.Application.Exit();
+                        }
+                        catch { }
+                        finally
+                        {
+                            Environment.Exit(0);
+                        }
+                        
+                        return;                                               
                     }
                 }
             }
@@ -383,20 +423,17 @@ namespace EU.CqrXs.Gui.Forms
 
             try
             {
-                if (Program.form123Fish != null && this.Name != Program.form123Fish.Name)
+                if (Program.form123Fish != null && this.Name != Program.form123Fish.Name && !Program.form123Fish.Disposing)
                 {
-                    if (Program.form123Fish != null && !Program.form123Fish.Disposing)
-                        Program.form123Fish.Dispose();
+                    Program.form123Fish.Dispose();
                 }
-                if (Program.formSimple != null && this.Name != Program.formSimple.Name)
+                if (Program.formSimple != null && this.Name != Program.formSimple.Name && !Program.formSimple.Disposing)
                 {
-                    if (Program.formSimple != null && !Program.formSimple.Disposing)
-                        Program.formSimple.Dispose();
+                    Program.formSimple.Dispose();
                 }
-                if (Program.formComplex != null && this.Name != Program.formComplex.Name)
+                if (Program.formComplex != null && this.Name != Program.formComplex.Name && !Program.formComplex.Disposing)
                 {
-                    if (Program.formComplex != null && !Program.formComplex.Disposing)
-                        Program.formComplex.Dispose();
+                    Program.formComplex.Dispose();
                 }
             }
             catch (Exception ex)
@@ -557,27 +594,37 @@ namespace EU.CqrXs.Gui.Forms
 
         #endregion verify output file
 
-        protected internal virtual void HideAllOtherForms(string formToKeepVisibleName)
+        protected internal virtual void HideAllOtherForms(string formToKeepVisibleName, bool closeInsteadHide = false)
         {
             if (Program.formZenMatrix != null && !Program.formZenMatrix.Disposing && Program.formZenMatrix.Name != formToKeepVisibleName)
             {
                 Program.formZenMatrix.Hide();
+                if (closeInsteadHide && Program.formZenMatrix != null && !Program.formZenMatrix.Disposing)
+                    Program.formZenMatrix.Close();                    
             }
             if (Program.form123Fish != null && !Program.form123Fish.Disposing && Program.form123Fish.Name != formToKeepVisibleName)
             {
                 Program.form123Fish.Hide();
+                if (closeInsteadHide && Program.form123Fish != null && !Program.form123Fish.Disposing)
+                    Program.form123Fish.Close();                     
             }
             if (Program.formSimple != null && !Program.formSimple.Disposing && Program.formSimple.Name != formToKeepVisibleName)
             {
                 Program.formSimple.Hide();
+                // if (closeInsteadHide && Program.formSimple != null && !Program.formSimple.Disposing)
+                // Program.formSimple.Close();
             }
             if (Program.formComplex != null && !Program.formComplex.Disposing && Program.formComplex.Name != formToKeepVisibleName)
             {
                 Program.formComplex.Hide();
+                // if (closeInsteadHide && Program.formComplex != null && !Program.formComplex.Disposing)
+                //     Program.formComplex.Close();
             }
             if (Program.formAsymmetric != null && !Program.formAsymmetric.Disposing && Program.formAsymmetric.Name != formToKeepVisibleName)
             {
                 Program.formAsymmetric.Hide();
+                if (closeInsteadHide && Program.formAsymmetric != null && !Program.formAsymmetric.Disposing)
+                    Program.formAsymmetric.Close();
             }
         }
     }
