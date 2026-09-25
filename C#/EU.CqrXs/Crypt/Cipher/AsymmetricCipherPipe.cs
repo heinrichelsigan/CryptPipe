@@ -390,12 +390,12 @@ namespace EU.CqrXs.Crypt.Cipher
                     // encryptBytes = Asymmetric.Rsa.Encrypt(inBytes, keyPair);
                     encryptBytes = Asymmetric.Rsa.EncryptWithPrivate(inBytes, keyPair);
                     break;
-                case CipherEnum.Dsa:
-                    keyPair = Asymmetric.Dsa.GetDsaKeyPairByKeys(privateKey, publicKey);
-                    encryptBytes = Asymmetric.Dsa.DsaSign(inBytes);
-                    break;
-                case CipherEnum.DH:
-                case CipherEnum.GPG:
+                //case CipherEnum.Dsa:
+                //    keyPair = Asymmetric.Dsa.GetDsaKeyPairByKeys(privateKey, publicKey);
+                //    encryptBytes = Asymmetric.Dsa.DsaSign(inBytes);
+                //    break;
+                //case CipherEnum.DH:
+                //case CipherEnum.GPG:
                 default:
                     encryptBytes = inBytes;
                     break;                 
@@ -431,12 +431,12 @@ namespace EU.CqrXs.Crypt.Cipher
                     // decryptBytes = Asymmetric.Rsa.DecryptWithPrivate(cipherBytes, keyPair);
                     decryptBytes = Asymmetric.Rsa.Decrypt(cipherBytes, keyPair);
                     break;
-                case CipherEnum.Dsa:                    
-                    keyPair = Asymmetric.Dsa.GetDsaKeyPairByKeys(privateKey, publicKey);
-                    if (!Asymmetric.Dsa.DsaVerify(cipherBytes, signedBytes))
-                        throw new InvalidOperationException("Signature verification failed.");
-                    decryptBytes = cipherBytes;
-                    break;
+                //case CipherEnum.Dsa:                    
+                //    keyPair = Asymmetric.Dsa.GetDsaKeyPairByKeys(privateKey, publicKey);
+                //    if (!Asymmetric.Dsa.DsaVerify(cipherBytes, signedBytes))
+                //        throw new InvalidOperationException("Signature verification failed.");
+                //    decryptBytes = cipherBytes;
+                //    break;
                 default:
                     decryptBytes = cipherBytes;
                     break;

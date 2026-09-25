@@ -105,16 +105,15 @@ namespace EU.CqrXs.Gui.Forms
             menuHashWhirlpool = new ToolStripMenuItem();
             optionsToolStripMenuItem = new ToolStripMenuItem();
             menuOptionsItemsWarnings = new ToolStripMenuItem();
-            toolStripMenuItem2 = new ToolStripMenuItem();
-            toolStripMenuItem3 = new ToolStripMenuItem();
+            warnOnEmptyPipeToolStripMenuItem = new ToolStripMenuItem();
+            warnOnDoubleZippingToolStripMenuItem = new ToolStripMenuItem();
             verifyEncryptionToolStripMenuItem = new ToolStripMenuItem();
             sha512ToolStripMenuItem = new ToolStripMenuItem();
             bytesOfFileToolStripMenuItem = new ToolStripMenuItem();
             menuOptionsMenuSettings = new ToolStripMenuItem();
-            warnOnEmptyPipeToolStripMenuItem = new ToolStripMenuItem();
-            warnOnDoubleZippingToolStripMenuItem = new ToolStripMenuItem();
             menuItemCreatePipeSettingsFromFileName = new ToolStripMenuItem();
             menuFileSettingsItemAutomaticallySaveToTemp = new ToolStripMenuItem();
+            menuFileSettingsItemSaveSettingsToJson = new ToolStripMenuItem();
             menuOptionsMenuVisualModes = new ToolStripMenuItem();
             menuVisualModesItemClassic = new ToolStripMenuItem();
             menuVisualModesItemDark = new ToolStripMenuItem();
@@ -502,7 +501,7 @@ namespace EU.CqrXs.Gui.Forms
             // 
             // menuOptionsMenuModes
             // 
-            menuOptionsMenuModes.BackColor = SystemColors.Menu;
+            menuOptionsMenuModes.BackColor = SystemColors.MenuBar;
             menuOptionsMenuModes.DropDownItems.AddRange(new ToolStripItem[] { menuMainItemExperimental, menuMainItemSimple, menuMainAsymmetric, menuMainItemOneTwoThreeFish, menuMainItemZenMatrixTest });
             menuOptionsMenuModes.Font = new Font("Lucida Sans Typewriter", 10F);
             menuOptionsMenuModes.ForeColor = SystemColors.MenuText;
@@ -518,7 +517,7 @@ namespace EU.CqrXs.Gui.Forms
             menuMainItemExperimental.Enabled = false;
             menuMainItemExperimental.ForeColor = SystemColors.MenuText;
             menuMainItemExperimental.Name = "menuMainItemExperimental";
-            menuMainItemExperimental.Size = new Size(180, 22);
+            menuMainItemExperimental.Size = new Size(178, 22);
             menuMainItemExperimental.Text = "Complex mode";
             // 
             // menuMainItemSimple
@@ -526,7 +525,7 @@ namespace EU.CqrXs.Gui.Forms
             menuMainItemSimple.BackColor = SystemColors.Menu;
             menuMainItemSimple.ForeColor = SystemColors.MenuText;
             menuMainItemSimple.Name = "menuMainItemSimple";
-            menuMainItemSimple.Size = new Size(180, 22);
+            menuMainItemSimple.Size = new Size(178, 22);
             menuMainItemSimple.Text = "Simple mode";
             // 
             // menuMainAsymmetric
@@ -535,7 +534,7 @@ namespace EU.CqrXs.Gui.Forms
             menuMainAsymmetric.Enabled = false;
             menuMainAsymmetric.ForeColor = SystemColors.MenuText;
             menuMainAsymmetric.Name = "menuMainAsymmetric";
-            menuMainAsymmetric.Size = new Size(180, 22);
+            menuMainAsymmetric.Size = new Size(178, 22);
             menuMainAsymmetric.Text = "Asymmetric";
             // 
             // menuMainItemOneTwoThreeFish
@@ -543,7 +542,7 @@ namespace EU.CqrXs.Gui.Forms
             menuMainItemOneTwoThreeFish.BackColor = SystemColors.Menu;
             menuMainItemOneTwoThreeFish.ForeColor = SystemColors.MenuText;
             menuMainItemOneTwoThreeFish.Name = "menuMainItemOneTwoThreeFish";
-            menuMainItemOneTwoThreeFish.Size = new Size(180, 22);
+            menuMainItemOneTwoThreeFish.Size = new Size(178, 22);
             menuMainItemOneTwoThreeFish.Text = "123-Fish";
             // 
             // menuMainItemZenMatrixTest
@@ -551,7 +550,7 @@ namespace EU.CqrXs.Gui.Forms
             menuMainItemZenMatrixTest.BackColor = SystemColors.Menu;
             menuMainItemZenMatrixTest.ForeColor = SystemColors.MenuText;
             menuMainItemZenMatrixTest.Name = "menuMainItemZenMatrixTest";
-            menuMainItemZenMatrixTest.Size = new Size(180, 22);
+            menuMainItemZenMatrixTest.Size = new Size(178, 22);
             menuMainItemZenMatrixTest.Text = "ZenMatrixTest";
             // 
             // menuHash
@@ -728,31 +727,33 @@ namespace EU.CqrXs.Gui.Forms
             // 
             // menuOptionsItemsWarnings
             // 
-            menuOptionsItemsWarnings.BackColor = SystemColors.ControlLight;
-            menuOptionsItemsWarnings.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItem2, toolStripMenuItem3 });
+            menuOptionsItemsWarnings.BackColor = SystemColors.MenuBar;
+            menuOptionsItemsWarnings.DropDownItems.AddRange(new ToolStripItem[] { warnOnEmptyPipeToolStripMenuItem, warnOnDoubleZippingToolStripMenuItem });
             menuOptionsItemsWarnings.Name = "menuOptionsItemsWarnings";
             menuOptionsItemsWarnings.Size = new Size(210, 22);
             menuOptionsItemsWarnings.Text = "Warnings";
             // 
-            // toolStripMenuItem2
+            // warnOnEmptyPipeToolStripMenuItem
             // 
-            toolStripMenuItem2.BackColor = SystemColors.ControlLight;
-            toolStripMenuItem2.CheckOnClick = true;
-            toolStripMenuItem2.Name = "toolStripMenuItem2";
-            toolStripMenuItem2.Size = new Size(250, 22);
-            toolStripMenuItem2.Text = "Warn on empty pipe";
-            toolStripMenuItem2.ToolTipText = "Warn on en-/decrypting when cipher pipe is empty";
+            warnOnEmptyPipeToolStripMenuItem.BackColor = SystemColors.Menu;
+            warnOnEmptyPipeToolStripMenuItem.CheckOnClick = true;
+            warnOnEmptyPipeToolStripMenuItem.ForeColor = SystemColors.MenuText;
+            warnOnEmptyPipeToolStripMenuItem.Name = "warnOnEmptyPipeToolStripMenuItem";
+            warnOnEmptyPipeToolStripMenuItem.Size = new Size(250, 22);
+            warnOnEmptyPipeToolStripMenuItem.Text = "Warn on empty pipe";
+            warnOnEmptyPipeToolStripMenuItem.ToolTipText = "Warn on en-/decrypting when cipher pipe is empty";
             // 
-            // toolStripMenuItem3
+            // warnOnDoubleZippingToolStripMenuItem
             // 
-            toolStripMenuItem3.BackColor = SystemColors.ControlLight;
-            toolStripMenuItem3.Checked = true;
-            toolStripMenuItem3.CheckOnClick = true;
-            toolStripMenuItem3.CheckState = CheckState.Checked;
-            toolStripMenuItem3.Name = "toolStripMenuItem3";
-            toolStripMenuItem3.Size = new Size(250, 22);
-            toolStripMenuItem3.Text = "Warn on double zipping";
-            toolStripMenuItem3.ToolTipText = "Warn, when zipping an already zipped or strong compressed file";
+            warnOnDoubleZippingToolStripMenuItem.BackColor = SystemColors.Menu;
+            warnOnDoubleZippingToolStripMenuItem.Checked = true;
+            warnOnDoubleZippingToolStripMenuItem.CheckOnClick = true;
+            warnOnDoubleZippingToolStripMenuItem.CheckState = CheckState.Checked;
+            warnOnDoubleZippingToolStripMenuItem.ForeColor = SystemColors.MenuText;
+            warnOnDoubleZippingToolStripMenuItem.Name = "warnOnDoubleZippingToolStripMenuItem";
+            warnOnDoubleZippingToolStripMenuItem.Size = new Size(250, 22);
+            warnOnDoubleZippingToolStripMenuItem.Text = "Warn on double zipping";
+            warnOnDoubleZippingToolStripMenuItem.ToolTipText = "Warns user, if he compresses again an already compressed file.";
             // 
             // verifyEncryptionToolStripMenuItem
             // 
@@ -786,33 +787,11 @@ namespace EU.CqrXs.Gui.Forms
             // menuOptionsMenuSettings
             // 
             menuOptionsMenuSettings.BackColor = SystemColors.MenuBar;
-            menuOptionsMenuSettings.DropDownItems.AddRange(new ToolStripItem[] { warnOnEmptyPipeToolStripMenuItem, warnOnDoubleZippingToolStripMenuItem, menuItemCreatePipeSettingsFromFileName, menuFileSettingsItemAutomaticallySaveToTemp });
+            menuOptionsMenuSettings.DropDownItems.AddRange(new ToolStripItem[] { menuItemCreatePipeSettingsFromFileName, menuFileSettingsItemAutomaticallySaveToTemp, menuFileSettingsItemSaveSettingsToJson });
             menuOptionsMenuSettings.ForeColor = SystemColors.MenuText;
             menuOptionsMenuSettings.Name = "menuOptionsMenuSettings";
             menuOptionsMenuSettings.Size = new Size(210, 22);
             menuOptionsMenuSettings.Text = "Settings";
-            // 
-            // warnOnEmptyPipeToolStripMenuItem
-            // 
-            warnOnEmptyPipeToolStripMenuItem.BackColor = SystemColors.Menu;
-            warnOnEmptyPipeToolStripMenuItem.CheckOnClick = true;
-            warnOnEmptyPipeToolStripMenuItem.ForeColor = SystemColors.MenuText;
-            warnOnEmptyPipeToolStripMenuItem.Name = "warnOnEmptyPipeToolStripMenuItem";
-            warnOnEmptyPipeToolStripMenuItem.Size = new Size(346, 22);
-            warnOnEmptyPipeToolStripMenuItem.Text = "Warn on empty pipe";
-            warnOnEmptyPipeToolStripMenuItem.ToolTipText = "Warn on en-/decrypting when cipher pipe is empty";
-            // 
-            // warnOnDoubleZippingToolStripMenuItem
-            // 
-            warnOnDoubleZippingToolStripMenuItem.BackColor = SystemColors.Menu;
-            warnOnDoubleZippingToolStripMenuItem.Checked = true;
-            warnOnDoubleZippingToolStripMenuItem.CheckOnClick = true;
-            warnOnDoubleZippingToolStripMenuItem.CheckState = CheckState.Checked;
-            warnOnDoubleZippingToolStripMenuItem.ForeColor = SystemColors.MenuText;
-            warnOnDoubleZippingToolStripMenuItem.Name = "warnOnDoubleZippingToolStripMenuItem";
-            warnOnDoubleZippingToolStripMenuItem.Size = new Size(346, 22);
-            warnOnDoubleZippingToolStripMenuItem.Text = "Warn on double zipping";
-            warnOnDoubleZippingToolStripMenuItem.ToolTipText = "Warns user, if he compresses again an already compressed file.";
             // 
             // menuItemCreatePipeSettingsFromFileName
             // 
@@ -835,6 +814,14 @@ namespace EU.CqrXs.Gui.Forms
             menuFileSettingsItemAutomaticallySaveToTemp.Size = new Size(346, 22);
             menuFileSettingsItemAutomaticallySaveToTemp.Text = "Automatically Save to Temp";
             menuFileSettingsItemAutomaticallySaveToTemp.ToolTipText = "Don't show a save file dialog, when processimg files";
+            // 
+            // menuFileSettingsItemSaveSettingsToJson
+            // 
+            menuFileSettingsItemSaveSettingsToJson.BackColor = SystemColors.Menu;
+            menuFileSettingsItemSaveSettingsToJson.CheckOnClick = true;
+            menuFileSettingsItemSaveSettingsToJson.Name = "menuFileSettingsItemSaveSettingsToJson";
+            menuFileSettingsItemSaveSettingsToJson.Size = new Size(346, 22);
+            menuFileSettingsItemSaveSettingsToJson.Text = "Save Settings to json file";
             // 
             // menuOptionsMenuVisualModes
             // 
@@ -989,7 +976,7 @@ namespace EU.CqrXs.Gui.Forms
             // 
             pictureBoxKey.BackColor = SystemColors.Control;
             pictureBoxKey.Image = Properties.Resources.key_ring;
-            pictureBoxKey.Location = new Point(8, 27);
+            pictureBoxKey.Location = new Point(6, 27);
             pictureBoxKey.Margin = new Padding(1);
             pictureBoxKey.Name = "pictureBoxKey";
             pictureBoxKey.Size = new Size(30, 30);
@@ -1002,10 +989,10 @@ namespace EU.CqrXs.Gui.Forms
             pictureBoxHash.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             pictureBoxHash.BackColor = SystemColors.Control;
             pictureBoxHash.Image = Properties.Resources.a_hash1;
-            pictureBoxHash.Location = new Point(8, 104);
+            pictureBoxHash.Location = new Point(6, 104);
             pictureBoxHash.Margin = new Padding(1);
             pictureBoxHash.Name = "pictureBoxHash";
-            pictureBoxHash.Size = new Size(32, 26);
+            pictureBoxHash.Size = new Size(34, 26);
             pictureBoxHash.TabIndex = 8;
             pictureBoxHash.TabStop = false;
             pictureBoxHash.Click += Hash_Click;
@@ -1079,10 +1066,10 @@ namespace EU.CqrXs.Gui.Forms
             buttonEncrypt.BackColor = SystemColors.ButtonFace;
             buttonEncrypt.Font = new Font("Lucida Sans Typewriter", 9.75F);
             buttonEncrypt.ForeColor = SystemColors.GrayText;
-            buttonEncrypt.Location = new Point(4, 4);
+            buttonEncrypt.Location = new Point(3, 4);
             buttonEncrypt.Margin = new Padding(1);
             buttonEncrypt.Name = "buttonEncrypt";
-            buttonEncrypt.Size = new Size(120, 27);
+            buttonEncrypt.Size = new Size(121, 27);
             buttonEncrypt.TabIndex = 21;
             buttonEncrypt.Text = "Encrypt";
             buttonEncrypt.UseCompatibleTextRendering = true;
@@ -1122,11 +1109,11 @@ namespace EU.CqrXs.Gui.Forms
             comboBoxCompression.ForeColor = SystemColors.GrayText;
             comboBoxCompression.FormattingEnabled = true;
             comboBoxCompression.Items.AddRange(new object[] { "None", "BZip2", "GZip", "Zip" });
-            comboBoxCompression.Location = new Point(6, 4);
+            comboBoxCompression.Location = new Point(3, 4);
             comboBoxCompression.Margin = new Padding(1);
             comboBoxCompression.MaxDropDownItems = 32;
             comboBoxCompression.Name = "comboBoxCompression";
-            comboBoxCompression.Size = new Size(94, 23);
+            comboBoxCompression.Size = new Size(97, 23);
             comboBoxCompression.TabIndex = 11;
             // 
             // comboBoxEncoding
@@ -1164,7 +1151,7 @@ namespace EU.CqrXs.Gui.Forms
             buttonHashPipe.BackColor = SystemColors.Control;
             buttonHashPipe.Font = new Font("Lucida Sans Typewriter", 10F);
             buttonHashPipe.ForeColor = SystemColors.GrayText;
-            buttonHashPipe.Location = new Point(876, 28);
+            buttonHashPipe.Location = new Point(877, 28);
             buttonHashPipe.Margin = new Padding(1);
             buttonHashPipe.Name = "buttonHashPipe";
             buttonHashPipe.Size = new Size(120, 27);
@@ -1182,11 +1169,11 @@ namespace EU.CqrXs.Gui.Forms
             radioButtonListHash.FormattingEnabled = true;
             radioButtonListHash.HorizontalExtent = 1;
             radioButtonListHash.Items.AddRange(new object[] { "BCrypt", "Blake2xs", "CShake", "Dstu7564", "Empty", "Hex", "MD5", "OpenBSDCrypt", "RipeMD256", "SCrypt", "Sha1", "Sha256", "Sha384", "Sha512", "TupleHash", "Whirlpool" });
-            radioButtonListHash.Location = new Point(8, 64);
+            radioButtonListHash.Location = new Point(6, 64);
             radioButtonListHash.Margin = new Padding(1);
             radioButtonListHash.MultiColumn = true;
             radioButtonListHash.Name = "radioButtonListHash";
-            radioButtonListHash.Size = new Size(988, 34);
+            radioButtonListHash.Size = new Size(996, 34);
             radioButtonListHash.Sorted = true;
             radioButtonListHash.TabIndex = 7;
             // 
@@ -1217,31 +1204,35 @@ namespace EU.CqrXs.Gui.Forms
             // 
             statusLabelSource.AutoSize = false;
             statusLabelSource.Font = new Font("Lucida Sans Typewriter", 9F);
+            statusLabelSource.Margin = new Padding(0, 1, 0, 1);
             statusLabelSource.Name = "statusLabelSource";
-            statusLabelSource.Size = new Size(216, 17);
+            statusLabelSource.Size = new Size(216, 20);
             statusLabelSource.Text = "statusLabelSource";
             // 
             // statusLabelMsg
             // 
             statusLabelMsg.AutoSize = false;
             statusLabelMsg.Font = new Font("Lucida Sans Typewriter", 9F);
+            statusLabelMsg.Margin = new Padding(0, 1, 0, 1);
             statusLabelMsg.Name = "statusLabelMsg";
-            statusLabelMsg.Size = new Size(520, 17);
+            statusLabelMsg.Size = new Size(520, 20);
             statusLabelMsg.Text = "statusLabelMsg";
             // 
             // statusLabelDestination
             // 
             statusLabelDestination.AutoSize = false;
             statusLabelDestination.Font = new Font("Lucida Sans Typewriter", 9F);
+            statusLabelDestination.Margin = new Padding(0, 1, 0, 1);
             statusLabelDestination.Name = "statusLabelDestination";
-            statusLabelDestination.Size = new Size(216, 17);
+            statusLabelDestination.Size = new Size(216, 20);
             statusLabelDestination.Text = "statusLabelDestination";
             // 
             // progressBar
             // 
-            progressBar.Location = new Point(8, 690);
+            progressBar.Location = new Point(0, 690);
+            progressBar.Margin = new Padding(1);
             progressBar.Name = "progressBar";
-            progressBar.Size = new Size(988, 14);
+            progressBar.Size = new Size(1008, 16);
             progressBar.TabIndex = 45;
             // 
             // groupBoxFiles
@@ -1249,18 +1240,18 @@ namespace EU.CqrXs.Gui.Forms
             groupBoxFiles.AllowDrop = true;
             groupBoxFiles.BackColor = SystemColors.Control;
             groupBoxFiles.Font = new Font("Lucida Sans Typewriter", 8F);
-            groupBoxFiles.Location = new Point(4, 177);
+            groupBoxFiles.Location = new Point(0, 176);
             groupBoxFiles.Margin = new Padding(1);
             groupBoxFiles.Name = "groupBoxFiles";
             groupBoxFiles.Padding = new Padding(1);
-            groupBoxFiles.Size = new Size(996, 156);
+            groupBoxFiles.Size = new Size(1008, 156);
             groupBoxFiles.TabIndex = 18;
             groupBoxFiles.TabStop = false;
             groupBoxFiles.Text = "groupBoxFiles";
             // 
             // panelPipe
             // 
-            panelPipe.BackColor = SystemColors.GradientActiveCaption;
+            panelPipe.BackColor = SystemColors.ControlDark;
             panelPipe.BorderStyle = BorderStyle.Fixed3D;
             panelPipe.Controls.Add(comboBoxAlgo);
             panelPipe.Controls.Add(pictureBoxAddAlgo);
@@ -1269,51 +1260,49 @@ namespace EU.CqrXs.Gui.Forms
             panelPipe.Controls.Add(comboBoxCompression);
             panelPipe.Controls.Add(comboBoxEncoding);
             panelPipe.ForeColor = SystemColors.GrayText;
-            panelPipe.Location = new Point(0, 137);
-            panelPipe.Margin = new Padding(2);
+            panelPipe.Location = new Point(1, 136);
+            panelPipe.Margin = new Padding(1);
             panelPipe.Name = "panelPipe";
-            panelPipe.Padding = new Padding(1);
-            panelPipe.Size = new Size(1008, 36);
+            panelPipe.Size = new Size(1008, 38);
             panelPipe.TabIndex = 10;
             // 
             // panelButtonsMessage
             // 
-            panelButtonsMessage.BackColor = SystemColors.ActiveCaption;
+            panelButtonsMessage.BackColor = SystemColors.ControlDark;
             panelButtonsMessage.BorderStyle = BorderStyle.Fixed3D;
             panelButtonsMessage.Controls.Add(buttonDecrypt);
             panelButtonsMessage.Controls.Add(buttonReset);
             panelButtonsMessage.Controls.Add(buttonEncrypt);
             panelButtonsMessage.Controls.Add(buttonRandomText);
             panelButtonsMessage.Controls.Add(labelInfoMessage);
-            panelButtonsMessage.Location = new Point(0, 337);
-            panelButtonsMessage.Margin = new Padding(2);
+            panelButtonsMessage.Location = new Point(1, 336);
+            panelButtonsMessage.Margin = new Padding(1);
             panelButtonsMessage.Name = "panelButtonsMessage";
-            panelButtonsMessage.Padding = new Padding(1);
-            panelButtonsMessage.Size = new Size(1008, 39);
+            panelButtonsMessage.Size = new Size(1008, 40);
             panelButtonsMessage.TabIndex = 20;
             // 
             // tabControlWithHexSrc
             // 
             tabControlWithHexSrc.BackColor = SystemColors.Control;
             tabControlWithHexSrc.Font = new Font("Lucida Sans Typewriter", 9F);
-            tabControlWithHexSrc.Location = new Point(0, 380);
+            tabControlWithHexSrc.Location = new Point(1, 380);
             tabControlWithHexSrc.Margin = new Padding(1);
             tabControlWithHexSrc.Multiline = true;
             tabControlWithHexSrc.Name = "tabControlWithHexSrc";
             tabControlWithHexSrc.ScrollBars = ScrollBars.Vertical;
-            tabControlWithHexSrc.Size = new Size(502, 306);
+            tabControlWithHexSrc.Size = new Size(500, 306);
             tabControlWithHexSrc.TabIndex = 40;
             // 
             // tabControlWithHexDest
             // 
             tabControlWithHexDest.BackColor = SystemColors.Control;
             tabControlWithHexDest.Font = new Font("Lucida Console", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            tabControlWithHexDest.Location = new Point(506, 380);
+            tabControlWithHexDest.Location = new Point(507, 380);
             tabControlWithHexDest.Margin = new Padding(1);
             tabControlWithHexDest.Multiline = true;
             tabControlWithHexDest.Name = "tabControlWithHexDest";
             tabControlWithHexDest.ScrollBars = ScrollBars.Vertical;
-            tabControlWithHexDest.Size = new Size(502, 306);
+            tabControlWithHexDest.Size = new Size(500, 306);
             tabControlWithHexDest.TabIndex = 46;
             // 
             // comboBoxCipherModes
@@ -1328,7 +1317,7 @@ namespace EU.CqrXs.Gui.Forms
             comboBoxCipherModes.Margin = new Padding(1);
             comboBoxCipherModes.MaxDropDownItems = 32;
             comboBoxCipherModes.Name = "comboBoxCipherModes";
-            comboBoxCipherModes.Size = new Size(120, 23);
+            comboBoxCipherModes.Size = new Size(121, 23);
             comboBoxCipherModes.TabIndex = 47;
             // 
             // EncryptFormMultiControls
@@ -1467,7 +1456,6 @@ namespace EU.CqrXs.Gui.Forms
         private ProgressBar progressBar;
         private ToolStripMenuItem menuOptionsMenuSettings;
         private ToolStripMenuItem menuItemCreatePipeSettingsFromFileName;
-        private ToolStripMenuItem warnOnDoubleZippingToolStripMenuItem;
         private ToolStripMenuItem menuFileSettingsItemAutomaticallySaveToTemp;
         private Controls.GroupBoxFiles groupBoxFiles;
         private Panel panelPipe;
@@ -1496,7 +1484,6 @@ namespace EU.CqrXs.Gui.Forms
         private ToolStripSeparator menuHashSeparator2;
         private ToolStripSeparator menuHashSeparator3;
         private ToolStripSeparator menuHashSeparator4;
-        private ToolStripMenuItem warnOnEmptyPipeToolStripMenuItem;
         private ToolStripMenuItem menuOptionsMenuModes;
         protected internal ToolStripMenuItem menuMainItemExperimental;
         protected internal ToolStripMenuItem menuMainItemSimple;
@@ -1508,8 +1495,9 @@ namespace EU.CqrXs.Gui.Forms
         private ToolStripMenuItem menuVisualModesItemDark;
         private ToolStripMenuItem menuVisualModesItemSystem;
         private ToolStripMenuItem menuOptionsItemsWarnings;
-        private ToolStripMenuItem toolStripMenuItem2;
-        private ToolStripMenuItem toolStripMenuItem3;
+        private ToolStripMenuItem warnOnEmptyPipeToolStripMenuItem;
+        private ToolStripMenuItem warnOnDoubleZippingToolStripMenuItem;
+        private ToolStripMenuItem menuFileSettingsItemSaveSettingsToJson;
     }
 
 

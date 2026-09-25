@@ -1,7 +1,6 @@
 #define CLR2COMPATIBILITY
 using EU.CqrXs.Gui.Forms;
 using EU.CqrXs.Util;
-using System.Drawing.Imaging;
 using System.Reflection;
 
 namespace EU.CqrXs.Gui
@@ -140,6 +139,10 @@ namespace EU.CqrXs.Gui
                     if (arg.Contains("zen", StringComparison.CurrentCultureIgnoreCase) ||
                         arg.Contains("matrix", StringComparison.CurrentCultureIgnoreCase))
                         formMode = FormMode.ZenMatrix;
+
+                    if (arg.Contains("restart", StringComparison.CurrentCultureIgnoreCase) ||
+                        arg.Contains("re", StringComparison.CurrentCultureIgnoreCase))
+                        System.Threading.Thread.Sleep(1000);
                 }
             }
 

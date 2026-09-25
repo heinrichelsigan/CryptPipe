@@ -361,8 +361,8 @@ namespace EU.CqrXs.Gui.Forms
                         {
                             UseShellExecute = true,
                             WorkingDirectory = Environment.CurrentDirectory,
-                            FileName = Path.Combine(Program.ProgDirPazh, "EU.CqrXs.Gui.Restart.bat"),
-                            Arguments = args
+                            FileName = Path.Combine(Program.ProgDirPazh, Program.ProgName), // "EU.CqrXs.Gui.Restart.bat"
+                            Arguments = args + " restart"
                         });
                         // );
 
