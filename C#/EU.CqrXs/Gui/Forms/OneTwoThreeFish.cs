@@ -41,7 +41,7 @@ namespace EU.CqrXs.Gui.Forms
             mCipherModes = new ToolStripMenuItem[] { menuCipherModeItemCBC, menuCipherModeItemCFB, menuCipherModeItemECB };
 
 
-            tabControlWithHexDest.AsciiTextReadonly = true;
+            tabControlWithHexDest.ReadOnly = true;
             buttonEncrypt.Click += new System.EventHandler(async (sender, e)
                 => await Encrypt_Click(sender, e));
             buttonDecrypt.Click += new System.EventHandler(async (sender, e)
@@ -540,7 +540,7 @@ namespace EU.CqrXs.Gui.Forms
             {
                 Random rand = new Random(DateTime.Now.Millisecond + DateTime.Now.Second);
                 int rIdx = rand.Next(0, fortunes.Length - 1);
-                this.tabControlWithHexSrc.AsciiText = fortunes[rIdx];
+                this.tabControlWithHexSrc.Text = fortunes[rIdx];
             }
         }
 
@@ -554,8 +554,8 @@ namespace EU.CqrXs.Gui.Forms
             this.textBoxHash3.Text = string.Empty;
             this.textBoxKey.Text = string.Empty;
             this.textBoxPipe.Text = string.Empty;
-            this.tabControlWithHexSrc.AsciiText = string.Empty;
-            this.tabControlWithHexDest.AsciiText = string.Empty;
+            this.tabControlWithHexSrc.Text = string.Empty;
+            this.tabControlWithHexDest.Text = string.Empty;
             cPipe = null;
             await this.groupBoxFiles.ResetPictureBoxFilesAsync(sender, e);
 
@@ -608,18 +608,18 @@ namespace EU.CqrXs.Gui.Forms
             await groupBoxFiles.pictureBoxRunningPipe.SetImageTagVisibleAsync(cPipe.GenerateEncryptPipeImage());
 
             DateTime start = DateTime.Now;
-            if (!string.IsNullOrEmpty(this.tabControlWithHexSrc.AsciiText))
+            if (!string.IsNullOrEmpty(this.tabControlWithHexSrc.Text))
             {
                 cmode2 = GetCipherMode2();
-                this.tabControlWithHexDest.AsciiText = "";
+                this.tabControlWithHexDest.Text = "";
                 Cursor.Current = new Cursor(iconSandClock.Handle);
                 await SetInfoMessageAsync("Starting encryption plain text", ToolTipIcon.Info, -1);
                 try
                 {
-                    await this.statusLabelSource.SetTextAsync($"source chars: {tabControlWithHexSrc.AsciiText.Length}");
+                    await this.statusLabelSource.SetTextAsync($"source chars: {tabControlWithHexSrc.Text.Length}");
                     if (menuEncNone.Checked && (fishesOrder.Length > 0 || GetZip() != ZipType.None))
                         await SetEncodingAsync(menuEncBase64);
-                    byte[] intermediateBytes = GetZip().Zip(System.Text.Encoding.UTF8.GetBytes(this.tabControlWithHexSrc.AsciiText));
+                    byte[] intermediateBytes = GetZip().Zip(System.Text.Encoding.UTF8.GetBytes(this.tabControlWithHexSrc.Text));
                     string metaHash = KeyHash.OpenBSDCrypt.Hash(this.textBoxKey.Text);
                     intermediateBytes = CipherPipe.EncryptBytesFast(
                         intermediateBytes,
@@ -649,8 +649,8 @@ namespace EU.CqrXs.Gui.Forms
 
 
                     string encrypted = GetEncoding().EnCode(intermediateBytes);
-                    this.tabControlWithHexDest.AsciiText = encrypted;
-                    await this.statusLabelDestination.SetTextAsync($"destination chars: {this.tabControlWithHexDest.AsciiText.Length}");
+                    this.tabControlWithHexDest.Text = encrypted;
+                    await this.statusLabelDestination.SetTextAsync($"destination chars: {this.tabControlWithHexDest.Text.Length}");
                     await SetInfoMessageAsync("1-2-3 fish finished", ToolTipIcon.Info, 5000);
                 }
                 catch (Exception ex)
@@ -668,7 +668,7 @@ namespace EU.CqrXs.Gui.Forms
                 string fileName = FileMatches();
                 if (string.IsNullOrEmpty(fileName))
                 {
-                    if (string.IsNullOrEmpty(this.tabControlWithHexSrc.AsciiText))
+                    if (string.IsNullOrEmpty(this.tabControlWithHexSrc.Text))
                     {
                         await SetInfoMessageAsync("No file found to encrypt", ToolTipIcon.Warning, 6000);
                         await this.statusLabelSource.SetTextAsync("No file found to encrypt");
@@ -793,20 +793,20 @@ namespace EU.CqrXs.Gui.Forms
             // SetPictureBoxImage(groupBoxFiles.pictureBoxRunningPipe, cPipe.GenerateDecryptPipeImage());
             await this.groupBoxFiles.pictureBoxRunningPipe.SetImageTagVisibleAsync(cPipe.GenerateDecryptPipeImage());            
 
-            if (!string.IsNullOrEmpty(this.tabControlWithHexSrc.AsciiText))
+            if (!string.IsNullOrEmpty(this.tabControlWithHexSrc.Text))
             {
-                this.tabControlWithHexDest.AsciiText = "";
+                this.tabControlWithHexDest.Text = "";
                 Cursor.Current = new Cursor(iconSandClock.Handle);
                 await SetInfoMessageAsync("Starting decryption of cipher text", ToolTipIcon.Info, -1);
 
                 cmode2 = GetCipherMode2();
                 try
                 {
-                    await this.statusLabelSource.SetTextAsync($"source chars: {tabControlWithHexSrc.AsciiText.Length}");
+                    await this.statusLabelSource.SetTextAsync($"source chars: {tabControlWithHexSrc.Text.Length}");
                     if (menuEncNone.Checked && (fishesOrder.Length > 0 || GetZip() != ZipType.None))
                         await SetEncodingAsync(menuEncBase64);
 
-                    byte[] intermediateBytes = GetEncoding().DeCode(this.tabControlWithHexSrc.AsciiText);
+                    byte[] intermediateBytes = GetEncoding().DeCode(this.tabControlWithHexSrc.Text);
 
                     string metaHash = KeyHash.Sha384.Hash(this.textBoxKey.Text);
                     intermediateBytes = CipherPipe.DecryptBytesFast(
@@ -838,9 +838,9 @@ namespace EU.CqrXs.Gui.Forms
                     intermediateBytes = GetZip().Unzip(intermediateBytes);
                     string decrypted = System.Text.Encoding.UTF8.GetString(intermediateBytes);
 
-                    this.tabControlWithHexDest.AsciiText = decrypted;
+                    this.tabControlWithHexDest.Text = decrypted;
                     await SetInfoMessageAsync("Decryption finished", ToolTipIcon.Info, 6000);
-                    await this.statusLabelDestination.SetTextAsync($"destination chars: {this.tabControlWithHexDest.AsciiText.Length}");
+                    await this.statusLabelDestination.SetTextAsync($"destination chars: {this.tabControlWithHexDest.Text.Length}");
                 }
                 catch (Exception ex)
                 {
@@ -997,8 +997,8 @@ namespace EU.CqrXs.Gui.Forms
             FileInfo fi = new FileInfo(fileName);
             if (fi.Exists && fi.Length > 0)
             {
-                this.tabControlWithHexSrc.AsciiText = string.Empty;
-                this.tabControlWithHexDest.AsciiText = string.Empty;
+                this.tabControlWithHexSrc.Text = string.Empty;
+                this.tabControlWithHexDest.Text = string.Empty;
                 SetGBoxText(this.groupBoxFiles, "Files Group Box");
 
                 groupBoxFiles.pictureBoxFileIn.Image = fileName.GetImageThumbnailFromFile();

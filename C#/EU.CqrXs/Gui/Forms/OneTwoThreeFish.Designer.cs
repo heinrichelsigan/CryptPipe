@@ -130,8 +130,8 @@ namespace EU.CqrXs.Gui.Forms
             pictureBox1 = new PictureBox();
             textBoxHash1 = new TextBox();
             textBoxHash3 = new TextBox();
-            tabControlWithHexSrc = new EU.CqrXs.Gui.Controls.TabControlWithHex();
-            tabControlWithHexDest = new EU.CqrXs.Gui.Controls.TabControlWithHex();
+            tabControlWithHexSrc = new TextBox();
+            tabControlWithHexDest = new TextBox();
             groupBoxFiles = new EU.CqrXs.Gui.Controls.GroupBoxFiles();
             menuStripEncrypt.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)enumOptionsBindingSource).BeginInit();
@@ -1032,6 +1032,8 @@ namespace EU.CqrXs.Gui.Forms
             // 
             // tabControlWithHexSrc
             // 
+            tabControlWithHexSrc.Multiline = true;
+            tabControlWithHexSrc.MaxLength = 524288;
             tabControlWithHexSrc.BackColor = SystemColors.Control;
             tabControlWithHexSrc.Font = new Font("Lucida Sans Typewriter", 9F);
             tabControlWithHexSrc.Location = new Point(2, 358);
@@ -1043,6 +1045,8 @@ namespace EU.CqrXs.Gui.Forms
             // 
             // tabControlWithHexDest
             // 
+            tabControlWithHexDest.Multiline = true;
+            tabControlWithHexDest.MaxLength = 786432;
             tabControlWithHexDest.BackColor = SystemColors.Control;
             tabControlWithHexDest.Font = new Font("Lucida Sans Typewriter", 9F);
             tabControlWithHexDest.Location = new Point(524, 358);
@@ -1171,8 +1175,8 @@ namespace EU.CqrXs.Gui.Forms
         private ToolStripMenuItem menuItemCreatePipeSettingsFromFileName;
         private ToolStripMenuItem menuFileSettingsItemAutomaticallySaveToTemp;
         private Panel panel1;
-        private Controls.TabControlWithHex tabControlWithHexSrc;
-        private Controls.TabControlWithHex tabControlWithHexDest;
+        private TextBox tabControlWithHexSrc;
+        private TextBox tabControlWithHexDest;
         internal ToolStripMenuItem menuOptionsMenuWindowsCharHexDecOctBin;
         internal ToolStripMenuItem menuOptionsMenuWindowsitemAbout;
         protected internal ToolStripMenuItem menuMainDownloadImage;
