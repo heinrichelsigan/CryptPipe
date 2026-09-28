@@ -294,7 +294,7 @@ namespace EU.CqrXs.SelfExtract
         |   default: Hex
     -z  | --zip={gzip|bzip2|zip|none} 
         |   default: none
-    -C  | --CipherAlgost={algo1,algo2,...}
+    -C  | --CipherAlgos={algo1,algo2,...}
         |   algo:
         |     Aes,AesLight,Rijndael,Des,Des3,Dstu7624,
         |       Aria,Camellia,CamelliaLight,Cast5,Cast6,
@@ -306,6 +306,8 @@ namespace EU.CqrXs.SelfExtract
         |       ZenMatrix,ZenMatrix2
     -e  | --encode={raw|hex16|base16|hex32|base32|hex64|base64|uu|xx|ascii85}
         |   default: base64
+    -M  | --mode={CBC|CFB|ECB} 
+        |   default: ECB		
     -D  | --Decrypt [ = Inverse_Pipe_Direction ]  
     -S  | --secureCipher (uses SecureCipherPipe with always GZip, Base64 and different hashes in every pipe stage)
     -o  | --outFile= | --outText=EnviromentVariable | --outStd   

@@ -161,7 +161,7 @@ namespace EU.CqrXs.Spooler
                     if (!decryptDirection) // encrypting
                     {
                         // CipherPipe and all CipherEnum's
-                        cPipe = new CipherPipe(keyHash.Hash(passKey), passKey, encodingType, zipType, keyHash, cmode2);
+                        cPipe = new CipherPipe(passKey, keyHash.Hash(passKey), encodingType, zipType, keyHash, cmode2);
                         PrintCipherPipe(cPipe, decryptDirection);
                         outBytes = cPipe.EncryptEncodeBytes(inBytes, passKey, keyHash.Hash(passKey), encodingType, zipType, keyHash, cmode2);
                         ofName += cPipe.PipeFullExtension;

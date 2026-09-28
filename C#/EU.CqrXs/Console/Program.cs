@@ -136,6 +136,8 @@ namespace EU.CqrXs.Console
                             zipType = ZipType.BZip2;
                         else if (optStr.ToLower().Contains("zip") || optStr.ToLower().Contains("unzip"))
                             zipType = ZipType.Zip;
+                        else if (optStr.ToLower().Contains("no") || optStr.ToLower().Contains("null") || optStr.ToLower().Contains("0"))
+                            zipType = ZipType.None;
                         else
                             Usage($"urecognized zip option: {optStr}");
                         break;
@@ -277,6 +279,8 @@ namespace EU.CqrXs.Console
         |       ZenMatrix,ZenMatrix2
     -e  | --encode={raw|hex16|base16|hex32|base32|hex64|base64|uu|xx|ascii85}
         |   default: base64
+    -M  | --mode={CBC|CFB|ECB} 
+        |   default: ECB
     -D  | --Decrypt [ = Inverse_Pipe_Direction ]  
     -S  | --secureCipher (uses SecureCipherPipe with always GZip, Base64 and different hashes in every pipe stage)
     -o  | --outFile= | --outText=EnviromentVariable | --outStd            

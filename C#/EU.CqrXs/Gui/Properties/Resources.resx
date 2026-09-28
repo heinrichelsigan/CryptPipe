@@ -118,9 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Blank_640x108" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Blank_640x108.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="sound_glasses" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sounds\sound_glasses.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     <comment>sound_glasses</comment>
@@ -195,9 +192,6 @@
   <data name="image_file_encrypted" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\symbols\image_file_encrypted.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Blank_640x96" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Blank_640x96.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="sound_warning" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sounds\sound_warning.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     <comment>sound_warning</comment>
@@ -266,9 +260,6 @@
     <value>..\Resources\sounds\sound_arrow.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     <comment>sound_arrow</comment>
   </data>
-  <data name="BlankEncrypt_640x108" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlankEncrypt_640x108.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="sound_camera" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sounds\sound_camera.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     <comment>sound_camera</comment>
@@ -280,9 +271,6 @@
   <data name="sound_error" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sounds\sound_error.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     <comment>sound_error</comment>
-  </data>
-  <data name="BlankDecrypt_640x108" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlankDecrypt_640x108.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="CryptDisk" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CryptDisk.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -298,5 +286,19 @@
   <data name="ThreeFish" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Algos\ThreeFish.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     <comment>ThreeFish</comment>
+  </data>
+  <data name="BlankEncrypt_640x108" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BlankEncrypt_640x108.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <comment>BlankEncrypt_640x108</comment>
+  </data>
+  <data name="BlankDecrypt_640x108" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BlankDecrypt_640x108.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <comment>BlankDecrypt_640x108</comment>
+  </data>
+  <data name="Blank_640x96" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Blank_640x96.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Blank_640x108" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Blank_640x108.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

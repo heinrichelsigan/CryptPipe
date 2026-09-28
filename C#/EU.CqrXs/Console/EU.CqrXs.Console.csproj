@@ -10,15 +10,15 @@
     <InvariantGlobalization>True</InvariantGlobalization>
 	<StripSymbols>False</StripSymbols>
     <StartupObject>EU.CqrXs.Console.Program</StartupObject>
-    <ApplicationIcon>ConsoleIcon.ico</ApplicationIcon>
+    <ApplicationIcon>Properties\ConsoleIcon.ico</ApplicationIcon>
     <PublishTrimmed>True</PublishTrimmed>
     <Title>EU.CqrXs.Console</Title>
     <Description>EU.CqrXs.Console</Description>
     <Copyright>Copyright © 2000-2040 Copyleft https://cqrxs.eu</Copyright>
     <PackageProjectUrl>https://cqrxs.eu/download/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/heinrichelsigan/CryptPipe/</RepositoryUrl>
-    <AssemblyVersion>2.26.921</AssemblyVersion>
-    <FileVersion>2.26.921</FileVersion>
+    <AssemblyVersion>2.26.929</AssemblyVersion>
+    <FileVersion>2.26.929</FileVersion>
     <PackageReadmeFile>README.MD</PackageReadmeFile>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
   </PropertyGroup>
@@ -42,7 +42,7 @@
     <Content Include="README.MD">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ConsoleIcon.ico" />
+    <Content Include="Properties\ConsoleIcon.ico" />
   </ItemGroup>
 
   <ItemGroup>
