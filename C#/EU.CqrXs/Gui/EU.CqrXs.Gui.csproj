@@ -53,6 +53,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Controls\TabConrolWithHex.cs" />
     <Compile Remove="Forms\EncryptForm.cs" />
     <Compile Remove="Forms\EncryptForm.Designer.cs" />
     <Compile Remove="Forms\TransparentBadge.cs" />
@@ -80,9 +81,6 @@
   </ItemGroup>
     
 	<ItemGroup>
-        <Compile Update="Controls\TabConrolWithHex.cs">
-          <SubType>Component</SubType>
-        </Compile>
         <Compile Update="Forms\EncryptFormAsymmetric.cs">
           <SubType>Form</SubType>
         </Compile>

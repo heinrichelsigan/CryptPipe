@@ -1033,7 +1033,7 @@ namespace EU.CqrXs.Gui.Forms
             // tabControlWithHexSrc
             // 
             tabControlWithHexSrc.Multiline = true;
-            tabControlWithHexSrc.MaxLength = 524288;
+            tabControlWithHexSrc.MaxLength = 1048576;
             tabControlWithHexSrc.BackColor = SystemColors.Control;
             tabControlWithHexSrc.Font = new Font("Lucida Sans Typewriter", 9F);
             tabControlWithHexSrc.Location = new Point(2, 358);
@@ -1046,7 +1046,7 @@ namespace EU.CqrXs.Gui.Forms
             // tabControlWithHexDest
             // 
             tabControlWithHexDest.Multiline = true;
-            tabControlWithHexDest.MaxLength = 786432;
+            tabControlWithHexDest.MaxLength = 1048576;
             tabControlWithHexDest.BackColor = SystemColors.Control;
             tabControlWithHexDest.Font = new Font("Lucida Sans Typewriter", 9F);
             tabControlWithHexDest.Location = new Point(524, 358);
