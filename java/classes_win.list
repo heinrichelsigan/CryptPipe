@@ -101,7 +101,11 @@ eu\cqrxs\gui\img\tnepres.png
 eu\cqrxs\gui\img\encode_xx.png
 eu\cqrxs\gui\img\skipjack.png
 eu\cqrxs\gui\img\gz.png
+eu\cqrxs\gui\img\bz2.png
+eu\cqrxs\gui\img\zip.png
 eu\cqrxs\gui\img\gunzip.png
+eu\cqrxs\gui\img\bunzip2.png
+eu\cqrxs\gui\img\unzip.png
 eu\cqrxs\gui\img\decode_hex64.png
 eu\cqrxs\gui\img\decrypted.png
 eu\cqrxs\gui\img\decpde_hex64.png

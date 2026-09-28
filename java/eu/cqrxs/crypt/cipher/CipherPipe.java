@@ -735,8 +735,6 @@ public class CipherPipe {
 
 
     /**
-     *
-     /**
      * cryptCodeBytes encrypt or decrypt bytes
      * @param inBytes bytes to transform
      * @param secretKey user's key
@@ -747,10 +745,9 @@ public class CipherPipe {
      * @param cmode2 {@link CipherMode2}
      * @return transformed bytes
      */
-    public byte[] CryptCodeBytes(byte[] inBytes, String secretKey, String hashIV,
-                                         boolean directionDecrypt, EncodeEnum encType,
-                                         ZipType zip, KeyHash keyHash,
-                                         CipherMode2 cmode2) {
+    public byte[] cryptCodeBytes(byte[] inBytes, String secretKey, String hashIV,
+                                    boolean directionDecrypt, EncodeEnum encType, ZipType zip,
+                                    KeyHash keyHash,  CipherMode2 cmode2) {
         byte[] outBytes;
         try {
             outBytes = (!directionDecrypt) ?
@@ -779,13 +776,9 @@ public class CipherPipe {
 	 * @throws IOException
      */
     public byte[] encryptEncodeBytes(
-                byte[] inBytes,
-                String secretKey,
-                String hashIV,
-                EncodeEnum encType,
-                ZipType zipBefore,
-                KeyHash keyHash,
-                CipherMode2 cmode2)
+            byte[] inBytes, String secretKey, String hashIV,
+            EncodeEnum encType, ZipType zipBefore, KeyHash keyHash,
+            CipherMode2 cmode2)
             throws InvalidCipherTextException, IOException {
 
         // if ((secretKey == null && cipherKey == null) || (secretKey.length() == 0 && cipherKey.length() == 0))
@@ -835,10 +828,10 @@ public class CipherPipe {
 	 * @throws IOException
      */
     public byte[] decodeDecrpytBytes(
-                        byte[] encodedBytes, String secretKey, String hashIV,
-                        EncodeEnum encType, ZipType unzipAfter, KeyHash keyHash,
-                        CipherMode2 cmode2)
-                    throws InvalidCipherTextException, IOException {
+            byte[] encodedBytes, String secretKey, String hashIV,
+            EncodeEnum encType, ZipType unzipAfter, KeyHash keyHash,
+            CipherMode2 cmode2)
+            throws InvalidCipherTextException, IOException {
         cMode2 = cmode2;
         encodeType = encType;
         zType = unzipAfter;
@@ -864,7 +857,7 @@ public class CipherPipe {
         }
 
         return outBytes;
-    }
+}
 
 
     /**
@@ -894,26 +887,19 @@ public class CipherPipe {
         // paint both images, preserving the alpha channels
         Graphics g = combined.getGraphics();
 
-        if (pipe.zType == ZipType.GZip) {
-
-            BufferedImage imgGz = new BufferedImage(woff, h, BufferedImage.TYPE_INT_ARGB);
-            try {
-                imgGz = ImageHelper.getJarIncludedImage(path + "gz.png");
-            } catch (Exception ioex2) {
-                DbgWriter.msgex(ioex2, true);
+        BufferedImage imgZip = new BufferedImage(woff, h, BufferedImage.TYPE_INT_ARGB);
+        try {
+            switch (pipe.zType) {
+                case Zip -> imgZip = ImageHelper.getJarIncludedImage(path + "zip.png");
+                case GZip -> imgZip =  ImageHelper.getJarIncludedImage(path + "gz.png");
+                case BZip2 -> imgZip =  ImageHelper.getJarIncludedImage(path + "bz2.png");
+                default -> imgZip = ImageHelper.getJarIncludedImage(path + "pipestartblock.png");
             }
-            g.drawImage(imgGz, xoffset, 0, null);
-            xoffset += woff;
-        } else {
-            BufferedImage imgStart = new BufferedImage(32, h, BufferedImage.TYPE_INT_ARGB);
-            try {
-                imgStart = ImageHelper.getJarIncludedImage(path + "pipestartblock.png");
-            } catch (Exception ioex3) {
-                DbgWriter.msgex(ioex3, true);
-            }
-            g.drawImage(imgStart, xoffset, 0, null);
-            xoffset += 32;
+        } catch (Exception ioex2) {
+            DbgWriter.msgex(ioex2, true);
         }
+        g.drawImage(imgZip, xoffset, 0, null);
+        xoffset += (pipe.zType == ZipType.None) ? 32 :  woff;
 
         CipherEnum[] inPipe = pipe.getInPipe();
         if (inPipe != null && inPipe.length > 0) {
@@ -986,7 +972,7 @@ public class CipherPipe {
             return imgStartPipeBlank;
         }
 
-        int xoffset = 0;
+        int xoffset = 4;
         int width_full = Constants.PIPE_IMG_WIDTH;
         int woff = Constants.PIPE_IMG_WIDTH_OFFSET;
         int h = Constants.PIPE_IMG_HEIGHT;
@@ -1048,15 +1034,20 @@ public class CipherPipe {
             }
         }
 
-        if (pipe.zType == ZipType.GZip) { // finish image with gunzip
+        if (pipe.zType != ZipType.None) { // finish image with gunzip, bunzip2, unzip
 
-            BufferedImage imgGz = new BufferedImage(woff, h, BufferedImage.TYPE_INT_ARGB);
+            BufferedImage imgUnZip = new BufferedImage(woff, h, BufferedImage.TYPE_INT_ARGB);
             try {
-                imgGz = ImageHelper.getJarIncludedImage(path + "gunzip.png");
+                switch (pipe.zType) {
+                    case Zip -> imgUnZip = ImageHelper.getJarIncludedImage(path + "unzip.png");
+                    case GZip -> imgUnZip = ImageHelper.getJarIncludedImage(path + "gunzip.png");
+                    case BZip2 -> imgUnZip = ImageHelper.getJarIncludedImage(path + "bunzip2.png");
+                    default -> imgUnZip = ImageHelper.getJarIncludedImage(path + "pipestartblock.png");
+                }
             } catch (Exception exImageGunzip) {
                 DbgWriter.msgex(exImageGunzip, true);
             }
-            g.drawImage(imgGz, xoffset, 0, null);
+            g.drawImage(imgUnZip, xoffset, 0, null);
             xoffset += Constants.PIPE_IMG_WIDTH_OFFSET;
         }
 

@@ -16,10 +16,7 @@ import eu.cqrxs.zip.ZipType;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.String;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * ZipType represents the enumerator for all Encoding to ascii algorithms
@@ -48,26 +45,36 @@ public enum ZipType /* implements Serializable */ {
     public int getValue() { return value; }
 
 
+	/**
+	 * zip compresses bytes
+	 * @param plainBytes plain bytes
+	 * @return compressed bytes
+	 * @throws IOException
+	 */
     public byte[] zip(byte[] plainBytes) throws IOException {
-        switch(this) {
-            case GZip: return GZ.gzip(plainBytes);
-			case Zip: return WZ.zip(plainBytes);
-			case BZip2: return BZ2.bzip2(plainBytes);
-            case None: return plainBytes;
-            default: break;
-        }
-        throw new NotImplementedError("unzipping not implemented");
+        return switch (this) {
+            case GZip -> GZ.gzip(plainBytes);
+            case Zip -> WZ.zip(plainBytes);
+            case BZip2 -> BZ2.bzip2(plainBytes);
+            case None -> plainBytes;
+            default -> throw new NotImplementedError("unzipping not implemented");
+        };
     }
 
+	/**
+	 * unzip unzip compressed bytes
+	 * @param zippedBytes compressed bytes
+	 * @return decompressed bytes
+	 * @throws IOException
+	 */
     public byte[] unzip(byte[] zippedBytes) throws IOException {
-        switch(this) {
-            case GZip: return GZ.gunzip(zippedBytes);
-			case Zip: return WZ.unzip(zippedBytes);
-			case BZip2: return BZ2.bunzip2(zippedBytes);
-            case None: return zippedBytes;
-            default: break;
-        }
-        throw new NotImplementedError("unzipping not implemented");
+        return switch (this) {
+            case GZip -> GZ.gunzip(zippedBytes);
+            case Zip -> WZ.unzip(zippedBytes);
+            case BZip2 -> BZ2.bunzip2(zippedBytes);
+            case None -> zippedBytes;
+            default -> throw new NotImplementedError("unzipping not implemented");
+        };
     }
 
     /**
@@ -76,24 +83,21 @@ public enum ZipType /* implements Serializable */ {
      */
     public String getName() {
 		int xval = getValue();
-		switch (xval) {
-			case 0x00:
-				return "None";
-			case 0x10:
-				return "Zip";
-			case 0x20:
-				return "GZip";
-			case 0x30:
-				return "BZip2";
-			case 0x40:
-				return "Z7";
-			default:
-				break;
-		}
-		return "None";
-	}
+        return switch (xval) {
+            case 0x00 -> "None";
+            case 0x10 -> "Zip";
+            case 0x20 -> "GZip";
+            case 0x30 -> "BZip2";
+            case 0x40 -> "Z7";
+            default -> "None";
+        };
+    }
 
 
+	/**
+	 * getNames
+	 * @return string array of zip enum names
+	 */
 	public static String[] getNames() {
 		int cnt = 0;
 		List<String> zipTypeList = new ArrayList<>();
@@ -105,46 +109,30 @@ public enum ZipType /* implements Serializable */ {
 		return zipTypeList.toArray(new String[cnt]);		
     }
 
-	public static ZipType getZipTypeFromString(String stringToZipType) {
-		if (stringToZipType != null && stringToZipType != "") {
-			switch (stringToZipType) {
+	/**
+	 * getZipTypeFromString
+	 * @param zipFileExtension file extension
+	 * @return {@link ZipType}
+	 */
+	public static ZipType getZipTypeFromString(String zipFileExtension) {
+		if (zipFileExtension != null && !zipFileExtension.isEmpty()) {
+			switch (zipFileExtension.toLowerCase(Locale.getDefault())) {
 				case "zip":
-				case "Zip":
-				case "ZIP":
 					return ZipType.Zip;
 					
 				case "gz":
-				case "Gz":
-				case "GZ":
 				case "gzip":
-				case "Gzip":
-				case "GZip":
-				case "GZIP":
 					return ZipType.GZip;
 					
 				case "bz":
-				case "Bz":
-				case "BZ":
 				case "bz2":
-				case "Bz2":
-				case "BZ2":
 				case "bzip":
-				case "Bzip":
-				case "BZip":
-				case "BZIP":
 				case "bzip2":
-				case "Bzip2":
-				case "BZip2":
-				case "BZIP2":
 					return ZipType.BZip2;
-					
+
 				case "7z":
-				case "7Z":
 				case "z7":
-				case "Z7":
 				case "7zip":
-				case "7Zip":
-				case "7ZIP":
 					return ZipType.Z7;
 					
 				default:										
@@ -155,27 +143,29 @@ public enum ZipType /* implements Serializable */ {
 	}
 
 
+	/**
+	 * getZipTypes
+	 * @return {@link Set<ZipType>} Set pf ZipType
+	 */
 	public static Set<ZipType> getZipTypes() {
 		Set<ZipType> allElementsInZipType = EnumSet.allOf(ZipType.class);
 		return allElementsInZipType;
 	}
 
+	/**
+	 * getZipTypeExtension
+	 * @param zipType {@link ZipType}
+	 * @return {@link String} zip type extension
+	 */
 	 public static String getZipTypeExtension(ZipType zipType) {
-		 switch (zipType.getValue()) {
-			 case 0x10:
-				 return ".zip";
-			 case 0x20:
-				 return ".gz";
-			 case 0x30:
-				 return ".bz2";
-			 case 0x40:
-				 return ".7z";
-			 case 0x00:
-			 default:
-				 break;
-		 }
-		 return "";
-	 }
+         return switch (zipType.getValue()) {
+             case 0x10 -> ".zip";
+             case 0x20 -> ".gz";
+             case 0x30 -> ".bz2";
+             case 0x40 -> ".7z";
+             default -> "";
+         };
+     }
 
     /**
      * getEnum
@@ -190,6 +180,4 @@ public enum ZipType /* implements Serializable */ {
         return ZipType.None;
     }
 
-
 }
-

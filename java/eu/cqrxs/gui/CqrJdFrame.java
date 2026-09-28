@@ -1648,7 +1648,7 @@ public class CqrJdFrame extends JFrame {
 				if (decrypted.length() < 2048)
 					jLabel_statusDestination.setText(decrypted.length() + " bytes");
 				if (decrypted.length() > 2048 && decrypted.length() < 1048576)
-					jLabel_statusDestination.setText((int)(encrypted.length() / 1024) + " KB.");
+					jLabel_statusDestination.setText((int)(decrypted.length() / 1024) + " KB.");
 				if (decrypted.length() > 1048576)
 					jLabel_statusDestination.setText((int)(decrypted.length() / (1024*1024)) + " MB.");
 				
