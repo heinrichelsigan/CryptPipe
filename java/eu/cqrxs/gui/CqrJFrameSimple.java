@@ -923,13 +923,7 @@ public class CqrJFrameSimple extends JFrame {
 			DbgWriter.msgex(e, false);
 		}
 
-		if (openFileBytes.length < 2048)
-			jLabel_statusSource.setText(openFileBytes.length + " bytes");
-		if (openFileBytes.length > 2048 && openFileBytes.length < 1048576)
-			jLabel_statusSource.setText((int)(openFileBytes.length / 1024) + " KB.");
-		if (openFileBytes.length > 1048576)
-			jLabel_statusSource.setText((int)(openFileBytes.length / (1024*1024)) + " MB.");
-
+		jLabel_statusSource.setText(Constants.getFileBytesLabel(openFileBytes.length));
 	}
 
 
@@ -966,15 +960,10 @@ public class CqrJFrameSimple extends JFrame {
 			setInfoMsg("Exception during file open.");
 			JOptionPane.showMessageDialog(null, e);
 			DbgWriter.msgex(e, false);
-		}                
-		
-		if (openFileBytes.length < 2048)
-			jLabel_statusSource.setText(openFileBytes.length + " bytes");
-		if (openFileBytes.length > 2048 && openFileBytes.length < 1048576)
-			jLabel_statusSource.setText((int)(openFileBytes.length / 1024) + " KB.");
-		if (openFileBytes.length > 1048576)
-			jLabel_statusSource.setText((int)(openFileBytes.length / (1024*1024)) + " MB.");
-				
+		}
+
+		jLabel_statusSource.setText(Constants.getFileBytesLabel(openFileBytes.length));
+
     }   
 
 
@@ -1067,12 +1056,8 @@ public class CqrJFrameSimple extends JFrame {
 	protected void randomText_action(ActionEvent event) {
 		String currentFortune = Fortune.getFortune();
 		jTextAreaSource.setText(currentFortune);
-		if (currentFortune.length() < 2048)
-			jLabel_statusSource.setText(currentFortune.length() + " bytes");
-		if (currentFortune.length()  > 2048 && currentFortune.length() < 1048576)
-			jLabel_statusSource.setText((int)(currentFortune.length() / 1024) + " KB");
-		if (currentFortune.length()> 1048576)
-			jLabel_statusSource.setText((int)(currentFortune.length() / (1024*1024)) + " MB");
+		jLabel_statusSource.setText(Constants.getFileBytesLabel(currentFortune.length()));
+
 	}
 	
 	protected void resetForm_action(ActionEvent event) {		
@@ -1126,24 +1111,14 @@ public class CqrJFrameSimple extends JFrame {
 			 	key, encodeType.getName(), keyHash.getName(), zipType.getName()), 4, true);
 
 			if (plain != null && plain.length() > 0) {
-		    	
-				if (plain.length() < 2048)
-					jLabel_statusSource.setText(plain.length() + " bytes");
-				if (plain.length()  > 2048 && plain.length() < 1048576)
-					jLabel_statusSource.setText((int)(plain.length() / 1024) + " KB");
-				if (plain.length()> 1048576)
-					jLabel_statusSource.setText((int)(plain.length() / (1024*1024)) + " MB");
-				
+
+				jLabel_statusSource.setText(Constants.getFileBytesLabel(plain.length()));
+
 				encrypted = pipe.encrpytTextGoRounds(plain, key, cmode2);
 			    jTextAreaDestination.setText(encrypted);
 								
 				setInfoMsg("source text encrypted");
-				if (encrypted.length() < 2048)
-					jLabel_statusDestination.setText(encrypted.length() + " bytes");
-				if (encrypted.length() > 2048 && encrypted.length() < 1048576)
-					jLabel_statusDestination.setText((int)(encrypted.length() / 1024) + " KB.");
-				if (encrypted.length() > 1048576)
-					jLabel_statusDestination.setText((int)(encrypted.length() / (1024*1024)) + " MB.");
+				jLabel_statusDestination.setText(Constants.getFileBytesLabel(encrypted.length()));
             }
             if (openFileBytes != null  && openFileBytes.length > 0) {
 				
@@ -1158,13 +1133,7 @@ public class CqrJFrameSimple extends JFrame {
 				dropPanel.jLabelFileOut.setText(saveFileName);
                 dropPanel.jLabelImgOut.setVisible(true);
 				dropPanel.jLabelFileOut.setVisible(true);
-				if (saveFileBytes.length < 2048)
-                    jLabel_statusDestination.setText(saveFileBytes.length + " bytes"); 
-                if (saveFileBytes.length > 2048 && saveFileBytes.length < 1048576) 
-                    jLabel_statusDestination.setText((int)(saveFileBytes.length / 1024) + " KB."); 
-                if (saveFileBytes.length > 1048576) 
-                    jLabel_statusDestination.setText((int)(saveFileBytes.length / (1024*1024)) + " MB.");
-
+				jLabel_statusDestination.setText(Constants.getFileBytesLabel(saveFileBytes.length));
             }
 		} catch (Exception ex) {
 			DbgWriter.msgex(ex, true);
@@ -1204,24 +1173,12 @@ public class CqrJFrameSimple extends JFrame {
 			        key, encodeType.getName(), zipType.getName()), 4, true);
 			
             if (encrypted != null && encrypted.length() > 0) {
-                
-				if (encrypted.length() < 2048)
-					jLabel_statusSource.setText(encrypted.length() + " bytes");
-				if (encrypted.length()  > 2048 && encrypted.length() < 1048576)
-					jLabel_statusSource.setText((int)(encrypted.length() / 1024) + " KB");
-				if (encrypted.length()> 1048576)
-					jLabel_statusSource.setText((int)(encrypted.length() / (1024*1024)) + " MB");
-				
+
+				jLabel_statusSource.setText(Constants.getFileBytesLabel(encrypted.length()));
 				decrypted = pipe.decryptTextRoundsGo(encrypted, key, cmode2);
 			    jTextAreaDestination.setText(decrypted);
-				
-				if (decrypted.length() < 2048)
-					jLabel_statusDestination.setText(decrypted.length() + " bytes");
-				if (decrypted.length() > 2048 && decrypted.length() < 1048576)
-					jLabel_statusDestination.setText((int)(decrypted.length() / 1024) + " KB.");
-				if (decrypted.length() > 1048576)
-					jLabel_statusDestination.setText((int)(decrypted.length() / (1024*1024)) + " MB.");
-				
+
+				jLabel_statusDestination.setText(Constants.getFileBytesLabel(decrypted.length()));
 				setInfoMsg("source text decrypted");
             }
             if (openFileBytes != null && openFileBytes.length > 0) {
@@ -1240,14 +1197,8 @@ public class CqrJFrameSimple extends JFrame {
 				dropPanel.jLabelFileOut.setText(saveFileName);
 				dropPanel.jLabelImgOut.setVisible(true);
 				dropPanel.jLabelFileOut.setVisible(true);
-                
-				if (saveFileBytes.length < 2048)
-                    jLabel_statusDestination.setText(saveFileBytes.length + " bytes"); 
-                if (saveFileBytes.length > 2048 && saveFileBytes.length < 1048576) 
-                    jLabel_statusDestination.setText((int)(saveFileBytes.length / 1024) + " KB."); 
-                if (saveFileBytes.length > 1048576) 
-                    jLabel_statusDestination.setText((int)(saveFileBytes.length / (1024*1024)) + " MB.");
 
+				jLabel_statusDestination.setText(Constants.getFileBytesLabel(saveFileBytes.length));
 				save_action();
             } 
 		} catch (Exception ex) {

@@ -234,5 +234,23 @@ public class Constants {
 		return String.valueOf(octalNum);
 	}
 
+
+	/**
+	 * getFileBytesLabel
+	 * @param fileBytesLength
+	 * @return Label string
+	 */
+	public static String getFileBytesLabel(int fileBytesLength) {
+
+		if (fileBytesLength < 2048)
+			return (fileBytesLength + " bytes");
+
+		if (fileBytesLength <  1048576)
+			return ((int)(fileBytesLength / 1024) + " KB.");
+
+		return ((int)(fileBytesLength / (1024*1024)) + " MB.");
+	}
+
+
 }
 

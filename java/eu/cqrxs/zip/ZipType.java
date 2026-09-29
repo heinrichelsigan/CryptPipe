@@ -174,7 +174,7 @@ public enum ZipType /* implements Serializable */ {
      */
     public static ZipType getEnum(String eName) {
         for (ZipType zipType : ZipType.values()) {
-            if (zipType.getName() == eName)
+            if (zipType.getName().equals(eName))
                 return zipType;
         }
         return ZipType.None;
