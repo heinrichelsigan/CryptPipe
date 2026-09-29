@@ -16,7 +16,7 @@ namespace EU.CqrXs.Gui.Forms
         protected internal Cursor NormalCursor, NoDropCursor;
         protected internal System.Windows.Forms.DragDropEffects _dragDropEffect = System.Windows.Forms.DragDropEffects.None;
         protected internal bool isDragMode = false;
-        internal static readonly Lock _Lock = new Lock();
+        internal static readonly Lock _Lock = new();
         protected internal CipherPipe? CPipe;
         protected internal SecureCipherPipe? SPipe;
 

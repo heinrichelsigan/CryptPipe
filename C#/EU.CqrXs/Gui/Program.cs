@@ -27,26 +27,28 @@ namespace EU.CqrXs.Gui
 
         #region static fields
 
-        private static readonly Lock _lock = new Lock();      
-        private static Thread t;
+        private static readonly Lock _lock = new();      
+        // private static Thread t;
         public static readonly string ProgFilePath = ExecFullPath ?? "";
         public static readonly string ProgName = string.IsNullOrEmpty(ProgFilePath) ? Constants.APP_NAME_WINFORM : Path.GetFileName(ProgFilePath);
         public static readonly string ProgDirPazh = Path.GetDirectoryName(ProgFilePath);
-
-        internal static ulong ProgramCount = 0x0;
-        internal static Mutex? mutex;
+        
+        static Mutex? mutex;
 
         static EncryptFormBase[] formsLaunched = new EncryptFormBase[5] { null, null, null, null, null };
 
         internal static string mainFormName = "";
 
-        static ApplicationContext applicationContext;
-        internal static SystemColorMode colorMode = SystemColorMode.System;
-        internal static FormMode formMode = FormMode.Complex;
+        static ApplicationContext applicationContext;        
+        static FormMode formMode = FormMode.Complex;
         // internal static CipherPipe? ciperPipe;
         #endregion static fields
 
         #region Properties
+
+        internal static SystemColorMode ColorMode { get; private set; } = SystemColorMode.System;
+
+        internal static ulong ProgramCount { get; set; } = 0x0;
 
         internal static string ExecFullPath
         {
@@ -122,11 +124,11 @@ namespace EU.CqrXs.Gui
                 foreach (string arg in args)
                 {
                     if (arg.Contains("dark", StringComparison.CurrentCultureIgnoreCase))
-                        colorMode = SystemColorMode.Dark;
+                        ColorMode = SystemColorMode.Dark;
                     if (arg.Contains("classic", StringComparison.CurrentCultureIgnoreCase))
-                        colorMode = SystemColorMode.Classic;
+                        ColorMode = SystemColorMode.Classic;
                     if (arg.Contains("system", StringComparison.CurrentCultureIgnoreCase))
-                        colorMode = SystemColorMode.System;
+                        ColorMode = SystemColorMode.System;
 
 
                     if (arg.Contains("simple", StringComparison.CurrentCultureIgnoreCase))
@@ -158,7 +160,7 @@ namespace EU.CqrXs.Gui
 
             // set Application basic settings
             Application.EnableVisualStyles();
-            Application.SetColorMode(colorMode);
+            Application.SetColorMode(ColorMode);
             //plication.SetCompatibleTextRenderingDefault(true);
             Application.SetCompatibleTextRenderingDefault(false);
             Application.VisualStyleState = System.Windows.Forms.VisualStyles.VisualStyleState.ClientAndNonClientAreasEnabled;

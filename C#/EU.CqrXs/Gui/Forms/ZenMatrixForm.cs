@@ -22,9 +22,9 @@ namespace EU.CqrXs.Gui.Forms
             menuOptionsModesSimple.Click += menuOptionsModesSimple_Click;
             menuOptionsModes123Fish.Click += menuOptionsModes123Fish_Click;
 
-            menuVisualModesItemClassic.Enabled = (Program.colorMode != SystemColorMode.Classic);
-            menuVisualModesItemSystem.Enabled = (Program.colorMode != SystemColorMode.System);
-            menuVisualModesItemDark.Enabled = (Program.colorMode != SystemColorMode.Dark);
+            menuVisualModesItemClassic.Enabled = (Program.ColorMode != SystemColorMode.Classic);
+            menuVisualModesItemSystem.Enabled = (Program.ColorMode != SystemColorMode.System);
+            menuVisualModesItemDark.Enabled = (Program.ColorMode != SystemColorMode.Dark);
         }
 
         #region menu options modes click

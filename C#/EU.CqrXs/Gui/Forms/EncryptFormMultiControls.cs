@@ -128,9 +128,9 @@ namespace EU.CqrXs.Gui.Forms
             comboBoxEncoding.SelectedItem = EncodingType.Base64.ToString();
             radioButtonListHash.SelectedItem = KeyHash.Hex.ToString();
 
-            menuVisualModesItemClassic.Enabled = (Program.colorMode != SystemColorMode.Classic);
-            menuVisualModesItemSystem.Enabled = (Program.colorMode != SystemColorMode.System);
-            menuVisualModesItemDark.Enabled = (Program.colorMode != SystemColorMode.Dark);
+            menuVisualModesItemClassic.Enabled = (Program.ColorMode != SystemColorMode.Classic);
+            menuVisualModesItemSystem.Enabled = (Program.ColorMode != SystemColorMode.System);
+            menuVisualModesItemDark.Enabled = (Program.ColorMode != SystemColorMode.Dark);
 
             await menuCipherMode_Click(menuCipherModeItemECB, e);
             await groupBoxFiles.pictureBoxRunningPipe.SetImageTagVisibleAsync(Resources.BlankEncrypt_640x108, "", true);
