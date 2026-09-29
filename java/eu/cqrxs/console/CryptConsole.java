@@ -412,7 +412,7 @@ public class CryptConsole  {
                 "\t-? | --gethelp\n");
 
         String uout = "\tBCJAR=bcprov-lts8on-2.73.10.jar\n" +
-            "\tMYCLASSPATH=\"$CLASSPATH:./:./$BCJAR:./eu/cqrxs/:./eu/cqrxs/gui/:./eu/cqrxs/net:./eu/cqrxs/net/addr:./eu/cqrxs/net/server6:./eu/cqrxs/util/:./eu/cqrxs/crypt/:./eu/cqrxs/crypt/encoding/:./eu/cqrxs/crypt/cipher/:./eu/cqrxs/crypt/hash/:\"\n" +
+            "\tMYCLASSPATH=\"$CLASSPATH:./:./$BCJAR:./eu/cqrxs/:./eu/cqrxs/gui/:./eu/cqrxs/net:./eu/cqrxs/net/addr:./eu/cqrxs/util/:./eu/cqrxs/crypt/:./eu/cqrxs/crypt/encoding/:./eu/cqrxs/crypt/cipher/:./eu/cqrxs/crypt/hash/:\"\n" +
         "\n# Examples: \n\n" +
             "\tjava --enable-native-access=ALL-UNNAMED -cp $MYCLASSPATH eu/cqrxs/console/CryptConsole.java \\ \n\t -i=README.MD -e=base16 -o=READ_MD.base16 \n" +
             "\tjava --enable-native-access=ALL-UNNAMED -cp $MYCLASSPATH eu/cqrxs/console/CryptConsole.java \\ \n\t -D -i=READ_MD.base16 -e=base16 -o=README_MD.txt \n" +

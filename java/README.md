@@ -123,17 +123,12 @@ MYCLASSPATH="$CLASSPATH:./:./$BCJAR:./eu/cqrxs/:./eu/cqrxs/gui/:./eu/cqrxs/fw/ne
 │   │   │   └── NotImplementedError.java
 │   │   └── zip
 │   │       ├── GZ.java
+│   │       ├── BZ2.java
+│   │       ├── WZ.java
 │   │       └── ZipType.java
 │   └── net
-│       ├── addr
-│       │   ├── NetworkAddresses.java
-│       │   └── WinMake.bat
-│       └── server6
-│           ├── EchoClient.java
-│           ├── EchoInputStream.java
-│           ├── EchoServer.java
-│           ├── Makefile
-│           └── winmake.bat
+│       └─── addr
+│           └── NetworkAddresses.java
 ├── jmake.sh
 ├── Makefile
 ├── PermAgainCrypt.iml

@@ -42,7 +42,7 @@ public class Fortune {
 	"java $(JAVAFLAGS) -cp $(MYCLASSPATH) eu/cqrxs/gui/CqrJdFrame.java --verbose \n\n" +
 	"jar: cqrxs console\necho \"building eu.cqrxs.jar \" \n " +
 	"jar --create --file CryptPipe.jar --main-class eu.cqrxs.gui.CqrJdFrame @classes.list \n\n" +
-	"# clean cleans client6 server6_clone \n" +
+	"# clean cleans CryptPipe classes \n" +
 	"clean:  \necho \"cleaning classes from last build in eu/cqrxs/ eu/cqrxs/cqrframe/ eu/cqrxs/gui/ \"\n " +
 	"rm -rf *.class eu.cqrxs.jar \n\n"; 
 

@@ -56,7 +56,7 @@ jar: cqrxs console
 	echo "building eu.cqrxs.jar " 
 	jar --create --file CryptPipe.jar --main-class eu.cqrxs.gui.CqrJdFrame @classes.list
 
-# clean cleans client6 server6_clone 
+# clean clean CryptPipe classes
 clean: 
 	echo "cleaning classes from last build in eu/cqrxs/ eu/cqrxs/cqrframe/ eu/cqrxs/gui/ "
 	rm -rf *.class eu.cqrxs.jar

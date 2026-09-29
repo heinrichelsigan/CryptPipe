@@ -1,7 +1,0 @@
-﻿#
-# .gitignore file for java
-# 
-
-*.class
-EchoClient.class 
-EchoServer.class
