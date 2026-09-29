@@ -838,7 +838,7 @@ namespace EU.CqrXs.Gui.Forms
             menuVisualModesItemClassic.ForeColor = SystemColors.MenuText;
             menuVisualModesItemClassic.Name = "menuVisualModesItemClassic";
             menuVisualModesItemClassic.Size = new Size(130, 22);
-            menuVisualModesItemClassic.Text = "Classic";
+            menuVisualModesItemClassic.Text = "Classic";            
             // 
             // menuVisualModesItemDark
             // 

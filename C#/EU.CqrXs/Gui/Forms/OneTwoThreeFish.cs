@@ -127,6 +127,9 @@ namespace EU.CqrXs.Gui.Forms
             this.labelInfoMessage.Visible = false;
             this.textBoxKey.Text = GetEmailFromRegistry();
 
+            menuVisualModesItemClassic.Enabled = (Program.colorMode != SystemColorMode.Classic);
+            menuVisualModesItemSystem.Enabled = (Program.colorMode != SystemColorMode.System);
+            menuVisualModesItemDark.Enabled = (Program.colorMode != SystemColorMode.Dark);
 
             menuCipherMode_Click(menuCipherModeItemECB, e);
             SetPictureBoxImage(groupBoxFiles.pictureBoxRunningPipe, Resources.BlankEncrypt_640x108, "", true);

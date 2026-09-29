@@ -96,6 +96,10 @@ namespace EU.CqrXs.Gui.Forms
             this.labelInfoMessage.Visible = false;
             this.textBoxKey.Text = GetEmailFromRegistry();
 
+            menuVisualModesItemClassic.Enabled = (Program.colorMode != SystemColorMode.Classic);
+            menuVisualModesItemSystem.Enabled = (Program.colorMode != SystemColorMode.System);
+            menuVisualModesItemDark.Enabled = (Program.colorMode != SystemColorMode.Dark);
+
             await menuCipherMode_Click(menuCipherModeItemECB, e);
             await groupBoxFiles.pictureBoxRunningPipe.SetImageTagVisibleAsync(Resources.BlankEncrypt_640x108, "", true);
             await SetInfoMessageAsync($"{this.Name} started...", ToolTipIcon.Info, 2000);            

@@ -21,6 +21,10 @@ namespace EU.CqrXs.Gui.Forms
             menuOptionsModesComplex.Click += menuOptionsModesComplex_Click;
             menuOptionsModesSimple.Click += menuOptionsModesSimple_Click;
             menuOptionsModes123Fish.Click += menuOptionsModes123Fish_Click;
+
+            menuVisualModesItemClassic.Enabled = (Program.colorMode != SystemColorMode.Classic);
+            menuVisualModesItemSystem.Enabled = (Program.colorMode != SystemColorMode.System);
+            menuVisualModesItemDark.Enabled = (Program.colorMode != SystemColorMode.Dark);
         }
 
         #region menu options modes click

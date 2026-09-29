@@ -14,7 +14,19 @@ namespace EU.CqrXs.Test
     [TestClass]
     public sealed class TestEncryptionHashingAlgo
     {
-        internal static string Email = Constants.AUTHOR_EMAIL;
+        static readonly string Email = Constants.AUTHOR_EMAIL;
+
+        static TestEncryptionHashingAlgo()
+        {
+            try
+            {
+                Email = RegistryAccessor.GetEmailFromRegistry();
+            }
+            catch
+            {
+                Email = Constants.AUTHOR_EMAIL;
+            }
+        }
 
         [TestMethod]
         public void TestAllEncryptionHashingAlgo()
@@ -25,13 +37,11 @@ namespace EU.CqrXs.Test
             {
                 className = MethodBase.GetCurrentMethod().DeclaringType.Name;
                 methodBase = MethodBase.GetCurrentMethod().Name;
-                Email = RegistryAccessor.GetEmailFromRegistry();
             }
             catch
             {
                 className = this.GetType().BaseType.Name;
                 methodBase = "TestAllEncryptionHashingAlgo";
-                Email = Constants.AUTHOR_EMAIL;
             }
             Console.WriteLine($"{DateTime.Now.Area23DateTimeWithSeconds()} \t{className}.{methodBase}() \t[started]");
 

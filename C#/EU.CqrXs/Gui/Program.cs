@@ -36,11 +36,11 @@ namespace EU.CqrXs.Gui
         internal static ulong ProgramCount = 0x0;
         internal static Mutex? mutex;
 
-        internal static EncryptFormBase[] formsLaunched = new EncryptFormBase[5] { null, null, null, null, null };
+        static EncryptFormBase[] formsLaunched = new EncryptFormBase[5] { null, null, null, null, null };
 
         internal static string mainFormName = "";
 
-        internal static ApplicationContext applicationContext;
+        static ApplicationContext applicationContext;
         internal static SystemColorMode colorMode = SystemColorMode.System;
         internal static FormMode formMode = FormMode.Complex;
         // internal static CipherPipe? ciperPipe;

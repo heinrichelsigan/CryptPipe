@@ -99,6 +99,10 @@ namespace EU.CqrXs.Gui.Forms
             this.textBoxPublicKey.Text = Constants.RSA_PUB;
             this.textBoxPrivateKey.Text = Constants.RSA_PRV;
 
+            menuVisualModesItemClassic.Enabled = (Program.colorMode != SystemColorMode.Classic);
+            menuVisualModesItemSystem.Enabled = (Program.colorMode != SystemColorMode.System);
+            menuVisualModesItemDark.Enabled = (Program.colorMode != SystemColorMode.Dark);
+
             await menuCipherMode_Click(menuCipherAlgoRsa, e);
             await groupBoxFiles.pictureBoxRunningPipe.SetImageTagVisibleAsync(Resources.BlankEncrypt_640x108, "", true);
             await SetInfoMessageAsync($"{this.Name} started...", ToolTipIcon.Info, 2000);            

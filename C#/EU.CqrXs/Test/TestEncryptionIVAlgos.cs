@@ -19,7 +19,19 @@ namespace EU.CqrXs.Test
     [TestClass]
     public sealed class TestEncryptionIVAlgos
     {
-        internal static string Email = Constants.AUTHOR_EMAIL;
+        static readonly string Email = Constants.AUTHOR_EMAIL;
+
+        static TestEncryptionIVAlgos()
+        {
+            try
+            {
+                Email = RegistryAccessor.GetEmailFromRegistry();
+            }
+            catch
+            {
+                Email = Constants.AUTHOR_EMAIL;
+            }
+        }
 
         public byte[] GetImageBytes()
         {
@@ -64,13 +76,11 @@ namespace EU.CqrXs.Test
             {
                 className = MethodBase.GetCurrentMethod().DeclaringType.Name;
                 methodBase = MethodBase.GetCurrentMethod().Name;
-                Email = RegistryAccessor.GetEmailFromRegistry();
             }            
             catch 
             {
                 className = this.GetType().BaseType.Name;
                 methodBase = "TestEncryptionIVAlgoBytes";
-                Email = Constants.AUTHOR_EMAIL;
             }
             Console.WriteLine($"{DateTime.Now.Area23DateTimeWithSeconds()} \t{className}.{methodBase}() \t[started]");
 
