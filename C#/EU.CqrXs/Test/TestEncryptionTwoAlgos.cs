@@ -16,8 +16,20 @@ namespace EU.CqrXs.Test
     [TestClass]
     public sealed class TestEncryptionTwoAlgos
     {
-        internal static string Email = Constants.AUTHOR_EMAIL;
+        static readonly string Email = Constants.AUTHOR_EMAIL;
 
+        static TestEncryptionTwoAlgos()
+        {
+            try
+            {
+                Email = RegistryAccessor.GetEmailFromRegistry();
+            }
+            catch
+            {
+                Email = Constants.AUTHOR_EMAIL;
+            }
+        }
+        
         [TestMethod]
         public void TestAllEncryptionTwoAlgosBytes()
         {
@@ -27,13 +39,11 @@ namespace EU.CqrXs.Test
             {
                 className = MethodBase.GetCurrentMethod().DeclaringType.Name;
                 methodBase = MethodBase.GetCurrentMethod().Name;
-                Email = RegistryAccessor.GetEmailFromRegistry();
             }
             catch
             {
                 className = this.GetType().BaseType.Name;
                 methodBase = "TestAllEncryptionTwoAlgosBytes";
-                Email = Constants.AUTHOR_EMAIL;
             }
             Console.WriteLine($"{DateTime.Now.Area23DateTimeWithSeconds()} \t{className}.{methodBase}() \t[started]");
             
@@ -122,13 +132,11 @@ namespace EU.CqrXs.Test
             {
                 className = MethodBase.GetCurrentMethod().DeclaringType.Name;
                 methodBase = MethodBase.GetCurrentMethod().Name;
-                Email = RegistryAccessor.GetEmailFromRegistry();
             }
             catch
             {
                 className = this.GetType().BaseType.Name;
                 methodBase = "TestAllEncryptionTwoAlgosAsciiText";
-                Email = Constants.AUTHOR_EMAIL;
             }
             Console.WriteLine($"{DateTime.Now.Area23DateTimeWithSeconds()} \t{className}.{methodBase}() \t[started]");
             

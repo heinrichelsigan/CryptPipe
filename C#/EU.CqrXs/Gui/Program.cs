@@ -33,7 +33,7 @@ namespace EU.CqrXs.Gui
         public static readonly string ProgName = string.IsNullOrEmpty(ProgFilePath) ? Constants.APP_NAME_WINFORM : Path.GetFileName(ProgFilePath);
         public static readonly string ProgDirPazh = Path.GetDirectoryName(ProgFilePath);
 
-        public static ulong ProgramCount = 0x0;
+        internal static ulong ProgramCount = 0x0;
         internal static Mutex? mutex;
 
         internal static EncryptFormBase[] formsLaunched = new EncryptFormBase[5] { null, null, null, null, null };

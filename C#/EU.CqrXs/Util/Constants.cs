@@ -15,6 +15,10 @@ namespace EU.CqrXs.Util
         #region public const
 #pragma warning disable CA1707 // Identifiers should not contain underscores
         
+        public const int BACKLOG = 8;
+        public const int CHAT_PORT = 7777;
+        public const int MAX_KEY_LEN = 4096;
+
         public const int PIPE_MAX_LEN = 8; // 0xc; 
         public const int PIPE_IMG_HEIGHT = 108;
         public const int PIPE_IMG_WIDTH = 640; // 960; 
@@ -26,23 +30,7 @@ namespace EU.CqrXs.Util
 
         public const bool CQR_ENCRYPT = true;
         public const bool ZEN_MATRIX_SYMMETRIC = false;
-
-        #region obsolete cqrjd constants
-
-        public const int BACKLOG = 8;
-        public const int CHAT_PORT = 7777;
-        public const int MAX_KEY_LEN = 4096;
-      
-        public const int MAX_SERVER_SOCKET_ADDRESSES = 16;
-        public const int CLOSING_TIMEOUT = 6000;
-        public const int MIN_SOCKET_BYTE_BUFFEER = 65536;       // 64 KB Buffer
-        public const int SOCKET_BYTE_BUFFEER = 1048576;         //  1 MB Buffer
-        public const int MAX_BYTE_BUFFEER = 4194240;            //  4 MB Buffer
-        public const int MAX_SOCKET_BYTE_BUFFEER = 33554432;    //  32 MB Buffer  2^25
-        public const int BGWORKWE_BUSYWAITING_SLEEP = 360000;
-
-        #endregion obsolete cqrjd constants
-
+        
         public const char ANNOUNCE = ':';
         public const char DATE_DELIM = '-';
         public const char WHITE_SPACE = ' ';
@@ -55,18 +43,6 @@ namespace EU.CqrXs.Util
         public const string APP_ERROR = "AppError";
         public const string VERSION = "v2.26.704";
         public const string PIPE_STAGE = "PipeStage";
-        public const string VALKEY_CACHE_HOST = "cqrcachecqrxseu-53g0xw.serverless.eus2.cache.amazonaws.com";
-        public const int VALKEY_CACHE_PORT = 6379;
-        public const string VALKEY_CACHE_HOST_PORT = "cqrcachecqrxseu-53g0xw.serverless.eus2.cache.amazonaws.com:6379";
-        public const string VALKEY_CACHE_HOST_PORT_KEY = "ValkeyCacheHostPort";
-        public const string EXTERNAL_CLIENT_IP = "ExternalClientIP";
-        public const string EXTERNAL_CLIENT_IP_V4 = "ExternalClientIPv4";
-        public const string SERVER_IP_V4 = "ServerIPv4";
-        public const string SERVER_IP_V6 = "ServerIPv6";
-        public const string CQR_SERVICE_SOAP = "CqrServiceSoap";
-        public const string CQR_SERVICE_SOAP12 = "CqrServiceSoap12";
-        public const string CQR_SRV_SOAP = "CqrSrvSoap";
-        public const string CQR_SRV_SOAP12 = "CqrSrvSoap12";
 
 
         public const string AREA23_URL = "https://area23.at";
@@ -92,34 +68,6 @@ namespace EU.CqrXs.Util
         public const string MADRID_CQRXS_EU = "madrid.cqrxs.eu";
         public const string BARCELONA_CQRXS_EU = "barcelona.cqrxs.eu";
 
-        public const string IT_CQRXS_EU = "it.cqrxs.eu";
-        public const string MILAN_CQRXS_EU = "milan.cqrxs.eu";
-        public const string SICILIENNE_CQRXS_EU = "sicilienne.cqrxs.eu";
-
-
-        public const string FR_CQRXS_EU = "fr.cqrxs.eu";
-        public const string PARIS_CQRXS_EU = "paris.cqrxs.eu";
-        public const string PARISIENNSE_CQRXS_EU = "parisienne.cqrxs.eu";
-
-        public const string DE_CQRXS_EU = "de.cqrxs.eu";
-        public const string FRANKFURT_CQRXS_EU = "frankfurt.cqrxs.eu";
-        public const string BERLINERIN_CQRXS_EU = "berlinerin.cqrxs.eu";
-
-        public const string SE_CQRXS_EU = "se.cqrxs.eu";
-        public const string STOCKHOLM_CQRXS_EU = "stockholm.cqrxs.eu";
-
-        public const string IE_CQRXS_EU = "ie.cqrxs.eu";
-        public const string DUBLIN_CQRXS_EU = "dublin.cqrxs.eu";
-        public const string GALWAY_CQRXS_EU = "galway.cqrxs.eu";
-
-        public const string UK_CQRXS_EU = "uk.cqrxs.eu";
-        public const string LONDON_CQRXS_EU = "london.cqrxs.eu";
-        public const string EDINBURGH_CQRXS_EU = "edinburgh.cqrxs.eu";
-
-        public const string CH_CQRXS_EU = "ch.cqrxs.eu";
-        public const string ZURICH_CQRXS_EU = "zurich.cqrxs.eu";
-        public const string BERNERIN_CQRXS_EU = "bernerin.cqrxs.eu";
-
 
         public const string ALL_KEYS = "AllKeys";
         public const string CHATROOMS = "ChatRooms";
@@ -130,11 +78,6 @@ namespace EU.CqrXs.Util
         public const string DECRYPTED_TEXT_AREA_END = "</textarea>";
         public const string CQRXS_TEST_FORM = "CqrXsTestForm";
         public const string FISH_ON_AES_ENGINE = "FishOnAesEngine";
-        public const string CQRXS_DELETE_DATA_ON_CLOSE = "CqrXsDeleteDataOnClose";
-        public const string PERSIST_MSG_IN = "PersistMsgIn";
-        public const string PERSIST_MSG_IN_APPLICATION_STATE = "ApplicationState";
-        public const string PERSIST_MSG_IN_AMAZON_ELASTIC_CACHE = "AmazonElasticCache";
-        public const string PERSIST_MSG_IN_FILE_SYSTEM = "FileSystem";
 
         public const string ACK = "Ack";
         public const string NACK = "Nack";
@@ -210,7 +153,8 @@ namespace EU.CqrXs.Util
         public const string PREVIOUS_EXCEPTION = "previous_exception";
         public const string LAST_EXCEPTION = "last_exception";
         public const string COOL_CRYPT_SPLIT = "+-;,:→⇛\t ";
-
+        public const string APPDIRPATHUNIX = "AppDirPathUnix";
+        
         public const string UNKNOWN = "UnKnown";
         public const string DEFAULT_MIMETYPE = "application/octet-stream";
         public const string RPN_STACK = "rpnStack";
@@ -248,114 +192,7 @@ namespace EU.CqrXs.Util
         public const string STRING_NULL = null;
         public const string SNULL = "(null)";
 
-
-        public const string JSON_SAMPLE = @"{ 
- 	""quiz"": { 
- 		""sport"": { 
- 			""q1"": { 
- 				""question"": ""Which one is correct team name in NBA?"", 
- 					""options"": [ 
- 						""New York Bulls"", 
- 							""Los Angeles Kings"", 
- 							""Golden State Warriros"", 
- 							""Huston Rocket"" 
- 						], 
- 					""answer"": ""Huston Rocket"" 
- 				} 
- 			}, 
- 		""maths"": { 
- 			""q1"": { 
- 				""question"": ""5 + 7 = ?"", 
- 					""options"": [ 
- 						""10"", 
- 						""11"", 
- 						""12"", 
- 						""13"" 
- 					], 
- 					""answer"": ""12"" 
-				}, 
- 			""q2"": { 
- 				""question"": ""12 - 8 = ?"", 
- 				""options"": [ 
- 						""1"", 
- 						""2"", 
- 						""3"", 
- 						""4"" 
- 						], 
- 					""answer"": ""4"" 
- 				}, 
- 		} 
- 	} 
- }";
-
-        public const string XML_SAMPLE = @"<?xml version=""1.0"" encoding=""UTF-8"" standalone=""yes""?>
-<ns2:Invoice xmlns=""http://www.w3.org/2000/09/xmldsig#"" xmlns:ns2=""http://www.ebinterface.at/schema/4p1/"" xmlns:ns3=""http://www.ebinterface.at/schema/4p1/extensions/sv"" xmlns:ns4=""http://www.ebinterface.at/schema/4p1/extensions/ext"" ns2:GeneratingSystem=""AUSTRIAPRO.ebInterface.Formular"" ns2:DocumentType=""Invoice"" ns2:InvoiceCurrency=""EUR"" ns2:ManualProcessing=""false"" ns2:DocumentTitle=""20240808"" ns2:Language=""deu"">
-    <ns2:InvoiceNumber>20240808</ns2:InvoiceNumber><ns2:InvoiceDate>2024-08-08</ns2:InvoiceDate>
-    <ns2:Delivery><ns2:Date>2024-08-08</ns2:Date></ns2:Delivery>
-    <ns2:Biller>
-        <ns2:VATIdentificationNumber>ATU72804824</ns2:VATIdentificationNumber>
-        <ns2:Address>   
-                <ns2:AddressIdentifier ns2:AddressIdentifierType=""GLN"">9110005479907</ns2:AddressIdentifier>
-            <ns2:Name>Heinrich Georg Elsigan</ns2:Name>
-            <ns2:Street>Theresianumgasse 6/28</ns2:Street>
-            <ns2:Town>Wien</ns2:Town>
-            <ns2:ZIP>1040</ns2:ZIP>
-            <ns2:Country>AT</ns2:Country>
-            <ns2:Phone>+43 650 7527928</ns2:Phone>
-            <ns2:Email>office.area23@gmail.com</ns2:Email>
-            <ns2:Contact>Herr Heinrich Elsigan </ns2:Contact>
-        </ns2:Address>
-    </ns2:Biller>
-    <ns2:InvoiceRecipient>
-        <ns2:VATIdentificationNumber>ATU54760904</ns2:VATIdentificationNumber>
-        <ns2:OrderReference>
-            <ns2:OrderID>pooler_Office2PDF</ns2:OrderID>
-        </ns2:OrderReference>
-        <ns2:Address>
-            <ns2:AddressIdentifier ns2:AddressIdentifierType=""GLN"">9110016452449</ns2:AddressIdentifier>
-            <ns2:Name>Logic4BIZ Informationstechnologie Gmbh</ns2:Name>
-            <ns2:Street>Reisnerstraße 53, Hofhaus</ns2:Street>
-            <ns2:Town>Wien</ns2:Town>
-            <ns2:ZIP>1030</ns2:ZIP>
-            <ns2:Country>AT</ns2:Country>
-            <ns2:Phone>+43 1 877 18 81</ns2:Phone>
-            <ns2:Email>office@logic4biz.com</ns2:Email>
-            <ns2:Contact>Herr Peter Fasol </ns2:Contact>
-        </ns2:Address>
-    </ns2:InvoiceRecipient>
-    <ns2:Details>
-        <ns2:ItemList>
-            <ns2:HeaderDescription>
-                Der am 14.05.2024 beauftragte Office2PDF Spooler [ Quelle privates Github repository:
-                github.com/heinrichelsigan/Spooler_Office2PDF ] ist seit heute für den letzten
-                Integrationstest bereit.
-                Release: https://github.com/heinrichelsigan/Spooler_Office2PDF/releases/tag/2024-08-
-                08-final_PDF_Converter_Spooler
-                Ich stelle daher in Absprache mit Matthias Wohlmann den Betrag von 3.696€ inkl. USt. für
-                „Leistung Erstellung PDF Converter Spooler“ Rechnungsnummer 20240808 in Rechnung:
-            </ns2:HeaderDescription>
-        </ns2:ItemList>
-    </ns2:Details>
-    <ns2:Tax>
-        <ns2:VAT/>
-    </ns2:Tax>
-    <ns2:TotalGrossAmount>0</ns2:TotalGrossAmount>
-    <ns2:PayableAmount>0</ns2:PayableAmount>
-    <ns2:PaymentMethod>
-        <ns2:UniversalBankTransaction>
-            <ns2:BeneficiaryAccount>
-                <ns2:BIC>BKAUATWW</ns2:BIC>
-                <ns2:IBAN>AT88 1100 0104 7029 6400</ns2:IBAN>
-                <ns2:BankAccountOwner>Heinrich Elsigan</ns2:BankAccountOwner>
-            </ns2:BeneficiaryAccount>
-            <ns2:PaymentReference>20240808</ns2:PaymentReference>
-        </ns2:UniversalBankTransaction>
-    </ns2:PaymentMethod>
-    <ns2:PaymentConditions>
-        <ns2:DueDate>2033-01-13</ns2:DueDate>
-    </ns2:PaymentConditions>
-</ns2:Invoice>";
-
+        
         public const string RSA_PUB = "-----BEGIN PUBLIC KEY-----\n" +
             "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDERBy7FD7m9dq1Nu90B5U63uMl\n" +
             "LIGbxU90dGQ6U7QmjsK1Lyuc5ma941EjaNWPvIfyBkJZc9ij6/9buv12naHg1K6P\n" +
@@ -453,8 +290,8 @@ namespace EU.CqrXs.Util
 
                 string pathUnix = "";
 
-                if (ConfigurationManager.AppSettings["AppDirPathUnix"] != null)
-                    pathUnix = ConfigurationManager.AppSettings["AppDirPathUnix"];
+                if (ConfigurationManager.AppSettings[Constants.APPDIRPATHUNIX] != null)
+                    pathUnix = ConfigurationManager.AppSettings[Constants.APPDIRPATHUNIX];
 
                 _unix = AppDomain.CurrentDomain.BaseDirectory.ToString().Contains("/") &&
                             !AppDomain.CurrentDomain.BaseDirectory.ToString().Contains("\\")
@@ -628,16 +465,10 @@ namespace EU.CqrXs.Util
         {
             if (string.IsNullOrEmpty(key))
                 return null;
-            try
-            {
-                if (ConfigurationManager.AppSettings[key] != null)
-                {
-                    return ConfigurationManager.AppSettings[key].ToString();
-                }
-            }
-            catch { }
 
-            return null;
+            return (ConfigurationManager.AppSettings[key] != null)
+                ? ConfigurationManager.AppSettings[key].ToString()
+                : null;
         }
 
 

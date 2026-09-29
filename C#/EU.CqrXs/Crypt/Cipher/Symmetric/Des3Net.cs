@@ -39,11 +39,11 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
 
         public static byte[] DesIv { get; private set; }
 
-        public static CipherMode CMode = CipherMode.ECB;
+        static CipherMode CMode = CipherMode.ECB;
 
         public static System.Security.Cryptography.TripleDES Des3 { get; private set; }
 
-        public static ICryptoTransform CryptTrans;
+        static ICryptoTransform CryptTrans;
 
         #endregion properties
 
