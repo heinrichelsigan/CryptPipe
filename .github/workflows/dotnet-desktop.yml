@@ -57,7 +57,7 @@ jobs:
 
     env:
       Solution_Name: C#\EU.CqrXs.sln                             # your solution name, i.e. MyWpfApp.sln.
-      Test_Project_Path: C#\EU.CqrXs\Test\EU.CqrXs.Test.csproj   # path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
+      Test_Project_Path: C#/EU.CqrXs/Test\EU.CqrXs.Test.csproj   # path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
       # Wap_Project_Directory: CryptPipe.App.Package                            # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
       # Wap_Project_Path: CryptPipe.App.Package\CryptPipe.Package.wapproj        # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
 
