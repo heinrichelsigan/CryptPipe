@@ -20,7 +20,7 @@
 \usepackage{fancyhdr}
 \usepackage{float}
 
-\title{CryptPipe or making symmetric block cipher meta permutating again}
+\title{CryptPipe or making symmetric cipher permutating again}
 \author{Heinrich Elsigan}
 
 \begin{document}
@@ -31,12 +31,38 @@
 
 \pagebreak
 
-\section{Thanks to}
+\section{8-staged symmetric cipher pipeline}
+
+An eight staged symmetric block cipher crypto pipeline to improve advanced encryption standard based on meta DES, 3DES with P-Box S-Box.
+
+The following image shows you an example of a symmetric cipher 8 staged encryption pipe and the corresponding decryption inverse pipe.
 
 \begin{figure}
 \includegraphics[width=1\textwidth]{Symmetric_Cipher_Pipeline.png}
 \caption{\label{fig:CipherPipeline}Cipher Pipeline}
 \end{figure}
+
+Before entering the encryption pipe, the file can be zipped to avoid huge amount of symmetric cipher blocks and after exiting the encryption pipe the file can be ascii encoded with base64 mime, uuencode, xxencode or hex16, because symmetric chiphered binary files might lose their block padding.
+
+The implementation is based on my blog article: \href{https://area23-at.blogspot.com/2024/04/making-symetric-chiffer-encryption.html}{Making symmetric cipher encryption meta permutating again}, including the following symmetric cipher algorithms:
+
+\begin{itemize}
+    \item \href{https://en.wikipedia.org/wiki/Advanced_Encryption_Standard}{Aes}, AesLight, AesNet, \href{hhttps://en.wikipedia.org/wiki/Advanced_Encryption_Standard}{Rijndael}    
+    \item \href{https://www.schneier.com/}{Bruce Schneier}'s BlowFish, 2-Fish, 3-Fish, 3-Fish-256    
+    \item \href{https://en.wikipedia.org/wiki/Camellia_(cipher)}{Camellia}, CamelliaLight    
+    \item \href{https://en.wikipedia.org/wiki/CAST-128}{Cast5}, Cast6    
+    \item \href{https://nsa.gov/}{National security agency}'s Des, 3-Des, Triple-Des.Net, \href{https://en.wikipedia.org/wiki/Skipjack_(cipher)}{SkipJack}    
+    \item \href{https://en.wikipedia.org/wiki/Kupyna}{Dstu7624}
+    \item \href{https://en.wikipedia.org/wiki/GOST_(block_cipher)}{Gost28147}, \href{https://en.wikipedia.org/wiki/International_Data_Encryption_Algorithm}{Idea}, \href{https://en.wikipedia.org/wiki/NOEKEON}{Noekeon}
+    \item \href{https://de.wikipedia.org/wiki/RC2_(Blockchiffre)}{RC2}, 
+    \href{https://en.wikipedia.org/wiki/RC5}{RC5}32, RC564, \href{https://en.wikipedia.org/wiki/RC6}{RC6}
+    \item \href{https://en.wikipedia.org/wiki/SEED}{Seed}, \href{https://en.wikipedia.org/wiki/SM4_(cipher)}{SM4}
+    \item \href{https://en.wikipedia.org/wiki/Serpent_(cipher)}{Serpent}, Tnepres
+    \item \href{https://de.wikipedia.org/wiki/Tiny_Encryption_Algorithm}{Tea}, \href{https://en.wikipedia.org/wiki/XTEA}{XTea}
+    \item and my own simplest below average symmetric block cipher alogrithms: ZenMatrix, ZenMatrix2
+\end{itemize}
+
+\section{Thanks to}
 
 Normally, thanks to are always at the end of each paper,
 but the people or organizations I benefited from while trying to make AES strong again
@@ -58,8 +84,6 @@ raw experimental test form.
     	\item \href{https://git.lysator.liu.se/nettle/nettle}{GNU Nettle}
     \end{itemize}
 \end{enumerate}
-
-\pagebreak
 
 \section{Software}
 
@@ -328,30 +352,30 @@ Usage:  EU.CqrXs.Console.exe
 \begin{small}
 \begin{verbatim}
 
-    EU.CqrXs.Console.exe -i=.\README.MD -e=base16 -o=.\READMD.base16
-    EU.CqrXs.Console.exe -D  -i=.\READMD.base16 -e=base16 -o=.\READ_MD.txt
+EU.CqrXs.Console.exe -i=.\README.MD -e=base16 -o=.\READMD.base16
+EU.CqrXs.Console.exe -D  -i=.\READMD.base16 -e=base16 -o=.\READ_MD.txt
 
-    EU.CqrXs.Console.exe -i=.\README.MD -k=Hallo -z=gzip  -C=BlowFish,Fish2,Fish3 
-        -e=base64 -o=.\README.MD.gz.BfF.base64
-    EU.CqrXs.Console.exe -D -i=.\README.MD.gz.BfF.base64 -e=base64 -C=BlowFish,Fish2,Fish3 
-        -p=Hallo -z=gzip -o=.\READ_GUNZIP.txt
+EU.CqrXs.Console.exe -i=.\README.MD -k=Hallo -z=gzip 
+    -C=Aes,Des3,Fish3  -e=base64 -o=.\README.MD.gz.BfF.base64
+EU.CqrXs.Console.exe -D -i=.\README.MD.gz.BfF.base64 -e=base64 
+    -C=Aes,Des3,Fish3 -p=Hallo -z=gzip -o=.\READ_GUNZIP.txt
 
-    EU.CqrXs.Console.exe -i=.\README.MD -z=bz -k=heinrichelsigan.area23.at 
-        -H=Whirlpool -e=hex32 -o=.\README.MD.Whirlpool.bz.Hex32
-    EU.CqrXs.Console.exe -D -i=.\README.MD.Whirlpool.bz.Hex32 -e=hex32 
-        -k=heinrichelsigan.area23.at -H=Whirlpool -z=bz -o=.\READ_BUNZIP.txt
+EU.CqrXs.Console.exe -i=.\README.MD -z=bz -k=heinrichelsigan.area23.at 
+    -H=Whirlpool -e=hex32 -o=.\README.MD.Whirlpool.bz.Hex32
+EU.CqrXs.Console.exe -D -i=.\README.MD.Whirlpool.bz.Hex32 -e=hex32 
+    -k=heinrichelsigan.area23.at -H=Whirlpool -z=bz -o=.\READ_BUNZIP.txt
 
-    EU.CqrXs.Console.exe -i=.\README.MD -z=zip -k=io.cqrxs.eu 
-        -C=Aes,Blowfish,Des3,Fish2,Fish3,Seed,Serpent,SM4 -H=SCrypt 
-        -e=uu -o=.\README.MD.SCrypt.zip.uu
-    EU.CqrXs.Console.exe -D -i=.\README.MD.SCrypt.zip.uu -e=uu 
-        -k=io.cqrxs.eu -C=Aes,Blowfish,Des3,Fish2,Fish3,Seed,Serpent,SM4 
-        -H=SCrypt -z=zip -o=.\READ_UNZIP.txt
+EU.CqrXs.Console.exe -i=.\README.MD -z=zip -k=io.cqrxs.eu 
+    -C=Aes,Blowfish,Des3,Fish2,Fish3,Seed,Serpent,SM4 -H=SCrypt 
+    -e=uu -o=.\README.MD.SCrypt.zip.uu
+EU.CqrXs.Console.exe -D -i=.\README.MD.SCrypt.zip.uu -e=uu 
+    -k=io.cqrxs.eu -C=Aes,Blowfish,Des3,Fish2,Fish3,Seed,Serpent,SM4 
+    -H=SCrypt -z=zip -o=.\READ_UNZIP.txt
 
-    EU.CqrXs.Console.exe -i=.\README.MD -S -z=zip -k=io.cqrxs.eu -H=BCrypt
-        -e=xx -o=.\README.MD.BCrypt.zip.xx
-    EU.CqrXs.Console.exe -D -i=.\README.MD.BCrypt.zip.xx -S -e=xx -k=io.cqrxs.eu 
-        -H=BCrypt -z=zip -o=.\README_SYM_BCRYPT_UNZIP.txt
+EU.CqrXs.Console.exe -i=.\README.MD -S -z=zip -k=Iuno -H=BCrypt
+    -e=xx -o=.\README.MD.BCrypt.zip.xx
+EU.CqrXs.Console.exe -D -i=.\README.MD.BCrypt.zip.xx -S -e=xx -k=Iuno 
+    -H=BCrypt -z=zip -o=.\README_SYM_BCRYPT_UNZIP.txt
 \end{verbatim}
 \end{small}
 
@@ -369,7 +393,7 @@ The following image shows you an example of a symmetric cipher 8 staged encrypti
 
 Before entering the encryption pipe, the file can be zipped to avoid huge amount of symmetric cipher blocks and after exiting the encryption pipe the file can be ascii encoded with base64 mime, uuencode, xxencode or hex16, because symmetric chiphered binary files might lose their block padding.
 
-Implementation is based on my blog article: \href{https://area23-at.blogspot.com/2024/04/making-symetric-chiffer-encryption.html}{Making symmetric cipher encryption meta permutating again}\cite{c1}, including the follwing symmetric cipher algorithms:
+Implementation is based on my blog article: \href{https://area23-at.blogspot.com/2024/04/making-symetric-chiffer-encryption.html}{Making symmetric cipher meta permutating again}\cite{c1}, including the follwing symmetric cipher algorithms:
 
 \begin{itemize}
 \item \href{https://en.wikipedia.org/wiki/Advanced_Encryption_Standard}{Aes}, AesLight, \href{https://en.wikipedia.org/wiki/Advanced_Encryption_Standard}{Rijndael}
@@ -543,34 +567,36 @@ the matrix will look like this:
 \subsection{C\# Code Example}
 \begin{small}
 \begin{verbatim}    
-    string s = "This is another boring example text to test CipherPipe en-/decryption.";
-    string hash = KeyHash.Hex.Hash(key), key = "myKey", hashIv = KeyHash.Hex.Hash(key);
+string s = "This is another text to test CipherPipe en-/decryption.";
+string hash = KeyHash.Hex.Hash(key), key = "myKey", 
+        hashIv = KeyHash.Hex.Hash(key);
     
-    // 1. C\# constructing a CipherPipe with parameter key and hash
-    CipherPipe cPipe = new CipherPipe(key, hash, 
-        EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.CFB);
+// 1. C\# constructing a CipherPipe with parameter key and hash
+CipherPipe cPipe = new CipherPipe(key, hash, EncodingType.Base64,
+    ZipType.None, KeyHash.Hex, CipherMode2.CFB);
         
-    // 2. constructing with an array of ciphers, e.g. BlowFish;TwoFish;ThreeFish
-    string algos = "BlowFish;TwoFish;ThreeFish";
-    CipherEnum[] pipeAlgos = CipherEnumExtensions.ParsePipeText(algos);
-    cPipe = new CipherPipe(pipeAlgos, 8, 
-        EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.CFB);    
+// 2. constructing with an array of ciphers, e.g. BlowFish;TwoFish;ThreeFish
+string algos = "BlowFish;TwoFish;ThreeFish";
+CipherEnum[] pipeAlgos = CipherEnumExtensions.ParsePipeText(algos);
+cPipe = new CipherPipe(pipeAlgos, 8, EncodingType.Base64,
+    ZipType.None, KeyHash.Hex, CipherMode2.CFB);    
                 
-    // 3. calling CipherPipe encrypt text
-    string encryptext = cPipe.EncrpytTextGoRounds(s, key, hashIv, 
-        EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.CFB);
+// 3. calling CipherPipe encrypt text
+string encryptext = cPipe.EncrpytTextGoRounds(s, key, hashIv, 
+    EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.CFB);
                             
-    // 4. calling CipherPipe encrypt bytes
-    byte[] cbytes = cPipe.EncryptEncodeBytes(System.Text.Encoding.Utf8.GetBytes(s), 
-        key, hashIv, EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.CFB);                        
+// 4. calling CipherPipe encrypt bytes
+byte[] cbytes = cPipe.EncryptEncodeBytes(
+    System.Text.Encoding.Utf8.GetBytes(s), key, hashIv,
+    EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.CFB); 
                         
-    // 5. calling CipherPipe decrypt text
-    string dcrypt = cPipe.DecryptTextRoundsGo(encryptext, key, hashIv, 
-        EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.CFB);
+// 5. calling CipherPipe decrypt text
+string dcrypt = cPipe.DecryptTextRoundsGo(encryptext, key, hashIv, 
+    EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.CFB);
                           
-    // 6. calling CipherPipe decypt bytes
-    byte[] outBytes = cPipe.DecodeDecrpytBytes(cbytes, key, hashIv, 
-        EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.CFB);
+// 6. calling CipherPipe decypt bytes
+byte[] outBytes = cPipe.DecodeDecrpytBytes(cbytes, key, hashIv, 
+    EncodingType.Base64, ZipType.None, KeyHash.Hex, CipherMode2.CFB);
                             
 \end{verbatim}
 \end{small}
@@ -580,48 +606,50 @@ the matrix will look like this:
 
 \begin{small}
 \begin{verbatim}
-    boolean reverseDirection = false;       // variables we need later for cipher pipe
-    ZipType zipType = ZipType.None;
-    EncodeEnum encodingType = EncodeEnum.None;
-    KeyHash keyHash = KeyHash.Hex;
-    String inString = "Hallo, byte[] inside String will converted soonly!", outString = "";
-    String passKey = "MySecureKey", optCryptAlgos = "Aes,Des,Des3,Blowfish,Fish2,Fish3";
-    String[] algos = optCryptAlgos.split(",;:");   
-    byte[] outBytes = null, inBytes = inString.getBytes(StandardCharsets.UTF_8);
+boolean reverseDirection = false; // vars we need later for cipher pipe
+ZipType zipType = ZipType.None;
+EncodeEnum encodingType = EncodeEnum.None;
+KeyHash keyHash = KeyHash.Hex;
+String inString = "Hallo, byte[] inside String will converted soonly!", 
+    outString = "", passKey = "MySecureKey";
+String optCryptAlgos = "Aes,Des,Des3,Blowfish,Fish2,Fish3";
+String[] algos = optCryptAlgos.split(",;:");   
+byte[] outBytes = null, inBytes = inString.getBytes(StandardCharsets.UTF_8);
     
-    CipherPipe pipe;                        // Create cipher pipe 4 en-/decrypting
-    if (passKey == null || passKey.isEmpty() || algos.length > 0) {
-        pipe =  new CipherPipe(algos, Constants.MAX_PIPE_LEN,
-                encodingType, zipType, keyHash, CipherMode2.CFB);  // CFB is default CipherMode
-        verbout("Created pipe without passkey: " + pipe.getPipeString());
-    } else {
-        pipe = new CipherPipe(passKey, keyHash.hash(passKey),
-                encodingType, zipType, keyHash, CipherMode2.CFB); // CFB instead old ECB
-        verbout("Created pipe with passkey=" + passKey + " pipe=" + pipe.getPipeString());
+CipherPipe pipe;  // Create cipher pipe 4 en-/decrypting
+if (passKey == null || passKey.isEmpty() || algos.length > 0) {
+    pipe =  new CipherPipe(algos, Constants.MAX_PIPE_LEN,
+        encodingType, zipType, keyHash, CipherMode2.CFB); // ECB default 
+    verbout("Created pipe without passkey: " + pipe.getPipeString());
+} else {
+    pipe = new CipherPipe(passKey, keyHash.hash(passKey),
+        encodingType, zipType, keyHash, CipherMode2.CFB); // ECB default
+    verbout("Created pipe with passkey=" + passKey + " pipe=" +     
+        pipe.getPipeString());
+}
+if (!reverseDirection) { // encrypt
+    PrintPipe(pipe, reverseDirection);        
+    try { // CipherPipe encrypt encode
+        passKey = (passKey.length() == 0) ? " " : passKey;
+        outBytes = pipe.encryptEncodeBytes(inBytes, passKey,
+                keyHash.hash(passKey), encodingType, zipType, 
+                keyHash, CipherMode2.CFB);
+    } catch (Exception exi) {
+        exi.printStackTrace();
     }
-    if (!reverseDirection) {                // encrypt
-        PrintPipe(pipe, reverseDirection);        
-        try {                               // CipherPipe encrypt encode
-            passKey = (passKey.length() == 0) ? " " : passKey;
-            outBytes = pipe.encryptEncodeBytes(inBytes,
-                        passKey, keyHash.hash(passKey),
-                        encodingType, zipType, keyHash, CipherMode2.CFB);
-        } catch (Exception exi) {
-            exi.printStackTrace();
-        }
-        outString = new String(outBytes);
-    } else {                                // decrypt
-        String inString = new String(inBytes);
-        PrintPipe(pipe, reverseDirection);        
-        try {                               // CipherPipe decode decrypt
-            passKey = (passKey == null || passKey.isEmpty()) ? "" : passKey;
-            outBytes = pipe.decodeDecrpytBytes(inBytes,
-                        passKey, (passKey.isEmpty() ? "" : keyHash.hash(passKey)),
-                        encodingType, zipType, keyHash, CipherMode2.CFB); 
-        } catch (Exception exi) {
-            exi.printStackTrace();
-        }
+    outString = new String(outBytes);
+} else { // decrypt
+    String inString = new String(inBytes);
+    PrintPipe(pipe, reverseDirection);        
+    try { // CipherPipe decode decrypt
+        passKey = (passKey == null || passKey.isEmpty()) ? "" : passKey;
+        outBytes = pipe.decodeDecrpytBytes(inBytes, passKey,
+            (passKey.isEmpty() ? "" : keyHash.hash(passKey)),
+            encodingType, zipType, keyHash, CipherMode2.CFB); 
+    } catch (Exception exi) {
+        exi.printStackTrace();
     }
+}
 \end{verbatim}
 \end{small}
 
@@ -653,7 +681,4 @@ currently working as freelancer (one person company) and planning a secure endpo
 \bibliographystyle{alpha}
 \bibliography{sample}
 
-
-
 \end{document}
-

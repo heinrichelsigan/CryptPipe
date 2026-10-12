@@ -5,7 +5,7 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="Heinrich Elsigan" />
-  <title>CryptPipe or making symmetric block cipher meta permutating again</title>
+  <title>CryptPipe or making symmetric cipher permutating again</title>
   <style>
     /* Default styles provided by pandoc.
     ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -184,8 +184,8 @@
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">CryptPipe or making symmetric block cipher meta
-permutating again</h1>
+<h1 class="title">CryptPipe or making symmetric cipher permutating
+again</h1>
 <p class="author">Heinrich Elsigan</p>
 <div class="abstract">
 <div class="abstract-title">Abstract</div>
@@ -209,12 +209,66 @@ href="https://area23.at/net/">area23.at/net</a></p></li>
 </ol>
 </div>
 </header>
-<h1 id="thanks-to">Thanks to</h1>
+<h1 id="staged-symmetric-cipher-pipeline">8-staged symmetric cipher
+pipeline</h1>
+<p>An eight staged symmetric block cipher crypto pipeline to improve
+advanced encryption standard based on meta DES, 3DES with P-Box
+S-Box.</p>
+<p>The following image shows you an example of a symmetric cipher 8
+staged encryption pipe and the corresponding decryption inverse
+pipe.</p>
 <figure id="fig:CipherPipeline">
 <img src="./Symmetric_Cipher_Pipeline.png" style="width:100.0%" />
 <figcaption><span id="fig:CipherPipeline"
 data-label="fig:CipherPipeline"></span>Cipher Pipeline</figcaption>
 </figure>
+<p>Before entering the encryption pipe, the file can be zipped to avoid
+huge amount of symmetric cipher blocks and after exiting the encryption
+pipe the file can be ascii encoded with base64 mime, uuencode, xxencode
+or hex16, because symmetric chiphered binary files might lose their
+block padding.</p>
+<p>The implementation is based on my blog article: <a
+href="https://area23-at.blogspot.com/2024/04/making-symetric-chiffer-encryption.html">Making
+symmetric cipher encryption meta permutating again</a>, including the
+following symmetric cipher algorithms:</p>
+<ul>
+<li><p><a
+href="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard">Aes</a>,
+AesLight, AesNet, <a
+href="hhttps://en.wikipedia.org/wiki/Advanced_Encryption_Standard">Rijndael</a></p></li>
+<li><p><a href="https://www.schneier.com/">Bruce Schneier</a>’s
+BlowFish, 2-Fish, 3-Fish, 3-Fish-256</p></li>
+<li><p><a
+href="https://en.wikipedia.org/wiki/Camellia_(cipher)">Camellia</a>,
+CamelliaLight</p></li>
+<li><p><a href="https://en.wikipedia.org/wiki/CAST-128">Cast5</a>,
+Cast6</p></li>
+<li><p><a href="https://nsa.gov/">National security agency</a>’s Des,
+3-Des, Triple-Des.Net, <a
+href="https://en.wikipedia.org/wiki/Skipjack_(cipher)">SkipJack</a></p></li>
+<li><p><a
+href="https://en.wikipedia.org/wiki/Kupyna">Dstu7624</a></p></li>
+<li><p><a
+href="https://en.wikipedia.org/wiki/GOST_(block_cipher)">Gost28147</a>,
+<a
+href="https://en.wikipedia.org/wiki/International_Data_Encryption_Algorithm">Idea</a>,
+<a href="https://en.wikipedia.org/wiki/NOEKEON">Noekeon</a></p></li>
+<li><p><a
+href="https://de.wikipedia.org/wiki/RC2_(Blockchiffre)">RC2</a>, <a
+href="https://en.wikipedia.org/wiki/RC5">RC5</a>32, RC564, <a
+href="https://en.wikipedia.org/wiki/RC6">RC6</a></p></li>
+<li><p><a href="https://en.wikipedia.org/wiki/SEED">Seed</a>, <a
+href="https://en.wikipedia.org/wiki/SM4_(cipher)">SM4</a></p></li>
+<li><p><a
+href="https://en.wikipedia.org/wiki/Serpent_(cipher)">Serpent</a>,
+Tnepres</p></li>
+<li><p><a
+href="https://de.wikipedia.org/wiki/Tiny_Encryption_Algorithm">Tea</a>,
+<a href="https://en.wikipedia.org/wiki/XTEA">XTea</a></p></li>
+<li><p>and my own simplest below average symmetric block cipher
+alogrithms: ZenMatrix, ZenMatrix2</p></li>
+</ul>
+<h1 id="thanks-to">Thanks to</h1>
 <p>Normally, thanks to are always at the end of each paper, but the
 people or organizations I benefited from while trying to make AES strong
 again are more important than a simple proof of concept showing that it
@@ -542,9 +596,9 @@ or hex16, because symmetric chiphered binary files might lose their
 block padding.</p>
 <p>Implementation is based on my blog article: <a
 href="https://area23-at.blogspot.com/2024/04/making-symetric-chiffer-encryption.html">Making
-symmetric cipher encryption meta permutating again</a><span
-class="citation" data-cites="c1"></span>, including the follwing
-symmetric cipher algorithms:</p>
+symmetric cipher meta permutating again</a><span class="citation"
+data-cites="c1"></span>, including the follwing symmetric cipher
+algorithms:</p>
 <ul>
 <li><p><a
 href="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard">Aes</a>,
