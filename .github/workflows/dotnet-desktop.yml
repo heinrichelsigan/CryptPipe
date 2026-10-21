@@ -56,10 +56,14 @@ jobs:
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     env:
-      Solution_Name: C#\EU.CqrXs.sln                             # your solution name, i.e. MyWpfApp.sln.
-      Test_Project_Path: C#/EU.CqrXs/Test\EU.CqrXs.Test.csproj   # path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
-      # Wap_Project_Directory: CryptPipe.App.Package                            # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
-      # Wap_Project_Path: CryptPipe.App.Package\CryptPipe.Package.wapproj        # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
+      # your solution name, i.e. MyWpfApp.sln.
+      Solution_Name: C#\EU.CqrXs.sln                             
+      # Test_Project_Path: path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
+      Test_Project_Path: C#\EU.CqrXs\Test\EU.CqrXs.Test.csproj   
+      # Wap_Project_Directory: Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
+      Wap_Project_Directory: C#\CryptPipe.App\CryptPipe.App.Package                            
+      # Wap_Project_Path: Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
+      Wap_Project_Path: C#\CryptPipe.App\CryptPipe.App.Package\CryptPipe.App.Package.wapproj       
 
     steps:
     - name: Checkout
