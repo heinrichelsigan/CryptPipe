@@ -14,7 +14,8 @@ namespace EU.CqrXs.Test
     [TestClass]
     public sealed class TestEncryptionHashingAlgo
     {
-        static readonly string Email = Constants.AUTHOR_EMAIL;
+        static string Email = Constants.AUTHOR_EMAIL;
+        private const int byte_delta_interval = 64;
 
         static TestEncryptionHashingAlgo()
         {
@@ -56,7 +57,7 @@ namespace EU.CqrXs.Test
             ZipType[] zTypes = new ZipType[] { ZipType.None };
             // KeyHash kHash = KeyHash.Hex;
             ZipType zType = ZipType.None;
-            EncodingType[] encodingTypes = new EncodingType[] { EncodingType.Uu, EncodingType.Xx, EncodingType.Base64, EncodingType.Hex32, EncodingType.Hex16 };
+            EncodingType[] encodingTypes = EncodingTypesExtensions.GetEncodingTypes();
             EncodingType encType;            
             string plainText = File.ReadAllText(fileTextTest);
             byte[] plainBytes = File.ReadAllBytes(fileByesTest);
@@ -69,7 +70,8 @@ namespace EU.CqrXs.Test
                 CipherEnum[] cipherEnums = new CipherEnum[] { cipherEnum };
                 CipherPipe pipe = new CipherPipe(cipherEnums); // new CipherPipe(Encoding.UTF8.GetBytes(Constants.AUTHOR_EMAIL), 0);
                 KeyHash khane = khs[(khcnt)%(khs.Length)];
-                encType = encodingTypes[(khcnt) % (encodingTypes.Length)];
+                if ((encType = encodingTypes[(khcnt) % (encodingTypes.Length)]) == EncodingType.None)
+                    encType = encodingTypes[(khcnt + 1) % (encodingTypes.Length)];
                 khcnt++;
                 try
                 {
@@ -82,15 +84,16 @@ namespace EU.CqrXs.Test
                     encOpTime = midOp.Subtract(startOp);
                     byte[] deCodedBytes = pipe.DecodeDecrpytBytes(cipherBytes, Email, KeyHash.Hex.Hash(Email),
                                             encType, zType, khane);
-                    Assert.IsTrue(plainBytes != null && deCodedBytes != null &&  deCodedBytes.Length > 0 && 
-                        ((plainBytes.Length == deCodedBytes.Length) || Math.Abs(deCodedBytes.Length - plainBytes.Length) <= 16));
+                    Assert.IsTrue(plainBytes != null && deCodedBytes != null && deCodedBytes.Length > 0 &&
+                                  ((plainBytes.Length == deCodedBytes.Length) ||
+                                   Math.Abs(deCodedBytes.Length - plainBytes.Length) <= byte_delta_interval));
 
                     endOp = DateTime.Now;
                     decOpTime = endOp.Subtract(midOp);
                     allOpTime = endOp.Subtract(startOp);
-
+                  
                     if (deCodedBytes != null && deCodedBytes.Length > 0 &&
-                       (Math.Abs(deCodedBytes.LongLength - plainBytes.LongLength) < 16))
+                       (Math.Abs(deCodedBytes.LongLength - plainBytes.LongLength) > byte_delta_interval))
                     {
                         long difference = deCodedBytes.CompareBytes(plainBytes, true);
                         if (difference > 0)

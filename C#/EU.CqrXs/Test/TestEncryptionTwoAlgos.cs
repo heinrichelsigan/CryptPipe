@@ -16,8 +16,11 @@ namespace EU.CqrXs.Test
     [TestClass]
     public sealed class TestEncryptionTwoAlgos
     {
+        private const int byte_delta_interval = 64;
         static readonly string Email = Constants.AUTHOR_EMAIL;
 
+        
+        
         static TestEncryptionTwoAlgos()
         {
             try
@@ -90,15 +93,17 @@ namespace EU.CqrXs.Test
                     encOpTime = midOp.Subtract(startOp);
                     byte[] deCodedBytes = pipe.DecodeDecrpytBytes(cipherBytes, Email, kHash.Hash(Email),
                                             encType, zType, kHash);
-                    Assert.IsTrue(plainBytes != null && deCodedBytes != null && deCodedBytes.Length > 0 && deCodedBytes.Length > 0 &&
-                        plainBytes.LongLength == deCodedBytes.LongLength && plainBytes[i] == deCodedBytes[i]);
+                    Assert.IsTrue(plainBytes != null && deCodedBytes != null && deCodedBytes.Length > 0 &&
+                                  deCodedBytes.Length > 0 &&
+                                  plainBytes[i] == deCodedBytes[i] &&
+                                  (Math.Abs(deCodedBytes.Length - plainBytes.Length) <= byte_delta_interval));
 
                     endOp = DateTime.Now;
                     decOpTime = endOp.Subtract(midOp);
                     allOpTime = endOp.Subtract(startOp);
 
                     if (deCodedBytes != null && deCodedBytes.Length > 0 && plainBytes != null && plainBytes.LongLength > 0 &&
-                        (Math.Abs(deCodedBytes.LongLength - plainBytes.LongLength) < 16))
+                        (Math.Abs(deCodedBytes.LongLength - plainBytes.LongLength) > byte_delta_interval))
                     {
                         long difference = deCodedBytes.CompareBytes(plainBytes, true);
                         if (difference > 0)

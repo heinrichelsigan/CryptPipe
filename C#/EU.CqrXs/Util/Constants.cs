@@ -13,10 +13,31 @@ namespace EU.CqrXs.Util
     {
 
         #region public const
-#pragma warning disable CA1707 // Identifiers should not contain underscores
-        
+#pragma warning disable CA1707 // Identifiers should not contain underscores            
+
+        #region APP constants
+
+        public const string APP_NAME = "Area23.At";
+        public const string APP_NAME_WINFORM = "Area23.At.WinForm.CryptFormCore";
+        public const string APP_NAME_CONSOLE = "EU.CqrXs.Console.exe";
+        public const string APP_DIR = "net";
+        public const string APP_PATH = "https://area23.at/net/";
+        public const string APP_ERROR = "AppError";
+        public const string VERSION = "v2.26.704";
+        public const string PIPE_STAGE = "PipeStage";
+
+        public const string APP_CONCURRENT_DICT = "APP_CONCURRENT_DICT";
+        public const string APP_FIRST_REG = "APP_FIRST_REG";
+        public const string APP_TRANSPARENT_BADGE = "APP_TRANSPARENT_BADGE";
+
+        public const string APP_INPUT_DIALOG = "APP_INPUT_DIALOG";
+        public const string APP_MY_CONTACT = "APP_MY_CONTACT";
+
+        #endregion APP constants
+
+        #region pipe constants
+
         public const int BACKLOG = 8;
-        public const int CHAT_PORT = 7777;
         public const int MAX_KEY_LEN = 4096;
 
         public const int PIPE_MAX_LEN = 8; // 0xc; 
@@ -30,76 +51,10 @@ namespace EU.CqrXs.Util
 
         public const bool CQR_ENCRYPT = true;
         public const bool ZEN_MATRIX_SYMMETRIC = false;
-        
-        public const char ANNOUNCE = ':';
-        public const char DATE_DELIM = '-';
-        public const char WHITE_SPACE = ' ';
-        public const char UNDER_SCORE = '_';
 
-        public const string APP_NAME = "Area23.At";
-        public const string APP_NAME_WINFORM = "Area23.At.WinForm.CryptFormCore";
-        public const string APP_NAME_CONSOLE = "EU.CqrXs.Console.exe";
-        public const string APP_DIR = "net";
-        public const string APP_ERROR = "AppError";
-        public const string VERSION = "v2.26.704";
-        public const string PIPE_STAGE = "PipeStage";
+        #endregion pipe constants
 
-
-        public const string AREA23_URL = "https://area23.at";
-        public const string APP_PATH = "https://area23.at/net/";
-        public const string RPN_URL = "https://area23.at/net/RpnCalc.aspx";
-        public const string GIT_URL = "https://github.com/heinrichelsigan/area23.at";
-        public const string URL_PIC = "https://area23.at/net/res/img/";
-        public const string URL_PREFIX = "https://area23.at/net/res/";
-        public const string AREA23_S = "https://area23.at/s/";
-        public const string URL_SHORT = "https://area23.at/s/?";
-        public const string AREA23_UTF8_URL = "https://area23.at/u/";
-
-        public const string AREA23_AT = "area23.at";
-        public const string VIRGINA_AREA23_AT = "virginia.area23.at";
-        public const string PARIS_AREA23_AT = "paris.area23.at";
-        public const string PARISIENNE_AREA23_AT = "parisienne.area23.at";
-        public const string CQRXS_EU = "cqrxs.eu";
-        public const string IPV4_CQRXS_EU = "ipv4.cqrxs.eu";
-        public const string IPV6_CQRXS_EU = "ipv6.cqrxs.eu";
-
-        public const string SPAIN_CQRXS_EU = "cqrxs.eu";
-        public const string ES_CQRXS_EU = "es.cqrxs.eu";
-        public const string MADRID_CQRXS_EU = "madrid.cqrxs.eu";
-        public const string BARCELONA_CQRXS_EU = "barcelona.cqrxs.eu";
-
-
-        public const string ALL_KEYS = "AllKeys";
-        public const string CHATROOMS = "ChatRooms";
-        public const string CQRXS_URL = "https://cqrxs.eu/";
-        public const string CQRXS_HELP_URL = "https://cqrxs.eu/help/";
-        public const string DECRYPTED_TEXT_AREA = "<textarea cols = \"48\" rows=\"10\" name=\"TextBoxDecrypted\" id=\"TextBoxDecrypted\" title=\"TextBox Current Message\" ValidateRequestMode=\"Enabled\" style=\"width:480px;\" >";
-        public const string DECRYPTED_TEXT_BOX = "TextBoxDecrypted";
-        public const string DECRYPTED_TEXT_AREA_END = "</textarea>";
-        public const string CQRXS_TEST_FORM = "CqrXsTestForm";
-        public const string FISH_ON_AES_ENGINE = "FishOnAesEngine";
-
-        public const string ACK = "Ack";
-        public const string NACK = "Nack";
-        public const string ENTER_SECRET_KEY = "[enter secret key here]";
-        public const string ENTER_IP_CONTACT = "[Enter IPv4/IPv6 or select Contact]";
-        public const string ENTER_IP = "[Enter peer IPv4/IPv6]";
-        public const string ENTER_CONTACT = "[Select Contact]";
-
-        public const string ACCEPT_LANGUAGE = "Accept-Language";
-        public const string AES_ENVIROMENT_KEY = "APP_ENCRYPTION_SECRET_KEY";
-        public const string AUTHOR = "Heinrich Elsigan";
-        public const string AUTHOR_EMAIL = "heinrich.elsigan@area23.at";
-        public const string AUTHOR_IV = "6865696e726963682e656c736967616e406172656132332e6174";
-        public const string AREA23_EMAIL = "zen@area23.at";
-        public const string AUTHOR_SIGNATURE = "-- \nHeinrich G.Elsigan\nTheresianumgasse 6/28, A-1040 Vienna\n phone: +43 650 752 79 28 \nmobile: +43 670 406 89 83 \nemails: heinrich.elsigan @gmail.com\n        heinrich.elsigan@live.at\n        sites: area23.at cqrxs.eu\nweblog: blog.area23.at\n   wko: https://firmen.wko.at/DetailsKontakt.aspx?FirmaID=19800fbd-84a2-456d-890e-eb1fa213100f";
-
-        public const string APP_CONCURRENT_DICT = "APP_CONCURRENT_DICT";
-        public const string APP_FIRST_REG = "APP_FIRST_REG";
-        public const string APP_TRANSPARENT_BADGE = "APP_TRANSPARENT_BADGE";
-        public const string APP_SERVER_KEY = "APP_SERVER_KEY";
-        public const string APP_INPUT_DIALOG = "APP_INPUT_DIALOG";
-        public const string APP_MY_CONTACT = "APP_MY_CONTACT";
+        #region Apo Dir Path File constants
 
         public const string APP_DIR_PATH_WIN = "AppDirPathWin";
         public const string BASE_APP_PATH_WIN = "BaseAppPathWin";
@@ -154,13 +109,75 @@ namespace EU.CqrXs.Util
         public const string LAST_EXCEPTION = "last_exception";
         public const string COOL_CRYPT_SPLIT = "+-;,:→⇛\t ";
         public const string APPDIRPATHUNIX = "AppDirPathUnix";
+
+        #endregion Apo Dir Path File constants
+
+       
+
+        #region host and url constants
+
+        public const int CHAT_PORT = 7777;
+
+        public const string AREA23_URL = "https://area23.at";
         
+        public const string RPN_URL = "https://area23.at/net/RpnCalc.aspx";
+        public const string GIT_URL = "https://github.com/heinrichelsigan/area23.at";
+        public const string URL_PIC = "https://area23.at/net/res/img/";
+        public const string URL_PREFIX = "https://area23.at/net/res/";
+        public const string AREA23_S = "https://area23.at/s/";
+        public const string URL_SHORT = "https://area23.at/s/?";
+        public const string AREA23_UTF8_URL = "https://area23.at/u/";
+
+        public const string AREA23_AT = "area23.at";
+        public const string VIRGINA_AREA23_AT = "virginia.area23.at";
+        public const string PARIS_AREA23_AT = "paris.area23.at";
+        public const string PARISIENNE_AREA23_AT = "parisienne.area23.at";
+        public const string CQRXS_EU = "cqrxs.eu";
+        public const string IPV4_CQRXS_EU = "ipv4.cqrxs.eu";
+        public const string IPV6_CQRXS_EU = "ipv6.cqrxs.eu";
+
+        public const string SPAIN_CQRXS_EU = "cqrxs.eu";
+        public const string ES_CQRXS_EU = "es.cqrxs.eu";
+        public const string MADRID_CQRXS_EU = "madrid.cqrxs.eu";
+        public const string BARCELONA_CQRXS_EU = "barcelona.cqrxs.eu";
+
+        public const string CQRXS_URL = "https://cqrxs.eu/";
+        public const string CQRXS_HELP_URL = "https://cqrxs.eu/help/";
+
+        #endregion host and url constants
+
+        #region generic and identifier constants
+
+        public const char ANNOUNCE = ':';
+        public const char DATE_DELIM = '-';
+        public const char WHITE_SPACE = ' ';
+        public const char UNDER_SCORE = '_';
+
+        public const string ALL_KEYS = "AllKeys";
+        public const string CHATROOMS = "ChatRooms";
+
+        public const string DECRYPTED_TEXT_AREA = "<textarea cols = \"48\" rows=\"10\" name=\"TextBoxDecrypted\" id=\"TextBoxDecrypted\" title=\"TextBox Current Message\" ValidateRequestMode=\"Enabled\" style=\"width:480px;\" >";
+        public const string DECRYPTED_TEXT_BOX = "TextBoxDecrypted";
+        public const string DECRYPTED_TEXT_AREA_END = "</textarea>";
+        public const string CQRXS_TEST_FORM = "CqrXsTestForm";
+        public const string FISH_ON_AES_ENGINE = "FishOnAesEngine";
+
         public const string UNKNOWN = "UnKnown";
         public const string DEFAULT_MIMETYPE = "application/octet-stream";
         public const string RPN_STACK = "rpnStack";
         public const string CHANGE_CLICK_EVENTCNT = "change_Click_EventCnt";
         public const string BC_START_MSG = "bc 1.07.1\r\nCopyright 1991-1994, 1997, 1998, 2000, 2004, 2006, 2008, 2012-2017 Free Software Foundation, Inc.\r\nThis is free software with ABSOLUTELY NO WARRANTY.\r\nFor details type `warranty'.\r\n";
 
+
+        public const string ACK = "Ack";
+        public const string NACK = "Nack";
+        public const string ENTER_SECRET_KEY = "[enter secret key here]";
+        public const string ENTER_IP_CONTACT = "[Enter IPv4/IPv6 or select Contact]";
+        public const string ENTER_IP = "[Enter peer IPv4/IPv6]";
+        public const string ENTER_CONTACT = "[Select Contact]";
+
+        public const string ACCEPT_LANGUAGE = "Accept-Language";           
+        
         public const string BACK_COLOR = "BackColor";
         public const string QR_COLOR = "QrColor";
         public const string BACK_COLOR_STRING = "BackColorString";
@@ -173,32 +190,35 @@ namespace EU.CqrXs.Util
 
         public const string EXE_COMMAND_CMD = "cmd";
         public const string EXE_POWER_SHELL = "powershell";
-
-        public const string EXE_WIN_INIT = "wininit";
-        public const string EXE_SERVICES = "services";
-        public const string EXE_SVC_HOST = "svchost";
-        public const string EXE_TASK_HOST = "taskhostw";
-        public const string EXE_DLL_HOST = "dllhost";
-        public const string EXE_SCHEDULER = "scheduler";
-        public const string EXE_VM_COMPUTE = "vmcompute";
-        public const string EXE_WIN_DEFENDER = "MsMpEng";
-        public const string EXE_LASS = "lsass";                     // local Security Authority Subsystem Service. 
-        public const string EXE_CSRSS = "csrss";                    // hosts the server side of the Win32 subsystem
-
-        public const string EXE_WIN_LOGON = "winlogon";             // windows logon handler for current logon
-        public const string EXE_DESKTOP_WINDOW_MANAGER = "dwm";     // window manager for current logon
-
+        
         public const string STRING_EMPTY = "";
         public const string STRING_NULL = null;
         public const string SNULL = "(null)";
 
-        
+        #endregion generic and identifier constants
+
+
+#pragma warning restore CA1707 // Identifiers should not contain underscores
+        #endregion public const
+       
+        #region public static readonly crypto fields
+
+        public const string AES_ENVIROMENT_KEY = "APP_ENCRYPTION_SECRET_KEY";
+        public const string APP_SERVER_KEY = "APP_SERVER_KEY";
+
+        public static readonly string AES_KEY = "AES_KEY";
+        public static readonly string AES_IV = "AES_IV";
+        public static readonly string DES3_KEY = "DES3_KEY";
+        public static readonly string DES3_IV = "DES3_IV";
+        public static readonly string BOUNCEK = Convert.ToBase64String(Encoding.UTF8.GetBytes("BOUNCE"));
+        public static readonly string BOUNCE4 = KeyHash.SCrypt.Hash(BOUNCEK);
+
         public const string RSA_PUB = "-----BEGIN PUBLIC KEY-----\n" +
-            "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDERBy7FD7m9dq1Nu90B5U63uMl\n" +
-            "LIGbxU90dGQ6U7QmjsK1Lyuc5ma941EjaNWPvIfyBkJZc9ij6/9buv12naHg1K6P\n" +
-            "6CBycNKd2l1N5/XG3IKTHomgFQKrMX90KI7F772caVDFDzi4N5XjqG8HMVAjPL1w\n" +
-            "tqelayYErbUrJMzRRwIDAQAB\n" +
-            "-----END PUBLIC KEY-----";
+           "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDERBy7FD7m9dq1Nu90B5U63uMl\n" +
+           "LIGbxU90dGQ6U7QmjsK1Lyuc5ma941EjaNWPvIfyBkJZc9ij6/9buv12naHg1K6P\n" +
+           "6CBycNKd2l1N5/XG3IKTHomgFQKrMX90KI7F772caVDFDzi4N5XjqG8HMVAjPL1w\n" +
+           "tqelayYErbUrJMzRRwIDAQAB\n" +
+           "-----END PUBLIC KEY-----";
 
         public const string RSA_PRV = "-----BEGIN PRIVATE KEY-----\n" +
             "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAMREHLsUPub12rU2\n" +
@@ -218,39 +238,65 @@ namespace EU.CqrXs.Util
             "-----END PRIVATE KEY-----\n";
 
 
-#pragma warning restore CA1707 // Identifiers should not contain underscores
-        #endregion public const
+        #endregion public static readonly crypto fields
 
-        #region public static readonly fields
+        #region author test constants and public static emails of the author
 
-        public static readonly char SEP_CHAR = Path.DirectorySeparatorChar;
+        public const string AUTHOR = "Heinrich Elsigan";
+        public const string AUTHOR_EMAIL = "heinrich.elsigan@area23.at";
+        public const string AUTHOR_IV = "6865696e726963682e656c736967616e406172656132332e6174";
+        public const string AREA23_EMAIL = "zen@area23.at";
+        public const string AUTHOR_SIGNATURE = "-- \nHeinrich G.Elsigan\nTheresianumgasse 6/28, A-1040 Vienna\n phone: +43 650 752 79 28 \nmobile: +43 670 406 89 83 \nemails: heinrich.elsigan @gmail.com\n        heinrich.elsigan@live.at\n        sites: area23.at cqrxs.eu\nweblog: blog.area23.at\n   wko: https://firmen.wko.at/DetailsKontakt.aspx?FirmaID=19800fbd-84a2-456d-890e-eb1fa213100f";
 
-        public static readonly string AES_KEY = "AES_KEY";
-        public static readonly string AES_IV = "AES_IV";
-        public static readonly string DES3_KEY = "DES3_KEY";
-        public static readonly string DES3_IV = "DES3_IV";
-        public static readonly string BOUNCEK = Convert.ToBase64String(Encoding.UTF8.GetBytes("BOUNCE"));
-        public static readonly string BOUNCE4 = KeyHash.SCrypt.Hash(BOUNCEK);
+        public static readonly string[] Author_Emails = {
+            "he@area23.at", "zen@area23.at", "helsigan@area23.at", "heinrich.elsigan@area23.at",
+            "he23@paris.area23.at", "elsigan@smtp.area23.at", "office@area23.at", "eva@yankee.area23.at", 
+            "root@cqrxs.eu", "b@barcelona.cqrxs.eu", "c@clouding-io.cqrxs.eu", "i@ipsec.cqrxs.eu",
+            "o@ohio.cqrxs.eu", "pi@paris.cqrxs.eu", "q@io.cqrxs.eu", "ýankee@us.cqrxs.eu",
+            "heinrich.elsigan@gmail.com", "heinrich.elsigan@live.at", "heinrich.elsigan@yahoo.com", "heinrich.elsigan@proton.me",
+            "office.area23@gmail.com"
+        };
+
+        #endregion author test constants and public static emails of the author
+
+        #region public const and static readonly windows system process names
+
+        public const string EXE_WIN_INIT = "wininit";
+        public const string EXE_SERVICES = "services";
+        public const string EXE_SVC_HOST = "svchost";
+        public const string EXE_TASK_HOST = "taskhostw";
+        public const string EXE_DLL_HOST = "dllhost";
+        public const string EXE_SCHEDULER = "scheduler";
+        public const string EXE_VM_COMPUTE = "vmcompute";
+        public const string EXE_WIN_DEFENDER = "MsMpEng";
+        public const string EXE_LASS = "lsass";                     // local Security Authority Subsystem Service. 
+        public const string EXE_CSRSS = "csrss";                    // hosts the server side of the Win32 subsystem
+
+        public const string EXE_WIN_LOGON = "winlogon";             // windows logon handler for current logon
+        public const string EXE_DESKTOP_WINDOW_MANAGER = "dwm";     // window manager for current logon
 
 
-        public static readonly string[] EXE_WIN_SYSTEM = { EXE_WIN_INIT, EXE_SERVICES,
-            EXE_SVC_HOST, EXE_TASK_HOST, EXE_DLL_HOST,
+        public static readonly string[] EXE_WIN_SYSTEM = { 
+            EXE_WIN_INIT, EXE_SERVICES, EXE_SVC_HOST, EXE_TASK_HOST, EXE_DLL_HOST,
             EXE_SCHEDULER, EXE_VM_COMPUTE, EXE_WIN_DEFENDER, EXE_LASS, EXE_CSRSS,
             EXE_WIN_LOGON, EXE_DESKTOP_WINDOW_MANAGER
         };
 
+        #endregion public const and static readonly windows system process names
+
+
+        #region allowed and denied file extensions
+
         public static readonly string[] DENIED_EXTENSIONS = {
             ".asp", ".asax", ".aspx", ".ascx", ".asmx", ".ashx", ".svc", ".master", ".config",
-            ".php", ".js", ".html", ".xhtml", ".htm",
-            ".razor", ".cshtml", ".javascript", ".cgi"
+            ".php", ".js", ".html", ".xhtml", ".htm", ".razor", ".cshtml", ".javascript", ".cgi"
         };
 
 
         public static readonly string[] ALLOWED_EXTENSIONS = {
-
-            ".base", ".hex",
-            ".hex16", ".base16", ".base32", ".hex32", ".uu", ",base58", ".base64", ".mime",
-
+            
+            ".base", ".hex", ".hex16", ".base16", ".base32", ".hex32", ".uu", ".base58", ".base64", ".mime", ".ascii85",
+            
             ".md", ".txt", ".text", ".cfg",
             ".css", ".js", ".htm", ".html", ".xhtml", ".json", ".rdf",
 
@@ -270,15 +316,16 @@ namespace EU.CqrXs.Util
             ".arj", ".arc", ".rar",
             ".7z", ".xz",
 
-
             ".pki", ".cer", ".der", ".crl", ".p10", ".p7c", ".p7s",
 
             ".exe", ".dll", ".oct", ".bin", ".tmp", ".img"
         };
 
-        #endregion public static readonly fields
+        #endregion allowed and denied file extensions
 
-        #region public static properties
+        #region public static fields and properties
+
+        public static readonly char SEP_CHAR = Path.DirectorySeparatorChar;
 
         private static bool _unix = false;
         public static bool UNIX
@@ -332,7 +379,6 @@ namespace EU.CqrXs.Util
         /// AppLogFile - logfile with <see cref="EU.CqrXs.Util.Extensions.Area23Date(DateTime)"/> prefix
         /// </summary>
         public static string AppLogFile { get => DateTime.UtcNow.Area23Date() + UNDER_SCORE + APP_NAME + LOG_EXT; }
-
 
         public static string Json_Example { get => ResReader.GetValue("json_sample0"); }
 
@@ -454,7 +500,8 @@ namespace EU.CqrXs.Util
 
         public static bool RandomBool { get => DateTime.Now.Millisecond % 2 == 0; }
 
-        #endregion public static properties
+        #endregion public static fields and properties
+
 
         /// <summary>
         /// AppSettingsValueByKey 
@@ -470,7 +517,6 @@ namespace EU.CqrXs.Util
                 ? ConfigurationManager.AppSettings[key].ToString()
                 : null;
         }
-
 
     }
 

@@ -69,12 +69,14 @@ namespace EU.CqrXs.Crypt.Cipher
     {
         public static readonly string CipherExtensionString = "l23456AabCcDdEeFfgIJjlNRSsTtXrZz$%";
 
-        public static CipherEnum[] GetCipherTypes()
+        public static CipherEnum[] GetCipherTypes(bool symmetricOnly = true)
         {
             List<CipherEnum> list = new List<CipherEnum>();
             foreach (string encName in Enum.GetNames(typeof(CipherEnum)))
             {
-                list.Add((CipherEnum)Enum.Parse(typeof(CipherEnum), encName));
+                CipherEnum cipherAlgo = (CipherEnum)Enum.Parse(typeof(CipherEnum), encName);
+                if (symmetricOnly && cipherAlgo != CipherEnum.Rsa)
+                    list.Add(cipherAlgo);
             }
 
             return list.ToArray();

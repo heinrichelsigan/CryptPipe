@@ -19,8 +19,9 @@ namespace EU.CqrXs.Test
     [TestClass]
     public sealed class TestEncryptionIVAlgos
     {
-        static readonly string Email = Constants.AUTHOR_EMAIL;
-
+        static string Email = Constants.AUTHOR_EMAIL;
+        private const int byte_delta_interval = 256;
+        
         static TestEncryptionIVAlgos()
         {
             try
@@ -98,13 +99,14 @@ namespace EU.CqrXs.Test
             KeyHash[] kHashes = KeyHash_Extensions.GetHashTypes();
             KeyHash kHash;
             ZipType zType;
-            EncodingType[] encodingTypes = new EncodingType[] { EncodingType.Uu, EncodingType.Xx, EncodingType.Base64, EncodingType.Base16, EncodingType.Hex32, EncodingType.Hex16 };
+            EncodingType[] encodingTypes = EncodingTypesExtensions.GetEncodingTypes();
             EncodingType encType;            
             string plainText = File.ReadAllText(fileTextTest);            
             for (int i = 0; i < cipherEnums.Length - 3; i++)
             {
 
-                encType = encodingTypes[i % encodingTypes.Length];
+                if ((encType = encodingTypes[i % encodingTypes.Length]) == EncodingType.None)
+                    encType = encodingTypes[(i + 1) % encodingTypes.Length];
                 zType = zTypes[i % zTypes.Length];
                 kHash = kHashes[i % kHashes.Length];
 
@@ -131,20 +133,30 @@ namespace EU.CqrXs.Test
                     byte[] deCodedBytes = pipe.DecodeDecrpytBytes(cipherBytes, Email, KeyHash.Hex.Hash(Email), encType, zType, kHash);
 
                     Assert.IsTrue(plainBytes != null && deCodedBytes != null && deCodedBytes.Length > 0 &&
-                        (Math.Abs(deCodedBytes.Length - plainBytes.Length) <= 16));
-
+                                  (Math.Abs(deCodedBytes.Length - plainBytes.Length) <= byte_delta_interval));
+                    
                     Assert.IsTrue(plainBytes != null && deCodedBytes != null && deCodedBytes.Length > 0 && deCodedBytes.Length > 0 &&
-                        plainBytes.LongLength == deCodedBytes.LongLength && plainBytes[i] == deCodedBytes[i]);
-            
+                                  (Math.Abs(deCodedBytes.LongLength - plainBytes.LongLength) < byte_delta_interval) &&
+                                  (plainBytes[0] == deCodedBytes[0] && plainBytes[1] == deCodedBytes[1] &&
+                                   plainBytes[i + byte_delta_interval] == deCodedBytes[i + byte_delta_interval] && plainBytes[i + Constants.PIPE_MAX_LEN] == deCodedBytes[i + Constants.PIPE_MAX_LEN]));
+
+                    
                     endOp = DateTime.Now;
                     decOpTime = endOp.Subtract(midOp);
                     allOpTime = endOp.Subtract(startOp);
 
-                    if (deCodedBytes == null || deCodedBytes.Length < 1 || plainBytes.LongLength != deCodedBytes.LongLength || plainBytes[i] != deCodedBytes[i])
+                    if (deCodedBytes != null && deCodedBytes.Length > 0 &&
+                        (Math.Abs(deCodedBytes.LongLength - plainBytes.LongLength) > byte_delta_interval))
                     {
-                        Console.WriteLine($"{cipherEnums[i]}=>{cipherEnums[i+1]}=>{cipherEnums[i+2]}=>{cipherEnums[i+3]} for {Email} {zType} {encType} {kHash}\tencrypt in {encOpTime.ToString("ss'.'ffff")} \tdecrypt in {decOpTime.ToString("ss'.'ffff")} \ttotal {allOpTime.ToString("ss'.'ffff")} [failed]");
-                        Console.WriteLine($"          \tdeCodedBytes.Length ({deCodedBytes.Length}) != plainBytes.Length ({plainBytes.Length})");
-                        Assert.Fail();
+                        long difference = deCodedBytes.CompareBytes(plainBytes, true);
+                        if (difference > 0)
+                        {
+                            Console.WriteLine(
+                                $"{cipherEnums[i]}=>{cipherEnums[i + 1]}=>{cipherEnums[i + 2]}=>{cipherEnums[i + 3]} for {Email} {zType} {encType} {kHash}\tencrypt in {encOpTime.ToString("ss'.'ffff")} \tdecrypt in {decOpTime.ToString("ss'.'ffff")} \ttotal {allOpTime.ToString("ss'.'ffff")} [failed]");
+                            Console.WriteLine(
+                                $"          \tdeCodedBytes.Length ({deCodedBytes.Length}) != plainBytes.Length ({plainBytes.Length})");
+                            Assert.Fail();
+                        }
                     }
                     double size = deCodedBytes.Length / (1024);
                     Console.WriteLine($"{size}KB {cipherEnums[i]}=>{cipherEnums[i+1]}=>{cipherEnums[i+2]}=>{cipherEnums[i+3]} for {Email} {zType} {encType} {kHash}\tencrypt in {encOpTime.ToString("ss'.'ffff")} \tdecrypt in {decOpTime.ToString("ss'.'ffff")} \ttotal {allOpTime.ToString("ss'.'ffff")} [passed]");

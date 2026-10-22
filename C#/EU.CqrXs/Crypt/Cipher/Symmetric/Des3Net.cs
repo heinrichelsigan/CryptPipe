@@ -128,7 +128,13 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
             // DesKey = md5.ComputeHash(desKey);
 
             Des3 = TripleDES.Create();
-            Des3.KeySize = DesKeyLen;
+            try
+            {
+                Des3.KeySize = DesKeyLen;
+            }
+            catch
+            {
+            }
             Des3.Key = DesKey;
             Des3.IV = DesIv;
             Des3.Mode = cipherMode;

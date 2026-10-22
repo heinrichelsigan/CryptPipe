@@ -42,11 +42,13 @@ namespace EU.CqrXs.Test
             ZipType[] zTypes = new ZipType[] { ZipType.None };
             KeyHash kHash = KeyHash.Hex;
             ZipType zType = ZipType.None;
-            EncodingType[] encodingTypes = new EncodingType[] { EncodingType.Base16, EncodingType.Hex16, EncodingType.Base32, EncodingType.Hex32, EncodingType.Base64, EncodingType.Uu, EncodingType.Xx, };
+            EncodingType[] encodingTypes = EncodingTypesExtensions.GetEncodingTypes();
             CipherPipe pipe = new CipherPipe(cipherEnums); // new CipherPipe(Encoding.UTF8.GetBytes(Constants.AUTHOR_EMAIL), 0);
             string plainText = File.ReadAllText(fileTextTest);
             foreach (EncodingType encType in encodingTypes)
             {
+                if (encType == EncodingType.None)
+                    continue;
                 try
                 {
                     startOp = DateTime.Now;

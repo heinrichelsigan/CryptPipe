@@ -36,7 +36,7 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
         public static byte[] AesKey { get; private set; }
         public static int AesKeyLen { get; private set; }
         public static byte[] AesIv { get; private set; }
-        public static AesCng AesAlgo { get; private set; }
+        public static Aes AesAlgo { get; private set; }
 
         public static KeyHash AesHash { get; private set; }
 
@@ -87,7 +87,16 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
             }
 
             CMode = cipherMode;
-            AesAlgo = new AesCng();
+            try
+            {
+                AesAlgo = new AesCng();
+            }
+            catch
+            {
+                AesAlgo = new AesManaged();
+            }
+                
+
             // AesAlgo.KeySize = AesKeyLen;
             AesAlgo.Key = AesKey;
             AesAlgo.IV = AesIv;
@@ -117,11 +126,18 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
             {
                 Area23Log.LogOriginEx("AesNet.ctor", e, 2);
                 // TODO: what shell we do with the drunken sailor
-                AesKey = Convert.FromBase64String(Constants.AES_KEY);
-                AesIv = Encoding.UTF8.GetBytes(Constants.AES_IV);
+                AesKey = Convert.FromBase64String(Constants.BOUNCEK);
+                AesIv = Encoding.UTF8.GetBytes(Constants.BOUNCE4);
             }
 
-            AesAlgo = new AesCng();
+            try
+            {
+                AesAlgo = new AesCng();
+            }
+            catch
+            {
+                AesAlgo = new AesManaged();
+            }
             // AesAlgo.KeySize = AesKeyLen;
             AesAlgo.Key = AesKey;
             AesAlgo.IV = AesIv;
@@ -132,13 +148,22 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
         public AesNet(byte[] aesKey, byte[] aesIv, CipherMode cipherMode = CipherMode.ECB)
         {
             if (aesKey == null || aesKey.Length == 0)
-                aesKey = Convert.FromBase64String(Constants.AES_KEY);
+                aesKey = Convert.FromBase64String(Constants.BOUNCEK);
             if (aesIv == null || aesIv.Length == 0)
-                aesIv = Encoding.UTF8.GetBytes(Constants.AES_IV);
+                aesIv = Encoding.UTF8.GetBytes(Constants.BOUNCE4);
 
             CreateAesKeyIv(ref aesKey, ref aesIv);
             CMode = cipherMode;
-            AesAlgo = new AesCng();
+            try
+            {
+                AesAlgo = new AesCng();
+            }
+            catch
+            {
+                AesAlgo = AesManaged.Create();
+            }
+                
+
             AesAlgo.Key = AesKey;
             AesAlgo.IV = AesIv;
             AesAlgo.Mode = cipherMode;
@@ -159,8 +184,15 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
             Array.Copy(span.ToArray(), 0, AesKey, 0, AesKeyLen);
             keyBytes = new byte[AesKeyLen];
             Array.Copy(span.ToArray(), 0, keyBytes, 0, AesKeyLen);
-
-            AesCng aesHelper = new AesCng();
+            Aes aesHelper;
+            try
+            {
+                aesHelper = new AesCng();
+            }
+            catch
+            {
+                aesHelper = AesManaged.Create();
+            }
             aesHelper.Key = keyBytes;
             aesHelper.GenerateIV();
             int iVLenght = aesHelper.IV.Length;
