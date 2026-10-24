@@ -94,16 +94,16 @@ namespace EU.CqrXs.Test
                     byte[] deCodedBytes = pipe.DecodeDecrpytBytes(cipherBytes, Email, kHash.Hash(Email),
                                             encType, zType, kHash);
                     Assert.IsTrue(plainBytes != null && deCodedBytes != null && deCodedBytes.Length > 0 &&
-                                  deCodedBytes.Length > 0 &&
-                                  plainBytes[i] == deCodedBytes[i] &&
-                                  (Math.Abs(deCodedBytes.Length - plainBytes.Length) <= byte_delta_interval));
+                        deCodedBytes.Length > 0 &&  plainBytes[i] == deCodedBytes[i] &&
+                        Math.Abs(deCodedBytes.Length - plainBytes.Length) <= Constants.PIPE_BYTES_DELTA);
 
                     endOp = DateTime.Now;
                     decOpTime = endOp.Subtract(midOp);
                     allOpTime = endOp.Subtract(startOp);
 
-                    if (deCodedBytes != null && deCodedBytes.Length > 0 && plainBytes != null && plainBytes.LongLength > 0 &&
-                        (Math.Abs(deCodedBytes.LongLength - plainBytes.LongLength) > byte_delta_interval))
+                    if (deCodedBytes != null && deCodedBytes.Length > 0 &&
+                        plainBytes != null && plainBytes.LongLength > 0 &&
+                        Math.Abs(deCodedBytes.LongLength - plainBytes.LongLength) > Constants.PIPE_BYTES_DELTA)
                     {
                         long difference = deCodedBytes.CompareBytes(plainBytes, true);
                         if (difference > 0)

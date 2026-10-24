@@ -19,8 +19,7 @@ namespace EU.CqrXs.Test
     [TestClass]
     public sealed class TestEncryptionIVAlgos
     {
-        static string Email = Constants.AUTHOR_EMAIL;
-        private const int byte_delta_interval = 256;
+        private static string Email = Constants.AUTHOR_EMAIL;
         
         static TestEncryptionIVAlgos()
         {
@@ -133,12 +132,14 @@ namespace EU.CqrXs.Test
                     byte[] deCodedBytes = pipe.DecodeDecrpytBytes(cipherBytes, Email, KeyHash.Hex.Hash(Email), encType, zType, kHash);
 
                     Assert.IsTrue(plainBytes != null && deCodedBytes != null && deCodedBytes.Length > 0 &&
-                                  (Math.Abs(deCodedBytes.Length - plainBytes.Length) <= byte_delta_interval));
+                                  (Math.Abs(deCodedBytes.Length - plainBytes.Length) <= Constants.PIPE_BYTES_DELTA));
                     
-                    Assert.IsTrue(plainBytes != null && deCodedBytes != null && deCodedBytes.Length > 0 && deCodedBytes.Length > 0 &&
-                                  (Math.Abs(deCodedBytes.LongLength - plainBytes.LongLength) < byte_delta_interval) &&
-                                  (plainBytes[0] == deCodedBytes[0] && plainBytes[1] == deCodedBytes[1] &&
-                                   plainBytes[i + byte_delta_interval] == deCodedBytes[i + byte_delta_interval] && plainBytes[i + Constants.PIPE_MAX_LEN] == deCodedBytes[i + Constants.PIPE_MAX_LEN]));
+                    Assert.IsTrue(plainBytes != null && deCodedBytes != null && 
+                        deCodedBytes.Length > 0 && deCodedBytes.Length > 0 &&
+                        Math.Abs(deCodedBytes.LongLength - plainBytes.LongLength) < Constants.PIPE_BYTES_DELTA &&
+                        plainBytes[0] == deCodedBytes[0] && plainBytes[1] == deCodedBytes[1] &&
+                        plainBytes[i + Constants.PIPE_BYTES_DELTA] == deCodedBytes[i + Constants.PIPE_BYTES_DELTA] && 
+                        plainBytes[i + Constants.PIPE_MAX_LEN] == deCodedBytes[i + Constants.PIPE_MAX_LEN]);
 
                     
                     endOp = DateTime.Now;
@@ -146,7 +147,7 @@ namespace EU.CqrXs.Test
                     allOpTime = endOp.Subtract(startOp);
 
                     if (deCodedBytes != null && deCodedBytes.Length > 0 &&
-                        (Math.Abs(deCodedBytes.LongLength - plainBytes.LongLength) > byte_delta_interval))
+                        (Math.Abs(deCodedBytes.LongLength - plainBytes.LongLength) > Constants.PIPE_BYTES_DELTA))
                     {
                         long difference = deCodedBytes.CompareBytes(plainBytes, true);
                         if (difference > 0)
@@ -171,7 +172,5 @@ namespace EU.CqrXs.Test
             Console.WriteLine($"{DateTime.Now.Area23DateTimeWithSeconds()} \t{className}.{methodBase}() \t[finished]");
             return;
         }
-
-
     }
 }
