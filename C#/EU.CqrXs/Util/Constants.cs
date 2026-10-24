@@ -55,8 +55,8 @@ namespace EU.CqrXs.Util
         public const int PIPE_BYTES_DELTA_TINY = 8;
         public const int PIPE_BYTES_DELTA_SMALL = 16;
         public const int PIPE_BYTES_DELTA = 64;
-        public const int PIPE_BYTES_LARGE = 256;
-        public const int PIPE_BYTES_HUGE = 1024;
+        public const int PIPE_BYTES_DELTA_LARGE = 256;
+        public const int PIPE_BYTES_DELTA_HUGE = 1024;
 
         #endregion pipe constants
 
