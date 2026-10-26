@@ -60,7 +60,7 @@ namespace EU.CqrXs.Test
             EncodingType encType;            
             string plainText = File.ReadAllText(fileTextTest);
             byte[] plainBytes = File.ReadAllBytes(fileByesTest);
-            KeyHash[] khs = KeyHash_Extensions.GetHashTypes();
+            KeyHash[] khs = KeyHashExtensions.GetHashTypes();
             int khcnt = 0;
             foreach (CipherEnum cipherEnum in cipherTypes)
             {

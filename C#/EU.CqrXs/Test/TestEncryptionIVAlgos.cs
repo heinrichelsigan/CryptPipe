@@ -96,7 +96,7 @@ namespace EU.CqrXs.Test
             CipherEnum[] cipherEnums = chipherEList.ToArray();
             ZipType[] zTypes = new ZipType[] { ZipType.BZip2, ZipType.GZip, ZipType.Zip, ZipType.None };
             CipherMode2[] cModes = CipherModeExtensions.GetCipherModes2(true);
-            KeyHash[] kHashes = KeyHash_Extensions.GetHashTypes();
+            KeyHash[] kHashes = KeyHashExtensions.GetHashTypes();
             KeyHash kHash;
             ZipType  zType = ZipType.None;
             EncodingType[] encodingTypes = EncodingTypesExtensions.GetEncodingTypes();

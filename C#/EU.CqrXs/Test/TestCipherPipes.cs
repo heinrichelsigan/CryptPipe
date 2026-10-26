@@ -48,7 +48,7 @@ namespace EU.CqrXs.Test
             
             CipherEnum[] cipherEnums = CipherEnumExtensions.GetCipherTypes();
             ZipType[] zTypes = new ZipType[] { ZipType.None, ZipType.GZip, ZipType.BZip2, ZipType.Zip };
-            KeyHash[] kHashes = KeyHash_Extensions.GetHashTypes();
+            KeyHash[] kHashes = KeyHashExtensions.GetHashTypes();
             KeyHash kHash;
             ZipType zType;
             EncodingType[] encodingTypes = EncodingTypesExtensions.GetEncodingTypes();

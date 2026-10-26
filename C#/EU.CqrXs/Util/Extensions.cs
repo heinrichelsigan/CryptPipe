@@ -1357,7 +1357,7 @@ namespace EU.CqrXs.Util
             }
             
 
-            foreach (KeyHash kh in KeyHash_Extensions.GetHashTypes())
+            foreach (KeyHash kh in KeyHashExtensions.GetHashTypes())
             {
                 if (strippedFileName.Contains("." + kh.ToString(), StringComparison.CurrentCultureIgnoreCase))
                 {
@@ -1772,7 +1772,7 @@ namespace EU.CqrXs.Util
             }
 
 
-            foreach (KeyHash kh in KeyHash_Extensions.GetHashTypes())
+            foreach (KeyHash kh in KeyHashExtensions.GetHashTypes())
             {
                 if (strippedFileName.EndsWith("." + kh.ToString(), StringComparison.CurrentCultureIgnoreCase))
                 {

@@ -321,7 +321,7 @@ namespace EU.CqrXs.Gui.Forms
         /// <param name="radioButtonList">hash radioButtonList</param>
         protected internal async Task SetHashAsync(ToolStripMenuItem? mi, RadioButtonList? radioButtonList)
         {
-            KeyHash[] keyHashes = KeyHash_Extensions.GetHashTypes();
+            KeyHash[] keyHashes = KeyHashExtensions.GetHashTypes();
             KeyHash aKeyHash = KeyHash.Hex;
 
             foreach (var menuHashe in mHashes)
@@ -350,8 +350,8 @@ namespace EU.CqrXs.Gui.Forms
             if (radioButtonList != null && radioButtonList.SelectedItem != null)
             {
                 aKeyHash = (hashPattern.StartsWith("Xoo") || hashPattern.StartsWith("Zodi")) ?
-                            KeyHash_Extensions.GetKeyHashFromString(hashPattern) :
-                            KeyHash_Extensions.GetKeyHashFromString(radioButtonList.SelectedItem.ToString());
+                            KeyHashExtensions.GetKeyHashFromString(hashPattern) :
+                            KeyHashExtensions.GetKeyHashFromString(radioButtonList.SelectedItem.ToString());
                 switch (aKeyHash)
                 {
                     case KeyHash.Empty: menuHashEmpty.Checked = true; break;

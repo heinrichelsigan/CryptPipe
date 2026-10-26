@@ -39,6 +39,8 @@
     <Compile Remove="**" />
     <Compile Remove="Crypt\CqrJd\**" />
     <Compile Remove="EnDeCoding\**" />
+    <Compile Include="Crypt\Cipher\CipherEnumExtensions.cs" />
+    <Compile Include="Zip\ZipTypeExtensions.cs" />
     <EmbeddedResource Remove="Cipher\**" />
     <EmbeddedResource Remove="**" />
     <EmbeddedResource Remove="Crypt\CqrJd\**" />
@@ -77,6 +79,7 @@
     <Compile Include="Crypt\EnDeCoding\Base16.cs" />
     <Compile Include="Crypt\EnDeCoding\Base32.cs" />
     <Compile Include="Crypt\EnDeCoding\Ascii85.cs" />
+    <Compile Include="Crypt\EnDeCoding\EncodingTypeExtensions.cs" />
     <Compile Include="Crypt\EnDeCoding\Hex64.cs" />
     <Compile Include="Crypt\EnDeCoding\Base64.cs" />
     <Compile Include="Crypt\EnDeCoding\EncodingType.cs" />
@@ -89,6 +92,7 @@
     <Compile Include="Crypt\EnDeCoding\Xx.cs" />
     <Compile Include="Crypt\Hash\BCrypt.cs" />
     <Compile Include="Crypt\Hash\KeyHash.cs" />
+    <Compile Include="Crypt\Hash\KeyHashExtensions.cs" />
     <Compile Include="Crypt\Hash\MD5Sum.cs" />
     <Compile Include="Crypt\Hash\OpenBSDCrypt.cs" />
     <Compile Include="Crypt\Hash\SCrypt.cs" />

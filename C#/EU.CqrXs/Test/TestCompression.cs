@@ -121,7 +121,7 @@ namespace EU.CqrXs.Test
             EncodingType[] encodingTypes = new EncodingType[] { EncodingType.Uu, EncodingType.Xx, EncodingType.Base64, EncodingType.Hex32, EncodingType.Hex16, EncodingType.Ascii85 };
             string plainText = File.ReadAllText(fileTextTest);
             byte[] plainBytes = File.ReadAllBytes(fileByesTest);
-            KeyHash[] khs = KeyHash_Extensions.GetHashTypes();
+            KeyHash[] khs = KeyHashExtensions.GetHashTypes();
             int khcnt = 0;
             CipherPipe pipe = new CipherPipe(cipherEnums); //  new CipherPipe(Encoding.UTF8.GetBytes(Constants.AUTHOR_EMAIL), 0);
             foreach (EncodingType encType in encodingTypes)

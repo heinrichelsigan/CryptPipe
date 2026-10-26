@@ -152,7 +152,7 @@ namespace EU.CqrXs.Console
                         passKey = optStr;
                         break;
                     case OptEnum.Hash:
-                        keyHash = KeyHash_Extensions.GetKeyHashFromString(optStr);
+                        keyHash = KeyHashExtensions.GetKeyHashFromString(optStr);
                         break;
                     case OptEnum.CipherAlgos:
                         encryptOptLater = optStr;

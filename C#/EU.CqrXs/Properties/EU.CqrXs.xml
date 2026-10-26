@@ -4,15 +4,25 @@
         <name>EU.CqrXs</name>
     </assembly>
     <members>
-        <member name="T:EU.CqrXs.Crypt.CException">
+        <member name="T:EU.CqrXs.Crypt.Cipher.CipherEnumExtensions">
             <summary>
-            CException a generic app level Exception derived from <see cref="T:System.ApplicationException"/>
-            provides a <see cref="P:EU.CqrXs.Crypt.CException.LastException"/> chain list to the root of first runtime exception
-            <see cref="T:System.DateTime"/> <see cref="P:EU.CqrXs.Crypt.CException.TimeStampException"/>, when the Exception was thrown
-            <see cref="P:EU.CqrXs.Crypt.CException.LastException"/> a property, that stores the Exception in <see cref="M:System.AppDomain.SetData(System.String,System.Object)"/> on set
-            and getss the last Exception during starting this instance via <see cref="M:System.AppDomain.GetData(System.String)" />
-            For root first Exception <see cref="P:EU.CqrXs.Crypt.CException.LastException"/> is always <see cref="T:null"/>
+            Extensions methods for <see cref="T:EU.CqrXs.Crypt.Cipher.CipherEnum"/>
             </summary>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.CipherEnumExtensions.GetCipherChar(EU.CqrXs.Crypt.Cipher.CipherEnum)">
+            <summary>
+            Extensions method for Enum <see cref="T:EU.CqrXs.Crypt.Cipher.CipherEnum"/>
+            gets a character for each Cipher Algorithm, that is used here
+            </summary>
+            <param name="cipher">this <see cref="T:EU.CqrXs.Crypt.Cipher.CipherEnum"/> extension</param>
+            <returns>a <see cref="T:System.Char"/>, that is a short name for the encryption</returns>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.CipherEnumExtensions.ParsePipeText(System.String)">
+            <summary>
+            parses pipe semicolon separated pipe string to CipherList
+            </summary>
+            <param name="pipeText">semicolon separated pipe string to CipherList </param>
+            <returns><see cref="T:CipherEnum[]"/> array of ciphers for the pipe</returns>
         </member>
         <member name="T:EU.CqrXs.Crypt.Cipher.Asymmetric.DH">
             <summary>
@@ -178,26 +188,6 @@
             <summary>
             CipherEnum maps BlockCipher algorithms <see cref="T:Org.BouncyCastle.Crypto.IBlockCipher"/>
             </summary>
-        </member>
-        <member name="T:EU.CqrXs.Crypt.Cipher.CipherEnumExtensions">
-            <summary>
-            Extensions methods for <see cref="T:EU.CqrXs.Crypt.Cipher.CipherEnum"/>
-            </summary>
-        </member>
-        <member name="M:EU.CqrXs.Crypt.Cipher.CipherEnumExtensions.GetCipherChar(EU.CqrXs.Crypt.Cipher.CipherEnum)">
-            <summary>
-            Extensions method for Enum <see cref="T:EU.CqrXs.Crypt.Cipher.CipherEnum"/>
-            gets a character for each Cipher Algorithm, that is used here
-            </summary>
-            <param name="cipher">this <see cref="T:EU.CqrXs.Crypt.Cipher.CipherEnum"/> extension</param>
-            <returns>a <see cref="T:System.Char"/>, that is a short name for the encryption</returns>
-        </member>
-        <member name="M:EU.CqrXs.Crypt.Cipher.CipherEnumExtensions.ParsePipeText(System.String)">
-            <summary>
-            parses pipe semicolon separated pipe string to CipherList
-            </summary>
-            <param name="pipeText">semicolon separated pipe string to CipherList </param>
-            <returns><see cref="T:CipherEnum[]"/> array of ciphers for the pipe</returns>
         </member>
         <member name="T:EU.CqrXs.Crypt.Cipher.CipherPipe">
             <summary>
@@ -1598,6 +1588,16 @@
             <param name="cmode2"></param>
             <returns>transformed byte array</returns>
         </member>
+        <member name="T:EU.CqrXs.Crypt.CException">
+            <summary>
+            CException a generic app level Exception derived from <see cref="T:System.ApplicationException"/>
+            provides a <see cref="P:EU.CqrXs.Crypt.CException.LastException"/> chain list to the root of first runtime exception
+            <see cref="T:System.DateTime"/> <see cref="P:EU.CqrXs.Crypt.CException.TimeStampException"/>, when the Exception was thrown
+            <see cref="P:EU.CqrXs.Crypt.CException.LastException"/> a property, that stores the Exception in <see cref="M:System.AppDomain.SetData(System.String,System.Object)"/> on set
+            and getss the last Exception during starting this instance via <see cref="M:System.AppDomain.GetData(System.String)" />
+            For root first Exception <see cref="P:EU.CqrXs.Crypt.CException.LastException"/> is always <see cref="T:null"/>
+            </summary>
+        </member>
         <member name="T:EU.CqrXs.Crypt.EnDeCoding.Base16">
             <summary>
             RawString hexadecimal byte encoding / decoding
@@ -1715,6 +1715,18 @@
             <param name="data">binary data in byte array to convert</param>
             <param name="padOutput">block padding with =</param>
             <returns>Ascii85 encoded string</returns>
+        </member>
+        <member name="T:EU.CqrXs.Crypt.EnDeCoding.EncodingTypesExtensions">
+            <summary>
+            Extension methods for <see cref="T:EncodingType"/>
+            </summary>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.EnDeCoding.EncodingTypesExtensions.GetEncodingTypes(System.Boolean)">
+            <summary>
+            GetEncodingTypes get all Encping types 
+            </summary>
+            <param name="ignoreNone">if true <see cref="F:EU.CqrXs.Crypt.EnDeCoding.EncodingType.None"/> will be ignored</param>
+            <returns>Array of all encoding types maybe without None</returns>
         </member>
         <member name="T:EU.CqrXs.Crypt.EnDeCoding.Hex64">
             <summary>
@@ -2108,7 +2120,12 @@
             KeyHash 
             </summary>
         </member>
-        <member name="M:EU.CqrXs.Crypt.Hash.KeyHash_Extensions.GetKeyFromBaseBytes(System.Byte[],System.Int32)">
+        <member name="T:EU.CqrXs.Crypt.Hash.KeyHashExtensions">
+            <summary>
+            Extensions methods for <see cref="T:KeyHash"/>
+            </summary>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Hash.KeyHashExtensions.GetKeyFromBaseBytes(System.Byte[],System.Int32)">
             <summary>
             GetKeyFromBaseBytes Extension method for byte[] baseBytes
             </summary>
@@ -2228,6 +2245,196 @@
             <param name="stream">stream strm</param>
             <param name="fileName">optional filename to add after hash</param>
             <returns>Sha512 hash with optional fileName</returns>
+        </member>
+        <member name="T:EU.CqrXs.Zip.ZipTypeExtensions">
+            <summary>
+            Extension methods for <see cref="T:ZipType"/>
+            </summary>
+        </member>
+        <member name="M:EU.CqrXs.Zip.ZipTypeExtensions.Zip(EU.CqrXs.Zip.ZipType,System.Byte[])">
+            <summary>
+            Generic zip extension method for <see cref="T:EU.CqrXs.Zip.ZipType"/>
+            </summary>
+            <param name="inBytes"></param>
+            <returns>zipped bytes</returns>
+        </member>
+        <member name="M:EU.CqrXs.Zip.ZipTypeExtensions.Unzip(EU.CqrXs.Zip.ZipType,System.Byte[])">
+            <summary>
+            Generic unzip extension method for <see cref="T:EU.CqrXs.Zip.ZipType"/>
+            </summary>
+            <param name="zipType">this the <see cref="T:EU.CqrXs.Zip.ZipType"/></param>
+            <param name="compressedBytes"></param>
+            <returns>decompressed bytes</returns>
+        </member>
+        <member name="T:EU.CqrXs.Zip.BZip2">
+            <summary>
+            static class BZip2 provides bzip2 and bunzip2 functionality
+            </summary>
+        </member>
+        <member name="M:EU.CqrXs.Zip.BZip2.BZip(System.Byte[],System.Int32)">
+            <summary>
+            BZip transfdorms uncompressed <see cref="T:yte[]">byte[] inBytes</see> to <see cref="T:byte[]">bzip2 compressed (byte[])bytes</see>
+            </summary>
+            <param name="inBytes"> <see cref="T:byte[]">bytes</see> ready to compress</param>
+            <param name="compressionLevel">level of compression: 
+             1  ... for at least no compression, 
+            4,5 ... for average compression
+             9  ... for strongest bzip2 compression, generating smallest most compact output 
+            </param>
+            <returns><see cref="T:byte[]?">byte[] bzip2 compressed out bytes</see></returns>
+        </member>
+        <member name="M:EU.CqrXs.Zip.BZip2.BZip2Stream(System.IO.MemoryStream,System.Boolean,System.Int32)">
+            <summary>
+            BZip2Stream bzip2 data on a  a <see cref="T:System.IO.MemoryStream">Memorystream memIn</see>
+            and write bzip2 compressed data on <see cref="T:System.IO.MemoryStream">MemoryStream memOut</see>
+            </summary>
+            <param name="memIn"><see cref="T:System.IO.MemoryStream">Memorystream containg data to compress</see></param>
+            <param name="closeDisposeMemIn">if true, parameter passed <see cref="T:System.IO.MemoryStream">memIn</see> will be closed and disppsed 
+            after compressed data are written to <see cref="T:System.IO.MemoryStream">MemoryStream memOut</see>, which will be returned</param>
+            <param name="compressionLevel">level of compression: 
+             1  ... for at least no compression, 
+            4,5 ... for average compression
+             9  ... for strongest bzip2 compression, generating smallest most compact output 
+            </param>
+            <returns><see cref="T:System.IO.MemoryStream">MemoryStream memOut containing bzip2 compressed data</see></returns>
+        </member>
+        <member name="M:EU.CqrXs.Zip.BZip2.BZip2Bytes(System.Byte[],System.Int32)">
+            <summary>
+            BZip2Bytes bzip2 <see cref="T:byte[]">byte[] inBytes</see> 
+            and write bzip2 compressed data <see cref="T:byte[]">byte[] outBytes</see> 
+            </summary>
+            <param name="inBytes"><see cref="T:byte[]">byte[] inBytes, containing data to compress with bzip2</see></param>
+            <param name="compressionLevel">level of compression: 
+             1  ... for at least no compression, 
+            4,5 ... for average compression
+             9  ... for strongest bzip2 compression, generating smallest most compact output 
+            </param>
+            <returns><see cref="T:byte[]">byte[] outBytes</see> containing bzip2 compressed data of / from <see cref="T:byte[]">byte[] outBytes</see></returns>
+        </member>
+        <member name="M:EU.CqrXs.Zip.BZip2.BZip2TextAndEncode(System.String,System.Int32,EU.CqrXs.Crypt.EnDeCoding.EncodingType)">
+            <summary>
+            BZips a string and returns it as hex16, hex32, base32, base64 (default) or uuencoded string
+            </summary>
+            <param name="inText"></param>
+            <param name="compressionLevel"></param>
+            <param name="encType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EU.CqrXs.Zip.BZip2.BUnZip(System.Byte[])">
+            <summary>
+            BUnZips compressed <see cref="T:byte[]">byte[] inBytes</see> 
+            and returns the decompressed bunzipped <see cref="T:byte[]?" />.
+            </summary>
+            <param name="inBytes">compressed / bzipped <see cref="T:byte[]">byte[] inBytes</see></param>
+            <returns>decompressed bunzipped <see cref="T:byte[]?">byte[]?</see></returns>
+        </member>
+        <member name="M:EU.CqrXs.Zip.BZip2.BUnZip2Stream(System.IO.MemoryStream,System.Boolean)">
+            <summary>
+            BUnZip2Stream bunzip2 (= decompresses) data on a <see cref="T:System.IO.MemoryStream">Memorystream memIn</see>
+            and writes decompressed unzipped data to <see cref="T:System.IO.MemoryStream">MemoryStream memOut</see>
+            </summary>
+            <param name="memIn"><see cref="T:System.IO.MemoryStream">Memorystream containg bzip2 compressed / zipped data to decompress</see></param>        
+            <param name="closeDisposeMemIn">if true, parameter passed <see cref="T:System.IO.MemoryStream">memIn</see> will be closed and disppsed 
+            after compressed data are written to <see cref="T:System.IO.MemoryStream">MemoryStream memOut</see>, which will be returned</param>
+            <returns><see cref="T:System.IO.MemoryStream">MemoryStream memOut containing bunzip2 decompressed / unzipped data</see></returns>
+        </member>
+        <member name="M:EU.CqrXs.Zip.BZip2.BUnZip2Bytes(System.Byte[])">
+            <summary>
+            BUnZip2Bytes bunzips <see cref="T:byte[]">byte[] inBytes</see> and writes
+            decompressed unzipped data to <see cref="T:byte[]">byte[] outBytes</see> 
+            </summary>
+            <param name="inBytes"><see cref="T:byte[]">byte[] inBytes, containing bzip2 compressed data</see></param>
+            <returns><see cref="T:byte[]">byte[] outBytes</see> containing bunzipped / decompressed data from <see cref="T:byte[]">byte[] inBytes</see></returns>
+        </member>
+        <member name="M:EU.CqrXs.Zip.BZip2.BzFile(System.String,System.String@,System.String,System.Boolean,System.Int32)">
+            <summary>
+            BzFile bzips or bunzips a file
+            </summary>
+            <param name="inFile"><see cref="T:System.String">full (unc) filepath to file</see></param>
+            <param name="outMessage">string with information, what happend</param>
+            <param name="outFile"><see cref="T:System.String"/>full (unc) filepath to outfile,
+            if keept empty, .bz2 will be added after compression and .bz|.bz2 will be removed after decompressing bzip'd file.</param>
+            <param name="zip"><see cref="T:System.Boolean">(bool)true for bzip2, (bool)false for bunzip2 (bzip2 -d)</see></param>
+            <param name="compressionLevel">level of compression: 
+             1  ... for at least no compression, 
+            4,5 ... for average compression
+             9  ... for strongest bzip2 compression, generating smallest most compact output 
+            </param>
+            <returns><see cref="T:System.String">string name of processed (bzipped/bunzipped) file</see></returns>
+        </member>
+        <member name="T:EU.CqrXs.Zip.GZ">
+            <summary>
+            abstraction of gnu zip gzip compression and decompression
+            </summary>
+        </member>
+        <member name="M:EU.CqrXs.Zip.GZ.GZip(System.Byte[],System.Int32)">
+            <summary>
+            GZip directly
+            </summary>
+            <param name="inBytes"><see cref="T:byte[]">inBytes</see></param>
+            <param name="compressionLevel">level of compression: 
+             1  ... for at least no compression, 
+            4,5 ... for average compression
+             9  ... for strongest bzip2 compression, generating smallest most compact output 
+            </param>
+            <returns><see cref="T:byte[]"/> outbytes</returns>
+        </member>
+        <member name="M:EU.CqrXs.Zip.GZ.GZipStream(System.IO.MemoryStream)">
+            <summary>
+            GZipStream 
+            </summary>
+            <param name="inMem"><see cref="T:System.IO.MemoryStream"/> inMem</param>
+            <returns><see cref="T:System.IO.MemoryStream"/> outMem</returns>
+        </member>
+        <member name="M:EU.CqrXs.Zip.GZ.GUnZip(System.Byte[])">
+            <summary>
+            GUnZip
+            </summary>
+            <param name="inBytes"><see cref="T:byte[]"/> inBytes</param>
+            <returns><see cref="T:byte[]"/> outbytes</returns>
+        </member>
+        <member name="M:EU.CqrXs.Zip.GZ.GUnZipBytes(System.Byte[])">
+            <summary>
+            GUnZipBytes
+            </summary>
+            <param name="inBytes"><see cref="T:byte[]"/> inBytes</param>
+            <returns><see cref="T:byte[]"/> outbytes</returns>
+        </member>
+        <member name="M:EU.CqrXs.Zip.GZ.GzFile(System.String,System.String@,System.String,System.Boolean,System.Int32)">
+            <summary>
+            GzFile gzips or gunzips a file
+            </summary>
+            <param name="inFile"><see cref="T:System.String">full (unc) filepath to file</see></param>
+            <param name="outMessage">string with information, what happend</param>
+            <param name="outFile"><see cref="T:System.String"/>full (unc) filepath to outfile,
+            if keept empty, .gz will be added after compression and .gz will be removed after decompressing gzip'd file.</param>
+            <param name="zip"><see cref="T:System.Boolean">(bool)true for gzip, (bool)false for gunzip</see></param>
+            <param name="compressionLevel">level of compression: 
+             1  ... for at least no compression, 
+            4,5 ... for average compression
+             9  ... for strongest bzip2 compression, generating smallest most compact output 
+            </param>
+            <returns><see cref="T:System.String">string name of processed (gzipped/gunzipped) file</see></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="T:EU.CqrXs.Zip.WinZip">
+            <summary>
+            WinZip 
+            </summary>
+        </member>
+        <member name="M:EU.CqrXs.Zip.WinZip.Zip(System.Byte[],System.String)">
+            <summary>
+            Zip zips a byte array and returns the zipped byte array.
+            </summary>
+            <param name="inBytes">input byte[] array</param>
+            <returns>compressed byte[] array</returns>
+        </member>
+        <member name="M:EU.CqrXs.Zip.WinZip.UnZip(System.Byte[])">
+            <summary>
+            Unzip unzips a zip compressed byte array and returns the unzipped byte array.
+            </summary>
+            <param name="inBytes">compressed byte[] array</param>
+            <returns>unzipped byte[] array</returns>
         </member>
         <member name="T:EU.CqrXs.Properties.Resource">
             <summary>
@@ -3295,191 +3502,6 @@
             </summary>
             <param name="hex">hexadecimal rgb string with starting #</param>
             <returns>Color, that was defined by hexadecimal rgb string</returns>
-        </member>
-        <member name="T:EU.CqrXs.Zip.BZip2">
-            <summary>
-            static class BZip2 provides bzip2 and bunzip2 functionality
-            </summary>
-        </member>
-        <member name="M:EU.CqrXs.Zip.BZip2.BZip(System.Byte[],System.Int32)">
-            <summary>
-            BZip transfdorms uncompressed <see cref="T:yte[]">byte[] inBytes</see> to <see cref="T:byte[]">bzip2 compressed (byte[])bytes</see>
-            </summary>
-            <param name="inBytes"> <see cref="T:byte[]">bytes</see> ready to compress</param>
-            <param name="compressionLevel">level of compression: 
-             1  ... for at least no compression, 
-            4,5 ... for average compression
-             9  ... for strongest bzip2 compression, generating smallest most compact output 
-            </param>
-            <returns><see cref="T:byte[]?">byte[] bzip2 compressed out bytes</see></returns>
-        </member>
-        <member name="M:EU.CqrXs.Zip.BZip2.BZip2Stream(System.IO.MemoryStream,System.Boolean,System.Int32)">
-            <summary>
-            BZip2Stream bzip2 data on a  a <see cref="T:System.IO.MemoryStream">Memorystream memIn</see>
-            and write bzip2 compressed data on <see cref="T:System.IO.MemoryStream">MemoryStream memOut</see>
-            </summary>
-            <param name="memIn"><see cref="T:System.IO.MemoryStream">Memorystream containg data to compress</see></param>
-            <param name="closeDisposeMemIn">if true, parameter passed <see cref="T:System.IO.MemoryStream">memIn</see> will be closed and disppsed 
-            after compressed data are written to <see cref="T:System.IO.MemoryStream">MemoryStream memOut</see>, which will be returned</param>
-            <param name="compressionLevel">level of compression: 
-             1  ... for at least no compression, 
-            4,5 ... for average compression
-             9  ... for strongest bzip2 compression, generating smallest most compact output 
-            </param>
-            <returns><see cref="T:System.IO.MemoryStream">MemoryStream memOut containing bzip2 compressed data</see></returns>
-        </member>
-        <member name="M:EU.CqrXs.Zip.BZip2.BZip2Bytes(System.Byte[],System.Int32)">
-            <summary>
-            BZip2Bytes bzip2 <see cref="T:byte[]">byte[] inBytes</see> 
-            and write bzip2 compressed data <see cref="T:byte[]">byte[] outBytes</see> 
-            </summary>
-            <param name="inBytes"><see cref="T:byte[]">byte[] inBytes, containing data to compress with bzip2</see></param>
-            <param name="compressionLevel">level of compression: 
-             1  ... for at least no compression, 
-            4,5 ... for average compression
-             9  ... for strongest bzip2 compression, generating smallest most compact output 
-            </param>
-            <returns><see cref="T:byte[]">byte[] outBytes</see> containing bzip2 compressed data of / from <see cref="T:byte[]">byte[] outBytes</see></returns>
-        </member>
-        <member name="M:EU.CqrXs.Zip.BZip2.BZip2TextAndEncode(System.String,System.Int32,EU.CqrXs.Crypt.EnDeCoding.EncodingType)">
-            <summary>
-            BZips a string and returns it as hex16, hex32, base32, base64 (default) or uuencoded string
-            </summary>
-            <param name="inText"></param>
-            <param name="compressionLevel"></param>
-            <param name="encType"></param>
-            <returns></returns>
-        </member>
-        <member name="M:EU.CqrXs.Zip.BZip2.BUnZip(System.Byte[])">
-            <summary>
-            BUnZips compressed <see cref="T:byte[]">byte[] inBytes</see> 
-            and returns the decompressed bunzipped <see cref="T:byte[]?" />.
-            </summary>
-            <param name="inBytes">compressed / bzipped <see cref="T:byte[]">byte[] inBytes</see></param>
-            <returns>decompressed bunzipped <see cref="T:byte[]?">byte[]?</see></returns>
-        </member>
-        <member name="M:EU.CqrXs.Zip.BZip2.BUnZip2Stream(System.IO.MemoryStream,System.Boolean)">
-            <summary>
-            BUnZip2Stream bunzip2 (= decompresses) data on a <see cref="T:System.IO.MemoryStream">Memorystream memIn</see>
-            and writes decompressed unzipped data to <see cref="T:System.IO.MemoryStream">MemoryStream memOut</see>
-            </summary>
-            <param name="memIn"><see cref="T:System.IO.MemoryStream">Memorystream containg bzip2 compressed / zipped data to decompress</see></param>        
-            <param name="closeDisposeMemIn">if true, parameter passed <see cref="T:System.IO.MemoryStream">memIn</see> will be closed and disppsed 
-            after compressed data are written to <see cref="T:System.IO.MemoryStream">MemoryStream memOut</see>, which will be returned</param>
-            <returns><see cref="T:System.IO.MemoryStream">MemoryStream memOut containing bunzip2 decompressed / unzipped data</see></returns>
-        </member>
-        <member name="M:EU.CqrXs.Zip.BZip2.BUnZip2Bytes(System.Byte[])">
-            <summary>
-            BUnZip2Bytes bunzips <see cref="T:byte[]">byte[] inBytes</see> and writes
-            decompressed unzipped data to <see cref="T:byte[]">byte[] outBytes</see> 
-            </summary>
-            <param name="inBytes"><see cref="T:byte[]">byte[] inBytes, containing bzip2 compressed data</see></param>
-            <returns><see cref="T:byte[]">byte[] outBytes</see> containing bunzipped / decompressed data from <see cref="T:byte[]">byte[] inBytes</see></returns>
-        </member>
-        <member name="M:EU.CqrXs.Zip.BZip2.BzFile(System.String,System.String@,System.String,System.Boolean,System.Int32)">
-            <summary>
-            BzFile bzips or bunzips a file
-            </summary>
-            <param name="inFile"><see cref="T:System.String">full (unc) filepath to file</see></param>
-            <param name="outMessage">string with information, what happend</param>
-            <param name="outFile"><see cref="T:System.String"/>full (unc) filepath to outfile,
-            if keept empty, .bz2 will be added after compression and .bz|.bz2 will be removed after decompressing bzip'd file.</param>
-            <param name="zip"><see cref="T:System.Boolean">(bool)true for bzip2, (bool)false for bunzip2 (bzip2 -d)</see></param>
-            <param name="compressionLevel">level of compression: 
-             1  ... for at least no compression, 
-            4,5 ... for average compression
-             9  ... for strongest bzip2 compression, generating smallest most compact output 
-            </param>
-            <returns><see cref="T:System.String">string name of processed (bzipped/bunzipped) file</see></returns>
-        </member>
-        <member name="T:EU.CqrXs.Zip.GZ">
-            <summary>
-            abstraction of gnu zip gzip compression and decompression
-            </summary>
-        </member>
-        <member name="M:EU.CqrXs.Zip.GZ.GZip(System.Byte[],System.Int32)">
-            <summary>
-            GZip directly
-            </summary>
-            <param name="inBytes"><see cref="T:byte[]">inBytes</see></param>
-            <param name="compressionLevel">level of compression: 
-             1  ... for at least no compression, 
-            4,5 ... for average compression
-             9  ... for strongest bzip2 compression, generating smallest most compact output 
-            </param>
-            <returns><see cref="T:byte[]"/> outbytes</returns>
-        </member>
-        <member name="M:EU.CqrXs.Zip.GZ.GZipStream(System.IO.MemoryStream)">
-            <summary>
-            GZipStream 
-            </summary>
-            <param name="inMem"><see cref="T:System.IO.MemoryStream"/> inMem</param>
-            <returns><see cref="T:System.IO.MemoryStream"/> outMem</returns>
-        </member>
-        <member name="M:EU.CqrXs.Zip.GZ.GUnZip(System.Byte[])">
-            <summary>
-            GUnZip
-            </summary>
-            <param name="inBytes"><see cref="T:byte[]"/> inBytes</param>
-            <returns><see cref="T:byte[]"/> outbytes</returns>
-        </member>
-        <member name="M:EU.CqrXs.Zip.GZ.GUnZipBytes(System.Byte[])">
-            <summary>
-            GUnZipBytes
-            </summary>
-            <param name="inBytes"><see cref="T:byte[]"/> inBytes</param>
-            <returns><see cref="T:byte[]"/> outbytes</returns>
-        </member>
-        <member name="M:EU.CqrXs.Zip.GZ.GzFile(System.String,System.String@,System.String,System.Boolean,System.Int32)">
-            <summary>
-            GzFile gzips or gunzips a file
-            </summary>
-            <param name="inFile"><see cref="T:System.String">full (unc) filepath to file</see></param>
-            <param name="outMessage">string with information, what happend</param>
-            <param name="outFile"><see cref="T:System.String"/>full (unc) filepath to outfile,
-            if keept empty, .gz will be added after compression and .gz will be removed after decompressing gzip'd file.</param>
-            <param name="zip"><see cref="T:System.Boolean">(bool)true for gzip, (bool)false for gunzip</see></param>
-            <param name="compressionLevel">level of compression: 
-             1  ... for at least no compression, 
-            4,5 ... for average compression
-             9  ... for strongest bzip2 compression, generating smallest most compact output 
-            </param>
-            <returns><see cref="T:System.String">string name of processed (gzipped/gunzipped) file</see></returns>
-            <exception cref="T:System.ArgumentNullException"></exception>
-        </member>
-        <member name="T:EU.CqrXs.Zip.WinZip">
-            <summary>
-            WinZip 
-            </summary>
-        </member>
-        <member name="M:EU.CqrXs.Zip.WinZip.Zip(System.Byte[],System.String)">
-            <summary>
-            Zip zips a byte array and returns the zipped byte array.
-            </summary>
-            <param name="inBytes">input byte[] array</param>
-            <returns>compressed byte[] array</returns>
-        </member>
-        <member name="M:EU.CqrXs.Zip.WinZip.UnZip(System.Byte[])">
-            <summary>
-            Unzip unzips a zip compressed byte array and returns the unzipped byte array.
-            </summary>
-            <param name="inBytes">compressed byte[] array</param>
-            <returns>unzipped byte[] array</returns>
-        </member>
-        <member name="M:EU.CqrXs.Zip.ZipTypeExtensions.Zip(EU.CqrXs.Zip.ZipType,System.Byte[])">
-            <summary>
-            Generic zip extension method for <see cref="T:EU.CqrXs.Zip.ZipType"/>
-            </summary>
-            <param name="inBytes"></param>
-            <returns>zipped bytes</returns>
-        </member>
-        <member name="M:EU.CqrXs.Zip.ZipTypeExtensions.Unzip(EU.CqrXs.Zip.ZipType,System.Byte[])">
-            <summary>
-            Generic unzip extension method for <see cref="T:EU.CqrXs.Zip.ZipType"/>
-            </summary>
-            <param name="zipType">this the <see cref="T:EU.CqrXs.Zip.ZipType"/></param>
-            <param name="compressedBytes"></param>
-            <returns>decompressed bytes</returns>
         </member>
     </members>
 </doc>

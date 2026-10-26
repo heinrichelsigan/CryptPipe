@@ -83,8 +83,7 @@ namespace EU.CqrXs.Spooler
         static string passKey = "";
         static readonly ZipType[] ZipTypes = { ZipType.None, ZipType.GZip, ZipType.BZip2, ZipType.Zip };
         static ZipType zipType = ZipType.None;
-        static readonly EncodingType[] AsciiEncoders = { EncodingType.Hex16, EncodingType.Base16, EncodingType.Base32, 
-                                                EncodingType.Uu, EncodingType.Xx, EncodingType.Hex64, EncodingType.Base64 };
+        private static readonly EncodingType[] AsciiEncoders = EncodingTypesExtensions.GetEncodingTypes(true);
         static EncodingType encodingType = EncodingType.None;
         static readonly KeyHash[] KeyHashes = { KeyHash.BCrypt, KeyHash.Blake2xs, KeyHash.CShake, KeyHash.Dstu7564,
                                                 KeyHash.Hex, KeyHash.MD5, KeyHash.Oct, KeyHash.OpenBSDCrypt, 

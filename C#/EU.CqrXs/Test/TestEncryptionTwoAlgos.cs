@@ -60,7 +60,7 @@ namespace EU.CqrXs.Test
             CipherEnum[] cipherEnums = CipherEnumExtensions.GetCipherTypes();
             ZipType[] zTypes = new ZipType[] { ZipType.None, ZipType.Zip, ZipType.GZip, ZipType.BZip2 };
             KeyHash kHash = KeyHash.Hex;
-            KeyHash[] kHashes = KeyHash_Extensions.GetHashTypes();
+            KeyHash[] kHashes = KeyHashExtensions.GetHashTypes();
             ZipType zType;
             EncodingType[] encodingTypes = EncodingTypesExtensions.GetEncodingTypes();
             EncodingType encType = EncodingType.Base64;
@@ -155,7 +155,7 @@ namespace EU.CqrXs.Test
             CipherEnum[] cipherEnums = CipherEnumExtensions.GetCipherTypes();
             ZipType[] zTypes = new ZipType[] { ZipType.None, ZipType.Zip, ZipType.GZip, ZipType.BZip2 };
             KeyHash kHash;
-            KeyHash[] kHashes = KeyHash_Extensions.GetHashTypes();
+            KeyHash[] kHashes = KeyHashExtensions.GetHashTypes();
             ZipType zType;
             EncodingType[] encodingTypes = new EncodingType[] { EncodingType.Uu, EncodingType.Xx, EncodingType.Base64, EncodingType.Hex32, EncodingType.Hex16 };
             EncodingType encType;         
