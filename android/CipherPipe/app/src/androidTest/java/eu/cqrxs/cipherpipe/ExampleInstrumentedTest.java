@@ -47,6 +47,7 @@ public class ExampleInstrumentedTest {
     public void testAllEncryptionTwoAlgosString() {
         String className = "TestEncryptionTwoAlgos";
         String methodBase = "TestAllEncryptionTwoAlgosBytes";
+        String encrpyted = "", decrpyted = "";
         Email = eu.cqrxs.util.Constants.AUTHOR_EMAIL;
 
         LocalDate currentDate = LocalDate.now();
@@ -91,19 +92,21 @@ public class ExampleInstrumentedTest {
 
             try {
                 startOp = LocalTime.now();
-                java.lang.String encrpyted = pipe.encrpytTextGoRounds(plainText,
+                encrpyted = pipe.encrpytTextGoRounds(plainText,
                         Email, kHash.hash(Email), encType, zType, kHash, cmode2);
                 assertNotNull(encrpyted);
 
                 midOp = LocalTime.now();
-                java.lang.String decrpyted = pipe.decryptTextRoundsGo(encrpyted,
+                decrpyted = pipe.decryptTextRoundsGo(encrpyted,
                         Email, kHash.hash(Email), encType, zType, kHash, cmode2);
-
                 endOp = LocalTime.now();
-                // String xxx = (endOp.minus(startOp)).toString();
 
                 assertEquals(plainText, decrpyted);
-
+                if (plainText.equals(decrpyted)) {
+                    eu.cqrxs.util.DbgWriter.msg(
+                    "Start: " + startOp + " Mid: " + midOp + " End: " + endOp,
+                        true);
+                }
 
             } catch (Exception e) {
                 eu.cqrxs.util.DbgWriter.msg(e.toString(), true);
