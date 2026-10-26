@@ -145,6 +145,8 @@ U:\source\PermAgainCrypt\Deploy\console\x86>
 
 # [Android](https://github.com/heinrichelsigan/PermAgainCrypt/tree/main/android)
 
+## [YouTube Video of apk]{https://youtube.com/shorts/Rbm7J4jz9OI}
+
 <img width="360" height="800" alt="Screenshot_20260202-081909" src="https://github.com/user-attachments/assets/69402018-f67e-40ad-987c-61a6ca925361" />
 
 
