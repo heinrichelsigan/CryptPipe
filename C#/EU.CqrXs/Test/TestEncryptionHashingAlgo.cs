@@ -14,8 +14,7 @@ namespace EU.CqrXs.Test
     [TestClass]
     public sealed class TestEncryptionHashingAlgo
     {
-        static string Email = Constants.AUTHOR_EMAIL;
-        private const int byte_delta_interval = 64;
+        private static string Email = Constants.AUTHOR_EMAIL;
 
         static TestEncryptionHashingAlgo()
         {
@@ -86,14 +85,14 @@ namespace EU.CqrXs.Test
                                             encType, zType, khane);
                     Assert.IsTrue(plainBytes != null && deCodedBytes != null && deCodedBytes.Length > 0 &&
                                   ((plainBytes.Length == deCodedBytes.Length) ||
-                                   Math.Abs(deCodedBytes.Length - plainBytes.Length) <= byte_delta_interval));
+                                   Math.Abs(deCodedBytes.Length - plainBytes.Length) <= Constants.PIPE_BYTES_DELTA));
 
                     endOp = DateTime.Now;
                     decOpTime = endOp.Subtract(midOp);
                     allOpTime = endOp.Subtract(startOp);
                   
                     if (deCodedBytes != null && deCodedBytes.Length > 0 &&
-                       (Math.Abs(deCodedBytes.LongLength - plainBytes.LongLength) > byte_delta_interval))
+                       (Math.Abs(deCodedBytes.LongLength - plainBytes.LongLength) > Constants.PIPE_BYTES_DELTA))
                     {
                         long difference = deCodedBytes.CompareBytes(plainBytes, true);
                         if (difference > 0)

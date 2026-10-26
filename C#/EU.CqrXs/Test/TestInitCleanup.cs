@@ -56,10 +56,16 @@ namespace EU.CqrXs.Test
         [TestInitialize]
         public void TestInit()
         {
-            string statdir = SystemDirPath;            
-            if (!string.IsNullOrEmpty(statdir) && Directory.Exists(statdir))
+            string tmp = Environment.GetEnvironmentVariable("TEMP");
+            if (string.IsNullOrEmpty(tmp) || !Directory.Exists(tmp))
+                tmp = Environment.GetEnvironmentVariable("TMP");
+            if (string.IsNullOrEmpty(tmp) || !Directory.Exists(tmp))
+                tmp = AppDomain.CurrentDomain.BaseDirectory;
+
+            string consoleDir = Path.Combine(tmp, Constants.APP_NAME_CONSOLE);
+            if (!string.IsNullOrEmpty(consoleDir) && Directory.Exists(consoleDir))
             {
-                foreach (string file in Directory.GetFiles(statdir, "*.csv"))
+                foreach (string file in Directory.GetFiles(consoleDir, "*.*"))
                 {
                     try
                     {
@@ -76,38 +82,27 @@ namespace EU.CqrXs.Test
         [TestCleanup]
         public void TestCleanup()
         {
-            // This method is called after each test method.
-            string[] files = { "2025-09-23_Stats.gif", "README.MD" };
-            string statdir = SystemDirPath;
-            
-            foreach (string filename in files)
+            string tmp = Environment.GetEnvironmentVariable("TEMP");
+            if (string.IsNullOrEmpty(tmp) || !Directory.Exists(tmp))
+                tmp = Environment.GetEnvironmentVariable("TMP");
+            if (string.IsNullOrEmpty(tmp) || !Directory.Exists(tmp))
+                tmp = AppDomain.CurrentDomain.BaseDirectory;
+
+            string consoleDir = Path.Combine(tmp, Constants.APP_NAME_CONSOLE);
+            if (!string.IsNullOrEmpty(consoleDir) && Directory.Exists(consoleDir))
             {
-                if (File.Exists(statdir + filename))
+                foreach (string file in Directory.GetFiles(consoleDir, "*.*"))
                 {
                     try
                     {
-                        File.Delete(statdir + filename);
+                        File.Delete(file);
                     }
                     catch (Exception exi)
                     {
-                        Area23Log.LogOriginMsg("TestInit", $"{exi.GetType().Name} deleting file {filename} " +
-                            $"in dir {statdir}: {exi.Message}", 2);
+                        Area23Log.LogOriginEx("TestInit", exi);
                     }
                 }
-            }            
-            foreach (string file in Directory.GetFiles(statdir, "*.csv"))
-            {
-                try
-                {
-                    File.Delete(file);
-                }
-                catch (Exception exi)
-                {
-                    Area23Log.LogOriginEx("TestInit", exi);
-                }
             }
-            Area23Log.LogOriginMsg("TestInitCleanup", "TestCleanup");
         }
-
     }
 }

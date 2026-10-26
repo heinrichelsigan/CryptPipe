@@ -14,8 +14,6 @@ namespace EU.CqrXs.Test
     [TestClass]
     public sealed class TestCipherPipes
     {
-        private const int byte_delta_interval = 256;
-
         [TestMethod]
         public void TestAllCipherPipes()
         {
@@ -71,10 +69,19 @@ namespace EU.CqrXs.Test
                 CipherPipe pipe = new CipherPipe(email, hashIv, encType, zType, kHash);
                 string pipeText = pipe.PipeString;
 
-                System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(pipe.GenerateEncryptPipeImage());
-                string saveFile = Path.Combine(consoleDir, $"{pipe.PipeString}.png");
-                bmp.Save(saveFile, System.Drawing.Imaging.ImageFormat.Png);
-
+                string saveFile = "";
+                if (Constants.WIN32)
+                {
+                    System.Drawing.Image bmp = new System.Drawing.Bitmap(pipe.GenerateEncryptPipeImage());
+                    saveFile = Path.Combine(consoleDir, $"{pipe.PipeString}.png");
+                    bmp.Save(saveFile, System.Drawing.Imaging.ImageFormat.Png);
+                }
+                else
+                {
+                    saveFile = Path.Combine(consoleDir, $"{pipe.PipeString}.png");
+                    File.Copy(fileByesTest, saveFile, true);
+                }
+                
                 Assert.IsTrue(File.Exists(saveFile));
 
                 byte[] plainBytes = File.ReadAllBytes(saveFile);
@@ -89,19 +96,21 @@ namespace EU.CqrXs.Test
                     encOpTime = midOp.Subtract(startOp);
                     byte[] deCodedBytes = pipe.DecodeDecrpytBytes(cipherBytes, email, hashIv, encType, zType, kHash);
                     Assert.IsTrue(plainBytes != null && deCodedBytes != null && deCodedBytes.Length > 0 &&
-                        (Math.Abs(deCodedBytes.Length - plainBytes.Length) <= byte_delta_interval));
+                        (Math.Abs(deCodedBytes.Length - plainBytes.Length) <= Constants.PIPE_BYTES_DELTA_LARGE));
 
-                    Assert.IsTrue(plainBytes != null && deCodedBytes != null && deCodedBytes.Length > 0 && deCodedBytes.Length > 0 &&
-                        (Math.Abs(deCodedBytes.LongLength - plainBytes.LongLength) < byte_delta_interval) &&
-                        (plainBytes[0] == deCodedBytes[0] && plainBytes[1] == deCodedBytes[1] &&
-                            plainBytes[i + byte_delta_interval] == deCodedBytes[i + byte_delta_interval] && plainBytes[i + Constants.PIPE_MAX_LEN] == deCodedBytes[i + Constants.PIPE_MAX_LEN]));
+                    Assert.IsTrue(plainBytes != null && deCodedBytes != null && 
+                        deCodedBytes.Length > 0 && deCodedBytes.Length > 0 &&
+                        (Math.Abs(deCodedBytes.LongLength - plainBytes.LongLength) < Constants.PIPE_BYTES_DELTA_LARGE) &&
+                        plainBytes[0] == deCodedBytes[0] && plainBytes[1] == deCodedBytes[1] &&
+                        plainBytes[i + Constants.PIPE_BYTES_DELTA_LARGE] == deCodedBytes[i + Constants.PIPE_BYTES_DELTA_LARGE] && 
+                        plainBytes[i + Constants.PIPE_MAX_LEN] == deCodedBytes[i + Constants.PIPE_MAX_LEN]);
 
                     endOp = DateTime.Now;
                     decOpTime = endOp.Subtract(midOp);
                     allOpTime = endOp.Subtract(startOp);
 
                     if (deCodedBytes != null && deCodedBytes.Length > 0 &&
-                        (Math.Abs(deCodedBytes.LongLength - plainBytes.LongLength) > byte_delta_interval))
+                        (Math.Abs(deCodedBytes.LongLength - plainBytes.LongLength) > Constants.PIPE_BYTES_DELTA_LARGE))
                     {
                         long difference = deCodedBytes.CompareBytes(plainBytes, true);
                         if (difference > 0)

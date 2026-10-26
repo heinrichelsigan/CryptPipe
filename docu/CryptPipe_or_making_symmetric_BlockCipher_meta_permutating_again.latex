@@ -7,8 +7,8 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue]{hyperref}
-\usepackage{xcolor}
 \usepackage{color}
+\usepackage{xcolor}
 \usepackage[T1]{fontenc}
 \usepackage{geometry}
 \usepackage{hyperref}

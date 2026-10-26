@@ -223,6 +223,7 @@ namespace EU.CqrXs.Crypt.Cipher
             cipherHash = "";
         }
 
+        
         public SecureCipherPipe(CipherPipe ciphPipe) : this()
         {
             if (ciphPipe != null)

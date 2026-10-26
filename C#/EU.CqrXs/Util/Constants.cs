@@ -52,6 +52,12 @@ namespace EU.CqrXs.Util
         public const bool CQR_ENCRYPT = true;
         public const bool ZEN_MATRIX_SYMMETRIC = false;
 
+        public const int PIPE_BYTES_DELTA_TINY = 8;
+        public const int PIPE_BYTES_DELTA_SMALL = 16;
+        public const int PIPE_BYTES_DELTA = 64;
+        public const int PIPE_BYTES_DELTA_LARGE = 256;
+        public const int PIPE_BYTES_DELTA_HUGE = 1024;
+
         #endregion pipe constants
 
         #region Apo Dir Path File constants
@@ -111,8 +117,6 @@ namespace EU.CqrXs.Util
         public const string APPDIRPATHUNIX = "AppDirPathUnix";
 
         #endregion Apo Dir Path File constants
-
-       
 
         #region host and url constants
 
@@ -196,8 +200,7 @@ namespace EU.CqrXs.Util
         public const string SNULL = "(null)";
 
         #endregion generic and identifier constants
-
-
+        
 #pragma warning restore CA1707 // Identifiers should not contain underscores
         #endregion public const
        

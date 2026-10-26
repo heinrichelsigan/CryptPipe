@@ -118,12 +118,14 @@ namespace EU.CqrXs.Crypt.Cipher
             };
         }
 
-        public static CipherMode[] GetCipherModes()
+        public static CipherMode[] GetCipherModes(bool working = false)
         {
             List<CipherMode> list = new List<CipherMode>();
             foreach (string encName in Enum.GetNames(typeof(CipherMode)))
             {
-                list.Add((CipherMode)Enum.Parse(typeof(CipherMode), encName));
+                CipherMode cmode = (CipherMode)Enum.Parse(typeof(CipherMode), encName);
+                if (working && cmode != CipherMode.CTS && cmode != CipherMode.OFB)
+                    list.Add(cmode);
             }
 
             return list.ToArray();
@@ -147,12 +149,16 @@ namespace EU.CqrXs.Crypt.Cipher
         }
 
 
-        public static CipherMode2[] GetCipherModes2()
+        public static CipherMode2[] GetCipherModes2(bool working = false)
         {
             List<CipherMode2> list = new List<CipherMode2>();
             foreach (string encName in Enum.GetNames(typeof(CipherMode2)))
             {
-                list.Add((CipherMode2)Enum.Parse(typeof(CipherMode2), encName));
+                CipherMode2 cmode2 = (CipherMode2)Enum.Parse(typeof(CipherMode2), encName);
+                if (working &&   
+                        cmode2 != CipherMode2.CCM && cmode2 != CipherMode2.CTS &&
+                        cmode2 != CipherMode2.EAX && cmode2 != CipherMode2.GOFB)
+                    list.Add(cmode2);
             }
 
             return list.ToArray();

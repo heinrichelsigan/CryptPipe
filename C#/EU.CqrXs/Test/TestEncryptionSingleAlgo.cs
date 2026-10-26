@@ -14,7 +14,6 @@ namespace EU.CqrXs.Test
     [TestClass]
     public sealed class TestEncryptionSingleAlgo
     {
-        private const int byte_delta_interval = 16;
         internal static readonly string Email = Constants.AUTHOR_EMAIL;
 
         static TestEncryptionSingleAlgo()
@@ -84,14 +83,16 @@ namespace EU.CqrXs.Test
                     byte[] deCodedBytes = pipe.DecodeDecrpytBytes(cipherBytes, Email, KeyHash.Hex.Hash(Email),
                                             encType, zType, kHash);
                     Assert.IsTrue(plainBytes != null && deCodedBytes != null &&  deCodedBytes.Length > 0 && 
-                        ((plainBytes.Length == deCodedBytes.Length) || Math.Abs(deCodedBytes.Length - plainBytes.Length) <= byte_delta_interval));
+                        ((plainBytes.Length == deCodedBytes.Length) || 
+                         Math.Abs(deCodedBytes.Length - plainBytes.Length) <= Constants.PIPE_BYTES_DELTA_SMALL));
 
                     endOp = DateTime.Now;
                     decOpTime = endOp.Subtract(midOp);
                     allOpTime = endOp.Subtract(startOp);
 
                     if (deCodedBytes == null || deCodedBytes.Length < 1 ||
-                        (deCodedBytes.Length != plainBytes.Length && Math.Abs(deCodedBytes.Length - plainBytes.Length) > byte_delta_interval))
+                        (deCodedBytes.Length != plainBytes.Length && 
+                         Math.Abs(deCodedBytes.Length - plainBytes.Length) > Constants.PIPE_BYTES_DELTA_SMALL))
                     {
                         Console.WriteLine($"{cipherType} for {Email}\tencrypt in {encOpTime.ToString("ss'.'ffff")} \tdecrypt in {decOpTime.ToString("ss'.'ffff")} \ttotal {allOpTime.ToString("ss'.'ffff")} [failed]");
                         Console.WriteLine($"          \tdeCodedBytes.Length ({deCodedBytes.Length}) != plainBytes.Length ({plainBytes.Length})");
@@ -103,8 +104,6 @@ namespace EU.CqrXs.Test
                     //File.AppendAllText(fileCsvOut, 
                     //    $"{Path.GetFileName(fileBytesTest)},{size},{Email},{cipherType},{encOpTime.ToString("ss'.'ffff")},{decOpTime.ToString("ss'.'ffff")},{allOpTime.ToString("ss'.'ffff")}" +
                     //    Environment.NewLine);
-
-
                 }
                 catch (Exception e)
                 {

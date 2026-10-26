@@ -19,8 +19,7 @@ namespace EU.CqrXs.Test
     [TestClass]
     public sealed class TestEncryptionIVAlgos
     {
-        static string Email = Constants.AUTHOR_EMAIL;
-        private const int byte_delta_interval = 256;
+        private static string Email = Constants.AUTHOR_EMAIL;
         
         static TestEncryptionIVAlgos()
         {
@@ -96,9 +95,10 @@ namespace EU.CqrXs.Test
             chipherEList.RemoveAt(chipherEList.Count - 1)  ; // remove RSA
             CipherEnum[] cipherEnums = chipherEList.ToArray();
             ZipType[] zTypes = new ZipType[] { ZipType.BZip2, ZipType.GZip, ZipType.Zip, ZipType.None };
+            CipherMode2[] cModes = CipherModeExtensions.GetCipherModes2(true);
             KeyHash[] kHashes = KeyHash_Extensions.GetHashTypes();
             KeyHash kHash;
-            ZipType zType;
+            ZipType  zType = ZipType.None;
             EncodingType[] encodingTypes = EncodingTypesExtensions.GetEncodingTypes();
             EncodingType encType;            
             string plainText = File.ReadAllText(fileTextTest);            
@@ -110,35 +110,34 @@ namespace EU.CqrXs.Test
                 zType = zTypes[i % zTypes.Length];
                 kHash = kHashes[i % kHashes.Length];
 
-                for (int j = 0; j < 4; j++)
-                {
-                    //if (cipherEnums[j] == CipherEnum.Rsa)
-                    //    cipherEnums[j] = CipherEnum.Des3Net;
-                    zType = ZipType.None;
-                }
-
+                CipherMode2 cMode2 = cModes[i % cModes.Length];
                 CipherEnum[] cipherQuartupel = new CipherEnum[] { cipherEnums[i], cipherEnums[i + 1], cipherEnums[i + 2], cipherEnums[i + 3] };
-                CipherPipe pipe = new CipherPipe(cipherQuartupel, Constants.PIPE_MAX_LEN, encType, zType, kHash);
+                CipherPipe pipe = new CipherPipe(cipherQuartupel, Constants.PIPE_MAX_LEN, 
+                        encType, zType, kHash, cMode2);
                 byte[] plainBytes = File.ReadAllBytes(fileByesTest);
 
                 try
                 {
                     startOp = DateTime.Now;
-                    byte[] cipherBytes = pipe.EncryptEncodeBytes(plainBytes, Email, KeyHash.Hex.Hash(Email), encType, zType, kHash);
+                    byte[] cipherBytes = pipe.EncryptEncodeBytes(plainBytes, Email, KeyHash.Hex.Hash(Email), 
+                            encType, zType, kHash, cMode2);
 
                     Assert.IsNotNull(cipherBytes);
 
                     midOp = DateTime.Now;
                     encOpTime = midOp.Subtract(startOp);
-                    byte[] deCodedBytes = pipe.DecodeDecrpytBytes(cipherBytes, Email, KeyHash.Hex.Hash(Email), encType, zType, kHash);
+                    byte[] deCodedBytes = pipe.DecodeDecrpytBytes(cipherBytes, Email, KeyHash.Hex.Hash(Email),
+                        encType, zType, kHash, cMode2);
 
                     Assert.IsTrue(plainBytes != null && deCodedBytes != null && deCodedBytes.Length > 0 &&
-                                  (Math.Abs(deCodedBytes.Length - plainBytes.Length) <= byte_delta_interval));
+                                  (Math.Abs(deCodedBytes.Length - plainBytes.Length) <= Constants.PIPE_BYTES_DELTA));
                     
-                    Assert.IsTrue(plainBytes != null && deCodedBytes != null && deCodedBytes.Length > 0 && deCodedBytes.Length > 0 &&
-                                  (Math.Abs(deCodedBytes.LongLength - plainBytes.LongLength) < byte_delta_interval) &&
-                                  (plainBytes[0] == deCodedBytes[0] && plainBytes[1] == deCodedBytes[1] &&
-                                   plainBytes[i + byte_delta_interval] == deCodedBytes[i + byte_delta_interval] && plainBytes[i + Constants.PIPE_MAX_LEN] == deCodedBytes[i + Constants.PIPE_MAX_LEN]));
+                    Assert.IsTrue(plainBytes != null && deCodedBytes != null && 
+                        deCodedBytes.Length > 0 && deCodedBytes.Length > 0 &&
+                        Math.Abs(deCodedBytes.LongLength - plainBytes.LongLength) < Constants.PIPE_BYTES_DELTA &&
+                        plainBytes[0] == deCodedBytes[0] && plainBytes[1] == deCodedBytes[1] &&
+                        plainBytes[i + Constants.PIPE_BYTES_DELTA] == deCodedBytes[i + Constants.PIPE_BYTES_DELTA] && 
+                        plainBytes[i + Constants.PIPE_MAX_LEN] == deCodedBytes[i + Constants.PIPE_MAX_LEN]);
 
                     
                     endOp = DateTime.Now;
@@ -146,20 +145,20 @@ namespace EU.CqrXs.Test
                     allOpTime = endOp.Subtract(startOp);
 
                     if (deCodedBytes != null && deCodedBytes.Length > 0 &&
-                        (Math.Abs(deCodedBytes.LongLength - plainBytes.LongLength) > byte_delta_interval))
+                        (Math.Abs(deCodedBytes.LongLength - plainBytes.LongLength) > Constants.PIPE_BYTES_DELTA))
                     {
                         long difference = deCodedBytes.CompareBytes(plainBytes, true);
                         if (difference > 0)
                         {
                             Console.WriteLine(
-                                $"{cipherEnums[i]}=>{cipherEnums[i + 1]}=>{cipherEnums[i + 2]}=>{cipherEnums[i + 3]} for {Email} {zType} {encType} {kHash}\tencrypt in {encOpTime.ToString("ss'.'ffff")} \tdecrypt in {decOpTime.ToString("ss'.'ffff")} \ttotal {allOpTime.ToString("ss'.'ffff")} [failed]");
+                                $"{cipherEnums[i]}=>{cipherEnums[i + 1]}=>{cipherEnums[i + 2]}=>{cipherEnums[i + 3]} for {Email} {zType} {encType} {kHash} {cMode2}\tencrypt in {encOpTime.ToString("ss'.'ffff")} \tdecrypt in {decOpTime.ToString("ss'.'ffff")} \ttotal {allOpTime.ToString("ss'.'ffff")} [failed]");
                             Console.WriteLine(
                                 $"          \tdeCodedBytes.Length ({deCodedBytes.Length}) != plainBytes.Length ({plainBytes.Length})");
                             Assert.Fail();
                         }
                     }
                     double size = deCodedBytes.Length / (1024);
-                    Console.WriteLine($"{size}KB {cipherEnums[i]}=>{cipherEnums[i+1]}=>{cipherEnums[i+2]}=>{cipherEnums[i+3]} for {Email} {zType} {encType} {kHash}\tencrypt in {encOpTime.ToString("ss'.'ffff")} \tdecrypt in {decOpTime.ToString("ss'.'ffff")} \ttotal {allOpTime.ToString("ss'.'ffff")} [passed]");
+                    Console.WriteLine($"{size}KB {cipherEnums[i]}=>{cipherEnums[i+1]}=>{cipherEnums[i+2]}=>{cipherEnums[i+3]} for {Email} {zType} {encType} {kHash} {cMode2}\tencrypt in {encOpTime.ToString("ss'.'ffff")} \tdecrypt in {decOpTime.ToString("ss'.'ffff")} \ttotal {allOpTime.ToString("ss'.'ffff")} [passed]");
 
                 }
                 catch (Exception e)
@@ -171,7 +170,5 @@ namespace EU.CqrXs.Test
             Console.WriteLine($"{DateTime.Now.Area23DateTimeWithSeconds()} \t{className}.{methodBase}() \t[finished]");
             return;
         }
-
-
     }
 }
