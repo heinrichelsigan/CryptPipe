@@ -868,12 +868,12 @@ public class CipherPipe {
      * @return {@link Bitmap}
      */
     public Bitmap drawCipherPipe(Context context) {
-        String path = "eu/cqrxs/gui/img/";
+        // String path = "eu/cqrxs/gui/img/";
         Bitmap imgPipeBlank = BitmapFactory.decodeResource(context.getResources(), R.drawable.cipherpipeblank);
 
-        int xoffset = 0;
         int width = Constants.PIPE_IMG_WIDTH;
         int h = Constants.PIPE_IMG_HEIGHT, w = Constants.PIPE_IMG_WIDTH_OFFSET;
+        int xoffset = 0, zoffset = Constants.PIPE_IMG_WIDTH_OFFSET;
         Paint paint = new Paint();
 
         Bitmap combined = Bitmap.createBitmap(width, h, Bitmap.Config.ARGB_8888);
@@ -882,21 +882,21 @@ public class CipherPipe {
         // Canvas cv = new Canvas(imgPipeBlank);
 
         try {
+            Bitmap imgZ;
             if (getZipType() == ZipType.GZip) {
-                Bitmap imgGz = BitmapFactory.decodeResource(context.getResources(), R.drawable.gz);
-                Rect rectSrc = new Rect(0, 0, w, h);
-                Rect rectDest = new Rect(xoffset, 0, xoffset + w, h);
-                cv.drawBitmap(imgGz, rectSrc, rectDest, paint);
-                // cv.saveLayer(xoffset, 0, xoffset + w, h, paint);
-                xoffset += w;
+                imgZ = BitmapFactory.decodeResource(context.getResources(), R.drawable.gz);
+            } else if (getZipType() == ZipType.BZip2) {
+                imgZ = BitmapFactory.decodeResource(context.getResources(), R.drawable.bz2);
+            } else if (getZipType() == ZipType.Zip) {
+                imgZ = BitmapFactory.decodeResource(context.getResources(), R.drawable.zip);
             } else {
-                Bitmap imgStart = BitmapFactory.decodeResource(context.getResources(), R.drawable.pipestartblock);
-                Rect rectSrc = new Rect(0, 0, 32, h);
-                Rect rectDest = new Rect(xoffset, 0, xoffset + 32, h);
-                cv.drawBitmap(imgStart, rectSrc, rectDest, paint);
-                // cv.saveLayer(xoffset, 0, xoffset + 32, h, paint);
-                xoffset += 32;
+                imgZ = BitmapFactory.decodeResource(context.getResources(), R.drawable.pipestartblock);
+                zoffset = 32;
             }
+            Rect rectSrc = new Rect(0, 0, zoffset, h);
+            Rect rectDest = new Rect(xoffset, 0, xoffset + zoffset, h);
+            cv.drawBitmap(imgZ, rectSrc, rectDest, paint);
+            xoffset += zoffset;
         } catch (Exception exStart) {
             DbgWriter.msgex(exStart, true);
         }
@@ -981,8 +981,8 @@ public class CipherPipe {
         }
 
         // cv.saveLayer(0 , 0, xoffset, h, paint);
-        double sx = (double)((double)4/(double)10);
-        cv.scale((float)sx, (float)sx, (float)width, (float)h);
+        // double sx = (double)((double)4/(double)10);
+        // cv.scale((float)sx, (float)sx, (float)width, (float)h);
         cv.save();
         //  cv.setBitmap(combined);
         // Save as new image
@@ -1053,22 +1053,37 @@ public class CipherPipe {
             }
         }
 
-        if (getZipType() == ZipType.GZip) { // finish image with gunzip
-
-            Bitmap imgGz = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-            try {
-                imgGz = BitmapFactory.decodeResource(context.getResources(), R.drawable.gunzip);
-            } catch (Exception exImageGunzip) {
-                DbgWriter.msgex(exImageGunzip, true);
+        if (getZipType() != ZipType.None) {
+            Bitmap imgZ = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            if (getZipType() == ZipType.GZip) { // finish image with gunzip
+                try {
+                    imgZ = BitmapFactory.decodeResource(context.getResources(), R.drawable.gunzip);
+                } catch (Exception exImageGunzip) {
+                    DbgWriter.msgex(exImageGunzip, true);
+                }
+            }
+            else if (getZipType() == ZipType.BZip2) { // finish image with gunzip
+                try {
+                    imgZ = BitmapFactory.decodeResource(context.getResources(), R.drawable.bunzip2);
+                } catch (Exception exImageGunzip) {
+                    DbgWriter.msgex(exImageGunzip, true);
+                }
+            }
+            else if (getZipType() == ZipType.Zip) { // finish image with gunzip
+                try {
+                    imgZ = BitmapFactory.decodeResource(context.getResources(), R.drawable.unzip);
+                } catch (Exception exImageGunzip) {
+                    DbgWriter.msgex(exImageGunzip, true);
+                }
             }
             Rect rectSrc = new Rect(0, 0, w, h);
             Rect rectDest = new Rect(xoffset, 0, xoffset + w, h);
-            g.drawBitmap(imgGz, rectSrc, rectDest, null);
+            g.drawBitmap(imgZ, rectSrc, rectDest, null);
             xoffset += w;
         }
 
-        double sx = (double)((double)5/(double)10);
-        g.scale((float)sx, (float)sx, (float)width, (float)h);
+        // double sx = (double)((double)5/(double)10);
+        // g.scale((float)sx, (float)sx, (float)width, (float)h);
         g.save();
 
         // Save as new image

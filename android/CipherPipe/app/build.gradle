@@ -38,6 +38,8 @@ dependencies {
     implementation libs.constraintlayout
     implementation libs.fragment
     implementation libs.bcprov.jdk18on
+    implementation 'commons-io:commons-io:2.22.0'
+    implementation 'org.apache.commons:commons-compress:1.28.0'
     implementation libs.firebase.crashlytics.buildtools
     implementation libs.common
     testImplementation libs.junit

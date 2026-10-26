@@ -12,15 +12,7 @@
         android:tag="@string/f_cipherpipe"
         android:layout_width="612dp"
         android:layout_height="84dp">
-        <ImageView
-            android:id="@+id/imgViewCipherPipe"
-            android:layout_width="600dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="24dp"
-            android:scaleX="1"
-            android:scaleY="1"
-            android:src="@drawable/cipherpipeblank"
-            />
+
     </LinearLayout>
 
 	<GridLayout
@@ -30,8 +22,8 @@
 		android:columnWidth="200dp"
 		android:columnCount="2"
 		android:orientation="vertical"
-		android:rowCount="6"
-        android:layout_marginTop="84dp"
+		android:rowCount="7"
+        android:layout_marginTop="60dp"
 		android:stretchMode="columnWidth"
         tools:ignore="MissingConstraints">
 
@@ -41,7 +33,7 @@
 			android:layout_width="216dp"
 			android:layout_height="80dp"
 			android:orientation="vertical"
-            android:layout_marginTop="84dp"
+            android:layout_marginTop="60dp"
 			android:layout_row="0"
 			android:layout_column="0">
             <ImageButton
@@ -67,7 +59,7 @@
 			android:tag="@string/f_a1"
 			android:layout_width="184dp"
 			android:layout_height="80dp"
-            android:layout_marginTop="84dp"
+            android:layout_marginTop="60dp"
 			android:orientation="vertical"
 			android:layout_row="0"
 			android:layout_column="1">
@@ -299,7 +291,25 @@
                 android:text="@string/none"
                 android:textColorHint="@color/abc_primary_text_material_dark" />
 		</LinearLayout>
-
+        <LinearLayout
+            android:id="@+id/g0"
+            android:tag="@string/f_g0"
+            android:layout_width="match_parent"
+            android:layout_height="144dp"
+            android:orientation="vertical"
+            android:layout_row="6"
+            android:layout_columnSpan="2"
+            android:layout_column="0">
+            <ImageView
+                android:id="@+id/imgViewCipherPipe"
+                android:layout_width="600dp"
+                android:layout_height="84dp"
+                android:layout_marginTop="2dp"
+                android:scaleX="1"
+                android:scaleY="1"
+                android:src="@drawable/cipherpipeblank"
+                />
+        </LinearLayout>
 	</GridLayout>
 
 
