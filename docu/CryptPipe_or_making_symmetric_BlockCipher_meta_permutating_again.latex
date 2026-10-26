@@ -7,8 +7,8 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue]{hyperref}
-\usepackage{color}
 \usepackage{xcolor}
+\usepackage{color}
 \usepackage[T1]{fontenc}
 \usepackage{geometry}
 \usepackage{hyperref}
@@ -157,7 +157,7 @@ TextArea Destination.
 
 \subsection{Documentation of WinForm}
 
-You can also go directly to \href{https://github.com/heinrichelsigan/PermAgainCrypt/releases}{github.com/heinrichelsigan/PermAgainCrypt/releases} to download newest Gui Form x86 and x64.
+You can also go directly to \href{https://github.com/heinrichelsigan/CryptPipe/releases}{github.com/heinrichelsigan/CryptPipe/releases} to download newest Gui Form x86 and x64.
 \dots 
 \begin{figure}
     \centering
