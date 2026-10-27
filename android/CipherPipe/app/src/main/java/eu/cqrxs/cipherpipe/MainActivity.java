@@ -15,6 +15,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -70,7 +71,7 @@ import eu.cqrxs.zip.GZ;
 import eu.cqrxs.zip.ZipType;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity{
 
     Button btnEncrypt, btnDecrypt, btnSetPipe, btnHashPipe, btnRandText, btnReset;
     ImageButton imgBtnKey, imgBtnHash;
@@ -78,17 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
     EditText editEncryptKey, showCipherPipe, editTextSource, showTextDestination, editKeyHash;
     Spinner spinnerHash, spinnerZip, spinnerAlgos, spinnerEncode;
-    String[] hashStrings, encodingStrings, zipStrings, algoStrings;
-    SortedMap<String, String> sortedAlgoMap, sortedHashMap, sortedEncodingMap;
     ArrayAdapter adapterHash = null, adapterEndoding = null, adapterZip = null, adapterAlgos = null;
-    String selectedHash = "", selectEncodeType = "", selectZipType = "", selectCipherAlgo = "", selectedZip = "";
-    KeyHash keyHash = KeyHash.Empty;
-    EncodeEnum encodeType = EncodeEnum.Base64;
-    ZipType zipType = ZipType.None;
-
-    CipherMode2 cmode = CipherMode2.CFB;
-
-    static boolean firstTimeInit = true, firstTimeInitEncodings = true;
 
     CipherEnum cipher;
 
@@ -103,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
             zipStrings = ZipType.getNames();
             algoStrings = CipherEnum.getNames();
         } catch (Exception exi) {
-            showTextDestination.setText(exi.toString());
+            showException(exi);
+            // showTextDestination.setText(exi.toString());
         }
         imgViewCipherPipe = (ImageView) findViewById(R.id.imgViewCipherPipe);
         imgBtnKey =  (ImageButton) findViewById(R.id.imgBtnKey);
@@ -389,36 +381,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public String encryptString(String plain, String key, String hashed, CipherPipe pipe) {
-
-        String encrypted = "";
-        try {
-            encrypted = pipe.encrpytTextGoRounds(plain, key, hashed, encodeType, zipType, keyHash, cmode);
-        } catch (Exception exi) {
-            showTextDestination.setText(exi.toString());
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        myMenu = menu;
+        if (myMenu != null) {
+            ;
         }
-        return encrypted;
-    }
-
-    public String decryptedString(String encrypted, String key, String hashed, CipherPipe pipe) {
-
-        String decrypted = "";
-        try {
-            decrypted =  pipe.decryptTextRoundsGo(encrypted, key, hashed, encodeType, zipType, keyHash, cmode);
-        } catch (Exception exi) {
-            showTextDestination.setText(exi.toString());
-        }
-        return decrypted;
+        return true;
     }
 
 
-    public void showMsg(String text, int gravity, boolean showLong) {
-        Toast toast = Toast.makeText(getBaseContext(), "Info Message", showLong ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT);
-        toast.setText(text);
-        toast.setGravity(4, 40, 40);
-        toast.setMargin(0.8F, 0.4F);
-        toast.show();
+    @Override
+    public void appRestart() {
+        editEncryptKey.setText("");
+        editKeyHash.setText("");
+        showCipherPipe.setText("");
+        editTextSource.setText("");
+        showTextDestination.setText("");
+        Bitmap imgPipeDefault = BitmapFactory.decodeResource(getResources(), R.drawable.cipherpipeblank);
+        imgViewCipherPipe.setImageBitmap(imgPipeDefault);
     }
+
+
+
+
 
 
 }

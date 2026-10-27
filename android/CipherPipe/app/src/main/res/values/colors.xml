@@ -2,7 +2,6 @@
 <resources>
     <color name="colorPrimary">#990000</color>
     <color name="colorPrimaryDark">#880000</color>
-    <color name="colorAccent">#1bd880</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="colorSecondary">#008577</color>
@@ -14,7 +13,13 @@
     <color name="colorSecondaryNight">#86b6b1</color>
     <color name="colorSecondaryVariantNight">#a2d3cc</color>
     <color name="colorOnSecondaryNight">#c38098</color>
-    <color name="colorSupuBackground">#910000</color>
+    <color name="colorAccent">#F82FBC</color>
+    <color name="colorBackButton">#EF97B2</color>
+    <color name="colorBackground">#FFA0C1</color>
+    <color name="colorBackLight">#FFC0E1</color>
+    <color name="colorLight">#CCCCCC</color>
+    <color name="colorLighter">#EEEEEE</color>
+    <color name="colorDark">#111111</color>
 
     <color name="bgBlack">#7f7f7f</color>
     <color name="bgBlackLight">#cfcbcb</color>
