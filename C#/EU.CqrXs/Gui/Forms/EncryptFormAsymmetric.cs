@@ -1190,7 +1190,7 @@ namespace EU.CqrXs.Gui.Forms
                     await labelInfoMessage.SetBackColorAsync(SystemColors.Info);
                     toolHeader = "Info";
                     if ((++Program.ProgramCount % 23) == 17)
-                        await this.PlaySoundFromResourcesAsync("sound_killer_state");
+                        await this.PlaySoundFromResourcesAsync("sound_turkey_pkk");
                     else
                         await this.PlaySoundFromResourcesAsync("sound_info");
                     break;

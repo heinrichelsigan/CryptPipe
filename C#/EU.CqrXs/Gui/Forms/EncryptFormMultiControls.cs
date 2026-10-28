@@ -107,7 +107,8 @@ namespace EU.CqrXs.Gui.Forms
                 this.comboBoxAlgo.Items.Add(cipher.ToString());
 
             this.comboBoxEncoding.Items.Clear();
-            foreach (EncodingType encodingType in EncodingTypesExtensions.GetEncodingTypes())
+            bool excludeNone = false; // true;
+            foreach (EncodingType encodingType in EncodingTypesExtensions.GetEncodingTypes(excludeNone)) 
                 this.comboBoxEncoding.Items.Add(encodingType.ToString());
 
 
@@ -1552,7 +1553,7 @@ namespace EU.CqrXs.Gui.Forms
                     await labelInfoMessage.SetBackColorAsync(SystemColors.Info);
                     toolHeader = "Info";
                     if ((++Program.ProgramCount % 23) == 17)
-                        await this.PlaySoundFromResourcesAsync("sound_killer_state");
+                        await this.PlaySoundFromResourcesAsync("sound_turkey_pkk");
                     else
                         await this.PlaySoundFromResourcesAsync("sound_info");
                     break;

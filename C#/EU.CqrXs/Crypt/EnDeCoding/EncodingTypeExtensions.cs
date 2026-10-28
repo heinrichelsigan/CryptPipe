@@ -6,7 +6,7 @@
     /// </summary>
     public static class EncodingTypesExtensions
     {
-        
+
         /// <summary>
         /// GetEncodingTypes get all Encping types 
         /// </summary>
@@ -14,17 +14,19 @@
         /// <returns>Array of all encoding types maybe without None</returns>
         public static EncodingType[] GetEncodingTypes(bool ignoreNone = false)
         {
-            List<EncodingType> list = new List<EncodingType>();
+            List<EncodingType> encodeList = new List<EncodingType>();
             EncodingType ebcTyoe = EncodingType.Base64;
-            foreach (string encName in Enum.GetNames(typeof(EncodingType)))
+            string[] encTypeNames = Enum.GetNames<EncodingType>();
+            EncodingType[] encTypes = Enum.GetValues<EncodingType>();
+            for (int ct = 0; ct < encTypes.Length; ct++)
             {
-                if (ignoreNone && (ebcTyoe = (EncodingType)Enum.Parse(typeof(EncodingType), encName)) ==
-                    EncodingType.None)
-                    continue;
-                list.Add(ebcTyoe);
+                ebcTyoe = encTypes[ct];
+                if (!ignoreNone ||  ebcTyoe != EncodingType.None)
+                    encodeList.Add(ebcTyoe);                
+                // ebcTyoe = (EncodingType)Enum.Parse(typeof(EncodingType), encName);
             }
 
-            return list.ToArray();
+            return encodeList.ToArray();
         }
 
         public static EncodingType GetEncodingTypeFromValue(short eValue)
