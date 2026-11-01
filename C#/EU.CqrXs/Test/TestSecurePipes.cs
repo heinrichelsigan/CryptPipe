@@ -13,10 +13,10 @@ namespace EU.CqrXs.Test
     public sealed class TestSecurePipes
     {
         [TestMethod]
-        public void TestAllCipherPipes()
+        public void TestAllSecureCipherPipes()
         {
             string className = "TestSecurePipes";
-            string methodBase = "TestAllSecurePipes";
+            string methodBase = "TestAllSecureCipherPipes";
             try
             {
                 className = MethodBase.GetCurrentMethod().DeclaringType.Name;
@@ -25,7 +25,7 @@ namespace EU.CqrXs.Test
             catch
             {
                 className = this.GetType().BaseType.Name;
-                methodBase = "TestAllSecurePipes";
+                methodBase = "TestAllSecureCipherPipes";
             }
             Console.WriteLine($"{DateTime.Now.Area23DateTimeWithSeconds()} \t{className}.{methodBase}() \t[started]");
 

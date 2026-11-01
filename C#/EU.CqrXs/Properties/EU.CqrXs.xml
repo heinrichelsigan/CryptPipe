@@ -2766,6 +2766,13 @@
             </summary>
             <param name="appName">application name</param>
         </member>
+        <member name="M:EU.CqrXs.Util.Area23Log.GetLogFilePath(System.String)">
+            <summary>
+            GetLogFilePath - gets individual named logfile with substring appName
+            </summary>
+            <param name="appName">application name to customize logfile name</param>
+            <returns>Full file path to log file in file system</returns>
+        </member>
         <member name="M:EU.CqrXs.Util.Area23Log.Log(System.String,System.String)">
             <summary>
             Log - static logging method
@@ -2796,13 +2803,6 @@
             <param name="message">logging <see cref="T:System.String">string message</see></param>
             <param name="ex">logging <see cref="T:System.Exception">Exception ex</see></param>
             <param name="level"><see cref="T:System.Int32">int log level</see>: 0 for Trace, 1 for Debug, ..., 4 for Error, 5 for Fatal</param>
-        </member>
-        <member name="M:EU.CqrXs.Util.Area23Log.GetLogFilePath(System.String)">
-            <summary>
-            GetLogFilePath - gets individual named logfile with substring appName
-            </summary>
-            <param name="appName">application name to customize logfile name</param>
-            <returns>Full file path to log file in file system</returns>
         </member>
         <member name="T:EU.CqrXs.Util.Constants">
             <summary>

@@ -119,18 +119,14 @@ public class BaseActivity extends AppCompatActivity {
             // reset now all checkboxes for language menu items
             // menuResetCheckboxes(myMenu);
 
-            if (mItemId == R.id.action_restart) {
+            if (mItemId == R.id.action_action_restart) {
                 appRestart();
-            }
-            if (mItemId == R.id.action_exit) {
-                appExit();
                 return true;
             }
             if (mItemId == R.id.action_exit) {
                 appExit();
                 return true;
             }
-
             if (mItemId == R.id.action_about) {
                 startAboutActivity();
                 return true;
@@ -142,7 +138,7 @@ public class BaseActivity extends AppCompatActivity {
 
         }
 
-        return super.onOptionsItemSelected(item);
+        return false; //  super.onOptionsItemSelected(item);
     }
 
 

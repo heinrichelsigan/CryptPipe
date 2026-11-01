@@ -1431,7 +1431,7 @@ namespace EU.CqrXs.Util
             if (!fileName.IsPermAgainCryptFile())
                 return strippedFileName;
 
-            KeyHash kHash = KeyHash.Hex;
+            KeyHash kHash = KeyHash.Empty;
 
             EncodingType eType = EncodingType.None;
             foreach (EncodingType encTyp in EncodingTypesExtensions.GetEncodingTypes())
@@ -1515,7 +1515,7 @@ namespace EU.CqrXs.Util
             if (!fileName.IsPermAgainCryptFile())
                 return strippedFileName;
 
-            KeyHash kHash = KeyHash.Hex;
+            KeyHash kHash = KeyHash.Empty;
 
             EncodingType eType = EncodingType.None;
             foreach (EncodingType encTyp in EncodingTypesExtensions.GetEncodingTypes())

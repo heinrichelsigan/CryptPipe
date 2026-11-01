@@ -194,15 +194,10 @@ namespace EU.CqrXs.Util
         /// <param name="appName">application name</param>
         protected internal static void InitLog(string appName = "")
         {
-            if (!string.IsNullOrEmpty(appName))
-                AppName = appName;
-
-            if (!string.IsNullOrEmpty(AppName))
-                LogFile = GetLogFilePath(AppName);
-            else
-                LogFile = LogFileSystemPath;
+            LogFile = LogFileByAppName(AppName);
         }
 
+        [Obsolete("SetLogFile(string logFilePath, bool createDirectory = false) is OBSOLETE, use LogFileByAppName(string appName = \"\" ")]
         public static void SetLogFile(string logFilePath, bool createDirectory = false)
         {
             if (string.IsNullOrEmpty(logFilePath))
@@ -221,10 +216,45 @@ namespace EU.CqrXs.Util
             LogFile = logFilePath;
         }
 
-        public static void SetLogFileByAppName(string appName = "")
+        public static string LogFileByAppName(string appName = "")
         {
+            if (!string.IsNullOrEmpty(appName))
+                AppName = appName;
+            
             LogFile = (!string.IsNullOrEmpty(appName)) ? GetLogFilePath(appName) : LogFileSystemPath;
+            return LogFile;
         }
+        
+        
+        /// <summary>
+        /// GetLogFilePath - gets individual named logfile with substring appName
+        /// </summary>
+        /// <param name="appName">application name to customize logfile name</param>
+        /// <returns>Full file path to log file in file system</returns>
+        public static string GetLogFilePath(string appName)
+        {
+            int day = DateTime.UtcNow.DayOfYear;
+            if (daysave != day)
+            {
+                daysave = day;
+                logFilePath = "";
+            }
+            if (string.IsNullOrEmpty(logFilePath))
+            {
+                logFilePath = SystemDirLogPath + DateTime.UtcNow.Area23Date() + Constants.UNDER_SCORE + appName + Constants.LOG_EXT;
+                if (!File.Exists(logFilePath))
+                {
+                    try
+                    {
+                        if (!Constants.NOLog)
+                            File.Create(logFilePath);
+                    }
+                    catch { }
+                }
+            }
+            return logFilePath;
+        }
+
 
         /// <summary>
         /// Log - static logging method
@@ -276,7 +306,7 @@ namespace EU.CqrXs.Util
                     errMsg = String.Format("{0} \tWriting to file {1} Exception {2} {3} \n{4}\n",
                         DateTime.Now.Area23DateTimeWithSeconds(), LogFile, exLog.GetType(), exLog.Message, exLog.ToString());
                     AppDomain.CurrentDomain.SetData(Constants.LOG_EXCEPTION_STATIC, errMsg);
-                    Console.Error.WriteLine(errMsg);
+                    // Console.Error.WriteLine(errMsg);
                 }
 
                 logMsg = DateTime.Now.Area23DateTimeWithSeconds() + "\t " + (string.IsNullOrEmpty(msg) ? string.Empty : (msg.EndsWith("\n") ? msg : msg + "\n"));
@@ -296,7 +326,7 @@ namespace EU.CqrXs.Util
                         allLogMsg = (string)AppDomain.CurrentDomain.GetData(Constants.ALL_KEYS);
                     allLogMsg += "\n" + logMsg + "\n" + errMsg;
                     AppDomain.CurrentDomain.SetData(Constants.ALL_KEYS, allLogMsg);
-                    Console.Error.WriteLine(errMsg);
+                    // Console.Error.WriteLine(errMsg);
                 }
 
             }
@@ -373,38 +403,7 @@ namespace EU.CqrXs.Util
             if (level < 2)
                 LogStatic($"{logPrefix} \t{ex.GetType()} StackTrace: \t{ex.StackTrace}");
         }
-
-
-        /// <summary>
-        /// GetLogFilePath - gets individual named logfile with substring appName
-        /// </summary>
-        /// <param name="appName">application name to customize logfile name</param>
-        /// <returns>Full file path to log file in file system</returns>
-        public static string GetLogFilePath(string appName)
-        {
-            int day = DateTime.UtcNow.DayOfYear;
-            if (daysave != day)
-            {
-                daysave = day;
-                logFilePath = "";
-            }
-            if (string.IsNullOrEmpty(logFilePath))
-            {
-                logFilePath = SystemDirLogPath + DateTime.UtcNow.Area23Date() + Constants.UNDER_SCORE + appName + Constants.LOG_EXT;
-                if (!File.Exists(logFilePath))
-                {
-                    try
-                    {
-                        if (!Constants.NOLog)
-                            File.Create(logFilePath);
-                    }
-                    catch { }
-                }
-            }
-            return logFilePath;
-        }
-
-
+        
         #endregion static members
 
     }

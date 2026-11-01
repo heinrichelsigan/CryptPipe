@@ -42,7 +42,7 @@ namespace EU.CqrXs.Crypt.Cipher
         protected internal ZipType zType = ZipType.None;
         protected internal CipherEnum[] inPipe;
         protected internal EncodingType encodeType = EncodingType.Base64;
-        protected internal KeyHash kHash = KeyHash.Hex;
+        protected internal KeyHash kHash = KeyHash.Empty;
         // private readonly string pipeString;
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace EU.CqrXs.Crypt.Cipher
             inPipe = (new List<CipherEnum>()).ToArray();
             encodeType = EncodingType.Base64;
             zType = ZipType.None;
-            kHash = KeyHash.Hex;
+            kHash = KeyHash.Empty;
             CMode2 = CipherModeExtensions.defaultCipherMode2;
         }
 
@@ -636,7 +636,7 @@ namespace EU.CqrXs.Crypt.Cipher
                 secretKey = "";
             string hash = hashIv ?? "";
             if (string.IsNullOrEmpty(hash) && !string.IsNullOrEmpty(secretKey))
-                hash = (KHash != null) ? KHash.Hash(secretKey) : EnDeCodeHelper.KeyToHex(secretKey);
+                hash = KHash.Hash(secretKey);
             cipherKey = string.IsNullOrEmpty(secretKey) ? cipherKey : secretKey;
             cipherHash = hash;
             CMode2 = cmode2;
@@ -675,7 +675,7 @@ namespace EU.CqrXs.Crypt.Cipher
                 secretKey = "";
             string hash = hashIv ?? "";
             if (string.IsNullOrEmpty(hash) && !string.IsNullOrEmpty(secretKey))
-                hash = (KHash != null) ? KHash.Hash(secretKey) : EnDeCodeHelper.KeyToHex(secretKey);
+                hash =  KHash.Hash(secretKey);
             cipherKey = string.IsNullOrEmpty(secretKey) ? cipherKey : secretKey;
             cipherHash = hash;
             CMode2 = cmode2;

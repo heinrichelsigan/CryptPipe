@@ -13,19 +13,19 @@
                 <item android:id="@+id/action_ciphermode_CBC"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:orderInCategory="2001"
                     android:title="@string/action_ciphermode_CBC" />
                 <item android:id="@+id/action_ciphermode_CFB"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:orderInCategory="2002"
                     android:title="@string/action_ciphermode_CFB" />
                 <item android:id="@+id/action_ciphermode_ECB"
                     android:checkable="true"
                     android:checked="true"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:orderInCategory="2003"
                     android:title="@string/action_ciphermode_ECB" />
             </menu>
@@ -36,37 +36,37 @@
             android:id="@+id/action_hashed"
             android:orderInCategory="300"
             android:title="@string/action_hashed"
-            android:enabled="false"
+            android:enabled="true"
             app:showAsAction="collapseActionView">
             <menu>
                 <item android:id="@+id/action_hash_empty"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:orderInCategory="3000"
                     android:title="@string/action_hash_empty" />
                 <item android:id="@+id/action_hash_hex"
                     android:checkable="true"
                     android:checked="true"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:orderInCategory="3001"
                     android:title="@string/action_hash_hex" />
                 <item android:id="@+id/action_hash_oct"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:orderInCategory="3002"
                     android:title="@string/action_hash_oct" />
                 <item android:id="@+id/action_hash_sha1"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:orderInCategory="3003"
                     android:title="@string/action_hash_sha1" />
                 <item android:id="@+id/action_hash_openbsd"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:orderInCategory="3004"
                     android:title="@string/action_hash_openbsd" />
                 <item android:id="@+id/action_hash_bcrypt"
@@ -78,67 +78,67 @@
                 <item android:id="@+id/action_hash_scrypt"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:orderInCategory="3006"
                     android:title="@string/action_hash_scrypt" />
                 <item android:id="@+id/action_hash_md5"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:orderInCategory="3007"
                     android:title="@string/action_hash_md5" />
                 <item android:id="@+id/action_hash_sha256"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:orderInCategory="3008"
                     android:title="@string/action_hash_sha256" />
                 <item android:id="@+id/action_hash_sha384"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:orderInCategory="3009"
                     android:title="@string/action_hash_sha384" />
                 <item android:id="@+id/action_hash_sha512"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:orderInCategory="3010"
                     android:title="@string/action_hash_sha512" />
                 <item android:id="@+id/action_hash_whirlpool"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:orderInCategory="3011"
                     android:title="@string/action_hash_whirlpool" />
                 <item android:id="@+id/action_hash_blake2xs"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:orderInCategory="3012"
                     android:title="@string/action_hash_blake2xs" />
                 <item android:id="@+id/action_hash_cshake"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:orderInCategory="3013"
                     android:title="@string/action_hash_cshake" />
                 <item android:id="@+id/action_hash_dstu7564"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:orderInCategory="3014"
                     android:title="@string/action_hash_dstu7564" />
                 <item android:id="@+id/action_hash_ripemd356"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:orderInCategory="3015"
                     android:title="@string/action_hash_ripemd356" />
                 <item android:id="@+id/action_hash_tuplehash"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:orderInCategory="3016"
                     android:title="@string/action_hash_tuplehash" />
             </menu>
@@ -155,137 +155,169 @@
                 <item android:id="@+id/action_ziptype_none"
                     android:checkable="true"
                     android:checked="true"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:orderInCategory="4000"
                     android:title="@string/action_ziptype_none" />
                 <item android:id="@+id/action_ziptype_gzip"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:orderInCategory="4001"
                     android:title="@string/action_ziptype_gzip" />
                 <item android:id="@+id/action_ziptype_bzip"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:orderInCategory="4002"
                     android:title="@string/action_ziptype_bzip" />
                 <item android:id="@+id/action_ziptype_zip"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:orderInCategory="4003"
                     android:title="@string/action_ziptype_zip" />
             </menu>
         </item>
     </group>
-    <group android:id="@+id/group_encoding"  android:visible="true">
+    <group android:id="@+id/group_encoding" android:visible="true">
         <item
-            android:id="@+id/action_encodingtypes"
-            android:orderInCategory="500"
-            android:title="@string/action_encodingtypes"
-            android:enabled="false"
+            android:id="@+id/action_encoding"
+            android:orderInCategory="600"
+            android:title="@string/action_encoding"
+            android:enabled="true"
             app:showAsAction="collapseActionView">
             <menu>
-                <item android:id="@+id/action_encoding_hex16"
+                <item
+                    android:id="@+id/action_encoding_none"
+                    android:orderInCategory="6011"
+                    android:title="@string/action_encoding_none"
+                    android:enabled="true"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
-                    android:orderInCategory="5001"
-                    android:title="@string/action_encoding_hex16" />
-                <item android:id="@+id/action_encoding_base16"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/action_encoding_hex16"
+                    android:orderInCategory="6122"
+                    android:title="@string/action_encoding_hex16"
+                    android:enabled="true"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
-                    android:orderInCategory="5002"
-                    android:title="@string/action_encoding_base16" />
-                <item android:id="@+id/action_encoding_hex32"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/action_encoding_base16"
+                    android:orderInCategory="6133"
+                    android:title="@string/action_encoding_base16"
+                    android:enabled="true"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
-                    android:orderInCategory="5003"
-                    android:title="@string/action_encoding_hex32" />
-                <item android:id="@+id/action_encoding_base32"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/action_encoding_hex32"
+                    android:orderInCategory="6244"
+                    android:title="@string/action_encoding_hex32"
+                    android:enabled="true"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
-                    android:orderInCategory="5004"
-                    android:title="@string/action_encoding_base32" />
-                <item android:id="@+id/action_encoding_uu"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/action_encoding_base32"
+                    android:orderInCategory="6266"
+                    android:title="@string/action_encoding_base32"
+                    android:enabled="true"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
-                    android:orderInCategory="5005"
-                    android:title="@string/action_encoding_uu" />
-                <item android:id="@+id/action_encoding_xx"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/action_encoding_uu"
+                    android:orderInCategory="6333"
+                    android:title="@string/action_encoding_uu"
+                    android:enabled="true"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
-                    android:orderInCategory="5006"
-                    android:title="@string/action_encoding_xx" />
-                <item android:id="@+id/action_encoding_base64"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/action_encoding_xx"
+                    android:orderInCategory="6366"
+                    android:title="@string/action_encoding_xx"
+                    android:enabled="true"
+                    android:checkable="true"
+                    android:checked="false"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/action_encoding_base64"
+                    android:orderInCategory="6440"
+                    android:title="@string/action_encoding_base64"
+                    android:enabled="true"
                     android:checkable="true"
                     android:checked="true"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/action_encoding_hex64"
+                    android:orderInCategory="6441"
+                    android:title="@string/action_encoding_hex64"
                     android:enabled="false"
-                    android:orderInCategory="5007"
-                    android:title="@string/action_encoding_base64" />
-                <item android:id="@+id/action_encoding_ascii85"
                     android:checkable="true"
                     android:checked="false"
-                    android:enabled="false"
-                    android:orderInCategory="5008"
-                    android:title="@string/action_encoding_ascii85" />
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/action_encoding_ascii85"
+                    android:orderInCategory="6850"
+                    android:title="@string/action_encoding_ascii85"
+                    android:enabled="true"
+                    android:checkable="true"
+                    android:checked="false"
+                    app:showAsAction="never" />
+
             </menu>
         </item>
     </group>
     <group android:id="@+id/group_actions" android:visible="true">
         <item
             android:id="@+id/action_actions"
-            android:orderInCategory="600"
+            android:orderInCategory="700"
             android:title="@string/action_actions"
-            android:enabled="false"
+            android:enabled="true"
             app:showAsAction="collapseActionView">
             <menu>
                 <item
-                    android:id="@+id/action_setpipe"
-                    android:orderInCategory="6122"
-                    android:title="@string/action_setpipe"
-                    android:enabled="false"
+                    android:id="@+id/action_action_setpipe"
+                    android:orderInCategory="7122"
+                    android:title="@string/action_action_setpipe"
+                    android:enabled="true"
                     app:showAsAction="never" />
                 <item
-                    android:id="@+id/action_hashpipe"
-                    android:orderInCategory="6133"
-                    android:title="@string/action_hashpipe"
-                    android:enabled="false"
+                    android:id="@+id/action_action_hashpipe"
+                    android:orderInCategory="7133"
+                    android:title="@string/action_action_hashpipe"
+                    android:enabled="true"
                     app:showAsAction="never" />
                 <item
-                    android:id="@+id/action_randomtext"
+                    android:id="@+id/action_action_randomtext"
                     android:orderInCategory="6144"
-                    android:title="@string/action_randomtext"
-                    android:enabled="false"
+                    android:title="@string/action_action_randomtext"
+                    android:enabled="true"
                     app:showAsAction="never" />
                 <item
-                    android:id="@+id/action_encrypt"
-                    android:orderInCategory="6666"
-                    android:title="@string/action_encrypt"
-                    android:enabled="false"
+                    android:id="@+id/action_action_encrypt"
+                    android:orderInCategory="7666"
+                    android:title="@string/action_action_encrypt"
+                    android:enabled="true"
                     app:showAsAction="never" />
                 <item
-                    android:id="@+id/action_decrypt"
-                    android:orderInCategory="6667"
-                    android:title="@string/action_decrypt"
-                    android:enabled="false"
+                    android:id="@+id/action_action_decrypt"
+                    android:orderInCategory="7666"
+                    android:title="@string/action_action_decrypt"
+                    android:enabled="true"
                     app:showAsAction="never" />
                 <item
-                    android:id="@+id/action_restart"
+                    android:id="@+id/action_action_restart"
                     android:orderInCategory="7777"
-                    android:title="@string/action_restart"
-                    android:enabled="false"
+                    android:title="@string/action_action_restart"
+                    android:enabled="true"
                     app:showAsAction="never" />
             </menu>
         </item>
     </group>
-
     <item
         android:id="@+id/action_help"
         android:orderInCategory="9111"

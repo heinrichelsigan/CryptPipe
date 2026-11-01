@@ -70,8 +70,6 @@ https://github.com/heinrichelsigan/CryptPipe/releases
 
 ## Console Application
 
-![2026-01-27_EU_CqrXs_Console](https://github.com/user-attachments/assets/e5b885c3-971b-43d3-b16e-8c610cea1ba4)
-
 Console application let you execute cipherpipe as standard console programm. 
 options can be set by argument parameters.
 
@@ -122,6 +120,31 @@ Examples:
     EU.CqrXs.Console.exe -i=.\README.MD -S -k=io.cqrxs.eu  -o=.\README.MD.BCrypt.gz.base64
     EU.CqrXs.Console.exe -D -i=.\README.MD.BCrypt.gz.base64 -S -k=io.cqrxs.eu  -o=.\README_SECURE.txt
 
+```
+
+## Spooler Application
+
+*EU.CqrXs.Spooler* is an application to encrypt all plain files in a **In** directory 
+or to decrypt all encrypted spooled files in an **Encrypt** directory.
+
+```
+EU.CqrXs.Spooler.exe
+Usage:	 EU.CqrXs.Spooler 
+    /// -i | --InDir={path to incoming dir} 
+    /// -o | --OutDir={path to outcoming dir}
+    /// -k | --Key=secretKey
+    /// -D | --Decrypt 
+    /// -M | --mode={CBC|CFB|ECB} default: CFB
+    /// -S | --secure
+    /// -V | --verbose      // verbose output
+    /// -? | --help
+
+Examples:
+    ./EU.CqrXs.Spooler -V -M=CFB -k=bar@ba.area23.at -i=./In/ -o=./Encrypt/
+    ./EU.CqrXs.Spooler -V -D -M=CFB -k=bar@ba.area23.at -i=./Encrypt/ -o=./Out/
+
+    ./EU.CqrXs.Spooler -V -S -k=jo@io.cqrxs.eu -i=./In/ -o=./Encrypt/
+    ./EU.CqrXs.Spooler -V -D -S -k=jo@io.cqrxs.eu -i=./Encrypt/ -o=./Out/
 ```
 
 # [Java](https://github.com/heinrichelsigan/PermAgainCrypt/tree/main/java)

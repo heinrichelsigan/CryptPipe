@@ -79,8 +79,8 @@ public class MainActivity extends BaseActivity{
     ImageView imgViewCipherPipe;
 
     EditText editEncryptKey, showCipherPipe, editTextSource, showTextDestination, editKeyHash;
-    Spinner spinnerHash, spinnerZip, spinnerAlgos, spinnerEncode;
-    ArrayAdapter adapterHash = null, adapterEndoding = null, adapterZip = null, adapterAlgos = null;
+    Spinner spinnerAlgos; // spinnerHash, spinnerZip,  spinnerEncode;
+    ArrayAdapter adapterAlgos = null; //  adapterHash = null, adapterEndoding = null, adapterZip = null,
 
     CipherEnum cipher;
 
@@ -113,40 +113,29 @@ public class MainActivity extends BaseActivity{
         editTextSource = (EditText) findViewById(R.id.editTextSource);
         showTextDestination = (EditText) findViewById(R.id.showTextDestination);
 
-        spinnerHash = (Spinner) findViewById(R.id.spinnerHash);
-        spinnerZip = (Spinner) findViewById(R.id.spinnerZip);
+        // spinnerHash = (Spinner) findViewById(R.id.spinnerHash);
+        // spinnerZip = (Spinner) findViewById(R.id.spinnerZip);
         spinnerAlgos = (Spinner) findViewById(R.id.spinnerAlgos);
-        spinnerEncode = (Spinner) findViewById(R.id.spinnerEncode);
+        // spinnerEncode = (Spinner) findViewById(R.id.spinnerEncode);
 
         btnSetPipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String key = editEncryptKey.getText().toString();
-                String hashed = keyHash.hash(key);
-                editKeyHash.setText(hashed);
-
-                cipherPipe = new CipherPipe(key, hashed, encodeType, zipType, keyHash, cmode);
-                drawCipherPipe(cipherPipe);
+                setCipherPipe();
             }
         });
 
         btnHashPipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String key = editEncryptKey.getText().toString();
-                String hashed = keyHash.hash(key);
-                editKeyHash.setText(hashed);
-
-                cipherPipe = new CipherPipe(hashed, key, encodeType, zipType, keyHash, cmode);
-                drawCipherPipe(cipherPipe);
+                hashCipherPipe();
             }
         });
 
         btnRandText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String fortune = eu.cqrxs.util.Fortune.getFortune();
-                editTextSource.setText(fortune);
+                randomText();
             }
         });
 
@@ -160,54 +149,18 @@ public class MainActivity extends BaseActivity{
         btnEncrypt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ;
-                String key = editEncryptKey.getText().toString();
-                String hashed = keyHash.hash(key);
-                editKeyHash.setText(hashed);
-
-                CipherEnum[] ciphers = getCipherEnums();
-                cipherPipe = new CipherPipe(ciphers, 8, encodeType, zipType, keyHash, cmode);
-
-                String plain = editTextSource.getText().toString();
-                Bitmap bmp = cipherPipe.drawCipherPipe(getBaseContext());
-                imgViewCipherPipe.clearAnimation();
-                imgViewCipherPipe.setImageBitmap(bmp);
-
-                String pipeSting = cipherPipe.getPipeString();
-                showMsg(String.format("pipe[%s] encrypt with key=%s, hash=%s, \nencode=%s keyHash=%s, zip=%s",
-                        pipeSting, key, hashed, encodeType.getName(), keyHash.getName(), zipType.getName()), 4, false);
-
-                String encrypted = encryptString(plain, key, hashed, cipherPipe);
-                showTextDestination.setText(encrypted);
+                performEncrypt();
             }
         });
 
         btnDecrypt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                String key = editEncryptKey.getText().toString();
-                String hashed = keyHash.hash(key);
-                editKeyHash.setText(hashed);
-
-                CipherEnum[] ciphers = getCipherEnums();
-                cipherPipe = new CipherPipe(ciphers, 8, encodeType, zipType, keyHash, cmode);
-
-                String encrypted = editTextSource.getText().toString();
-                CipherEnum[] cipherEnums = cipherPipe.getOutPipe();
-
-                String pipeSting = cipherPipe.getPipeString();
-                showMsg(String.format("pipe[%s] decrypt with key=%s, hash=%s, \nencode=%s keyHash=%s, zip=%s",
-                        pipeSting, key, hashed, encodeType.getName(), keyHash.getName(), zipType.getName()), 4, true);
-
-                Bitmap bmp = cipherPipe.drawDecryptCipherPipe(getBaseContext());
-                imgViewCipherPipe.setImageBitmap(bmp);
-
-                String decrypted = decryptedString(encrypted, key, hashed, cipherPipe);
-                showTextDestination.setText(decrypted);
+                performDecrypt();
             }
         });
 
+        /*
         if (adapterHash == null)
             adapterHash = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, hashStrings);
         adapterHash.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -237,10 +190,11 @@ public class MainActivity extends BaseActivity{
                 ;
             }
         });
-
         if (firstTimeInitEncodings)
             spinnerHash.setSelection(5);
+         */
 
+        /*
         if (adapterEndoding == null)
             adapterEndoding = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, encodingStrings);
         adapterEndoding.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -272,6 +226,7 @@ public class MainActivity extends BaseActivity{
             spinnerEncode.setSelection(6);
             firstTimeInitEncodings = false;
         }
+         */
 
         if (adapterAlgos == null)
             adapterAlgos = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, algoStrings);
@@ -307,6 +262,7 @@ public class MainActivity extends BaseActivity{
             }
         });
 
+        /*
         if (adapterZip == null)
             adapterZip = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, zipStrings);
         adapterZip.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -333,6 +289,7 @@ public class MainActivity extends BaseActivity{
                 ;
             }
         });
+        */
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -378,9 +335,9 @@ public class MainActivity extends BaseActivity{
             // reset now all checkboxes for language menu items
             // menuResetCheckboxes(myMenu);
 
-            if (mItemId == R.id.action_ciphermode_ECB ||
-                mItemId == R.id.action_ciphermode_CBC ||
-                mItemId == R.id.action_ciphermode_CBC) {
+            if (mItemId == R.id.action_ciphermode_CBC ||
+                mItemId == R.id.action_ciphermode_CFB ||
+                mItemId == R.id.action_ciphermode_ECB) {
                 actionCipherMode(item);
             }
             if (mItemId == R.id.action_ziptype_none ||
@@ -408,6 +365,31 @@ public class MainActivity extends BaseActivity{
                     mItemId == R.id.action_hash_whirlpool)  {
                 actionHashMode(item);
             }
+            if (mItemId == R.id.action_encoding_none ||
+                    mItemId == R.id.action_encoding_hex16 ||
+                    mItemId == R.id.action_encoding_base16 ||
+                    mItemId == R.id.action_encoding_hex32 ||
+                    mItemId == R.id.action_encoding_base32 ||
+                    mItemId == R.id.action_encoding_uu||
+                    mItemId == R.id.action_encoding_xx ||
+                    mItemId == R.id.action_encoding_hex64 ||
+                    mItemId == R.id.action_encoding_base64 ||
+                    mItemId == R.id.action_encoding_ascii85) {
+                actionEncodingMode(item);
+            }
+            if (mItemId == R.id.action_action_setpipe)
+                setCipherPipe();
+            else if (mItemId == R.id.action_action_hashpipe)
+                hashCipherPipe();
+            else if (mItemId == R.id.action_action_randomtext)
+                randomText();
+            else if (mItemId == R.id.action_action_encrypt)
+                performEncrypt();
+            else if (mItemId == R.id.action_action_decrypt)
+                performDecrypt();
+            else if (mItemId == R.id.action_action_restart)
+                appRestart();
+
             if (mItemId == R.id.action_exit) {
                 appExit();
                 return true;
@@ -434,29 +416,45 @@ public class MainActivity extends BaseActivity{
     protected void actionCipherMode(MenuItem item) {
         int mItemId = (item != null) ? item.getItemId() : -1;
 
-        MenuItem mi = myMenu.getItem(R.id.action_ziptype_none);
-        mi.setChecked(false);
-        mi = myMenu.getItem(R.id.action_ziptype_gzip);
-        mi.setChecked(false);
-        mi = myMenu.getItem(R.id.action_ziptype_bzip);
-        mi.setChecked(false);
-        mi = myMenu.getItem(R.id.action_ziptype_zip);
-        mi.setChecked(false);
+        if (myMenu == null) {
+            int menuId = getApplicationContext().getResources().getIdentifier(
+                    "menu_main",
+                    "menu",
+                    getApplicationContext().getPackageName());
+            getMenuInflater().inflate(menuId, myMenu);
+        }
+        MenuItem mi = myMenu.findItem(R.id.action_ciphermode_CBC);
+        if (mi != null && mi.isChecked())
+            mi.setChecked(false);
+        mi = myMenu.findItem(R.id.action_ciphermode_CFB);
+        if (mi != null && mi.isChecked())
+            mi.setChecked(false);
+        mi = myMenu.findItem(R.id.action_ciphermode_ECB);
+        if (mi != null && mi.isChecked())
+            mi.setChecked(false);
 
-        item.setChecked(true);
-        if (mItemId == R.id.action_ziptype_gzip)
-            zipType = ZipType.GZip;
-        else if (mItemId == R.id.action_ziptype_bzip)
-            zipType = ZipType.BZip2;
-        else if (mItemId == R.id.action_ziptype_zip)
-            zipType = ZipType.Zip;
+        if (item != null)
+            item.setChecked(true);
+
+        if (mItemId == R.id.action_ciphermode_CBC)
+            cmode = CipherMode2.CBC;
+        else if (mItemId == R.id.action_ciphermode_CFB)
+            cmode = CipherMode2.CFB;
         else
-            zipType = ZipType.None;
+            cmode = CipherMode2.ECB;
 
     }
 
     public void actionHashMode(MenuItem item) {
         int mItemId = (item != null) ? item.getItemId() : -1;
+
+        if (myMenu == null) {
+            int menuId = getApplicationContext().getResources().getIdentifier(
+                    "menu_main",
+                    "menu",
+                    getApplicationContext().getPackageName());
+            getMenuInflater().inflate(menuId, myMenu);
+        }
 
         int[] rIds = { R.id.action_hash_bcrypt,
                 R.id.action_hash_blake2xs, R.id.action_hash_cshake,
@@ -468,11 +466,14 @@ public class MainActivity extends BaseActivity{
                 R.id.action_hash_sha384, R.id.action_hash_sha512,
                 R.id.action_hash_tuplehash, R.id.action_hash_whirlpool };
         for (int rId : rIds) {
-            MenuItem mi = myMenu.getItem(rId);
-            mi.setChecked(false);
+            MenuItem mi = myMenu.findItem(rId);
+            if (mi != null && mi.isChecked())
+                mi.setChecked(false);
         }
 
-        item.setChecked(true);
+        if (item != null)
+            item.setChecked(true);
+
         if (mItemId == R.id.action_hash_bcrypt)
             keyHash = KeyHash.BCrypt;
         else if (mItemId == R.id.action_hash_blake2xs)
@@ -511,19 +512,62 @@ public class MainActivity extends BaseActivity{
         hashKey(keyHash);
     }
 
+    public void actionEncodingMode(MenuItem item) {
+        int mItemId = (item != null) ? item.getItemId() : -1;
+
+        int[] rEncIds = { R.id.action_encoding_none,
+                R.id.action_encoding_hex16, R.id.action_encoding_base16,
+                R.id.action_encoding_hex32, R.id.action_encoding_base32,
+                R.id.action_encoding_uu, R.id.action_encoding_xx,
+                R.id.action_encoding_hex64, R.id.action_encoding_base64,
+                R.id.action_encoding_ascii85  };
+        for (int rEncId : rEncIds) {
+            MenuItem mi = myMenu.findItem(rEncId);
+            if (mi != null && mi.isChecked())
+                mi.setChecked(false);
+        }
+
+        if (item != null)
+            item.setChecked(true);
+
+        if (mItemId == R.id.action_encoding_none)
+            encodeType = EncodeEnum.None;
+        if (mItemId == R.id.action_encoding_hex16)
+            encodeType = EncodeEnum.Hex16;
+        else if (mItemId == R.id.action_encoding_base16)
+            encodeType = EncodeEnum.Base16;
+        if (mItemId == R.id.action_encoding_hex32)
+            encodeType = EncodeEnum.Hex32;
+        else if (mItemId == R.id.action_encoding_base32)
+            encodeType = EncodeEnum.Base32;
+        else if (mItemId == R.id.action_encoding_uu)
+            encodeType = EncodeEnum.Uu;
+        else if (mItemId == R.id.action_encoding_xx)
+            encodeType = EncodeEnum.Xx;
+        // if (mItemId == R.id.action_encoding_hex64)
+        //  encodeType = EncodeEnum.Hex64;
+        else if (mItemId == R.id.action_encoding_base64)
+            encodeType = EncodeEnum.Base64;
+        else if (mItemId == R.id.action_encoding_ascii85)
+            encodeType = EncodeEnum.Ascii85;
+        else
+            encodeType = EncodeEnum.Base64;
+    }
+
     public void actionCompressionMode(MenuItem item) {
         int mItemId = (item != null) ? item.getItemId() : -1;
 
-        MenuItem mi = myMenu.getItem(R.id.action_ziptype_none);
-        mi.setChecked(false);
-        mi = myMenu.getItem(R.id.action_ziptype_gzip);
-        mi.setChecked(false);
-        mi = myMenu.getItem(R.id.action_ziptype_bzip);
-        mi.setChecked(false);
-        mi = myMenu.getItem(R.id.action_ziptype_zip);
-        mi.setChecked(false);
+        int[] rZipIds = { R.id.action_ziptype_none, R.id.action_ziptype_gzip,
+                R.id.action_ziptype_bzip, R.id.action_ziptype_zip };
+        for (int rZipId : rZipIds) {
+            MenuItem mi = myMenu.findItem(rZipId);
+            if (mi != null && mi.isChecked())
+                mi.setChecked(false);
+        }
 
-        item.setChecked(true);
+        if (item != null)
+            item.setChecked(true);
+
         if (mItemId == R.id.action_ziptype_gzip)
             zipType = ZipType.GZip;
         else if (mItemId == R.id.action_ziptype_bzip)
@@ -572,6 +616,77 @@ public class MainActivity extends BaseActivity{
         imgViewCipherPipe.setImageBitmap(bmp);
     }
 
+    public void setCipherPipe() {
+        String key = editEncryptKey.getText().toString();
+        String hashed = keyHash.hash(key);
+        editKeyHash.setText(hashed);
+
+        cipherPipe = new CipherPipe(key, hashed, encodeType, zipType, keyHash, cmode);
+        drawCipherPipe(cipherPipe);
+    }
+    
+    public void hashCipherPipe() {
+        String key = editEncryptKey.getText().toString();
+        String hashed = keyHash.hash(key);
+        editKeyHash.setText(hashed);
+
+        cipherPipe = new CipherPipe(hashed, key, encodeType, zipType, keyHash, cmode);
+        drawCipherPipe(cipherPipe);
+    }
+
+
+    /**
+     * performEncrypt encrypt operation
+     */
+    public void performEncrypt() {
+        String key = editEncryptKey.getText().toString();
+        String hashed = keyHash.hash(key);
+        editKeyHash.setText(hashed);
+
+        CipherEnum[] ciphers = getCipherEnums();
+        cipherPipe = new CipherPipe(ciphers, 8, encodeType, zipType, keyHash, cmode);
+
+        String plain = editTextSource.getText().toString();
+        Bitmap bmp = cipherPipe.drawCipherPipe(getBaseContext());
+        imgViewCipherPipe.clearAnimation();
+        imgViewCipherPipe.setImageBitmap(bmp);
+
+        String pipeSting = cipherPipe.getPipeString();
+        showMsg(String.format("pipe[%s] encrypt with key=%s, hash=%s, \nencode=%s keyHash=%s, zip=%s",
+                pipeSting, key, hashed, encodeType.getName(), keyHash.getName(), zipType.getName()), 4, false);
+
+        String encrypted = encryptString(plain, key, hashed, cipherPipe);
+        showTextDestination.setText(encrypted);
+    }
+
+    /**
+     * performDecrypt decrypt operation
+     */
+    public void performDecrypt() {
+        String key = editEncryptKey.getText().toString();
+        String hashed = keyHash.hash(key);
+        editKeyHash.setText(hashed);
+
+        CipherEnum[] ciphers = getCipherEnums();
+        cipherPipe = new CipherPipe(ciphers, 8, encodeType, zipType, keyHash, cmode);
+
+        String encrypted = editTextSource.getText().toString();
+        CipherEnum[] cipherEnums = cipherPipe.getOutPipe();
+
+        String pipeSting = cipherPipe.getPipeString();
+        showMsg(String.format("pipe[%s] decrypt with key=%s, hash=%s, \nencode=%s keyHash=%s, zip=%s",
+                pipeSting, key, hashed, encodeType.getName(), keyHash.getName(), zipType.getName()), 4, true);
+
+        Bitmap bmp = cipherPipe.drawDecryptCipherPipe(getBaseContext());
+        imgViewCipherPipe.setImageBitmap(bmp);
+
+        String decrypted = decryptedString(encrypted, key, hashed, cipherPipe);
+        showTextDestination.setText(decrypted);
+    }
+
+    /**
+     * appRestart restart app
+     */
     @Override
     public void appRestart() {
         editEncryptKey.setText("");
@@ -584,6 +699,13 @@ public class MainActivity extends BaseActivity{
     }
 
 
+    /**
+     * randomText
+     */
+    public void randomText() {
+        String fortune = eu.cqrxs.util.Fortune.getFortune();
+        editTextSource.setText(fortune);
+    }
 
 
 

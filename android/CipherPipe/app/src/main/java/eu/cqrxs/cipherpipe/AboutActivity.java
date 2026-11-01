@@ -91,7 +91,7 @@ public class AboutActivity extends BaseActivity {
             appExit();
             return true;
         }
-        if (id == R.id.action_restart) {
+        if (id == R.id.action_action_restart) {
             finish();
             return true;
         }

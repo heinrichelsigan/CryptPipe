@@ -46,7 +46,8 @@
     <string name="action_ziptype_bzip">Bzip</string>
     <string name="action_ziptype_zip">Zip</string>
 
-    <string name="action_encodingtypes">EncodingTypes</string>
+    <string name="action_encoding">EncodingTypes</string>
+    <string name="action_encoding_none">None</string>
     <string name="action_encoding_hex16">Hex16</string>
     <string name="action_encoding_base16">Base16</string>
     <string name="action_encoding_hex32">Hex32</string>
@@ -54,21 +55,26 @@
     <string name="action_encoding_uu">Uu</string>
     <string name="action_encoding_xx">Xx</string>
     <string name="action_encoding_base64">Base64</string>
+    <string name="action_encoding_hex64">Hex64</string>
     <string name="action_encoding_ascii85">Ascii85</string>
 
-    <string name="action_randomtext">RandomText</string>
-    <string name="action_encrypt">Encrypt</string>
-    <string name="action_decrypt">Decrypt</string>
-    <string name="action_help">Help</string>
 
+    <string name="action_action_setpipe">SetPipe</string>
+    <string name="action_action_hashpipe">HashPipe</string>
+    <string name="action_action_randomtext">RandomText</string>
+    <string name="action_action_encrypt">Encrypt</string>
+    <string name="action_action_decrypt">Decrypt</string>
+    <string name="action_action_restart">Restart</string>
+    <string name="action_help">Help</string>
     <string name="action_about">About</string>
     <string name="action_exit">Exit</string>
+
     <string name="action_layout">Layout</string>
     <string name="action_stop">Stop</string>
 
-    <string name="help_text">8-staged symmetric cipher pipeline.\n An eight staged symmetric block cipher crypto pipeline to improve advanced encryption standard based on meta DES, 3DES with P-Box S-Box. The following image shows you an example of a symmetric cipher 8 staged encryption pipe and the corresponding decryption inverse pipe.</string>
+    <string name="help_text">8-staged symmetric cipher pipeline.\n\nAn eight staged symmetric block cipher crypto pipeline to improve advanced encryption standard based on meta DES, 3DES with P-Box S-Box. The following image shows you an example of a symmetric cipher 8 staged encryption pipe and the corresponding decryption inverse pipe.\n\nSymmetric Bockcipher Algorithms:\n\tAes, AesLight, AesNet, Rijndael\n\tBruce Schneier’s BlowFish, 2-Fish, 3-Fish, 3-Fish-256\n\tCamellia, CamelliaLight\n\tCast5, Cast6\n\tNational security agency’s Des, 3-Des, Triple-Des.Net, SkipJack\n\tDstu7624\n\tGost28147, Idea, Noekeon\n\tRC2, RC532, RC564, RC6\n\tSeed, SM4\n\tSerpent, Tnepres\n\tTea, XTea\n\tand some other block cipher aögos</string>
     <string name="help_help">QUICK START GUIDE:\nLay stones without color repeating in column and row!\n\nVH: Visual Help\nSM: Size Small\nGA: Game Automation\nS: Sound\nAS: Autosave\nQS: Quicksave</string>
-    <string name="build_with">Build with Android Studio 2021.3.1</string>
+    <string name="build_with">Build with Android Studio Otter 2 Feature Drop | 2025.2.2 Patch 1</string>
     <string name="learn_more">Learn more</string>
     <string name="back_button">Back</string>
     <string name="help_uri">https://cqrxs.eu/help/</string>
