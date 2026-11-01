@@ -158,7 +158,7 @@ namespace EU.CqrXs.SelfExtract
                         break;
                     case OptEnum.Mode:
                         if (!Enum.TryParse<CipherMode2>(optStr, out cmode2))
-                            cmode2 = CiffreMode.defaultCipherMode2;
+                            cmode2 = CipherModeExtensions.defaultCipherMode2;
                         break;
                     case OptEnum.Encode:
                         encodingType = EncodingTypesExtensions.GetEnum(optStr);
