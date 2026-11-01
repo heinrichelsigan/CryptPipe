@@ -10,7 +10,7 @@ if [ $INITFST -lt 1 ] ; then
   mkdir -p In 
   mkdir -p Out 
   mkdir -p Encrypt
-  cp -ax ../../../../../../docu/html/* ./In/.
+  cp -ax ../../../../../../docu/* ./In/.
   INITFST=1;
 fi
 #

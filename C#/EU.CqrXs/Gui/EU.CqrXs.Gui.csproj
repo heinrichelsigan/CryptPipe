@@ -28,6 +28,7 @@
     <ApplicationIcon>Resources\icon\CryptPipe.ico</ApplicationIcon>
     <PackageReadmeFile>README.MD</PackageReadmeFile>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>      
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -20,7 +20,6 @@
     <AssemblyVersion>2.26.1026</AssemblyVersion>
     <FileVersion>2.26.1026</FileVersion>
     <PackageReadmeFile>README.MD</PackageReadmeFile>
-    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

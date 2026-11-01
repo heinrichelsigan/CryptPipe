@@ -18,7 +18,7 @@ namespace EU.CqrXs.SelfExtract
     /// -H | --hash={Blake2xs|BCrypt|CShake|Dstu7564|Hex|MD5|Oct|RipeMD256|SCrypt|Sha1|Sha256|Sha384|Sha512|Whirlpool|TupleHash}
     ///         default: Hex
     /// -z | --zip={bzip2|gzip|zip} 
-    ///         default: none
+    ///         default:Ich willige ein, dass TECHSEARCH mich über Jobangebote informiert und dazu meine Daten in Evidenz hält none
     /// -C | --CipherAlgos={[aes,des3,blowfish,fish2,fish3]|key}
     /// -M | --mode={ECB|CBC|CFB}   
     ///         default: ECB
@@ -56,7 +56,7 @@ namespace EU.CqrXs.SelfExtract
         static FileInfo? inFile = null, outFile = null;
         static byte[]? inBytes = null, outBytes = null;
         static string passKey = "";
-        static CipherMode2 cmode2 = CiffreMode.defaultCipherMode2;
+        static CipherMode2 cmode2 = CipherModeExtensions.defaultCipherMode2;
         static ZipType zipType = ZipType.None;
         static EncodingType encodingType = EncodingType.None;
         static KeyHash keyHash = KeyHash.Hex;
@@ -167,7 +167,7 @@ namespace EU.CqrXs.SelfExtract
                         passKey = optStr;
                         break;
                     case OptEnum.Hash:
-                        keyHash = KeyHash_Extensions.GetKeyHashFromString(optStr);
+                        keyHash = KeyHashExtensions.GetKeyHashFromString(optStr);
                         break;
                     case OptEnum.CipherAlgos:
                         encryptOptLater = optStr;

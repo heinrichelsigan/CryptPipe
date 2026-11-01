@@ -91,7 +91,7 @@ namespace EU.CqrXs.Crypt.Cipher
             inPipe = (new List<CipherEnum>()).ToArray();
             encodeType = EncodingType.Base64;
             zType = ZipType.GZip;
-            CMode2 = CiffreMode.defaultCipherMode2;
+            CMode2 = CipherModeExtensions.defaultCipherMode2;
         }
 
 
@@ -248,7 +248,7 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="privateKey">privateKey to generate pipe</param>
         /// <param name="verbose"></param>
         public AsymmetricCipherPipe(string publicKey, string privateKey, bool verbose = false)
-            : this(publicKey, privateKey, CiffreMode.defaultCipherMode2, verbose)
+            : this(publicKey, privateKey, CipherModeExtensions.defaultCipherMode2, verbose)
         {
             AssignPubPrivKeys(publicKey, privateKey);           
             cipherKey = publicKey + "\r\n" + privateKey;

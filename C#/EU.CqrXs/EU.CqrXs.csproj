@@ -40,6 +40,7 @@
     <Compile Remove="Crypt\CqrJd\**" />
     <Compile Remove="EnDeCoding\**" />
     <Compile Include="Crypt\Cipher\CipherEnumExtensions.cs" />
+    <Compile Include="Crypt\Cipher\CipherModeExtensions.cs" />
     <Compile Include="Zip\ZipTypeExtensions.cs" />
     <EmbeddedResource Remove="Cipher\**" />
     <EmbeddedResource Remove="**" />

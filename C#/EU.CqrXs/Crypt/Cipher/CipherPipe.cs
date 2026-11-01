@@ -131,7 +131,7 @@ namespace EU.CqrXs.Crypt.Cipher
             encodeType = EncodingType.Base64;
             zType = ZipType.None;
             kHash = KeyHash.Hex;
-            CMode2 = CiffreMode.defaultCipherMode2;
+            CMode2 = CipherModeExtensions.defaultCipherMode2;
         }
 
 

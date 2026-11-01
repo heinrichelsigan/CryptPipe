@@ -24,6 +24,43 @@
             <param name="pipeText">semicolon separated pipe string to CipherList </param>
             <returns><see cref="T:CipherEnum[]"/> array of ciphers for the pipe</returns>
         </member>
+        <member name="T:EU.CqrXs.Crypt.Cipher.CipherModeExtensions">
+            <summary>
+            Extension methods for <see cref="T:EU.CqrXs.Crypt.Cipher.CipherMode2">enum CipherMode2</see>
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <listheader>code changes</listheader>
+            <item>
+            2026-02-11 alert-fix-13 changed mode from "ECB" to "CFB"     
+            Reason: Git security scans
+            consequences: no more fully deterministic math bijective proper symmertric cipher en-/decryption in pipe
+            fixed attacks: not so easy REPLY attacks with binary format header and heuristic key collection
+            </item>
+            <item>
+            2026-mm-dd [enter pull request name here] [enter what you did here]
+            Reason: [enter a senseful reason]
+            consequences: [describe most impactful consequences of bugfix or code change request]
+            fixed [vulnerability, code smell]: [Describe understandable precise in 1-2 setences]
+            </item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.CipherModeExtensions.ToCipherMode(EU.CqrXs.Crypt.Cipher.CipherMode2)">
+            <summary>
+            Extension method for <see cref="T:CipherMode2"/> to convert
+            <see cref="T:CipherMode2"/> tp <see cref="T:CipherMode"/> 
+            </summary>
+            <param name="mode"><see cref="T:CipherMode2"/></param>
+            <returns><see cref="T:CipherMode"/></returns>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.CipherModeExtensions.ParseText(System.String)">
+            <summary>
+            parses pipe semicolon separated pipe string to CipherList
+            </summary>
+            <param name="text">semicolon separated pipe string to CipherList </param>
+            <returns><see cref="T:CipherMode2"/> array of ciphers for the pipe</returns>
+        </member>
         <member name="T:EU.CqrXs.Crypt.Cipher.Asymmetric.DH">
             <summary>
             Diffie Hellman key exchange
@@ -149,40 +186,6 @@
             </item>
             </list>
             </remarks>
-        </member>
-        <member name="T:EU.CqrXs.Crypt.Cipher.CiffreMode">
-            <summary>
-            <see cref="T:System.Security.Cryptography.CipherMode"/>
-            </summary>
-        </member>
-        <member name="T:EU.CqrXs.Crypt.Cipher.CipherModeExtensions">
-            <summary>
-            Extension methods for <see cref="T:EU.CqrXs.Crypt.Cipher.CipherMode2">enum CipherMode2</see>
-            </summary>
-            <remarks>
-            <list type="bullet">
-            <listheader>code changes</listheader>
-            <item>
-            2026-02-11 alert-fix-13 changed mode from "ECB" to "CFB"     
-            Reason: Git security scans
-            consequences: no more fully deterministic math bijective proper symmertric cipher en-/decryption in pipe
-            fixed attacks: not so easy REPLY attacks with binary format header and heuristic key collection
-            </item>
-            <item>
-            2026-mm-dd [enter pull request name here] [enter what you did here]
-            Reason: [enter a senseful reason]
-            consequences: [describe most impactful consequences of bugfix or code change request]
-            fixed [vulnerability, code smell]: [Describe understandable precise in 1-2 setences]
-            </item>
-            </list>
-            </remarks>
-        </member>
-        <member name="M:EU.CqrXs.Crypt.Cipher.CipherModeExtensions.ParseText(System.String)">
-            <summary>
-            parses pipe semicolon separated pipe string to CipherList
-            </summary>
-            <param name="text">semicolon separated pipe string to CipherList </param>
-            <returns><see cref="T:CipherMode2"/> array of ciphers for the pipe</returns>
         </member>
         <member name="T:EU.CqrXs.Crypt.Cipher.CipherEnum">
             <summary>

@@ -16,6 +16,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -252,20 +253,7 @@ public class MainActivity extends BaseActivity{
 
                 selectedHash = parent.getSelectedItem().toString();
                 keyHash = KeyHash.getEnum(selectedHash);
-                if (editEncryptKey == null)
-                    editEncryptKey = (EditText) findViewById(R.id.editEncryptKey);
-                String keyValue = "";
-                try {
-                    keyValue = editEncryptKey.getText().toString();
-                } catch (Exception exi) {
-                    keyValue = "zen@area23.at";
-                }
-                String hashed = "";
-                try {
-                    hashed = keyHash.hash(keyValue);
-                    editKeyHash.setText(hashed);
-                } catch (Exception exh) {
-                }
+                hashKey(keyHash);
             }
 
             @Override
@@ -384,6 +372,7 @@ public class MainActivity extends BaseActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_main, menu);
         myMenu = menu;
         if (myMenu != null) {
@@ -392,6 +381,188 @@ public class MainActivity extends BaseActivity{
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        super.onOptionsItemSelected(item);
+        int mItemId = (item != null) ? item.getItemId() : -1;
+        if (mItemId >= 0) {
+            // reset now all checkboxes for language menu items
+            // menuResetCheckboxes(myMenu);
+
+            if (mItemId == R.id.action_ciphermode_ECB ||
+                mItemId == R.id.action_ciphermode_CBC ||
+                mItemId == R.id.action_ciphermode_CBC) {
+                actionCipherMode(item);
+            }
+            if (mItemId == R.id.action_ziptype_none ||
+                mItemId == R.id.action_ziptype_gzip||
+                mItemId == R.id.action_ziptype_bzip ||
+                mItemId == R.id.action_ziptype_zip) {
+                actionCompressionMode(item);
+            }
+            if (mItemId == R.id.action_hash_bcrypt ||
+                    mItemId == R.id.action_hash_blake2xs ||
+                    mItemId == R.id.action_hash_cshake ||
+                    mItemId == R.id.action_hash_dstu7564 ||
+                    mItemId == R.id.action_hash_empty ||
+                    mItemId == R.id.action_hash_hex ||
+                    mItemId == R.id.action_hash_md5 ||
+                    mItemId == R.id.action_hash_oct ||
+                    mItemId == R.id.action_hash_openbsd ||
+                    mItemId == R.id.action_hash_ripemd356 ||
+                    mItemId == R.id.action_hash_scrypt ||
+                    mItemId == R.id.action_hash_sha1 ||
+                    mItemId == R.id.action_hash_sha256 ||
+                    mItemId == R.id.action_hash_sha384 ||
+                    mItemId == R.id.action_hash_sha512 ||
+                    mItemId == R.id.action_hash_tuplehash ||
+                    mItemId == R.id.action_hash_whirlpool)  {
+                actionHashMode(item);
+            }
+            if (mItemId == R.id.action_exit) {
+                appExit();
+                return true;
+            }
+            if (mItemId == R.id.action_exit) {
+                appExit();
+                return true;
+            }
+
+            if (mItemId == R.id.action_about) {
+                startAboutActivity();
+                return true;
+            }
+            if (mItemId == R.id.action_help) {
+                openUrl(getString(R.string.help_url));
+                return true;
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    protected void actionCipherMode(MenuItem item) {
+        int mItemId = (item != null) ? item.getItemId() : -1;
+
+        MenuItem mi = myMenu.getItem(R.id.action_ziptype_none);
+        mi.setChecked(false);
+        mi = myMenu.getItem(R.id.action_ziptype_gzip);
+        mi.setChecked(false);
+        mi = myMenu.getItem(R.id.action_ziptype_bzip);
+        mi.setChecked(false);
+        mi = myMenu.getItem(R.id.action_ziptype_zip);
+        mi.setChecked(false);
+
+        item.setChecked(true);
+        if (mItemId == R.id.action_ziptype_gzip)
+            zipType = ZipType.GZip;
+        else if (mItemId == R.id.action_ziptype_bzip)
+            zipType = ZipType.BZip2;
+        else if (mItemId == R.id.action_ziptype_zip)
+            zipType = ZipType.Zip;
+        else
+            zipType = ZipType.None;
+
+    }
+
+    public void actionHashMode(MenuItem item) {
+        int mItemId = (item != null) ? item.getItemId() : -1;
+
+        int[] rIds = { R.id.action_hash_bcrypt,
+                R.id.action_hash_blake2xs, R.id.action_hash_cshake,
+                R.id.action_hash_dstu7564, R.id.action_hash_empty,
+                R.id.action_hash_hex, R.id.action_hash_md5,
+                R.id.action_hash_oct, R.id.action_hash_openbsd,
+                R.id.action_hash_ripemd356, R.id.action_hash_scrypt,
+                R.id.action_hash_sha1,  R.id.action_hash_sha256,
+                R.id.action_hash_sha384, R.id.action_hash_sha512,
+                R.id.action_hash_tuplehash, R.id.action_hash_whirlpool };
+        for (int rId : rIds) {
+            MenuItem mi = myMenu.getItem(rId);
+            mi.setChecked(false);
+        }
+
+        item.setChecked(true);
+        if (mItemId == R.id.action_hash_bcrypt)
+            keyHash = KeyHash.BCrypt;
+        else if (mItemId == R.id.action_hash_blake2xs)
+            keyHash = KeyHash.Blake2xs;
+        else if (mItemId == R.id.action_hash_cshake)
+            keyHash = KeyHash.CShake;
+        else if (mItemId == R.id.action_hash_dstu7564)
+            keyHash = KeyHash.Dstu7564;
+        else if (mItemId == R.id.action_hash_hex)
+            keyHash = KeyHash.Hex;
+        else if (mItemId == R.id.action_hash_md5)
+            keyHash = KeyHash.MD5;
+        else if (mItemId == R.id.action_hash_oct)
+                keyHash = KeyHash.Oct;
+        else if (mItemId == R.id.action_hash_openbsd)
+            keyHash = KeyHash.OpenBSDCrypt;
+        else if (mItemId == R.id.action_hash_ripemd356)
+            keyHash = KeyHash.RipeMD256;
+        else if (mItemId == R.id.action_hash_scrypt)
+                keyHash = KeyHash.SCrypt;
+        else if (mItemId == R.id.action_hash_sha1)
+            keyHash = KeyHash.Sha1;
+        else if (mItemId == R.id.action_hash_sha256)
+                keyHash = KeyHash.Sha256;
+        else if (mItemId == R.id.action_hash_sha384)
+            keyHash = KeyHash.Sha384;
+        else if (mItemId == R.id.action_hash_sha512)
+            keyHash = KeyHash.Sha512;
+        else if (mItemId == R.id.action_hash_tuplehash)
+                keyHash = KeyHash.TupleHash;
+        else if (mItemId == R.id.action_hash_whirlpool)
+            keyHash = KeyHash.Whirlpool;
+        else
+            keyHash = KeyHash.Empty;
+
+        hashKey(keyHash);
+    }
+
+    public void actionCompressionMode(MenuItem item) {
+        int mItemId = (item != null) ? item.getItemId() : -1;
+
+        MenuItem mi = myMenu.getItem(R.id.action_ziptype_none);
+        mi.setChecked(false);
+        mi = myMenu.getItem(R.id.action_ziptype_gzip);
+        mi.setChecked(false);
+        mi = myMenu.getItem(R.id.action_ziptype_bzip);
+        mi.setChecked(false);
+        mi = myMenu.getItem(R.id.action_ziptype_zip);
+        mi.setChecked(false);
+
+        item.setChecked(true);
+        if (mItemId == R.id.action_ziptype_gzip)
+            zipType = ZipType.GZip;
+        else if (mItemId == R.id.action_ziptype_bzip)
+            zipType = ZipType.BZip2;
+        else if (mItemId == R.id.action_ziptype_zip)
+            zipType = ZipType.Zip;
+        else
+            zipType = ZipType.None;
+
+    }
+
+    public void hashKey(KeyHash kh) {
+        if (editEncryptKey == null)
+            editEncryptKey = (EditText) findViewById(R.id.editEncryptKey);
+        String keyValue = "";
+        try {
+            keyValue = editEncryptKey.getText().toString();
+        } catch (Exception exi) {
+            keyValue = "zen@area23.at";
+        }
+        String hashed = "";
+        try {
+            hashed = kh.hash(keyValue);
+            editKeyHash.setText(hashed);
+        } catch (Exception exh) {
+        }
+    }
 
     @Override
     public void appRestart() {

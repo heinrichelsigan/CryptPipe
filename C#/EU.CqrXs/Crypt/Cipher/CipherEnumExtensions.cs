@@ -95,7 +95,7 @@ namespace EU.CqrXs.Crypt.Cipher
             return 'A';
         }
 
-        public static string PrintChipherType(this CipherEnum cipher)
+        public static string PrintCipherType(this CipherEnum cipher)
         {
             string s = cipher.ToString("x:2") + " " + cipher.GetCipherChar() + "\t" + cipher.ToString();
             return s;
@@ -135,12 +135,7 @@ namespace EU.CqrXs.Crypt.Cipher
             CipherPipe cp = new CipherPipe(pipeText);
             return cp.InPipe;
         }
-
-
-        //public static CipherEnum FromSymmCipherEnum(Symmetric.SymmCipherEnum symmCipherEnum)
-        //{
-        //    return symmCipherEnum.ToCipherEnum();
-        //}
+        
 
     }
 

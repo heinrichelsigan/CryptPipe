@@ -99,7 +99,7 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
             IvLen = 32;
             Size = 256;
             Mode = "ECB";
-            CMode = CiffreMode.defaultCipherMode2;
+            CMode = CipherModeExtensions.defaultCipherMode2;
 
             InitKeys();
         }
