@@ -60,12 +60,13 @@
     <string name="action_encrypt">Encrypt</string>
     <string name="action_decrypt">Decrypt</string>
     <string name="action_help">Help</string>
+
     <string name="action_about">About</string>
     <string name="action_exit">Exit</string>
     <string name="action_layout">Layout</string>
     <string name="action_stop">Stop</string>
 
-    <string name="help_text">Help</string>
+    <string name="help_text">8-staged symmetric cipher pipeline.\n An eight staged symmetric block cipher crypto pipeline to improve advanced encryption standard based on meta DES, 3DES with P-Box S-Box. The following image shows you an example of a symmetric cipher 8 staged encryption pipe and the corresponding decryption inverse pipe.</string>
     <string name="help_help">QUICK START GUIDE:\nLay stones without color repeating in column and row!\n\nVH: Visual Help\nSM: Size Small\nGA: Game Automation\nS: Sound\nAS: Autosave\nQS: Quicksave</string>
     <string name="build_with">Build with Android Studio 2021.3.1</string>
     <string name="learn_more">Learn more</string>

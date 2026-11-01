@@ -49,10 +49,13 @@ public class CipherPipe {
     protected CipherMode2 cMode2 = CipherMode2.ECB;
 
 	public ZipType getZipType() { return zType; }
+    public void setZipType(ZipType zipt) { zType = zipt; }
 
-    public EncodeEnum getEncodeType() { return encodeType; }
+    public  EncodeEnum getEncodeType() { return encodeType; }
+    public void setEncodeType(EncodeEnum ee) { encodeType = ee; }
 
     public KeyHash getKeyHash() { return kHash; }
+    public void setKeyHash(KeyHash kh) { kHash = kh; }
 
     public CipherEnum[] getInPipe() { return inPipe; }
 

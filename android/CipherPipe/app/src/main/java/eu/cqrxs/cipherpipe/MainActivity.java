@@ -125,16 +125,8 @@ public class MainActivity extends BaseActivity{
                 String hashed = keyHash.hash(key);
                 editKeyHash.setText(hashed);
 
-                CipherPipe pipe = new CipherPipe(key, hashed, encodeType, zipType, keyHash, cmode);
-
-                CipherEnum[] cipherEnums = pipe.getInPipe();
-                String pipeSting = "";
-                for (int ci = 0; ci < cipherEnums.length; ci++)
-                    pipeSting = pipeSting + cipherEnums[ci].getName() + ";";
-                showCipherPipe.setText(pipeSting);
-
-                Bitmap bmp = pipe.drawCipherPipe(getBaseContext());
-                imgViewCipherPipe.setImageBitmap(bmp);
+                cipherPipe = new CipherPipe(key, hashed, encodeType, zipType, keyHash, cmode);
+                drawCipherPipe(cipherPipe);
             }
         });
 
@@ -145,15 +137,8 @@ public class MainActivity extends BaseActivity{
                 String hashed = keyHash.hash(key);
                 editKeyHash.setText(hashed);
 
-                CipherPipe pipe = new CipherPipe(hashed, key, encodeType, zipType, keyHash, cmode);
-
-                CipherEnum[] cipherEnums = pipe.getInPipe();
-                String pipeSting = "";
-                for (int ci = 0; ci < cipherEnums.length; ci++)
-                    pipeSting = pipeSting + cipherEnums[ci].getName() + ";";
-                showCipherPipe.setText(pipeSting);
-                Bitmap bmp = pipe.drawCipherPipe(getBaseContext());
-                imgViewCipherPipe.setImageBitmap(bmp);
+                cipherPipe = new CipherPipe(hashed, key, encodeType, zipType, keyHash, cmode);
+                drawCipherPipe(cipherPipe);
             }
         });
 
@@ -168,14 +153,7 @@ public class MainActivity extends BaseActivity{
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                editEncryptKey.setText("");
-                editKeyHash.setText("");
-                showCipherPipe.setText("");
-                editTextSource.setText("");
-                showTextDestination.setText("");
-                Bitmap imgPipeDefault = BitmapFactory.decodeResource(getResources(), R.drawable.cipherpipeblank);
-                imgViewCipherPipe.setImageBitmap(imgPipeDefault);
+                appRestart();
             }
         });
 
@@ -187,22 +165,19 @@ public class MainActivity extends BaseActivity{
                 String hashed = keyHash.hash(key);
                 editKeyHash.setText(hashed);
 
-                String cipherPipeString = showCipherPipe.getText().toString();
-                CipherEnum[] ciphers = new CipherEnum[0];
-                if (cipherPipeString.length() > 0) {
-                    ciphers = CipherEnum.parsePipeText(cipherPipeString);
-                }
-                CipherPipe pipe = new CipherPipe(ciphers, 8, encodeType, zipType, keyHash, cmode);
+                CipherEnum[] ciphers = getCipherEnums();
+                cipherPipe = new CipherPipe(ciphers, 8, encodeType, zipType, keyHash, cmode);
+
                 String plain = editTextSource.getText().toString();
-                Bitmap bmp = pipe.drawCipherPipe(getBaseContext());
+                Bitmap bmp = cipherPipe.drawCipherPipe(getBaseContext());
                 imgViewCipherPipe.clearAnimation();
                 imgViewCipherPipe.setImageBitmap(bmp);
 
-                String pipeSting = pipe.getPipeString();
+                String pipeSting = cipherPipe.getPipeString();
                 showMsg(String.format("pipe[%s] encrypt with key=%s, hash=%s, \nencode=%s keyHash=%s, zip=%s",
                         pipeSting, key, hashed, encodeType.getName(), keyHash.getName(), zipType.getName()), 4, false);
 
-                String encrypted = encryptString(plain, key, hashed, pipe);
+                String encrypted = encryptString(plain, key, hashed, cipherPipe);
                 showTextDestination.setText(encrypted);
             }
         });
@@ -215,24 +190,20 @@ public class MainActivity extends BaseActivity{
                 String hashed = keyHash.hash(key);
                 editKeyHash.setText(hashed);
 
-                String cipherPipeString = showCipherPipe.getText().toString();
-                CipherEnum[] ciphers = new CipherEnum[0];
-                if (cipherPipeString.length() > 0) {
-                    ciphers = CipherEnum.parsePipeText(cipherPipeString);
-                }
-                CipherPipe pipe = new CipherPipe(ciphers, 8, encodeType, zipType, keyHash, cmode);
+                CipherEnum[] ciphers = getCipherEnums();
+                cipherPipe = new CipherPipe(ciphers, 8, encodeType, zipType, keyHash, cmode);
 
                 String encrypted = editTextSource.getText().toString();
-                CipherEnum[] cipherEnums = pipe.getOutPipe();
+                CipherEnum[] cipherEnums = cipherPipe.getOutPipe();
 
-                String pipeSting = pipe.getPipeString();
+                String pipeSting = cipherPipe.getPipeString();
                 showMsg(String.format("pipe[%s] decrypt with key=%s, hash=%s, \nencode=%s keyHash=%s, zip=%s",
                         pipeSting, key, hashed, encodeType.getName(), keyHash.getName(), zipType.getName()), 4, true);
 
-                Bitmap bmp = pipe.drawDecryptCipherPipe(getBaseContext());
+                Bitmap bmp = cipherPipe.drawDecryptCipherPipe(getBaseContext());
                 imgViewCipherPipe.setImageBitmap(bmp);
 
-                String decrypted = decryptedString(encrypted, key, hashed, pipe);
+                String decrypted = decryptedString(encrypted, key, hashed, cipherPipe);
                 showTextDestination.setText(decrypted);
             }
         });
@@ -254,6 +225,10 @@ public class MainActivity extends BaseActivity{
                 selectedHash = parent.getSelectedItem().toString();
                 keyHash = KeyHash.getEnum(selectedHash);
                 hashKey(keyHash);
+
+                CipherEnum[] ciphers = getCipherEnums();
+                cipherPipe = new CipherPipe(ciphers, 8, encodeType, zipType, keyHash, cmode);
+                drawCipherPipe(cipherPipe);
             }
 
             @Override
@@ -281,6 +256,10 @@ public class MainActivity extends BaseActivity{
 
                 selectEncodeType = parent.getSelectedItem().toString();
                 encodeType = EncodeEnum.getEnum(selectEncodeType);
+
+                CipherEnum[] ciphers = getCipherEnums();
+                cipherPipe = new CipherPipe(ciphers, 8, encodeType, zipType, keyHash, cmode);
+                drawCipherPipe(cipherPipe);
             }
 
             @Override
@@ -312,10 +291,14 @@ public class MainActivity extends BaseActivity{
                 cipher = CipherEnum.getEnum(selectCipherAlgo);
                 String currentPipe = showCipherPipe.getText().toString();
                 if (firstTimeInit) {
-                    showCipherPipe.setText("");
+                    showCipherPipe.setText(cipher.getName() + ";");
                     firstTimeInit = false;
                 } else
                     showCipherPipe.setText(currentPipe + cipher.getName() + ";");
+
+                CipherEnum[] ciphers = getCipherEnums();
+                cipherPipe = new CipherPipe(ciphers, 8, encodeType, zipType, keyHash, cmode);
+                drawCipherPipe(cipherPipe);
             }
 
             @Override
@@ -339,6 +322,10 @@ public class MainActivity extends BaseActivity{
 
                 selectedZip = parent.getSelectedItem().toString();
                 zipType = ZipType.getEnum(selectedZip);
+
+                CipherEnum[] ciphers = getCipherEnums();
+                cipherPipe = new CipherPipe(ciphers, 8, encodeType, zipType, keyHash, cmode);
+                drawCipherPipe(cipherPipe);
             }
 
             @Override
@@ -562,6 +549,26 @@ public class MainActivity extends BaseActivity{
             editKeyHash.setText(hashed);
         } catch (Exception exh) {
         }
+    }
+
+    public CipherEnum[] getCipherEnums() {
+        String cipherPipeString = showCipherPipe.getText().toString();
+        CipherEnum[] ciphers = new CipherEnum[0];
+        if (cipherPipeString.length() > 0) {
+            ciphers = CipherEnum.parsePipeText(cipherPipeString);
+        }
+        return ciphers;
+    }
+
+    public void drawCipherPipe(CipherPipe cPipe) {
+        CipherEnum[] cipherEnums = cPipe.getInPipe();
+        String pipeSting = "";
+        for (int ci = 0; ci < cipherEnums.length; ci++)
+            pipeSting = pipeSting + cipherEnums[ci].getName() + ";";
+        showCipherPipe.setText(pipeSting);
+
+        Bitmap bmp = cPipe.drawCipherPipe(getBaseContext());
+        imgViewCipherPipe.setImageBitmap(bmp);
     }
 
     @Override

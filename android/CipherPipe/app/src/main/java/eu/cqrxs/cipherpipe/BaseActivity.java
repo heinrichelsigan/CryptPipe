@@ -54,6 +54,7 @@ public class BaseActivity extends AppCompatActivity {
     protected EncodeEnum encodeType = EncodeEnum.Base64;
     protected ZipType zipType = ZipType.None;
     protected CipherMode2 cmode = CipherMode2.ECB;
+    protected CipherPipe cipherPipe = null;
 
     protected static boolean firstTimeInit = true, firstTimeInitEncodings = true;
     protected static int errNum = 0;
