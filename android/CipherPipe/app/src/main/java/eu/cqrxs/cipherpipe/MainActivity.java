@@ -359,13 +359,14 @@ public class MainActivity extends BaseActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        myMenu = menu;
-        if (myMenu != null) {
-            ;
+        if (!super.onCreateOptionsMenu(menu)) {
+            getMenuInflater().inflate(R.menu.menu_main, menu);
+            myMenu = menu;
         }
-        return true;
+        if (myMenu != null) {
+            return true;
+        }
+        return false;
     }
 
     @Override
