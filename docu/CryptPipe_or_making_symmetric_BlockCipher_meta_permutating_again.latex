@@ -113,7 +113,7 @@ settings AES default engine for 3-fish, isn’t so serious and please download v
 \end{itemize}
 
 \begin{figure}
-\includegraphics[width=1\textwidth]{Symmetric_Cipher_WebForm.jpg}
+\includegraphics[width=0.8\textwidth]{Symmetric_Cipher_WebForm.jpg}
 \caption{\label{fig:SymmetricCipherWebForm}Symmetric Cipher WebForm}
 \end{figure}
 
@@ -161,7 +161,7 @@ You can also go directly to \href{https://github.com/heinrichelsigan/CryptPipe/r
 \dots 
 \begin{figure}
     \centering
-    \includegraphics[width=0.6\linewidth]{2026-04-23_WinForm_CSharp.png}
+    \includegraphics[width=0.8\linewidth]{2026-04-23_WinForm_CSharp.png}
     \caption{WinForm C\#}
     \label{fig:WinForm_CSharp}
 \end{figure}
@@ -505,9 +505,9 @@ a matrix with only one 1 per row and column (rest is 0)
 to change position inside block and value offset.
 
 \url{https://area23.at/net/Crypt/ZenMatrixVisualize.aspx}
-
+\newline
 \begin{figure}
-\includegraphics[width=1\textwidth]{2026-01-25_ZenMatrixVisualize.png}
+\includegraphics[width=0.7\textwidth]{2026-01-25_ZenMatrixVisualize.png}
 \caption{\label{fig:ZenMatrixVisualize}ZenMatrix Visualize}
 \end{figure}
 
@@ -535,31 +535,38 @@ to change position inside block and value offset.
  \hline
 \end{tabular}
 
-When entering hostmaster@nic.at with hash ripemd256 and not fully symmetric checked, 
+\pagebreak
+When entering he@cqrxs.eu with hash empty and not fully symmetric checked, 
 the matrix will look like this:
+\newline
 
 \begin{tabular}{||c|c c c c c c c c c c c c c c c c|c||}
  \hline
   x & x0 & x1 & x2 & x3 & x4 & x5 & x6 & x7 & x8 & x9 & xA & xB & xC & xD & xE & xF & Mx \\ [0.5ex]
  \hline
  x0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 8 \\
- x1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 7 \\
- x2 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 6 \\
- x3 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 4 \\
- x4 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 3 \\
- x5 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\
- x6 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 2 \\
- x7 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & E \\
- x8 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & D \\
- x9 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & A \\
- xA & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & C \\
- xB & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 9 \\
- xC & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & B \\
- xD & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & F \\
- xE & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 5 \\
- xF & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+ x1 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 5 \\
+ x2 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+ x3 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & b \\
+ x4 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\
+ x5 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 2 \\
+ x6 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 9 \\
+ x7 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 3 \\
+ x8 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & e \\
+ x9 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & d \\
+ xA & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 6 \\
+ xB & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 7 \\
+ xC & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 4 \\
+ xD & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & f \\
+ xE & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & a \\
+ xF & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & c \\
  \hline
 \end{tabular}
+
+\begin{figure}
+\includegraphics[width=0.8\textwidth]{2026-11-01_ZenMatrix.png}
+\caption{\label{fig:ZenMatrix_WinForm}ZenMatrix WinForm}
+\end{figure}
 
 \pagebreak
 \section{Code Examples}
