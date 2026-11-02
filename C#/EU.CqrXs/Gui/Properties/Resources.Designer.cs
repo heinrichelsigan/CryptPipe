@@ -401,6 +401,15 @@ namespace EU.CqrXs.Gui.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
+        internal static System.IO.UnmanagedMemoryStream sound_breakpoint {
+            get {
+                return ResourceManager.GetStream("sound_breakpoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
         internal static System.IO.UnmanagedMemoryStream sound_camera {
             get {
                 return ResourceManager.GetStream("sound_camera", resourceCulture);
@@ -410,9 +419,27 @@ namespace EU.CqrXs.Gui.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
+        internal static System.IO.UnmanagedMemoryStream sound_chimes {
+            get {
+                return ResourceManager.GetStream("sound_chimes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
         internal static System.IO.UnmanagedMemoryStream sound_click {
             get {
                 return ResourceManager.GetStream("sound_click", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream sound_coin {
+            get {
+                return ResourceManager.GetStream("sound_coin", resourceCulture);
             }
         }
         
@@ -431,15 +458,6 @@ namespace EU.CqrXs.Gui.Properties {
         internal static System.IO.UnmanagedMemoryStream sound_glasses {
             get {
                 return ResourceManager.GetStream("sound_glasses", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
-        /// </summary>
-        internal static System.IO.UnmanagedMemoryStream sound_gong {
-            get {
-                return ResourceManager.GetStream("sound_gong", resourceCulture);
             }
         }
         
@@ -473,6 +491,42 @@ namespace EU.CqrXs.Gui.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
+        internal static System.IO.UnmanagedMemoryStream sound_space {
+            get {
+                return ResourceManager.GetStream("sound_space", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream sound_suction {
+            get {
+                return ResourceManager.GetStream("sound_suction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream sound_top {
+            get {
+                return ResourceManager.GetStream("sound_top", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream sound_type {
+            get {
+                return ResourceManager.GetStream("sound_type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
         internal static System.IO.UnmanagedMemoryStream sound_volatage {
             get {
                 return ResourceManager.GetStream("sound_volatage", resourceCulture);
@@ -485,6 +539,15 @@ namespace EU.CqrXs.Gui.Properties {
         internal static System.IO.UnmanagedMemoryStream sound_warning {
             get {
                 return ResourceManager.GetStream("sound_warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream sound_whoosh {
+            get {
+                return ResourceManager.GetStream("sound_whoosh", resourceCulture);
             }
         }
         

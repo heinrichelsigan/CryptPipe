@@ -150,9 +150,6 @@
   <data name="image_pdf" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\symbols\image_pdf.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ChiffrePentacle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ChiffrePentacle.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="image_delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\symbols\image_delete.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     <comment>image_delete</comment>
@@ -168,10 +165,6 @@
   </data>
   <data name="img_powerpoint" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\symbols\img_powerpoint.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="sound_gong" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sounds\sound_gong.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-    <comment>sound_gong</comment>
   </data>
   <data name="img_visio" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\symbols\img_visio.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -294,5 +287,41 @@
   </data>
   <data name="Blank_640x108" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Blank_640x108.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sound_space" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sounds\sound_space.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <comment>sound_space</comment>
+  </data>
+  <data name="sound_breakpoint" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sounds\sound_breakpoint.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <comment>sound_breakpoint</comment>
+  </data>
+  <data name="sound_top" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sounds\sound_top.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <comment>sound_top</comment>
+  </data>
+  <data name="sound_chimes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sounds\sound_chimes.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <comment>sound_chimes</comment>
+  </data>
+  <data name="sound_suction" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sounds\sound_suction.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <comment>sound_suction</comment>
+  </data>
+  <data name="sound_coin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sounds\sound_coin.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <comment>sound_coin</comment>
+  </data>
+  <data name="sound_type" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sounds\sound_type.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <comment>sound_type</comment>
+  </data>
+  <data name="sound_whoosh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sounds\sound_whoosh.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <comment>sound_whoos</comment>
+  </data>
+  <data name="ChiffrePentacle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ChiffrePentacle.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <comment>ChiffrePentacle</comment>
   </data>
 </root>
