@@ -293,8 +293,8 @@ public class MainActivity extends BaseActivity{
             else if (mItemId == R.id.action_action_restart)
                 appRestart();
 
-            if (mItemId == R.id.action_exit) {
-                appExit();
+            if (mItemId == R.id.action_simple) {
+                startSimpleActivity();
                 return true;
             }
             if (mItemId == R.id.action_exit) {

@@ -202,10 +202,9 @@ public class SimpleActivity extends BaseActivity{
         } catch (Exception menuEx) {
             showException(menuEx);
         }
-        finally {
-            getMenuInflater().inflate(R.menu.menu_simple, menu);
-            myMenu = menu;
-        }
+
+        getMenuInflater().inflate(R.menu.menu_simple, menu);
+        myMenu = menu;
 
         if (myMenu != null) {
             return true;
@@ -245,11 +244,10 @@ public class SimpleActivity extends BaseActivity{
                 appExit();
                 return true;
             }
-            if (mItemId == R.id.action_exit) {
-                appExit();
+            if (mItemId == R.id.action_complex) {
+                startComplexActivity();
                 return true;
             }
-
             if (mItemId == R.id.action_about) {
                 startAboutActivity();
                 return true;
