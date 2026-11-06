@@ -85,7 +85,7 @@
     </group>
     <item
         android:id="@+id/action_complex"
-        android:orderInCategory="9111"
+        android:orderInCategory="9001"
         android:title="@string/action_complex"
         app:showAsAction="never" />
     <item

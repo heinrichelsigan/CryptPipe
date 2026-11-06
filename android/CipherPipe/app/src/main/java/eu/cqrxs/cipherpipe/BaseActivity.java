@@ -127,6 +127,15 @@ public class BaseActivity extends AppCompatActivity {
                 appExit();
                 return true;
             }
+            if (mItemId == R.id.action_simple) {
+                startSimpleActivity();
+                return true;
+            }
+
+            if (mItemId == R.id.action_complex) {
+                startComplexActivity();
+                return true;
+            }
             if (mItemId == R.id.action_about) {
                 startAboutActivity();
                 return true;
@@ -229,6 +238,25 @@ public class BaseActivity extends AppCompatActivity {
     //endregion
 
 
+    /**
+     * startComplexActivity
+     * starts complex  Activity
+     */
+    public void startComplexActivity() {
+
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * startSimpleActivity
+     * starts Simple  Activity
+     */
+    public void startSimpleActivity() {
+
+        Intent iintent = new Intent(this, SimpleActivity.class);
+        startActivity(iintent);
+    }
 
     /**
      * startAboutActivity
