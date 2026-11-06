@@ -12,7 +12,7 @@
         <item name="colorOnSecondary">@color/bgBlackLight</item>
     </style>
 
-    <style name="Widget.Theme.SUPU.MyView" parent="">
+    <style name="Widget.Theme.CryptPipe.MyView" parent="">
         <item name="android:background">@color/gray_400</item>
         <item name="exampleColor">@color/light_blue_400</item>
     </style>

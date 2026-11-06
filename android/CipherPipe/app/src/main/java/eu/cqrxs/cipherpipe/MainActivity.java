@@ -74,10 +74,10 @@ import eu.cqrxs.zip.ZipType;
 
 public class MainActivity extends BaseActivity{
 
+    Intent requestFileIntent;;
     Button btnEncrypt, btnDecrypt, btnSetPipe, btnHashPipe, btnRandText, btnReset;
     ImageButton imgBtnKey, imgBtnHash;
     ImageView imgViewCipherPipe;
-
     EditText editEncryptKey, showCipherPipe, editTextSource, showTextDestination, editKeyHash;
     Spinner spinnerAlgos; // spinnerHash, spinnerZip,  spinnerEncode;
     ArrayAdapter adapterAlgos = null; //  adapterHash = null, adapterEndoding = null, adapterZip = null,
@@ -160,74 +160,6 @@ public class MainActivity extends BaseActivity{
             }
         });
 
-        /*
-        if (adapterHash == null)
-            adapterHash = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, hashStrings);
-        adapterHash.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerHash.setAdapter(adapterHash);
-        spinnerHash.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                try {
-                    String msg = "adapterViewId: " + parent.getId() + " adapterView: " + parent.getAdapter().toString();
-                    Log.d("onItemSelected", msg);
-                } catch (Exception exAdapter) {
-                }
-
-                selectedHash = parent.getSelectedItem().toString();
-                keyHash = KeyHash.getEnum(selectedHash);
-                hashKey(keyHash);
-
-                CipherEnum[] ciphers = getCipherEnums();
-                cipherPipe = new CipherPipe(ciphers, 8, encodeType, zipType, keyHash, cmode);
-                drawCipherPipe(cipherPipe);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // parent.setSelection(6);
-                ;
-            }
-        });
-        if (firstTimeInitEncodings)
-            spinnerHash.setSelection(5);
-         */
-
-        /*
-        if (adapterEndoding == null)
-            adapterEndoding = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, encodingStrings);
-        adapterEndoding.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerEncode.setAdapter(adapterEndoding);
-        spinnerEncode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                try {
-                    String msg = "adapterViewId: " + parent.getId() + " adapterView: " + parent.getAdapter().toString();
-                    Log.d("onItemSelected", msg);
-                } catch (Exception exAdapter) {
-                }
-
-                selectEncodeType = parent.getSelectedItem().toString();
-                encodeType = EncodeEnum.getEnum(selectEncodeType);
-
-                CipherEnum[] ciphers = getCipherEnums();
-                cipherPipe = new CipherPipe(ciphers, 8, encodeType, zipType, keyHash, cmode);
-                drawCipherPipe(cipherPipe);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                ;
-            }
-        });
-
-        if (firstTimeInitEncodings) {
-            spinnerEncode.setSelection(6);
-            firstTimeInitEncodings = false;
-        }
-         */
-
         if (adapterAlgos == null)
             adapterAlgos = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, algoStrings);
         adapterAlgos.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -261,35 +193,6 @@ public class MainActivity extends BaseActivity{
                 ;
             }
         });
-
-        /*
-        if (adapterZip == null)
-            adapterZip = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, zipStrings);
-        adapterZip.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerZip.setAdapter(adapterZip);
-        spinnerZip.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                try {
-                    String msg = "adapterViewId: " + parent.getId() + " adapterView: " + parent.getAdapter().toString();
-                    Log.d("onItemSelected", msg);
-                } catch (Exception exAdapter) {
-                }
-
-                selectedZip = parent.getSelectedItem().toString();
-                zipType = ZipType.getEnum(selectedZip);
-
-                CipherEnum[] ciphers = getCipherEnums();
-                cipherPipe = new CipherPipe(ciphers, 8, encodeType, zipType, keyHash, cmode);
-                drawCipherPipe(cipherPipe);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                ;
-            }
-        });
-        */
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

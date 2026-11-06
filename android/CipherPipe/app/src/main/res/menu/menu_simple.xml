@@ -1,0 +1,107 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="eu.cqrxs.cipherpipe">
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="android:layout_marginTop=&quot;84dp&quot;" />
+    <group android:id="@+id/group_ciphermode"  android:visible="true">
+        <item
+            android:id="@+id/action_ciphermodes"
+            android:orderInCategory="200"
+            android:title="@string/action_ciphermodes"
+            android:enabled="true"
+            app:showAsAction="collapseActionView">
+            <menu>
+                <item android:id="@+id/action_ciphermode_CBC"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:enabled="true"
+                    android:orderInCategory="2001"
+                    android:title="@string/action_ciphermode_CBC" />
+                <item android:id="@+id/action_ciphermode_CFB"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:enabled="true"
+                    android:orderInCategory="2002"
+                    android:title="@string/action_ciphermode_CFB" />
+                <item android:id="@+id/action_ciphermode_ECB"
+                    android:checkable="true"
+                    android:checked="true"
+                    android:enabled="true"
+                    android:orderInCategory="2003"
+                    android:title="@string/action_ciphermode_ECB" />
+            </menu>
+        </item>
+    </group>
+    <group android:id="@+id/group_actions" android:visible="true">
+        <item
+            android:id="@+id/action_actions"
+            android:orderInCategory="700"
+            android:title="@string/action_actions"
+            android:enabled="true"
+            app:showAsAction="collapseActionView">
+            <menu>
+                <item
+                    android:id="@+id/action_action_setpipe"
+                    android:orderInCategory="7122"
+                    android:title="@string/action_action_setpipe"
+                    android:enabled="true"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/action_action_hashpipe"
+                    android:orderInCategory="7133"
+                    android:title="@string/action_action_hashpipe"
+                    android:enabled="true"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/action_action_randomtext"
+                    android:orderInCategory="6144"
+                    android:title="@string/action_action_randomtext"
+                    android:enabled="true"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/action_action_encrypt"
+                    android:orderInCategory="7666"
+                    android:title="@string/action_action_encrypt"
+                    android:enabled="true"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/action_action_decrypt"
+                    android:orderInCategory="7666"
+                    android:title="@string/action_action_decrypt"
+                    android:enabled="true"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/action_action_restart"
+                    android:orderInCategory="7777"
+                    android:title="@string/action_action_restart"
+                    android:enabled="true"
+                    app:showAsAction="never" />
+            </menu>
+        </item>
+    </group>
+    <item
+        android:id="@+id/action_complex"
+        android:orderInCategory="9111"
+        android:title="@string/action_complex"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_help"
+        android:orderInCategory="9111"
+        android:title="@string/action_help"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_about"
+        android:orderInCategory="9240"
+        android:title="@string/action_about"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_exit"
+        android:orderInCategory="9680"
+        android:title="@string/action_exit"
+        android:enabled="true"
+        app:showAsAction="never" />
+</menu>
