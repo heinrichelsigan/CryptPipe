@@ -160,6 +160,10 @@ public class MainActivity extends BaseActivity{
             }
         });
 
+
+        hashKey(keyHash);
+        showCipherPipe.setText("");
+
         if (adapterAlgos == null)
             adapterAlgos = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, algoStrings);
         adapterAlgos.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -321,23 +325,12 @@ public class MainActivity extends BaseActivity{
     protected void actionCipherMode(MenuItem item) {
         int mItemId = (item != null) ? item.getItemId() : -1;
 
-        if (myMenu == null) {
-            int menuId = getApplicationContext().getResources().getIdentifier(
-                    "menu_main",
-                    "menu",
-                    getApplicationContext().getPackageName());
-            getMenuInflater().inflate(menuId, myMenu);
+        int[] cModeIds = { R.id.action_ciphermode_CBC, R.id.action_ciphermode_CFB, R.id.action_ciphermode_ECB };
+        for (int cModeId : cModeIds) {
+            MenuItem mi = myMenu.findItem(cModeId);
+            if (mi != null)
+                mi.setChecked(false);
         }
-        MenuItem mi = myMenu.findItem(R.id.action_ciphermode_CBC);
-        if (mi != null && mi.isChecked())
-            mi.setChecked(false);
-        mi = myMenu.findItem(R.id.action_ciphermode_CFB);
-        if (mi != null && mi.isChecked())
-            mi.setChecked(false);
-        mi = myMenu.findItem(R.id.action_ciphermode_ECB);
-        if (mi != null && mi.isChecked())
-            mi.setChecked(false);
-
         if (item != null)
             item.setChecked(true);
 
@@ -347,7 +340,6 @@ public class MainActivity extends BaseActivity{
             cmode = CipherMode2.CFB;
         else
             cmode = CipherMode2.ECB;
-
     }
 
     public void actionHashMode(MenuItem item) {
@@ -411,8 +403,10 @@ public class MainActivity extends BaseActivity{
                 keyHash = KeyHash.TupleHash;
         else if (mItemId == R.id.action_hash_whirlpool)
             keyHash = KeyHash.Whirlpool;
-        else
+        else if (mItemId == R.id.action_hash_empty)
             keyHash = KeyHash.Empty;
+        else
+            keyHash = KeyHash.Hex;
 
         hashKey(keyHash);
     }
@@ -484,6 +478,11 @@ public class MainActivity extends BaseActivity{
 
     }
 
+
+    /**
+     * hashKey
+     * @param kh
+     */
     public void hashKey(KeyHash kh) {
         if (editEncryptKey == null)
             editEncryptKey = (EditText) findViewById(R.id.editEncryptKey);
@@ -510,6 +509,10 @@ public class MainActivity extends BaseActivity{
         return ciphers;
     }
 
+    /**
+     * drawCipherPipe
+     * @param cPipe
+     */
     public void drawCipherPipe(CipherPipe cPipe) {
         CipherEnum[] cipherEnums = cPipe.getInPipe();
         String pipeSting = "";
@@ -521,6 +524,9 @@ public class MainActivity extends BaseActivity{
         imgViewCipherPipe.setImageBitmap(bmp);
     }
 
+    /**
+     * setCipherPipe
+     */
     public void setCipherPipe() {
         String key = editEncryptKey.getText().toString();
         String hashed = keyHash.hash(key);
@@ -529,7 +535,10 @@ public class MainActivity extends BaseActivity{
         cipherPipe = new CipherPipe(key, hashed, encodeType, zipType, keyHash, cmode);
         drawCipherPipe(cipherPipe);
     }
-    
+
+    /**
+     * hashCipherPipe
+     */
     public void hashCipherPipe() {
         String key = editEncryptKey.getText().toString();
         String hashed = keyHash.hash(key);

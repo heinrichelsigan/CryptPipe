@@ -125,6 +125,9 @@ public class SimpleActivity extends BaseActivity{
             }
         });
 
+        hashKey(keyHash);
+        showCipherPipe.setText("");
+
         if (adapterAlgos == null)
             adapterAlgos = new ArrayAdapter<>(SimpleActivity.this, android.R.layout.simple_spinner_dropdown_item, algoStrings);
         adapterAlgos.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -159,7 +162,7 @@ public class SimpleActivity extends BaseActivity{
             }
         });
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.simple), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -262,26 +265,19 @@ public class SimpleActivity extends BaseActivity{
     }
 
 
+    /**
+     * actionCipherMode set CipherMode
+     * @param item menuitem selected
+     */
     protected void actionCipherMode(MenuItem item) {
         int mItemId = (item != null) ? item.getItemId() : -1;
 
-        if (myMenu == null) {
-            int menuId = getApplicationContext().getResources().getIdentifier(
-                    "menu_simple",
-                    "menu",
-                    getApplicationContext().getPackageName());
-            getMenuInflater().inflate(menuId, myMenu);
+        int[] cModeIds = { R.id.action_ciphermode_CBC, R.id.action_ciphermode_CFB, R.id.action_ciphermode_ECB };
+        for (int cModeId : cModeIds) {
+            MenuItem mi = myMenu.findItem(cModeId);
+            if (mi != null)
+                mi.setChecked(false);
         }
-        MenuItem mi = myMenu.findItem(R.id.action_ciphermode_CBC);
-        if (mi != null && mi.isChecked())
-            mi.setChecked(false);
-        mi = myMenu.findItem(R.id.action_ciphermode_CFB);
-        if (mi != null && mi.isChecked())
-            mi.setChecked(false);
-        mi = myMenu.findItem(R.id.action_ciphermode_ECB);
-        if (mi != null && mi.isChecked())
-            mi.setChecked(false);
-
         if (item != null)
             item.setChecked(true);
 
@@ -291,7 +287,6 @@ public class SimpleActivity extends BaseActivity{
             cmode = CipherMode2.CFB;
         else
             cmode = CipherMode2.ECB;
-
     }
 
     public void hashKey(KeyHash kh) {
@@ -330,6 +325,9 @@ public class SimpleActivity extends BaseActivity{
         imgViewCipherPipe.setImageBitmap(bmp);
     }
 
+    /**
+     * setCipherPipe
+     */
     public void setCipherPipe() {
         String key = editEncryptKey.getText().toString();
         String hashed = keyHash.hash(key);
@@ -337,7 +335,10 @@ public class SimpleActivity extends BaseActivity{
         seCipherPipe = new SecureCipherPipe(key, cmode);
         drawCipherPipe(seCipherPipe);
     }
-    
+
+    /**
+     * hashCipherPipe
+     */
     public void hashCipherPipe() {
         String key = editEncryptKey.getText().toString();
         String hashed = KeyHash.Whirlpool.hash(KeyHash.SCrypt.hash(key));
@@ -425,8 +426,6 @@ public class SimpleActivity extends BaseActivity{
         String fortune = eu.cqrxs.util.Fortune.getFortune();
         editTextSource.setText(fortune);
     }
-
-
 
 
 }

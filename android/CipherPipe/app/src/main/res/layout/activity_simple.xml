@@ -24,7 +24,6 @@
 		android:orientation="vertical"
 		android:rowCount="6"
 		android:layout_marginTop="84dp"
-		android:layout_marginLeft="4dp"
 		android:stretchMode="columnWidth"
         tools:ignore="MissingConstraints">
 

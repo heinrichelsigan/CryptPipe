@@ -50,7 +50,7 @@ public class BaseActivity extends AppCompatActivity {
     protected String[] hashStrings, encodingStrings, zipStrings, algoStrings;
     protected SortedMap<String, String> sortedAlgoMap, sortedHashMap, sortedEncodingMap;
     protected String selectedHash = "", selectEncodeType = "", selectZipType = "", selectCipherAlgo = "", selectedZip = "";
-    protected KeyHash keyHash = KeyHash.Empty;
+    protected KeyHash keyHash = KeyHash.Hex;
     protected EncodeEnum encodeType = EncodeEnum.Base64;
     protected ZipType zipType = ZipType.None;
     protected CipherMode2 cmode = CipherMode2.ECB;
@@ -254,8 +254,8 @@ public class BaseActivity extends AppCompatActivity {
      */
     public void startSimpleActivity() {
 
-        Intent iintent = new Intent(this, SimpleActivity.class);
-        startActivity(iintent);
+        Intent intent = new Intent(this, SimpleActivity.class);
+        startActivity(intent);
     }
 
     /**

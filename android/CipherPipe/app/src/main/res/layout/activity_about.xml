@@ -12,7 +12,7 @@
         android:id 					="@+id/helpTextView"
         android:layout_width 		="match_parent"
         android:minWidth            ="280dp"
-        android:layout_height 		="284dp"
+        android:layout_height 		="448dp"
         android:minHeight           ="272dp"
         android:maxHeight 			="320dp"
         android:layout_marginLeft 	="8dp"
@@ -53,7 +53,7 @@
         android:background          ="@color/colorBackButton"
         android:textColor           ="@color/color1"
         android:textStyle           ="bold"
-        android:textSize            ="16sp"
+        android:textSize            ="12sp"
         android:text                ="@string/learn_more" />
     <Button
         android:id                  ="@+id/backButton"
@@ -66,7 +66,7 @@
         android:background          ="@color/colorBackButton"
         android:textColor           ="@color/colorGreenOk"
         android:textStyle           ="bold"
-        android:textSize            ="16sp"
+        android:textSize            ="12sp"
         android:text                ="@string/back_button" />
 
 </LinearLayout>
