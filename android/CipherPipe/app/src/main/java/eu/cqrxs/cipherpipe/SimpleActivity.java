@@ -55,7 +55,7 @@ public class SimpleActivity extends BaseActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_simple);
         try {
             hashStrings = KeyHash.getNames();
             encodingStrings = EncodeEnum.getNames();
@@ -267,7 +267,7 @@ public class SimpleActivity extends BaseActivity{
 
         if (myMenu == null) {
             int menuId = getApplicationContext().getResources().getIdentifier(
-                    "menu_main",
+                    "menu_simple",
                     "menu",
                     getApplicationContext().getPackageName());
             getMenuInflater().inflate(menuId, myMenu);
