@@ -46,6 +46,9 @@ import eu.cqrxs.zip.ZipType;
 
 public class BaseActivity extends AppCompatActivity {
 
+    protected android.view.View rootView = null;
+    protected Menu myMenu;
+    protected Intent intent = null;
 
     protected String[] hashStrings, encodingStrings, zipStrings, algoStrings;
     protected SortedMap<String, String> sortedAlgoMap, sortedHashMap, sortedEncodingMap;
@@ -58,13 +61,7 @@ public class BaseActivity extends AppCompatActivity {
 
     protected static boolean firstTimeInit = true, firstTimeInitEncodings = true;
     protected static int errNum = 0;
-
-
-    protected android.view.View rootView = null;
-    protected Menu myMenu;
-
-
-    CipherEnum cipher;
+    protected CipherEnum cipher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -243,9 +240,13 @@ public class BaseActivity extends AppCompatActivity {
      * starts complex  Activity
      */
     public void startComplexActivity() {
-
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        if (intent == null) {
+            intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+        else {
+            finish();
+        }
     }
 
     /**
@@ -253,8 +254,7 @@ public class BaseActivity extends AppCompatActivity {
      * starts Simple  Activity
      */
     public void startSimpleActivity() {
-
-        Intent intent = new Intent(this, SimpleActivity.class);
+        intent = new Intent(this, SimpleActivity.class);
         startActivity(intent);
     }
 
@@ -263,13 +263,7 @@ public class BaseActivity extends AppCompatActivity {
      * starts About Activity
      */
     public void startAboutActivity() {
-        // try {
-        //     Thread.currentThread().sleep(10);
-        // } catch (Exception exInt) {
-        //     errHandler(exInt);
-        // }
-        // tDbg.setText(R.string.help_text);
-        Intent intent = new Intent(this, AboutActivity.class);
+        intent = new Intent(this, AboutActivity.class);
         startActivity(intent);
     }
 
