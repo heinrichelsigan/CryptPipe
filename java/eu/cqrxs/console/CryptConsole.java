@@ -13,6 +13,7 @@ import eu.cqrxs.console.OptEnum;
 import eu.cqrxs.crypt.cipher.CipherEnum;
 import eu.cqrxs.crypt.cipher.CipherMode2;
 import eu.cqrxs.crypt.cipher.CipherPipe;
+import eu.cqrxs.crypt.cipher.SecureCipherPipe;
 import eu.cqrxs.crypt.encoding.EncodeEnum;
 import eu.cqrxs.crypt.hash.KeyHash;
 import eu.cqrxs.util.Constants;
@@ -59,6 +60,8 @@ public class CryptConsole  {
     static ZipType zipType = ZipType.None;
     static EncodeEnum encodingType = EncodeEnum.None;
     static KeyHash keyHash = KeyHash.Hex;
+    static CipherMode2 cMode2 = CipherMode2.ECB;
+    static OptEnum optSecure = OptEnum.Verbose;
 
     /**
      * Main entry method
@@ -178,8 +181,16 @@ public class CryptConsole  {
 	 	        encodingType = EncodeEnum.getEncodingTypeFromString(optStr);
                 verbout("optVar=" + args[0] + " optStr=" + optStr + " encodingType = " + encodingType.toString());
 	        }
+            else if (optEnum == OptEnum.Mode) {
+                cMode2 = CipherMode2.getEnum(optStr);
+                verbout("optVar=" + args[0] + " optStr=" + optStr + " cMode2 = " + cMode2.toString());
+            }
             else if (optEnum == OptEnum.Hash)
                 keyHash = KeyHash.getKeyHashFromString(optStr);
+            else if (optEnum == OptEnum.SecureCipher) {
+                optSecure = OptEnum.SecureCipher;
+                verbout("optVar=" + args[0] + " optStr=" + optStr + " " + optSecure.toString());
+            }
             else if (optEnum == OptEnum.Verbose) {
                 Constants.DEBUG = true;
                 verbose = true;
@@ -226,49 +237,84 @@ public class CryptConsole  {
         }
 
         CipherPipe pipe;
-        // Create cipher pipe for en-/decryption
-        if (passKey == null || passKey.isEmpty() || algos.length > 0) {
-            pipe =  new CipherPipe(algos, Constants.MAX_PIPE_LEN,
-                    encodingType, zipType, keyHash, CipherMode2.ECB);
-            verbout("Created pipe without passkey: " + pipe.getPipeString());
-        } else {
-            pipe = new CipherPipe(passKey, keyHash.hash(passKey),
-                    encodingType, zipType, keyHash, CipherMode2.ECB); // TODO: fix it!
-            verbout("Created pipe with passkey=" + passKey + " pipe=" + pipe.getPipeString());
-        }
+        SecureCipherPipe scPipe;
 
-        String outString = "";
-        if (!reverseDirection) { // encrypt
+        if (optSecure == OptEnum.SecureCipher) {
 
-            PrintPipe(pipe, reverseDirection);
-            // CipherPipe encrypt encode
+            encodingType = EncodeEnum.Base64;
+            zipType = ZipType.GZip;
+
+            if (passKey == null || passKey.isEmpty() || algos.length > 0) {
+                scPipe =  new SecureCipherPipe(algos,Constants.MAX_PIPE_LEN, cMode2);
+                verbout("Created SecureCipherPipe without passkey: " + scPipe.getPipeString());
+            } else {
+                scPipe = new SecureCipherPipe(passKey, cMode2); // TODO: fix it!
+                verbout("Created SecureCipherPipe with passkey=" + passKey + " pipe=" + scPipe.getPipeString());
+            }
+
+            String outString = "";
+            String inString = new String(inBytes);
+            PrintPipe(scPipe, reverseDirection);
             try {
-                passKey = (passKey.length() == 0) ? " " : passKey;
-                outBytes = pipe.encryptEncodeBytes(inBytes,
-                            passKey,  keyHash.hash(passKey),
-                        encodingType, zipType, keyHash, CipherMode2.ECB); // TODO: fix it
+                passKey = (passKey == null || passKey.isEmpty()) ? "" : passKey;
+                outBytes = scPipe.cryptCodeBytes(inBytes, passKey, reverseDirection, cMode2);
             } catch (Exception exi) {
                 DbgWriter.msgex(exi, true);
             }
             outString = new String(outBytes);
-        } else { // decrypt
 
-            String inString = new String(inBytes);
-            PrintPipe(pipe, reverseDirection);
-            // CipherPipe decode decrypt
-            try {
-                passKey = (passKey == null || passKey.isEmpty()) ? "" : passKey;
-                outBytes = pipe.decodeDecrpytBytes(inBytes,
-                        passKey, (passKey.isEmpty() ? "" : keyHash.hash(passKey)),
-                        encodingType, zipType, keyHash, CipherMode2.ECB);
-            } catch (Exception exi) {
-                DbgWriter.msgex(exi, true);
-            }
+            verbout(inBytes.length + " inBytes transformed to " + outBytes.length + " outBytes.");
+
+            inBytes = outBytes;
+
         }
+        else {
 
-        verbout(inBytes.length + " inBytes transformed to " + outBytes.length + " outBytes.");
 
-		inBytes = outBytes;
+            // Create cipher pipe for en-/decryption
+            if (passKey == null || passKey.isEmpty() || algos.length > 0) {
+                pipe = new CipherPipe(algos, Constants.MAX_PIPE_LEN,
+                        encodingType, zipType, keyHash, cMode2);
+                verbout("Created pipe without passkey: " + pipe.getPipeString());
+            } else {
+                pipe = new CipherPipe(passKey, keyHash.hash(passKey),
+                        encodingType, zipType, keyHash, cMode2); // TODO: fix it!
+                verbout("Created pipe with passkey=" + passKey + " pipe=" + pipe.getPipeString());
+            }
+
+            String outString = "";
+            if (!reverseDirection) { // encrypt
+
+                PrintPipe(pipe, reverseDirection);
+                // CipherPipe encrypt encode
+                try {
+                    passKey = (passKey.length() == 0) ? " " : passKey;
+                    outBytes = pipe.encryptEncodeBytes(inBytes,
+                            passKey, keyHash.hash(passKey),
+                            encodingType, zipType, keyHash, cMode2); // TODO: fix it
+                } catch (Exception exi) {
+                    DbgWriter.msgex(exi, true);
+                }
+                outString = new String(outBytes);
+            } else { // decrypt
+
+                String inString = new String(inBytes);
+                PrintPipe(pipe, reverseDirection);
+                // CipherPipe decode decrypt
+                try {
+                    passKey = (passKey == null || passKey.isEmpty()) ? "" : passKey;
+                    outBytes = pipe.decodeDecrpytBytes(inBytes,
+                            passKey, (passKey.isEmpty() ? "" : keyHash.hash(passKey)),
+                            encodingType, zipType, keyHash, cMode2);
+                } catch (Exception exi) {
+                    DbgWriter.msgex(exi, true);
+                }
+            }
+
+            verbout(inBytes.length + " inBytes transformed to " + outBytes.length + " outBytes.");
+
+            inBytes = outBytes;
+        }
 
         if (outFile != null) {
             try {
@@ -390,25 +436,25 @@ public class CryptConsole  {
 
         System.out.println("Usage:\t" + progName + " \n" +
                 "\t-i | --inFile= | --inText={string|EnviromentVariable} | --inStd \n" +
-                "\t-o | --outFile= | --outText=EnviromentVariable | --outStd \n" +
-                "\t-z | --zip={gzip|bzip2}  \n" +
-                "\t-e | --encode={raw|hex16|hex32|base32|base64|uu} \n" +
+                "\t-k | --key=passKey encrypt \n" +
+                "\t-h | --hash={Ascon256|Blake2xs|BCrypt|CShake|Dstu7564|MD5|RipeMD256|SCrypt|Sha1|Sha256|Sha384|Sha512|Whirlpool|Xoodyak} \n" +
+                "\t-z | --zip={gzip|bzip2|zip}  \n" +
                 "\t-C | --crypt={algo1,algo2,...} \n" +
                 "\talgo: \n" +
                 "\t\tAes,AesLight,Rijndael,Des,Des3,Dstu7624, \n" +
-                "\t\tAria,Camellia,CamelliaLight,Cast5,Cast6, \n" +
+                "\t\tria,Camellia,CamelliaLight,Cast5,Cast6, \n" +
                 "\t\tBlowFish,Fish2,Fish3,ThreeFish256, \n" +
                 "\t\tGost28147,Idea,Noekeon, \n" +
                 "\t\tRC2,RC532,RC564,RC6, \n" +
                 "\t\tSeed,SkipJack,Serpent,SM4, \n" +
                 "\t\tTea,Tnepres,XTea, \n" +
                 "\t\tZenMatrix,ZenMatrix2 \n" +
-                "\tsymmAlgo: \n" +
-                "\t\tAes,BlowFish,Camellia,Cast6,Des3,Fish2,Fish3,Gost28147,Idea,RC532,Seed,SkipJack,Serpent,Tea,XTea,SM4\n" +
-                "\t-k | --key=passKey encrypt \n" +
-                "\t-h | --hash={Ascon256|Blake2xs|BCrypt|CShake|Dstu7564|MD5|RipeMD256|SCrypt|Sha1|Sha256|Sha384|Sha512|Whirlpool|Xoodyak} \n" +
+                "\t-e | --encode={raw|hex16|base16|hex32|base32|uu|xx||base64|ascii85} \n" +
+                "\t-M | --mode={CBC|CFB|ECB} \tdefault: ECB \n " +
+                "\t-o | --outFile= | --outText=EnviromentVariable | --outStd \n" +
                 "\t-D | --Decrypt \n" +
-                "\t-S | --SymmCipher \n" +
+                "\t-S | --secureCipher (uses SecureCipherPipe with always GZip, Base64 and different hashes in every pipe stage)\n" +
+                "\t-V  | --verbose \n " +
                 "\t-? | --gethelp\n");
 
         String uout = "\tBCJAR=bcprov-lts8on-2.73.10.jar\n" +

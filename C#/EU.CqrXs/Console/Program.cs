@@ -22,7 +22,7 @@ namespace EU.CqrXs.Console
     /// -C | --CipherAlgos={[aes,des3,blowfish,fish2,fish3]|key}
     /// -M | --mode={ECB|CBC|CFB}   
     ///         default: ECB
-    /// -e | --encode={raw|hex16|hex32|base32|base64|uu}
+    /// -e | --encode={raw|hex16|hex32|base32|uu|xx|ase64|ascii85}
     ///         default: base64
     /// -o | --outFile= | --outText=EnviromentVariable | --outStd      
     /// -S | --secureCipher

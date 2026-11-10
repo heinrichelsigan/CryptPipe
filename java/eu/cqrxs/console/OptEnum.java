@@ -31,7 +31,8 @@ public enum OptEnum {
 	OutP(0x7),
 	Crypt(0x7),
 	Decrypt(0x8),
-	// SymmCipher(0x9),
+	Mode(0xa),
+	SecureCipher(0xc),
     Verbose(0xe),
     Help(0xf);
 

@@ -14,10 +14,10 @@
         CipherAlgos = 0x5,
         Encode = 0x6,
         OutP = 0x7,
-        DeCrypt = 0x10,
+        DeCrypt = 0x8,
         // SymmCipher = 0x9,
-        SecureCipher = 0x11,
         Mode = 0xa,
+        SecureCipher = 0xc,
         Verbose = 0xe,
         Help = 0xf
     }
