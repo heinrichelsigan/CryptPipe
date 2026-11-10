@@ -60,11 +60,10 @@ https://github.com/heinrichelsigan/CryptPipe/releases
 - https://youtu.be/xpnnrxc2znA
 - https://youtu.be/tY2DPsZjbVQ
 
-## Credits and other great crypt projects
+## Credits
 - Great Thanks to [the Legion of the Bouncy Castle](https://www.bouncycastle.org/), git [bcgit](https://github.com/bcgit)
 - [libtom.net](https://www.libtom.net/), git [libtom/libtomcrypt](https://github.com/libtom/libtomcrypt) 
-- [cryptopp.com](https://cryptopp.com/), git [weidai11/cryptopp](https://github.com/libtom/libtomcrypt)
-- [primulinus.com](https://primulinus.com/) [github.com/jedisct1/libsodium](https://github.com/jedisct1/libsodium) 
+- [cryptopp.com](https://cryptopp.com/), git [weidai11/cryptopp](https://github.com/libtom/libtomcrypt) 
 
 ## WinFormCore:
 <img width="760" alt="image" src="https://raw.githubusercontent.com/heinrichelsigan/PermAgainCrypt/refs/heads/main/docu/PermAgainCrypt_WinForm.gif" />
@@ -166,7 +165,6 @@ Examples:
 # [Android](https://github.com/heinrichelsigan/PermAgainCrypt/tree/main/android)
 
 ## [YouTube Video of apk](https://youtube.com/shorts/Rbm7J4jz9OI) 
-## [YouTube Video of exchange apk -> webform](https://youtube.com/shorts/xJy2yovIDLs)
 
 <img width="360" height="800" alt="Android .apk App" src="https://github.com/heinrichelsigan/CryptPipe/blob/main/docu/2025-11-20_android.png?raw=true" />
 
