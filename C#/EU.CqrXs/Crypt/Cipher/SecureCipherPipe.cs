@@ -325,6 +325,19 @@ namespace EU.CqrXs.Crypt.Cipher
                     break;
                 case CipherEnum.ZenMatrix2:
                      encryptBytes = (new ZenMatrix2(secretKey, secretKey, false)).Encrypt(inBytes);
+                    break;
+                case CipherEnum.ChaCha:
+                case CipherEnum.ChaCha7539:
+                case CipherEnum.XChaCha20:
+                case CipherEnum.Salsa20:
+                case CipherEnum.XSalsa20:
+                case CipherEnum.HC128:
+                case CipherEnum.HC256: 
+                case CipherEnum.RC4:
+                case CipherEnum.Isaac:
+                case CipherEnum.VmpcKsa3:
+                    cpParams = new CryptParams(cipherAlgo, secretKey, secretKey);
+                    encryptBytes = new StreamCipherBC(cpParams, true).Encrypt(inBytes);
                     break;                
                 default:
                     CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
@@ -373,6 +386,19 @@ namespace EU.CqrXs.Crypt.Cipher
                 case CipherEnum.ZenMatrix2:
                     decryptBytes = (new ZenMatrix2(secretKey, secretKey, false)).Decrypt(cipherBytes);
                 break;
+                case CipherEnum.ChaCha:
+                case CipherEnum.ChaCha7539:
+                case CipherEnum.XChaCha20:
+                case CipherEnum.Salsa20:
+                case CipherEnum.XSalsa20:
+                case CipherEnum.HC128:
+                case CipherEnum.HC256: 
+                case CipherEnum.RC4:
+                case CipherEnum.Isaac:
+                case CipherEnum.VmpcKsa3:
+                    cpParams = new CryptParams(cipherAlgo, secretKey, secretKey);
+                    decryptBytes = new StreamCipherBC(cpParams, true).Encrypt(cipherBytes);
+                    break;                        
                 default:
                     CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
                     decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);

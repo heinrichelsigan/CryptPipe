@@ -363,6 +363,19 @@ namespace EU.CqrXs.Crypt.Cipher
                 case CipherEnum.ZenMatrix2:
                     encryptBytes = (new ZenMatrix2(secretKey, hash, false)).Encrypt(inBytes);
                     break;
+                case CipherEnum.ChaCha:
+                case CipherEnum.ChaCha7539:
+                case CipherEnum.XChaCha20:
+                case CipherEnum.Salsa20:
+                case CipherEnum.XSalsa20:
+                case CipherEnum.HC128:
+                case CipherEnum.HC256: 
+                case CipherEnum.RC4:
+                case CipherEnum.Isaac:
+                case CipherEnum.VmpcKsa3:
+                    cpParams = new CryptParams(cipherAlgo, secretKey, hash);
+                    encryptBytes = new StreamCipherBC(cpParams, true).Encrypt(inBytes);
+                    break;
                 case CipherEnum.Aes:
                 case CipherEnum.AesLight:
                 case CipherEnum.Aria:
@@ -442,6 +455,19 @@ namespace EU.CqrXs.Crypt.Cipher
                 case CipherEnum.ZenMatrix2:
                     decryptBytes = (new ZenMatrix2(secretKey, hash, false)).Decrypt(cipherBytes);
                     break;
+                case CipherEnum.ChaCha:
+                case CipherEnum.ChaCha7539:
+                case CipherEnum.XChaCha20:
+                case CipherEnum.Salsa20:
+                case CipherEnum.XSalsa20:
+                case CipherEnum.HC128:
+                case CipherEnum.HC256: 
+                case CipherEnum.RC4:
+                case CipherEnum.Isaac:
+                case CipherEnum.VmpcKsa3:
+                    cpParams = new CryptParams(cipherAlgo, secretKey, hash);
+                    decryptBytes = new StreamCipherBC(cpParams, true).Encrypt(cipherBytes);
+                    break;                
                 case CipherEnum.Aes:
                 case CipherEnum.AesLight:
                 case CipherEnum.Aria:
@@ -476,8 +502,7 @@ namespace EU.CqrXs.Crypt.Cipher
                     decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
                     break;
             }
-
-
+            
             return decryptBytes; // EnDeCodeHelper.GetBytesTrimNulls(decryptBytes);
         }
 

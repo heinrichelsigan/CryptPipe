@@ -45,18 +45,30 @@ namespace EU.CqrXs.Crypt.Cipher
         AesNet = 0x1e,
 
         ZenMatrix2 = 0x1f,
+        
+        Salsa20 = 0x20,
+        ChaCha = 0x21,
+        ChaCha7539 = 0x22,
+        RC4 = 0x23,
+        Isaac = 0x24,
+        HC256 = 0x25,
+        HC128 = 0x26,
+        VmpcKsa3 = 0x27,
+        XChaCha20 = 0x28,
+        XSalsa20 = 0x29, 
+        
+        Rsa = 0x30 
+            
+        // Dsa = 0x31,
+        // DH = 0x32,
+        // Ecdsa = 0x33,
+        // Ed25519 = 0x34,
+        // Ed448 = 0x35,
+        // X25519 = 0x36,
+        // X448 = 0x37,
+        // GPG = 0x38
 
-        Rsa = 0x20
-        // Dsa = 0x21,
-        // DH = 0x22,
-        // Ecdsa = 0x23,
-        // Ed25519 = 0x24,
-        // Ed448 = 0x25,
-        // X25519 = 0x26,
-        // X448 = 0x27,
-        // GPG = 0x28
-
-        // DH = 0x22,
+        
         // Ascon = 0x1d
 
     }
