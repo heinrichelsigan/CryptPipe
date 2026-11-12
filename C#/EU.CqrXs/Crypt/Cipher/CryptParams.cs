@@ -102,9 +102,7 @@ namespace EU.CqrXs.Crypt.Cipher
             KeyLen = 32;
             IvLen = 32;
             Mode = "ECB";
-            CMode2 = CipherModeExtensions.defaultCipherMode2;
-            KeyParameter keyParamStreamC = new KeyParameter(System.Text.Encoding.UTF8.GetBytes(Key)); 
-            StreamCipherParameters = new ParametersWithIV(keyParamStreamC, System.Text.Encoding.UTF8.GetBytes(Hash));
+            CMode2 = CipherModeExtensions.defaultCipherMode2;            
             
             switch (Cipher)
             {                
@@ -302,6 +300,8 @@ namespace EU.CqrXs.Crypt.Cipher
             Key = key;
             KeyHashing = keyHash;
             Hash = (string.IsNullOrEmpty(hash)) ? keyHash.Hash(key) : hash;
+            KeyParameter keyParamStreamC = new KeyParameter(System.Text.Encoding.UTF8.GetBytes(Key));
+            StreamCipherParameters = new ParametersWithIV(keyParamStreamC, System.Text.Encoding.UTF8.GetBytes(Hash));
             CMode2 = cmode;
             Mode = cmode.ToString();
         }
@@ -324,6 +324,16 @@ namespace EU.CqrXs.Crypt.Cipher
         {
             Key = key;
             Hash = (string.IsNullOrEmpty(hash)) ? KeyHashing.Hash(key) : hash;
+            KeyParameter keyParamStreamC = new KeyParameter(System.Text.Encoding.UTF8.GetBytes(Key));
+            StreamCipherParameters = new ParametersWithIV(keyParamStreamC, System.Text.Encoding.UTF8.GetBytes(Hash));
+        }
+
+        public CryptParams(CipherEnum cipherAlgo, string key, byte[] hash) : this(cipherAlgo)
+        {
+            Key = key;
+            Hash = (hash == null || hash.Length < 1) ? KeyHashing.Hash(key) : System.Text.Encoding.UTF8.GetString(hash);
+            KeyParameter keyParamStreamC = new KeyParameter(System.Text.Encoding.UTF8.GetBytes(Key));
+            StreamCipherParameters = new ParametersWithIV(keyParamStreamC, hash);
         }
 
         /// <summary>

@@ -1,11 +1,12 @@
-﻿using System.Drawing;
-using EU.CqrXs.Crypt.Cipher.Symmetric;
+﻿using EU.CqrXs.Crypt.Cipher.Symmetric;
 using EU.CqrXs.Crypt.EnDeCoding;
 using EU.CqrXs.Crypt.Hash;
 using EU.CqrXs.Util;
 using EU.CqrXs.Zip;
 using Newtonsoft.Json;
 using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Utilities;
+using System.Drawing;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
@@ -341,6 +342,8 @@ namespace EU.CqrXs.Crypt.Cipher
 
             CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hash, keyHash, cmode2);
             byte[] encryptBytes = inBytes;
+            byte[] hashbytes = new byte[8];
+            byte[] hashed = System.Text.Encoding.UTF8.GetBytes(hash);
 
             switch (cipherAlgo)
             {
@@ -366,8 +369,28 @@ namespace EU.CqrXs.Crypt.Cipher
                 case CipherEnum.ChaCha:
                 case CipherEnum.ChaCha7539:
                 case CipherEnum.XChaCha20:
+                    hashbytes = new byte[8];
+                    //hashed = System.Text.Encoding.UTF8.GetBytes(hash);
+                    if (hashed.Length < 8)
+                        hashed = hashed.TarBytes(Encoding.UTF8.GetBytes(secretKey));
+                    if (hashed.Length > 8)
+                        System.Array.Copy(hashed, hashbytes, 8);
+
+                    cpParams = new CryptParams(cipherAlgo, secretKey, hashbytes);
+                    encryptBytes = new StreamCipherBC(cpParams, true).Encrypt(inBytes);
+                    break;
                 case CipherEnum.Salsa20:
                 case CipherEnum.XSalsa20:
+                    hashbytes = new byte[12];
+                    //hashed = System.Text.Encoding.UTF8.GetBytes(hash);
+                    if (hashed.Length < 12)
+                        hashed = hashed.TarBytes(Encoding.UTF8.GetBytes(secretKey));
+                    if (hashed.Length > 12)
+                        System.Array.Copy(hashed, hashbytes, 12);
+
+                    cpParams = new CryptParams(cipherAlgo, secretKey, hashbytes);
+                    encryptBytes = new StreamCipherBC(cpParams, true).Encrypt(inBytes);
+                    break;                
                 case CipherEnum.HC128:
                 case CipherEnum.HC256: 
                 case CipherEnum.RC4:
@@ -433,6 +456,8 @@ namespace EU.CqrXs.Crypt.Cipher
             // bool sameKey = true;
             CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hash, keyHash, cmode2);
             byte[] decryptBytes = cipherBytes;
+            byte[] hashbytes = new byte[8];
+            byte[] hashed = System.Text.Encoding.UTF8.GetBytes(hash);
 
             switch (cipherAlgo)
             {
@@ -458,15 +483,35 @@ namespace EU.CqrXs.Crypt.Cipher
                 case CipherEnum.ChaCha:
                 case CipherEnum.ChaCha7539:
                 case CipherEnum.XChaCha20:
+                    hashbytes = new byte[8];
+                    // byte[] hashed = System.Text.Encoding.UTF8.GetBytes(hash);
+                    if (hashed.Length < 8)
+                        hashed = hashed.TarBytes(Encoding.UTF8.GetBytes(secretKey));
+                    if (hashed.Length > 8)
+                        System.Array.Copy(hashed, hashbytes, 8);
+
+                    cpParams = new CryptParams(cipherAlgo, secretKey, hashbytes);
+                    decryptBytes = new StreamCipherBC(cpParams, false).Decrypt(cipherBytes);
+                    break;
                 case CipherEnum.Salsa20:
                 case CipherEnum.XSalsa20:
+                    hashbytes = new byte[12];
+                    // byte[] hashed = System.Text.Encoding.UTF8.GetBytes(hash);
+                    if (hashed.Length < 12)
+                        hashed = hashed.TarBytes(Encoding.UTF8.GetBytes(secretKey));
+                    if (hashed.Length > 12)
+                        System.Array.Copy(hashed, hashbytes, 12);
+
+                    cpParams = new CryptParams(cipherAlgo, secretKey, hashbytes);
+                    decryptBytes = new StreamCipherBC(cpParams, false).Decrypt(cipherBytes);
+                    break;
                 case CipherEnum.HC128:
-                case CipherEnum.HC256: 
+                case CipherEnum.HC256:
                 case CipherEnum.RC4:
                 case CipherEnum.Isaac:
                 case CipherEnum.VmpcKsa3:
                     cpParams = new CryptParams(cipherAlgo, secretKey, hash);
-                    decryptBytes = new StreamCipherBC(cpParams, true).Encrypt(cipherBytes);
+                    decryptBytes = new StreamCipherBC(cpParams, false).Decrypt(cipherBytes);
                     break;                
                 case CipherEnum.Aes:
                 case CipherEnum.AesLight:
