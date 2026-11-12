@@ -331,24 +331,24 @@ namespace EU.CqrXs.Crypt.Cipher
                 case CipherEnum.ChaCha:
                 case CipherEnum.ChaCha7539:
                 case CipherEnum.XChaCha20:
-                    hashbytes = new byte[8];
+                    hashbytes = new byte[12];
                     // byte[] hashed = System.Text.Encoding.UTF8.GetBytes(hash);
-                    if (hashed.Length < 8)
+                    if (hashed.Length < 12)
                         hashed = hashed.TarBytes(Encoding.UTF8.GetBytes(secretKey));
-                    if (hashed.Length > 8)
-                        System.Array.Copy(hashed, hashbytes, 8);
+                    if (hashed.Length > 12)
+                        System.Array.Copy(hashed, hashbytes, 12);
 
                     cpParams = new CryptParams(cipherAlgo, secretKey, hashbytes);
                     encryptBytes = new StreamCipherBC(cpParams, true).Encrypt(inBytes);
                     break;
                 case CipherEnum.Salsa20:
                 case CipherEnum.XSalsa20:
-                     hashbytes = new byte[12];
+                     hashbytes = new byte[8];
                     // byte[] hashed = System.Text.Encoding.UTF8.GetBytes(hash);
-                    if (hashed.Length < 12)
+                    if (hashed.Length < 8)
                         hashed = hashed.TarBytes(Encoding.UTF8.GetBytes(secretKey));
-                    if (hashed.Length > 12)
-                        System.Array.Copy(hashed, hashbytes, 12);
+                    if (hashed.Length > 8)
+                        System.Array.Copy(hashed, hashbytes, 8);
 
                     cpParams = new CryptParams(cipherAlgo, secretKey, hashbytes);
                     encryptBytes = new StreamCipherBC(cpParams, true).Encrypt(inBytes);
@@ -402,7 +402,7 @@ namespace EU.CqrXs.Crypt.Cipher
                 case CipherEnum.Rsa:
                     AsymmetricCipherKeyPair keyPair = Asymmetric.Rsa.GetRsaKeyPair(Constants.RSA_PUB, Constants.RSA_PRV);
                     // decryptBytes = Asymmetric.Rsa.DecryptWithPrivate(cipherBytes, keyPair);
-                    decryptBytes = Asymmetric.Rsa.Decrypt(cipherBytes, keyPair);                    
+                    decryptBytes = Asymmetric.Rsa.Decrypt(cipherBytes, keyPair);
                     break;
                 case CipherEnum.ZenMatrix:
                     decryptBytes = (new ZenMatrix(secretKey, secretKey, false)).Decrypt(cipherBytes);
@@ -414,24 +414,24 @@ namespace EU.CqrXs.Crypt.Cipher
                 case CipherEnum.ChaCha:
                 case CipherEnum.ChaCha7539:
                 case CipherEnum.XChaCha20:
-                    hashbytes = new byte[8];
-                    // byte[] hashed = System.Text.Encoding.UTF8.GetBytes(secretKey);
-                    if (hashed.Length < 8)
-                            hashed = hashed.TarBytes(Encoding.UTF8.GetBytes(secretKey));
-                    if (hashed.Length > 8)
-                        System.Array.Copy(hashed, hashbytes, 8);
-
-                    cpParams = new CryptParams(cipherAlgo, secretKey, hashbytes);
-                    decryptBytes = new StreamCipherBC(cpParams, false).Decrypt(cipherBytes);
-                    break;
-                case CipherEnum.Salsa20:
-                case CipherEnum.XSalsa20:
                     hashbytes = new byte[12];
                     // byte[] hashed = System.Text.Encoding.UTF8.GetBytes(secretKey);
                     if (hashed.Length < 12)
                             hashed = hashed.TarBytes(Encoding.UTF8.GetBytes(secretKey));
                     if (hashed.Length > 12)
                         System.Array.Copy(hashed, hashbytes, 12);
+
+                    cpParams = new CryptParams(cipherAlgo, secretKey, hashbytes);
+                    decryptBytes = new StreamCipherBC(cpParams, false).Decrypt(cipherBytes);
+                    break;
+                case CipherEnum.Salsa20:
+                case CipherEnum.XSalsa20:
+                    hashbytes = new byte[8];
+                    // byte[] hashed = System.Text.Encoding.UTF8.GetBytes(secretKey);
+                    if (hashed.Length < 8)
+                            hashed = hashed.TarBytes(Encoding.UTF8.GetBytes(secretKey));
+                    if (hashed.Length > 8)
+                        System.Array.Copy(hashed, hashbytes, 8);
 
                     cpParams = new CryptParams(cipherAlgo, secretKey, hashbytes);
                     decryptBytes = new StreamCipherBC(cpParams, false).Decrypt(cipherBytes);
