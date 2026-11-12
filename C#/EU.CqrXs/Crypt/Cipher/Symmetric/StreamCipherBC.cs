@@ -120,9 +120,6 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
         public StreamCipherBC(CryptParams cparams, bool init = true)
         {
             CryptoStreamCipher = cparams.StreamCipher == null ? new ChaChaEngine() : cparams.StreamCipher;
-            if (CryptoStreamCipher.AlgorithmName.Contains("ChaCha") ||
-                CryptoStreamCipher.AlgorithmName.Contains("7539"))
-                CryptoStreamCipher = new ChaCha7539Engine();
 
             StreamCipherParameters = cparams.StreamCipherParameters;
             Init(init, StreamCipherParameters);
