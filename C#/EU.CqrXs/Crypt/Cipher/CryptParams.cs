@@ -104,6 +104,7 @@ namespace EU.CqrXs.Crypt.Cipher
             Mode = "ECB";
             CMode2 = CipherModeExtensions.defaultCipherMode2;
             KeyParameter keyParamStreamC = new KeyParameter(System.Text.Encoding.UTF8.GetBytes(Key)); 
+            StreamCipherParameters = new ParametersWithIV(keyParamStreamC, System.Text.Encoding.UTF8.GetBytes(Hash));
             
             switch (Cipher)
             {                
@@ -254,47 +255,36 @@ namespace EU.CqrXs.Crypt.Cipher
                     KeyLen = 256;
                     BlockCipher = new ZenMatrix2();
                     break;
+                
                 case CipherEnum.ChaCha:
                     StreamCipher = new ChaChaEngine();
-                    StreamCipherParameters = new ParametersWithIV(keyParamStreamC, System.Text.Encoding.UTF8.GetBytes(Hash));
                     break;
                 case CipherEnum.ChaCha7539:
                     StreamCipher = new ChaCha7539Engine();
-                    StreamCipherParameters = new ParametersWithIV(keyParamStreamC, System.Text.Encoding.UTF8.GetBytes(Hash));
                     break;
                 case CipherEnum.XChaCha20:
                     StreamCipher = new XChaCha20Engine();
-                    StreamCipherParameters = new ParametersWithIV(keyParamStreamC, System.Text.Encoding.UTF8.GetBytes(Hash));
                     break;
                 case CipherEnum.HC128:
                     StreamCipher = new HC128Engine();
-                    StreamCipherParameters = new ParametersWithIV(keyParamStreamC, System.Text.Encoding.UTF8.GetBytes(Hash));
                     break;
                 case CipherEnum.HC256:
                     StreamCipher = new HC256Engine();
-                    StreamCipherParameters = new ParametersWithIV(keyParamStreamC, System.Text.Encoding.UTF8.GetBytes(Hash));
                     break;
                 case CipherEnum.RC4:
                     StreamCipher = new RC4Engine();
-                    StreamCipherParameters = new ParametersWithIV(keyParamStreamC, System.Text.Encoding.UTF8.GetBytes(Hash));
                     break;
                 case CipherEnum.Isaac:
                     StreamCipher = new IsaacEngine();
-                    StreamCipherParameters = new ParametersWithIV(keyParamStreamC, System.Text.Encoding.UTF8.GetBytes(Hash));
                     break;
-                    
                 case CipherEnum.Salsa20:
                     StreamCipher = new Salsa20Engine();
-                    StreamCipherParameters = new ParametersWithIV(keyParamStreamC, System.Text.Encoding.UTF8.GetBytes(Hash));
                     break;
                 case CipherEnum.XSalsa20:
                     StreamCipher = new XSalsa20Engine();
-                    StreamCipherParameters = new ParametersWithIV(keyParamStreamC, System.Text.Encoding.UTF8.GetBytes(Hash));
                     break;
-                
                 case CipherEnum.VmpcKsa3: // VmpcK 
                     StreamCipher = new VmpcKsa3Engine();
-                    StreamCipherParameters = new ParametersWithIV(keyParamStreamC, System.Text.Encoding.UTF8.GetBytes(Hash));
                     break;
                     
                 default:
