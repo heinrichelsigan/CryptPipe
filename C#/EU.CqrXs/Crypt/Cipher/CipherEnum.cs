@@ -53,12 +53,12 @@ namespace EU.CqrXs.Crypt.Cipher
         Isaac = 0x24,
         HC256 = 0x25,
         HC128 = 0x26,
-        VmpcKsa3 = 0x27,
-        XChaCha20 = 0x28,
-        XSalsa20 = 0x29, 
-        
-        Rsa = 0x30 
-            
+        Vmpc = 0x27,
+        VmpcKsa3 = 0x28,
+        XChaCha20 = 0x29,
+        XSalsa20 = 0x2a,
+
+        Rsa = 0x30
         // Dsa = 0x31,
         // DH = 0x32,
         // Ecdsa = 0x33,
@@ -68,7 +68,7 @@ namespace EU.CqrXs.Crypt.Cipher
         // X448 = 0x37,
         // GPG = 0x38
 
-        
+
         // Ascon = 0x1d
 
     }

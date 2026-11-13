@@ -22,17 +22,11 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
 
         internal byte[] Key { get; private set; }
         internal byte[] Iv { get; private set; }
-
-        /// <summary>
-        /// Block Size
-        /// </summary>
-        public int Size { get; private set; }
-
+       
         /// <summary>
         /// KeyLen byte[KeyLen] of Key and Iv
         /// </summary>
         public int KeyLen { get; private set; }
-
         public int IvLen { get; private set; }
 
         /// <summary>
@@ -47,12 +41,10 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
         
         #region IStreamCipher interface
 
-        private const string SYMMCIPHERALGONAME2 = "StreamCipher";
+        private const string SYMMCIPHERALGONAME2 = "StreamCipher";      
+        public new string AlgorithmName => SYMMCIPHERALGONAME2;
 
         public void Reset() => CryptoStreamCipher.Reset();
-
-        public new string AlgorithmName => SYMMCIPHERALGONAME2;
-        
 
         public void Init(bool forEncryption, ICipherParameters parameters)
         {
@@ -74,8 +66,8 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
                     Key = ((KeyParameter)((ParametersWithIV)parameters).Parameters).GetKey();
                 Iv = ((ParametersWithIV)parameters).GetIV();
 
-                Key = Key == null || Key.Length == 0 ? new byte[0] : Key;
-                Iv = Iv == null || Iv.Length == 0 ? new byte[0] : Iv;
+                Key = (Key == null || Key.Length == 0) ? new byte[0] : Key;
+                Iv = (Iv == null || Iv.Length == 0) ? new byte[0] : Iv;
                 if (Key.Length == 0 && Iv.Length == 0)
                     throw new ArgumentNullException("parameters",
                         "KeyParameter and/or ParametersWithIV contain a null or empty key or iv.");
@@ -85,14 +77,14 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
             IvLen = Iv.Length;
             
             forEncryption = forEncryption;
+            CryptoStreamCipher.Init(forEncryption, StreamCipherParameters);
             initialised = true;
         }
 
         public byte ReturnByte(byte input) => CryptoStreamCipher.ReturnByte(input);
 
         public void ProcessBytes(byte[] input, int inOff, int length, byte[] output, int outOff)
-        {
-            CryptoStreamCipher.Init(true, StreamCipherParameters);
+        {            
             output = new byte[input.Length];
             
             int i = inOff;
@@ -105,8 +97,7 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
         }
 
         public void ProcessBytes(ReadOnlySpan<byte> input, Span<byte> output)
-        {
-            CryptoStreamCipher.Init(true, StreamCipherParameters);
+        {           
             output = new byte[input.Length];
             
             // simulate stream
@@ -129,14 +120,13 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
 
 
         public byte[] Encrypt(byte[] plainTextData)
-        {
-            CryptoStreamCipher.Init(true, StreamCipherParameters);
+        {           
             byte[] cipherTextData = new byte[plainTextData.Length];
 
             // simulate stream
             for (int j = 0; j < plainTextData.Length; j++)
             {
-                cipherTextData[j] = CryptoStreamCipher.ReturnByte(plainTextData[j]);
+                cipherTextData[j] = ReturnByte(plainTextData[j]);
             }
 
             return cipherTextData;
@@ -145,13 +135,12 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
 
         public byte[] Decrypt(byte[] cipherTextData)
         {
-            CryptoStreamCipher.Init(false, StreamCipherParameters);
             byte[] plainTextData = new byte[cipherTextData.Length];
 
             // simulate stream
             for (int j = 0; j < cipherTextData.Length; j++)
             {
-                plainTextData[j] = CryptoStreamCipher.ReturnByte(cipherTextData[j]);
+                plainTextData[j] = ReturnByte(cipherTextData[j]);
             }
 
             return plainTextData;

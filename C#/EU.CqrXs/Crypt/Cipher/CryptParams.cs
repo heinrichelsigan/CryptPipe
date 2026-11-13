@@ -1,8 +1,11 @@
 ﻿using EU.CqrXs.Crypt.Cipher.Symmetric;
 using EU.CqrXs.Crypt.Hash;
+using EU.CqrXs.Util;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Parameters;
+using System;
+using System.Text;
 
 namespace EU.CqrXs.Crypt.Cipher
 {
@@ -99,8 +102,8 @@ namespace EU.CqrXs.Crypt.Cipher
         {
             Cipher = cipherAlgo;
             Size = 256;
-            KeyLen = 32;
-            IvLen = 32;
+            KeyLen = 0;
+            IvLen = 0;
             Mode = "ECB";
             CMode2 = CipherModeExtensions.defaultCipherMode2;            
             
@@ -108,25 +111,31 @@ namespace EU.CqrXs.Crypt.Cipher
             {                
                 case CipherEnum.Aes:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
+                    KeyLen = 32;
+                    IvLen = 32;
                     break;
                 case CipherEnum.AesLight:
                     Size = 128;
                     KeyLen = 32;
+                    IvLen = 32;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesLightEngine();
                     break;
-                case CipherEnum.AesNet: // TODO: Implement interface IBlockCipher in AesNet
-                    KeyLen = 32;
+                case CipherEnum.AesNet: // TODO: Implement interface IBlockCipher in AesNet                    
                     Size = 256;
+                    KeyLen = 32;
+                    IvLen = 32;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
                     break;
                 case CipherEnum.Aria:
                     Size = 128;
                     KeyLen = 32;
+                    IvLen = 32; ;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AriaEngine();
                     break;
                 case CipherEnum.BlowFish:
                     Size = 64;
                     KeyLen = 8;
+                    IvLen = 8;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.BlowfishEngine();
                     break;
                 case CipherEnum.Fish2:
@@ -144,97 +153,126 @@ namespace EU.CqrXs.Crypt.Cipher
                 case CipherEnum.Camellia:
                     Size = 128;
                     KeyLen = 16;
+                    IvLen = 16;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaEngine();
                     break;                
                 case CipherEnum.CamelliaLight:
                     Size = 128;
                     KeyLen = 16;
+                    IvLen = 16;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaLightEngine();
                     break;
                 case CipherEnum.Cast5:
                     Size = 128;
                     KeyLen = 16;
+                    IvLen = 16;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.Cast5Engine();
                     break;
                 case CipherEnum.Cast6:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.Cast6Engine();
+                    KeyLen = 32;
+                    IvLen = 32;
                     break;
                 case CipherEnum.Des:
                     Size = 64;
                     KeyLen = 8;
+                    IvLen = 8;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.DesEngine();
                     break;
                 case CipherEnum.Des3:
                     Size = 128;
                     KeyLen = 16;
+                    IvLen = 8;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.DesEdeEngine();
                     break;
                 case CipherEnum.Des3Net: // TODO: implement IBlockCipher in Des3Net
                     Size = 128;
                     KeyLen = 16;
+                    IvLen = 8;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.DesEdeEngine();
                     break;
                 case CipherEnum.Dstu7624:
                     Size = 128;
                     KeyLen = 16;
+                    IvLen = 16;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.Dstu7624Engine(Size);
                     break;
                 case CipherEnum.Gost28147:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.Gost28147Engine();
+                    KeyLen = 32;
+                    IvLen = 32;
                     break;
                 case CipherEnum.Idea:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.IdeaEngine();
+                    KeyLen = 32;
+                    IvLen = 32;
                     break;
                 case CipherEnum.Noekeon:
                     Size = 128;
                     KeyLen = 16;
+                    IvLen = 16;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.NoekeonEngine();
                     break;
                 case CipherEnum.RC2:
                     Size = 128;
                     KeyLen = 32;
+                    IvLen = 32;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC2Engine();
                     break;
                 case CipherEnum.RC532:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC532Engine();
+                    KeyLen = 32;
+                    IvLen = 32;
                     break;
                 case CipherEnum.RC564:
                     Size = 64;
                     KeyLen = 32;
+                    IvLen = 32;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC564Engine();
                     break;
                 case CipherEnum.RC6:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC6Engine();
+                    KeyLen = 32;
+                    IvLen = 32;
                     break;
                 case CipherEnum.Rijndael:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RijndaelEngine();
+                    KeyLen = 32;
+                    IvLen = 32;
                     break;
                 case CipherEnum.Seed:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SeedEngine();
                     Size = 128;
                     KeyLen = 16;
+                    IvLen = 16;
                     break;
                 case CipherEnum.Serpent:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SerpentEngine();
                     Size = 128;
                     KeyLen = 16;
+                    IvLen = 16;
                     break;
                 case CipherEnum.SM4:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SM4Engine();
                     Size = 128;
                     KeyLen = 16;
+                    IvLen = 16;
                     break;
                 case CipherEnum.SkipJack:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SkipjackEngine();
+                    KeyLen = 32;
+                    IvLen = 32;
                     break;
                 case CipherEnum.Tea:
                     Size = 128;
                     KeyLen = 16;
+                    IvLen = 16;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.TeaEngine();
                     break;
                 case CipherEnum.Tnepres:
                     Size = 128;
                     KeyLen = 16;
+                    IvLen = 16;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.TnepresEngine();
                     break;
                 case CipherEnum.XTea:
@@ -245,41 +283,61 @@ namespace EU.CqrXs.Crypt.Cipher
                 case CipherEnum.ZenMatrix:
                     Size = 16;
                     KeyLen = 16;
+                    IvLen = 16;
                     BlockCipher = new ZenMatrix(Size);
                     break;
                 case CipherEnum.ZenMatrix2:
                     // throw new NotImplementedException("ZenMatrix2 IBlockCipher interface not implemented");)
                     Size = 256;
                     KeyLen = 256;
+                    IvLen = 256;
                     BlockCipher = new ZenMatrix2();
                     break;
                 
                 case CipherEnum.ChaCha:
                     StreamCipher = new ChaChaEngine();
+                    KeyLen = 32;
+                    IvLen = 8;
                     break;
                 case CipherEnum.ChaCha7539:
                     StreamCipher = new ChaCha7539Engine();
+                    KeyLen = 32;
+                    IvLen = 12;
                     break;
                 case CipherEnum.XChaCha20:
                     StreamCipher = new XChaCha20Engine();
+                    KeyLen = 32;
+                    IvLen = 24;
                     break;
                 case CipherEnum.HC128:
                     StreamCipher = new HC128Engine();
+                    KeyLen = 16;
                     break;
                 case CipherEnum.HC256:
                     StreamCipher = new HC256Engine();
+                    KeyLen = 32;
+                    IvLen = 12;
                     break;
                 case CipherEnum.RC4:
                     StreamCipher = new RC4Engine();
                     break;
                 case CipherEnum.Isaac:
                     StreamCipher = new IsaacEngine();
+                    KeyLen = 32;
+                    IvLen = 32;
                     break;
                 case CipherEnum.Salsa20:
                     StreamCipher = new Salsa20Engine();
+                    KeyLen = 32;
+                    IvLen = 8;
                     break;
                 case CipherEnum.XSalsa20:
                     StreamCipher = new XSalsa20Engine();
+                    KeyLen = 32;
+                    IvLen = 24;
+                    break;
+                case CipherEnum.Vmpc: // VmpcK 
+                    StreamCipher = new VmpcEngine();
                     break;
                 case CipherEnum.VmpcKsa3: // VmpcK 
                     StreamCipher = new VmpcKsa3Engine();
@@ -290,7 +348,8 @@ namespace EU.CqrXs.Crypt.Cipher
                     break;
             }
             
-            IvLen = KeyLen;
+            if (IvLen < 1)
+                IvLen = KeyLen;
 
         }
 
@@ -300,8 +359,7 @@ namespace EU.CqrXs.Crypt.Cipher
             Key = key;
             KeyHashing = keyHash;
             Hash = (string.IsNullOrEmpty(hash)) ? keyHash.Hash(key) : hash;
-            KeyParameter keyParamStreamC = new KeyParameter(System.Text.Encoding.UTF8.GetBytes(Key));
-            StreamCipherParameters = new ParametersWithIV(keyParamStreamC, System.Text.Encoding.UTF8.GetBytes(Hash));
+            SetStreamCipherParameters(Encoding.UTF8.GetBytes(Key), Encoding.UTF8.GetBytes(Hash));
             CMode2 = cmode;
             Mode = cmode.ToString();
         }
@@ -324,31 +382,27 @@ namespace EU.CqrXs.Crypt.Cipher
         {
             Key = key;
             Hash = (string.IsNullOrEmpty(hash)) ? KeyHashing.Hash(key) : hash;
-            KeyParameter keyParamStreamC = new KeyParameter(System.Text.Encoding.UTF8.GetBytes(Key));
-            StreamCipherParameters = new ParametersWithIV(keyParamStreamC, System.Text.Encoding.UTF8.GetBytes(Hash));
+            SetStreamCipherParameters(Encoding.UTF8.GetBytes(Key), Encoding.UTF8.GetBytes(Hash));
         }
 
         /// <summary>
         /// CryptParams with cipherAlgo, key and hash
         /// </summary>>>
-        public CryptParams(CipherEnum cipherAlgo, string key, byte[] hash) : this(cipherAlgo)
+        public CryptParams(CipherEnum cipherAlgo, string key, byte[] hashed) : this(cipherAlgo)
         {
             Key = key;
-            Hash = (hash == null || hash.Length < 1) ? KeyHashing.Hash(key) : System.Text.Encoding.UTF8.GetString(hash);
-            KeyParameter keyParamStreamC = new KeyParameter(System.Text.Encoding.UTF8.GetBytes(Key));
-            StreamCipherParameters = new ParametersWithIV(keyParamStreamC, hash);
+            Hash = (hashed == null || hashed.Length < 1) ? KeyHashing.Hash(key) : System.Text.Encoding.UTF8.GetString(hashed);
+            SetStreamCipherParameters(Encoding.UTF8.GetBytes(Key), hashed);
         }
         
         /// <summary>
         /// CryptParams with cipherAlgo, key, keyed and hash
         /// </summary>>>
-        public CryptParams(CipherEnum cipherAlgo, string key, byte[] keyed, byte[] hash) : this(cipherAlgo)
+        public CryptParams(CipherEnum cipherAlgo, string key, byte[] keyed, byte[] hashed) : this(cipherAlgo)
         {
             Key = key;
-            Hash = (hash == null || hash.Length < 1) ? KeyHashing.Hash(key) : System.Text.Encoding.UTF8.GetString(hash);
-            KeyParameter keyParamStreamC = new KeyParameter(keyed);
-            StreamCipherParameters = (cipherAlgo == CipherEnum.Isaac && cipherAlgo == CipherEnum.RC4) ? 
-                new KeyParameter(keyed) : new ParametersWithIV(keyParamStreamC, hash);
+            Hash = (hashed == null || hashed.Length < 1) ? KeyHashing.Hash(key) : System.Text.Encoding.UTF8.GetString(hashed);
+            SetStreamCipherParameters(keyed, hashed);
         }
 
         /// <summary>
@@ -358,6 +412,20 @@ namespace EU.CqrXs.Crypt.Cipher
         public CryptParams(CryptParams cryptParams) : this(cryptParams.Cipher, cryptParams.Key, cryptParams.Hash, cryptParams.KeyHashing) { }
 
         #endregion Constructors
+
+        public void SetStreamCipherParameters(byte[] keyed, byte[] hashed)
+        {
+            if (StreamCipher != null)
+            {                
+                if (KeyLen > 0)
+                    keyed = keyed.StretchCutToLength(KeyLen);
+                if (IvLen > 0)
+                    hashed = hashed.StretchCutToLength(IvLen);               
+                KeyParameter keyParamStreamC = new KeyParameter(keyed);
+                StreamCipherParameters = (Cipher == CipherEnum.Isaac || Cipher == CipherEnum.RC4) ?
+                    keyParamStreamC : new ParametersWithIV(keyParamStreamC, hashed);
+            }           
+        }
 
         #region obsolete static members
 

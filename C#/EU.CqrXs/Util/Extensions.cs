@@ -388,7 +388,7 @@ namespace EU.CqrXs.Util
 
                 if (partially)
                 {
-                    ql = 3*ql;
+                    ql = 3 * ql;
                     for (long lb = ql; lb < (long)(baseBytes.LongLength - 16); lb++)
                     {
                         if (baseBytes[lb] != bytesToCompare[lb])
@@ -469,7 +469,7 @@ namespace EU.CqrXs.Util
         }
 
 
-        public static byte[] FillWithZeros(this byte[] bytes, int length = 32) 
+        public static byte[] FillWithZeros(this byte[] bytes, int length = 32)
         {
             Span<byte> span = new Span<byte>(bytes, 0, length);
             return span.ToArray();
@@ -485,6 +485,18 @@ namespace EU.CqrXs.Util
                     return false;
             }
             return true;
+        }
+
+        public static byte[] StretchCutToLength(this byte[] bytes, int length = 32)
+        {
+            byte[] outBytes = new byte[length];
+            if (bytes == null || bytes.Length == 0)
+                return (outBytes.FillWithZeros(length));
+            while (bytes.Length < length)
+                bytes = bytes.TarBytes(bytes);
+            System.Array.Copy(bytes, outBytes, length);
+            
+            return outBytes;
         }
 
         #endregion byteArray extensions

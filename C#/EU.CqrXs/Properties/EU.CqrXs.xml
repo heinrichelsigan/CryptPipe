@@ -66,11 +66,6 @@
             StreamCipherBC class to perform all StreamCiphers
             </summary>
         </member>
-        <member name="P:EU.CqrXs.Crypt.Cipher.Symmetric.StreamCipherBC.Size">
-            <summary>
-            Block Size
-            </summary>
-        </member>
         <member name="P:EU.CqrXs.Crypt.Cipher.Symmetric.StreamCipherBC.KeyLen">
             <summary>
             KeyLen byte[KeyLen] of Key and Iv
