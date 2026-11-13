@@ -5,6 +5,10 @@ using Org.BouncyCastle.Crypto.Parameters;
 
 namespace EU.CqrXs.Crypt.Cipher.Symmetric
 {
+    
+    /// <summary>
+    /// StreamCipherBC class to perform all StreamCiphers
+    /// </summary>
     public class StreamCipherBC : IStreamCipher
     {
 
@@ -111,8 +115,6 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
                 output[i] = ReturnByte(input[i]);
             }
         }
-
-
 
         #endregion IStreamCipher interface
 

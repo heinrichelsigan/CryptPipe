@@ -61,6 +61,11 @@
             <param name="text">semicolon separated pipe string to CipherList </param>
             <returns><see cref="T:CipherMode2"/> array of ciphers for the pipe</returns>
         </member>
+        <member name="T:EU.CqrXs.Crypt.Cipher.Symmetric.StreamCipherBC">
+            <summary>
+            StreamCipherBC class to perform all StreamCiphers
+            </summary>
+        </member>
         <member name="P:EU.CqrXs.Crypt.Cipher.Symmetric.StreamCipherBC.Size">
             <summary>
             Block Size
@@ -1186,6 +1191,16 @@
             <param name="cipherAlgo"><see cref="T:EU.CqrXs.Crypt.Cipher.CipherEnum"/></param>
             <param name="key">secret key</param>
             <param name="hash">corresponding key hash</param>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.CryptParams.#ctor(EU.CqrXs.Crypt.Cipher.CipherEnum,System.String,System.Byte[])">
+            <summary>
+            CryptParams with cipherAlgo, key and hash
+            </summary>>>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.CryptParams.#ctor(EU.CqrXs.Crypt.Cipher.CipherEnum,System.String,System.Byte[],System.Byte[])">
+            <summary>
+            CryptParams with cipherAlgo, key, keyed and hash
+            </summary>>>
         </member>
         <member name="M:EU.CqrXs.Crypt.Cipher.CryptParams.#ctor(EU.CqrXs.Crypt.Cipher.CryptParams)">
             <summary>

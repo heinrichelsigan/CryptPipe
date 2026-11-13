@@ -328,12 +328,28 @@ namespace EU.CqrXs.Crypt.Cipher
             StreamCipherParameters = new ParametersWithIV(keyParamStreamC, System.Text.Encoding.UTF8.GetBytes(Hash));
         }
 
+        /// <summary>
+        /// CryptParams with cipherAlgo, key and hash
+        /// </summary>>>
         public CryptParams(CipherEnum cipherAlgo, string key, byte[] hash) : this(cipherAlgo)
         {
             Key = key;
             Hash = (hash == null || hash.Length < 1) ? KeyHashing.Hash(key) : System.Text.Encoding.UTF8.GetString(hash);
             KeyParameter keyParamStreamC = new KeyParameter(System.Text.Encoding.UTF8.GetBytes(Key));
             StreamCipherParameters = new ParametersWithIV(keyParamStreamC, hash);
+        }
+        
+        /// <summary>
+        /// CryptParams with cipherAlgo, key, keyed and hash
+        /// </summary>>>
+        public CryptParams(CipherEnum cipherAlgo, string key, byte[] keyed, byte[] hash) : this(cipherAlgo)
+        {
+            Key = key;
+            Hash = (hash == null || hash.Length < 1) ? KeyHashing.Hash(key) : System.Text.Encoding.UTF8.GetString(hash);
+            KeyParameter keyParamStreamC = new KeyParameter(keyed);
+            StreamCipherParameters = (cipherAlgo == CipherEnum.Isaac) ? 
+                new KeyParameter(keyed) :
+                new ParametersWithIV(keyParamStreamC, hash);
         }
 
         /// <summary>
