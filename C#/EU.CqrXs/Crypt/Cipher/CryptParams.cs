@@ -347,9 +347,8 @@ namespace EU.CqrXs.Crypt.Cipher
             Key = key;
             Hash = (hash == null || hash.Length < 1) ? KeyHashing.Hash(key) : System.Text.Encoding.UTF8.GetString(hash);
             KeyParameter keyParamStreamC = new KeyParameter(keyed);
-            StreamCipherParameters = (cipherAlgo == CipherEnum.Isaac) ? 
-                new KeyParameter(keyed) :
-                new ParametersWithIV(keyParamStreamC, hash);
+            StreamCipherParameters = (cipherAlgo == CipherEnum.Isaac && cipherAlgo == CipherEnum.RC4) ? 
+                new KeyParameter(keyed) : new ParametersWithIV(keyParamStreamC, hash);
         }
 
         /// <summary>

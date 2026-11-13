@@ -379,20 +379,24 @@ namespace EU.CqrXs.Crypt.Cipher
                     encryptBytes = new StreamCipherBC(cpParams, true).Encrypt(inBytes);
                     break;
                 case CipherEnum.ChaCha7539:
-                    hashbytes = new byte[256];
-                    while (hashed.Length < 256)
-                        hashed = hashed.TarBytes(Encoding.UTF8.GetBytes(hash));
+                    keyed = new byte[128];
+                    hashbytes = new byte[12];
+                    while (keyBytes.Length < 128)
+                        keyBytes = keyBytes.TarBytes(Encoding.UTF8.GetBytes(secretKey));
+                    System.Array.Copy(keyBytes, keyed, 128);
+                    while (hashed.Length < 12)
+                        hashed = hashed.TarBytes(Encoding.UTF8.GetBytes(secretKey));
                     System.Array.Copy(hashed, hashbytes, 256);
 
-                    cpParams = new CryptParams(cipherAlgo, secretKey, hashbytes);
+                    cpParams = new CryptParams(cipherAlgo, secretKey, keyed, hashbytes);
                     encryptBytes = new StreamCipherBC(cpParams, true).Encrypt(inBytes);
                     break;
                 case CipherEnum.Salsa20:
                     hashbytes = new byte[8];
-                    keyed = new byte[128];
-                    while (keyBytes.Length < 128)
+                    keyed = new byte[256];
+                    while (keyBytes.Length < 256)
                         keyBytes = keyBytes.TarBytes(Encoding.UTF8.GetBytes(secretKey));
-                    System.Array.Copy(keyBytes, keyed, 128);
+                    System.Array.Copy(keyBytes, keyed, 256);
                     while (hashed.Length < 8)
                         hashed = hashed.TarBytes(Encoding.UTF8.GetBytes(secretKey));
                     System.Array.Copy(hashed, hashbytes, 8);
@@ -403,11 +407,15 @@ namespace EU.CqrXs.Crypt.Cipher
                 case CipherEnum.XChaCha20:
                 case CipherEnum.XSalsa20:
                     hashbytes = new byte[24];
+                    keyed = new byte[256];
+                    while (keyBytes.Length < 256)
+                        keyBytes = keyBytes.TarBytes(Encoding.UTF8.GetBytes(secretKey));
+                    System.Array.Copy(keyBytes, keyed, 256);
                     while (hashed.Length < 24)
                         hashed = hashed.TarBytes(Encoding.UTF8.GetBytes(secretKey));
                     System.Array.Copy(hashed, hashbytes, 24);
 
-                    cpParams = new CryptParams(cipherAlgo, secretKey, hashbytes);
+                    cpParams = new CryptParams(cipherAlgo, secretKey, keyed, hashbytes);
                     encryptBytes = new StreamCipherBC(cpParams, true).Encrypt(inBytes);
                     break;             
                 case CipherEnum.HC128:
@@ -539,20 +547,24 @@ namespace EU.CqrXs.Crypt.Cipher
                     decryptBytes = new StreamCipherBC(cpParams, false).Decrypt(cipherBytes);
                     break;
                 case CipherEnum.ChaCha7539:
-                    hashbytes = new byte[256];
-                    while (hashed.Length < 256)
-                        hashed = hashed.TarBytes(Encoding.UTF8.GetBytes(hash));
+                    keyed = new byte[128];
+                    hashbytes = new byte[12];
+                    while (keyBytes.Length < 128)
+                        keyBytes = keyBytes.TarBytes(Encoding.UTF8.GetBytes(secretKey));
+                    System.Array.Copy(keyBytes, keyed, 128);
+                    while (hashed.Length < 12)
+                        hashed = hashed.TarBytes(Encoding.UTF8.GetBytes(secretKey));
                     System.Array.Copy(hashed, hashbytes, 256);
 
-                    cpParams = new CryptParams(cipherAlgo, secretKey, hashbytes);
+                    cpParams = new CryptParams(cipherAlgo, secretKey, keyed, hashbytes);
                     decryptBytes = new StreamCipherBC(cpParams, false).Decrypt(cipherBytes);
                     break;
                 case CipherEnum.Salsa20:
                     hashbytes = new byte[8];
-                    keyed = new byte[128];
-                    while (keyBytes.Length < 128)
+                    keyed = new byte[256];
+                    while (keyBytes.Length < 256)
                         keyBytes = keyBytes.TarBytes(Encoding.UTF8.GetBytes(secretKey));
-                    System.Array.Copy(keyBytes, keyed, 128);
+                    System.Array.Copy(keyBytes, keyed, 256);
                     while (hashed.Length < 8)
                         hashed = hashed.TarBytes(Encoding.UTF8.GetBytes(secretKey));
                     System.Array.Copy(hashed, hashbytes, 8);
@@ -563,11 +575,15 @@ namespace EU.CqrXs.Crypt.Cipher
                 case CipherEnum.XChaCha20:
                 case CipherEnum.XSalsa20:
                     hashbytes = new byte[24];
+                    keyed = new byte[256];
+                    while (keyBytes.Length < 256)
+                        keyBytes = keyBytes.TarBytes(Encoding.UTF8.GetBytes(secretKey));
+                    System.Array.Copy(keyBytes, keyed, 256);
                     while (hashed.Length < 24)
                         hashed = hashed.TarBytes(Encoding.UTF8.GetBytes(secretKey));
                     System.Array.Copy(hashed, hashbytes, 24);
 
-                    cpParams = new CryptParams(cipherAlgo, secretKey, hashbytes);
+                    cpParams = new CryptParams(cipherAlgo, secretKey, keyed, hashbytes);
                     decryptBytes = new StreamCipherBC(cpParams, false).Decrypt(cipherBytes);
                     break;     
                 
