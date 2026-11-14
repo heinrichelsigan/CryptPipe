@@ -58,7 +58,7 @@ namespace EU.CqrXs.Test
                 CipherEnum.Salsa20, CipherEnum.XSalsa20,
                 CipherEnum.HC128, CipherEnum.HC256,
                 CipherEnum.Isaac, CipherEnum.RC4,
-                CipherEnum.VmpcKsa3
+                CipherEnum.Vmpc, CipherEnum.VmpcKsa3
             };
             CipherEnum cipherType = CipherEnum.Des3;
             ZipType[] zTypes = new ZipType[] { ZipType.None };

@@ -37,6 +37,7 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <summary>
         /// Extensions method for Enum <see cref="CipherEnum"/>
         /// gets a character for each Cipher Algorithm, that is used here
+        /// "$02456789AaBbCcDdEefFgHhIiJjLlNRrSsTtVvXx"
         /// </summary>
         /// <param name="cipher">this <see cref="CipherEnum"/> extension</param>
         /// <returns>a <see cref="char"/>, that is a short name for the encryption</returns>
@@ -85,7 +86,19 @@ namespace EU.CqrXs.Crypt.Cipher
 
                 case CipherEnum.ZenMatrix: return 'z';
                 case CipherEnum.ZenMatrix2: return 'Z';
-
+                
+                case CipherEnum.ChaCha: return '0';                                     
+                case CipherEnum.ChaCha7539: return '7';
+                case CipherEnum.Salsa20:  return '8';                  
+                case CipherEnum.XChaCha20: return '9';
+                case CipherEnum.XSalsa20: return 'x';
+                case CipherEnum.HC128: return 'h';    
+                case CipherEnum.HC256: return 'H';    
+                case CipherEnum.Isaac: return 'i';
+                case CipherEnum.RC4:  return 'B';
+                case CipherEnum.Vmpc: return 'v';
+                case CipherEnum.VmpcKsa3: return 'V';
+                
                 case CipherEnum.Rsa: return '%';
                 // case CipherEnum.DH: return '!';
 

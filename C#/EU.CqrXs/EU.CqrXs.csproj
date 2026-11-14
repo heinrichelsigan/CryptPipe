@@ -41,6 +41,7 @@
     <Compile Remove="EnDeCoding\**" />
     <Compile Include="Crypt\Cipher\CipherEnumExtensions.cs" />
     <Compile Include="Crypt\Cipher\CipherModeExtensions.cs" />
+    <Compile Include="Crypt\Cipher\Symmetric\BlockCipherBC.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\StreamCipherBC.cs" />
     <Compile Include="Zip\ZipTypeExtensions.cs" />
     <EmbeddedResource Remove="Cipher\**" />

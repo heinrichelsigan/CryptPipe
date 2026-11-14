@@ -380,35 +380,6 @@ namespace EU.CqrXs.Crypt.Cipher
                     encryptBytes = new StreamCipherBC(cpParams, true).Encrypt(inBytes);
                     break;
 
-                case CipherEnum.Aes:
-                case CipherEnum.AesLight:
-                case CipherEnum.Aria:
-                case CipherEnum.BlowFish:
-                case CipherEnum.Camellia:
-                case CipherEnum.Cast5:
-                case CipherEnum.Cast6:
-                case CipherEnum.Des:
-                case CipherEnum.Des3:
-                case CipherEnum.Dstu7624:
-                case CipherEnum.Fish2:
-                case CipherEnum.Fish3:
-                case CipherEnum.Gost28147:
-                case CipherEnum.Idea:
-                case CipherEnum.Noekeon:
-                case CipherEnum.RC2:
-                case CipherEnum.RC532:
-                case CipherEnum.RC564:
-                case CipherEnum.RC6:
-                case CipherEnum.Rijndael:
-                case CipherEnum.Seed:
-                case CipherEnum.Serpent:
-                case CipherEnum.SM4:
-                case CipherEnum.SkipJack:
-                case CipherEnum.Tea:
-                case CipherEnum.Tnepres:
-                case CipherEnum.XTea:
-                // case CipherEnum.ZenMatrix:
-                // case CipherEnum.ZenMatrix2:
                 default:
                     CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
                     encryptBytes = cryptBounceCastle.Encrypt(inBytes);
@@ -474,36 +445,7 @@ namespace EU.CqrXs.Crypt.Cipher
                     cpParams = new CryptParams(cipherAlgo, secretKey, hash);
                     decryptBytes = new StreamCipherBC(cpParams, false).Decrypt(cipherBytes);
                     break;    
-                    
-                case CipherEnum.Aes:
-                case CipherEnum.AesLight:
-                case CipherEnum.Aria:
-                case CipherEnum.BlowFish:
-                case CipherEnum.Camellia:
-                case CipherEnum.Cast5:
-                case CipherEnum.Cast6:
-                case CipherEnum.Des:
-                case CipherEnum.Des3:
-                case CipherEnum.Dstu7624:
-                case CipherEnum.Fish2:
-                case CipherEnum.Fish3:
-                case CipherEnum.Gost28147:
-                case CipherEnum.Idea:
-                case CipherEnum.Noekeon:
-                case CipherEnum.RC2:
-                case CipherEnum.RC532:
-                case CipherEnum.RC564:
-                case CipherEnum.RC6:
-                case CipherEnum.Rijndael:
-                case CipherEnum.Seed:
-                case CipherEnum.Serpent:
-                case CipherEnum.SM4:
-                case CipherEnum.SkipJack:
-                case CipherEnum.Tea:
-                case CipherEnum.Tnepres:
-                case CipherEnum.XTea:
-                // case CipherEnum.ZenMatrix:
-                // case CipherEnum.ZenMatrix2:
+                
                 default:
                     CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
                     decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);

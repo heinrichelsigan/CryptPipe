@@ -41,8 +41,11 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
         
         #region IStreamCipher interface
 
-        private const string SYMMCIPHERALGONAME2 = "StreamCipher";      
-        public new string AlgorithmName => SYMMCIPHERALGONAME2;
+        private const string SYMMCIPHERALGONAME2 = "StreamCipher";
+
+        public new string AlgorithmName => (CryptoStreamCipher.AlgorithmName == null)
+            ? SYMMCIPHERALGONAME2
+            : CryptoStreamCipher.AlgorithmName; 
 
         public void Reset() => CryptoStreamCipher.Reset();
 

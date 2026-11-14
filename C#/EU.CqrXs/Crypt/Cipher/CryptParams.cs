@@ -316,7 +316,7 @@ namespace EU.CqrXs.Crypt.Cipher
                 case CipherEnum.HC256:
                     StreamCipher = new HC256Engine();
                     KeyLen = 32;
-                    IvLen = 12;
+                    IvLen = 16;
                     break;
                 case CipherEnum.RC4:
                     StreamCipher = new RC4Engine();
@@ -385,26 +385,7 @@ namespace EU.CqrXs.Crypt.Cipher
             SetStreamCipherParameters(Encoding.UTF8.GetBytes(Key), Encoding.UTF8.GetBytes(Hash));
         }
 
-        /// <summary>
-        /// CryptParams with cipherAlgo, key and hash
-        /// </summary>>>
-        public CryptParams(CipherEnum cipherAlgo, string key, byte[] hashed) : this(cipherAlgo)
-        {
-            Key = key;
-            Hash = (hashed == null || hashed.Length < 1) ? KeyHashing.Hash(key) : System.Text.Encoding.UTF8.GetString(hashed);
-            SetStreamCipherParameters(Encoding.UTF8.GetBytes(Key), hashed);
-        }
-        
-        /// <summary>
-        /// CryptParams with cipherAlgo, key, keyed and hash
-        /// </summary>>>
-        public CryptParams(CipherEnum cipherAlgo, string key, byte[] keyed, byte[] hashed) : this(cipherAlgo)
-        {
-            Key = key;
-            Hash = (hashed == null || hashed.Length < 1) ? KeyHashing.Hash(key) : System.Text.Encoding.UTF8.GetString(hashed);
-            SetStreamCipherParameters(keyed, hashed);
-        }
-
+       
         /// <summary>
         /// Constructs instance via another object instance
         /// </summary>
