@@ -11,6 +11,7 @@ package eu.cqrxs.crypt.cipher;
 
 import eu.cqrxs.util.Constants;
 
+import javax.crypto.Cipher;
 import java.io.Serializable;
 import java.lang.String;
 import java.util.ArrayList;
@@ -62,7 +63,19 @@ public enum CipherEnum  {
     JAes(0x1e),
     ZenMatrix2(0x1f),
 
-    Rsa(0x20)
+    Salsa20(0x20),
+    ChaCha( 0x21),
+    ChaCha7539(0x22),
+    RC4 ( 0x23),
+    Isaac (0x24),
+    HC256 (0x25),
+    HC128 ( 0x26),
+    Vmpc ( 0x27),
+    VmpcKsa3 ( 0x28),
+    XChaCha20 ( 0x29),
+    XSalsa20 ( 0x2a),
+
+    Rsa(0x30)
     /* DH(0x22) */
     ;
 
@@ -97,83 +110,64 @@ public enum CipherEnum  {
      */
     public char getCipherChar() {
         int xvalue = this.getValue();
-        switch (xvalue) {
-            case 0x0:
-                return 'A';    // Aes
-            case 0x1b:
-                return 'L';    // AesLight
-            case 0x11:
-                return 'j';    // Rijndael
-            case 0x18:
-                return 'a';    // Aria
+        CipherEnum cipher = getCipherEnum(xvalue);
+        switch (cipher) {
+            case Aes:           return 'A';    // Aes
+            case AesLight:      return 'L';    // AesLight
+            case Rijndael:      return 'j';    // Rijndael
 
-            case 0x1:
-                return 'b';    // BlowFish
-            case 0x5:
-                return 'f';    // Fish2
-            case 0x6:
-                return 'F';    // Fish3
+            case Aria:          return 'a';    // Aria
 
-            case 0x2:
-                return 'C';    // Camellia
-            case 0x19:
-                return 'l';        // CamelliaLight
-            case 0x10:
-                return 'c';    // Casz5
-            case 0x3:
-                return '6';    // Cast6
+            case BlowFish:      return 'b';    // BlowFish
+            case Fish2:         return 'f';    // Fish2
+            case Fish3:         return 'F';    // Fish3
 
-            case 0x17:
-                return '$';    // Des
-            case 0x4:
-                return 'D';    // Des3
+            case Camellia:      return 'C';    // Camellia
+            case CamelliaLight: return 'l';    // CamelliaLight
+            case Cast5:         return 'c';    // Casz5
+            case Cast6:         return '6';    // Cast6
 
-            case 0x1a:
-                return 'd';        // Dstu7624
+            case Des:           return '$';    // Des
+            case Des3:          return 'D';    // Des3
 
-            case 0x7:
-                return 'g';    // Gost28147
-            case 0x8:
-                return 'I';        // Idea
-            case 0x12:
-                return 'N';    // Noekeon
+            case Dstu7624:      return 'd';     // Dstu7624
 
-            case 0x13:
-                return '2';    // RC2
-            case 0x9:
-                return '5';        // RC532
-            case 0x14:
-                return 'R';    // RC564
-            case 0x15:
-                return 'r';    // RC6
+            case Gost28147:     return 'g';    // Gost28147
+            case Idea:          return 'I';    // Idea
+            case Noekeon:       return 'N';    // Noekeon
 
-            case 0xa:
-                return 's';        // Seed
-            case 0xc:
-                return 'S';    // Serpent
-            case 0xf:
-                return '4';    // SM4
-            case 0xb:
-                return 'J';        // SkipJack
+            case RC2:           return '2';    // RC2
+            case RC532:         return '5';    // RC532
+            case RC564:         return 'R';    // RC564
+            case RC6:           return 'r';    // RC6
 
-            case 0xd:
-                return 't';    // Tea
-            case 0x16:
-                return 'T';    // Tnepres
-            case 0xe:
-                return 'X';    // XTea
+            case Seed:          return 's';    // Seed
+            case Serpent:       return 'S';    // Serpent
+            case SM4:           return '4';    // SM4
+            case SkipJack:      return 'J';    // SkipJack
 
-            case 0x1c:
-                return 'z';        // ZenMatrix
-            case 0x1d:
-                return 'e';        // ZenMatrix3
-            case 0x1e:
-                return 'E';    // JAes
-            case 0x1f:
-                return 'Z';    // ZenMatrix2
+            case Tea:           return 't';    // Tea
+            case Tnepres:       return 'T';    // Tnepres
+            case XTea:          return 'X';    // XTea
 
-            case 0x20:
-                return '%';        // RSA asymmetric cipher
+            case ZenMatrix:     return 'z';    // ZenMatrix
+            case ZenMatrix3:    return 'U';    // ZenMatrix3
+            case JAes:          return 'E';    // JAes
+            case ZenMatrix2:    return 'Z';    // ZenMatrix2
+
+            case ChaCha:        return '0';
+            case ChaCha7539:    return '7';
+            case Salsa20:       return '8';
+            case XChaCha20:     return '9';
+            case XSalsa20:      return 'x';
+            case HC128:         return 'h';
+            case HC256:         return 'H';
+            case Isaac:         return 'i';
+            case RC4:           return 'B';
+            case Vmpc:          return 'v';
+            case VmpcKsa3:      return 'V';
+
+            case Rsa:           return '%';        // RSA asymmetric cipher
 
             default:
                 break;            // Aes
@@ -224,87 +218,8 @@ public enum CipherEnum  {
      */
     public String getName() {
         int xvalue = this.getValue();
-        switch (xvalue) {
-            case 0x0:
-                return "Aes";            // Aes
-            case 0x1b:
-                return "AesLight";        // AesLight
-            case 0x11:
-                return "Rijndael";        // Rijndael
-            case 0x18:
-                return "Aria";            // Aria
-
-            case 0x1:
-                return "BlowFish";        // BlowFish
-            case 0x5:
-                return "Fish2";        // Fish2
-            case 0x6:
-                return "Fish3";        // Fish3
-
-            case 0x2:
-                return "Camellia";        // Camellia
-            case 0x19:
-                return "CamelliaLight";    // CamelliaLight
-            case 0x10:
-                return "Cast5";        // Cast5
-            case 0x3:
-                return "Cast6";        // Cast6
-
-            case 0x17:
-                return "Des";            // Des
-            case 0x4:
-                return "Des3";            // Des3
-            case 0x1a:
-                return "Dstu7624";        // Dstu7624
-
-            case 0x7:
-                return "Gost28147";    // Gost28147
-            case 0x8:
-                return "Idea";            // Idea
-            case 0x12:
-                return "Noekeon";        // Noekeon
-
-            case 0x13:
-                return "RC2";            // RC2
-            case 0x9:
-                return "RC532";            // RC532
-            case 0x14:
-                return "RC564";        // RC564
-            case 0x15:
-                return "RC6";            // RC6
-
-            case 0xa:
-                return "Seed";            // Seed
-            case 0xc:
-                return "Serpent";        // Serpent
-            case 0xf:
-                return "SM4";            // SM4
-            case 0xb:
-                return "SkipJack";        // SkipJack
-
-            case 0xd:
-                return "Tea";            // Tea
-            case 0x16:
-                return "Tnepres";        // Tnepres
-            case 0xe:
-                return "XTea";            // XTea
-
-            case 0x1c:
-                return "ZenMatrix";        // ZenMatrix
-            case 0x1d:
-                return "ZenMatrix3";        // Des3Net
-            case 0x1e:
-                return "JAes";        // JAes
-            case 0x1f:
-                return "ZenMatrix2";    // ZenMatrix2
-
-            case 0x20:
-                return "Rsa";            // Rsa asymmetric cipher
-
-            default:
-                break;            // Aes
-        }
-        return "Aes";            // Aes
+        CipherEnum cipher = getCipherEnum(xvalue);
+        return cipher.toString();
     }
 
 
@@ -392,6 +307,19 @@ public enum CipherEnum  {
     public static CipherEnum getEnum(String ciphername) {
         for (CipherEnum cipherEnum : CipherEnum.values()) {
             if (cipherEnum.getName() == ciphername)
+                return cipherEnum;
+        }
+        return CipherEnum.Aes;
+    }
+
+    /**
+     * getCipherEnum
+     * @param cvalue byte value
+     * @return the enum {@link CipherEnum}
+     */
+    public static CipherEnum getCipherEnum(int cvalue) {
+        for (CipherEnum cipherEnum : CipherEnum.values()) {
+            if (cipherEnum.getByteValue() == cvalue)
                 return cipherEnum;
         }
         return CipherEnum.Aes;

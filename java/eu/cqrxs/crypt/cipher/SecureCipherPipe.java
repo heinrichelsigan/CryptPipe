@@ -10,10 +10,7 @@
 package eu.cqrxs.crypt.cipher;
 
 import eu.cqrxs.crypt.cipher.asymmetric.RsaCipher;
-import eu.cqrxs.crypt.cipher.symmetric.CryptBounceCastle;
-import eu.cqrxs.crypt.cipher.symmetric.JAes;
-import eu.cqrxs.crypt.cipher.symmetric.ZenMatrix;
-import eu.cqrxs.crypt.cipher.symmetric.ZenMatrix2;
+import eu.cqrxs.crypt.cipher.symmetric.*;
 import eu.cqrxs.crypt.encoding.EncodeEnum;
 import eu.cqrxs.crypt.hash.KeyHash;
 import eu.cqrxs.util.CException;
@@ -207,6 +204,24 @@ public class SecureCipherPipe extends CipherPipe {
             case ZenMatrix2:
                 encryptBytes = (new ZenMatrix2(hashKey, hashKey, false)).encrypt(inBytes, true);
                 break;
+
+            case ChaCha:
+            case ChaCha7539:
+            case Salsa20:
+            case XChaCha20:
+            case XSalsa20:
+            case HC128:
+            case HC256:
+            case Isaac:
+            case RC4:
+            case Vmpc:
+            case VmpcKsa3:
+                cpParams =  new CryptParams(cipherAlgo, hashKey, hashKey, cmode2);
+                StreamCipherBC sbc = new StreamCipherBC(cpParams, true);
+                encryptBytes = sbc.encrypt(inBytes);
+                break;
+
+
             default:
                 CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
                 encryptBytes = cryptBounceCastle.encrypt(inBytes);
@@ -249,6 +264,23 @@ public class SecureCipherPipe extends CipherPipe {
             case ZenMatrix2:
                 decryptBytes = (new ZenMatrix2(hashKey, hashKey, false)).decrypt(cipherBytes);
                 break;
+
+            case ChaCha:
+            case ChaCha7539:
+            case Salsa20:
+            case XChaCha20:
+            case XSalsa20:
+            case HC128:
+            case HC256:
+            case Isaac:
+            case RC4:
+            case Vmpc:
+            case VmpcKsa3:
+                cpParams =  new CryptParams(cipherAlgo, hashKey, hashKey, cmode2);
+                StreamCipherBC sbc = new StreamCipherBC(cpParams, false);
+                decryptBytes = sbc.decrypt(cipherBytes);
+                break;
+
             default:
                 CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
                 decryptBytes = cryptBounceCastle.decrypt(cipherBytes);

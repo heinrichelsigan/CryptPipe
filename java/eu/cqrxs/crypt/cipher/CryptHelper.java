@@ -60,7 +60,28 @@ public class CryptHelper {
 
         return byteBuffer.array();
     }
-	
+
+
+
+    public static byte[] fillWithZeros(byte[] bytes, int length) {
+        bytes = new byte[length];
+        for (int i = 0; i<length; i++)
+            bytes[i++] = (byte)0x0;
+        return bytes;
+    }
+
+    public static byte[] stretchCutToLength(byte[] bytes, int length)  {
+        byte[] outBytes = new byte[length];
+        if (bytes == null || bytes.length == 0)
+            return (CryptHelper.fillWithZeros(outBytes, length));
+        while (bytes.length < length)
+            bytes = CryptHelper.tarBytes(bytes, bytes);
+        System.arraycopy(bytes,0, outBytes, 0, length);
+
+        return outBytes;
+    }
+
+
     /**
      * PrivateUserKey
      * @param secretKey

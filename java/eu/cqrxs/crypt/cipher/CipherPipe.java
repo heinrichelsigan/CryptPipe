@@ -19,10 +19,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import eu.cqrxs.crypt.cipher.asymmetric.RsaCipher;
-import eu.cqrxs.crypt.cipher.symmetric.CryptBounceCastle;
-import eu.cqrxs.crypt.cipher.symmetric.JAes;
-import eu.cqrxs.crypt.cipher.symmetric.ZenMatrix;
-import eu.cqrxs.crypt.cipher.symmetric.ZenMatrix3;
+import eu.cqrxs.crypt.cipher.symmetric.*;
 import eu.cqrxs.crypt.encoding.EncodeEnum;
 import eu.cqrxs.crypt.hash.KeyHash;
 import eu.cqrxs.util.CException;
@@ -302,6 +299,23 @@ public class CipherPipe {
             case ZenMatrix3:
                 encryptBytes = (new ZenMatrix3(secretKey, hashedKey, false)).encrypt(inBytes, true);
                 break;
+
+            case ChaCha:
+            case ChaCha7539:
+            case Salsa20:
+            case XChaCha20:
+            case XSalsa20:
+            case HC128:
+            case HC256:
+            case Isaac:
+            case RC4:
+            case Vmpc:
+            case VmpcKsa3:
+                cpParams = new CryptParams(cipherAlgo, secretKey, hashedKey, cmode2);
+                StreamCipherBC sbc = new StreamCipherBC(cpParams, true);
+                encryptBytes = sbc.encrypt(inBytes);
+                break;
+
             case Aes:
             case AesLight:
             case Aria:
@@ -380,6 +394,23 @@ public class CipherPipe {
                 RsaCipher rsa = new RsaCipher(Constants.RSA_PUB, Constants.RSA_PRV);
                 decryptBytes = rsa.decrypt(cipherBytes);
                 break;
+
+            case ChaCha:
+            case ChaCha7539:
+            case Salsa20:
+            case XChaCha20:
+            case XSalsa20:
+            case HC128:
+            case HC256:
+            case Isaac:
+            case RC4:
+            case Vmpc:
+            case VmpcKsa3:
+                cpParams = new CryptParams(cipherAlgo, secretKey, hash, cmode2);
+                StreamCipherBC sbc = new StreamCipherBC(cpParams, false);
+                decryptBytes = sbc.decrypt(cipherBytes);
+                break;
+
             case Aes:
             case AesLight:
             case Aria:

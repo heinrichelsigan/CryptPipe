@@ -102,8 +102,8 @@ namespace EU.CqrXs.Crypt.Cipher
         {
             Cipher = cipherAlgo;
             Size = 256;
-            KeyLen = 0;
-            IvLen = 0;
+            KeyLen = 32;
+            IvLen = 32;
             Mode = "ECB";
             CMode2 = CipherModeExtensions.defaultCipherMode2;            
             
@@ -111,25 +111,16 @@ namespace EU.CqrXs.Crypt.Cipher
             {                
                 case CipherEnum.Aes:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
-                    KeyLen = 32;
-                    IvLen = 32;
                     break;
                 case CipherEnum.AesLight:
                     Size = 128;
-                    KeyLen = 32;
-                    IvLen = 32;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesLightEngine();
                     break;
                 case CipherEnum.AesNet: // TODO: Implement interface IBlockCipher in AesNet                    
-                    Size = 256;
-                    KeyLen = 32;
-                    IvLen = 32;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
                     break;
                 case CipherEnum.Aria:
                     Size = 128;
-                    KeyLen = 32;
-                    IvLen = 32; ;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AriaEngine();
                     break;
                 case CipherEnum.BlowFish:
@@ -145,9 +136,6 @@ namespace EU.CqrXs.Crypt.Cipher
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.TwofishEngine();
                     break;
                 case CipherEnum.Fish3:
-                    Size = 256;
-                    KeyLen = 32;
-                    IvLen = 32;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(Size);
                     break;                
                 case CipherEnum.Camellia:
@@ -170,8 +158,6 @@ namespace EU.CqrXs.Crypt.Cipher
                     break;
                 case CipherEnum.Cast6:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.Cast6Engine();
-                    KeyLen = 32;
-                    IvLen = 32;
                     break;
                 case CipherEnum.Des:
                     Size = 64;
@@ -199,13 +185,9 @@ namespace EU.CqrXs.Crypt.Cipher
                     break;
                 case CipherEnum.Gost28147:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.Gost28147Engine();
-                    KeyLen = 32;
-                    IvLen = 32;
                     break;
                 case CipherEnum.Idea:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.IdeaEngine();
-                    KeyLen = 32;
-                    IvLen = 32;
                     break;
                 case CipherEnum.Noekeon:
                     Size = 128;
@@ -221,24 +203,16 @@ namespace EU.CqrXs.Crypt.Cipher
                     break;
                 case CipherEnum.RC532:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC532Engine();
-                    KeyLen = 32;
-                    IvLen = 32;
                     break;
                 case CipherEnum.RC564:
                     Size = 64;
-                    KeyLen = 32;
-                    IvLen = 32;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC564Engine();
                     break;
                 case CipherEnum.RC6:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC6Engine();
-                    KeyLen = 32;
-                    IvLen = 32;
                     break;
                 case CipherEnum.Rijndael:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RijndaelEngine();
-                    KeyLen = 32;
-                    IvLen = 32;
                     break;
                 case CipherEnum.Seed:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SeedEngine();
@@ -260,8 +234,6 @@ namespace EU.CqrXs.Crypt.Cipher
                     break;
                 case CipherEnum.SkipJack:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SkipjackEngine();
-                    KeyLen = 32;
-                    IvLen = 32;
                     break;
                 case CipherEnum.Tea:
                     Size = 128;
@@ -270,15 +242,16 @@ namespace EU.CqrXs.Crypt.Cipher
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.TeaEngine();
                     break;
                 case CipherEnum.Tnepres:
+                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.TnepresEngine();
                     Size = 128;
                     KeyLen = 16;
                     IvLen = 16;
-                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.TnepresEngine();
                     break;
                 case CipherEnum.XTea:
+                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
                     Size = 128;
                     KeyLen = 16;
-                    BlockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
+                    IvLen = 16;
                     break;
                 case CipherEnum.ZenMatrix:
                     Size = 16;
