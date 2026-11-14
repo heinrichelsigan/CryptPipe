@@ -6815,6 +6815,7 @@
 ./eu/cqrxs/crypt/cipher/symmetric/JAes.class
 ./eu/cqrxs/crypt/cipher/symmetric/ZenMatrix.class
 ./eu/cqrxs/crypt/cipher/symmetric/CryptBounceCastle.class
+./eu/cqrxs/crypt/cipher/symmetric/StreamCipherBC.class
 ./eu/cqrxs/crypt/cipher/symmetric/CryptBounceCastle$1.class
 ./eu/cqrxs/crypt/cipher/symmetric/ZenMatrix2.class
 ./eu/cqrxs/crypt/cipher/CryptParams$1.class
@@ -6908,7 +6909,7 @@
 ./eu/cqrxs/gui/img/key_ring.png
 ./eu/cqrxs/gui/img/hc128.png
 ./eu/cqrxs/gui/img/hc256.png
-./eu/cqrxs/gui/img/chacha7530.png
+./eu/cqrxs/gui/img/chacha7539.png
 ./eu/cqrxs/gui/img/vmpc.png
 ./eu/cqrxs/gui/img/vmpcksa3.png
 ./eu/cqrxs/gui/img/isaac.png

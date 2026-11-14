@@ -67,11 +67,6 @@
             StreamCipherBC class to perform all StreamCiphers
             </summary>
         </member>
-        <member name="P:EU.CqrXs.Crypt.Cipher.Symmetric.StreamCipherBC.KeyLen">
-            <summary>
-            KeyLen byte[KeyLen] of Key and Iv
-            </summary>
-        </member>
         <member name="P:EU.CqrXs.Crypt.Cipher.Symmetric.StreamCipherBC.CryptoStreamCipher">
             <summary>
             Base symmetric key block cipher interface, contains at runtime block cipher instance to constructor

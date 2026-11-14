@@ -10,24 +10,10 @@
 
 package eu.cqrxs.crypt.cipher.symmetric;
 
-import eu.cqrxs.crypt.cipher.CipherMode2;
-import eu.cqrxs.crypt.cipher.CryptHelper;
 import eu.cqrxs.crypt.cipher.CryptParams;
-import eu.cqrxs.crypt.encoding.EnDeCodeHelper;
-import eu.cqrxs.crypt.encoding.EncodeEnum;
-import eu.cqrxs.util.DbgWriter;
 import org.bouncycastle.crypto.*;
-import org.bouncycastle.crypto.engines.AESEngine;
 import org.bouncycastle.crypto.engines.ChaChaEngine;
-import org.bouncycastle.crypto.engines.RC564Engine;
 import org.bouncycastle.crypto.modes.*;
-import org.bouncycastle.crypto.paddings.BlockCipherPadding;
-import org.bouncycastle.crypto.paddings.PaddedBufferedBlockCipher;
-import org.bouncycastle.crypto.params.ParametersWithIV;
-
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
 /**
  * StreamCipherBC generic crypt wrapper class
@@ -36,8 +22,6 @@ import java.nio.charset.StandardCharsets;
 public class StreamCipherBC implements StreamCipher {
 
     private boolean initialised = false, encryption;
-    protected byte[] key, iv;
-    protected int keyLen, ivLen;
 
     public StreamCipher cryptoStreamCipher;
     public CipherParameters streamCipherParameters;
@@ -100,42 +84,35 @@ public class StreamCipherBC implements StreamCipher {
 
 
     /**
-     *  Generic CryptBounceCastle encrypt member function
-     *  difference between out parameter encryptedData and return value, are 2 different encryption methods, but with the same result at the end
+     * Generic CryptBounceCastle encrypt member function
      * @param plainData plain data byte[] array
      * @return encrypted byte[] array
      */
     public byte[] encrypt(byte[] plainData) {
 
-        byte[] cipherTextData = new byte[plainData.length];
+        byte[] cipherData = new byte[plainData.length];
 
-        // simulate stream
-        for (int j = 0; j < plainData.length; j++)
-        {
-            cipherTextData[j] = returnByte(plainData[j]);
+        for (int j = 0; j < plainData.length; j++)  {
+            cipherData[j] = returnByte(plainData[j]);
         }
 
-        return cipherTextData;
+        return cipherData;
     }
 
     /**
-     * Generic CryptBounceCastle decrypt member function
-     * difference between out parameter decryptedData and return value, are 2 different decryption methods, but with the same result at the end
+     * Generic decrypt member function
      * @param cipherData encrypted byte[] arrey
      * @return decrypted plain byte[] data
      */
     public byte[] decrypt(byte[] cipherData) {
 
-        byte[] plainTextData = new byte[cipherData.length];
+        byte[] plainData = new byte[cipherData.length];
 
-        // simulate stream
-        for (int j = 0; j < cipherData.length; j++)
-        {
-            plainTextData[j] = returnByte(cipherData[j]);
+        for (int j = 0; j < cipherData.length; j++) {
+            plainData[j] = returnByte(cipherData[j]);
         }
 
-        return plainTextData;
+        return plainData;
     }
-
 
 }
