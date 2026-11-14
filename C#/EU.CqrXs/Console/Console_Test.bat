@@ -15,8 +15,8 @@ EU.CqrXs.Console.exe -V -D -i=.\README.MD.gz.BfF.ascii85 -k=heinrich.elsigan@hei
 EU.CqrXs.Console.exe -V -M=CFB -i=.\README.MD -z=bz -k=heinrich.elsigan@heinrichelsigan.area23.at -H=Whirlpool -e=hex32 -o=.\README.MD.Whirlpool.bz.Hex32 
 EU.CqrXs.Console.exe -V -D -M=CFB -i=.\README.MD.Whirlpool.bz.Hex32 -e=hex32 -k=heinrich.elsigan@heinrichelsigan.area23.at -H=Whirlpool -z=bz -o=.\READ_BUNZIP.txt 
 
-EU.CqrXs.Console.exe -M=CBC -i=.\README.MD  -k=io.cqrxs.eu -H=SCrypt -z=zip -C=Aes,Blowfish,Des3,Fish2,Fish3,Seed,Serpent,SM4  -e=uu -o=.\README.MD.SCrypt.zip.uu
-EU.CqrXs.Console.exe -D -M=CBC -i=.\README.MD.SCrypt.zip.uu -e=uu -k=io.cqrxs.eu -H=SCrypt -z=zip -C=Aes,Blowfish,Des3,Fish2,Fish3,Seed,Serpent,SM4  -o=.\READ_UNZIP.txt
+EU.CqrXs.Console.exe -M=CBC -i=.\README.MD  -k=io.cqrxs.eu -H=SCrypt -z=zip -C=Aes,Blowfish,ChaCha.Des3,Fish2,Fish3,RC4,Serpent  -e=uu -o=.\README.MD.SCrypt.zip.uu
+EU.CqrXs.Console.exe -D -M=CBC -i=.\README.MD.SCrypt.zip.uu -e=uu -k=io.cqrxs.eu -H=SCrypt -z=zip -C=Aes,Blowfish,ChaCha.Des3,Fish2,Fish3,RC4,Serpent   -o=.\READ_UNZIP.txt
 
 EU.CqrXs.Console.exe -i=.\README.MD -S -k=io.cqrxs.eu -o=.\README.MD.Crypt.gz.base64
 EU.CqrXs.Console.exe -D -i=.\README.MD.Crypt.gz.base64 -S -k=io.cqrxs.eu  -o=.\README_SECURE.txt
