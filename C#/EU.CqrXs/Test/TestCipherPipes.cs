@@ -4,7 +4,6 @@ using EU.CqrXs.Crypt.Hash;
 using EU.CqrXs.Util;
 using EU.CqrXs.Zip;
 using System.Reflection;
-using System.Reflection.Metadata;
 
 namespace EU.CqrXs.Test
 {
@@ -70,13 +69,22 @@ namespace EU.CqrXs.Test
                 string pipeText = pipe.PipeString;
 
                 string saveFile = "";
+                bool testCopy = !Constants.WIN32;
                 if (Constants.WIN32)
                 {
-                    System.Drawing.Image bmp = new System.Drawing.Bitmap(pipe.GenerateEncryptPipeImage());
-                    saveFile = Path.Combine(consoleDir, $"{pipe.PipeString}.png");
-                    bmp.Save(saveFile, System.Drawing.Imaging.ImageFormat.Png);
+                    try
+                    {
+                        System.Drawing.Image bmp = new System.Drawing.Bitmap(pipe.GenerateEncryptPipeImage());
+                        saveFile = Path.Combine(consoleDir, $"{pipe.PipeString}.png");
+                        bmp.Save(saveFile, System.Drawing.Imaging.ImageFormat.Png);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine($"{pipeText} \tException: {e.GetType()} for {email} \t{e.Message}\r\n      \t{e.StackTrace}");
+                        testCopy = true;
+                    }
                 }
-                else
+                if (testCopy)
                 {
                     saveFile = Path.Combine(consoleDir, $"{pipe.PipeString}.png");
                     File.Copy(fileByesTest, saveFile, true);
