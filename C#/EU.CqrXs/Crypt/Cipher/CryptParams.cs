@@ -70,7 +70,7 @@ namespace EU.CqrXs.Crypt.Cipher
         
         public IStreamCipher StreamCipher { get; set; }
         
-        public ICipherParameters StreamCipherParameters { get; set; }
+        public ICipherParameters CipherParameters { get; set; }
 
         public KeyHash KeyHashing { get; set; }
 
@@ -332,7 +332,7 @@ namespace EU.CqrXs.Crypt.Cipher
             Key = key;
             KeyHashing = keyHash;
             Hash = (string.IsNullOrEmpty(hash)) ? keyHash.Hash(key) : hash;
-            SetStreamCipherParameters(Encoding.UTF8.GetBytes(Key), Encoding.UTF8.GetBytes(Hash));
+            SetCipherParameters(Encoding.UTF8.GetBytes(Key), Encoding.UTF8.GetBytes(Hash));
             CMode2 = cmode;
             Mode = cmode.ToString();
         }
@@ -355,7 +355,7 @@ namespace EU.CqrXs.Crypt.Cipher
         {
             Key = key;
             Hash = (string.IsNullOrEmpty(hash)) ? KeyHashing.Hash(key) : hash;
-            SetStreamCipherParameters(Encoding.UTF8.GetBytes(Key), Encoding.UTF8.GetBytes(Hash));
+            SetCipherParameters(Encoding.UTF8.GetBytes(Key), Encoding.UTF8.GetBytes(Hash));
         }
 
        
@@ -367,7 +367,7 @@ namespace EU.CqrXs.Crypt.Cipher
 
         #endregion Constructors
 
-        public void SetStreamCipherParameters(byte[] keyed, byte[] hashed)
+        public void SetCipherParameters(byte[] keyed, byte[] hashed)
         {
             if (StreamCipher != null)
             {                
@@ -376,9 +376,18 @@ namespace EU.CqrXs.Crypt.Cipher
                 if (IvLen > 0)
                     hashed = hashed.StretchCutToLength(IvLen);               
                 KeyParameter keyParamStreamC = new KeyParameter(keyed);
-                StreamCipherParameters = (Cipher == CipherEnum.Isaac || Cipher == CipherEnum.RC4) ?
+                CipherParameters = (Cipher == CipherEnum.Isaac || Cipher == CipherEnum.RC4) ?
                     keyParamStreamC : new ParametersWithIV(keyParamStreamC, hashed);
-            }           
+            }
+            else
+            {
+                if (KeyLen > 0)
+                    keyed = keyed.StretchCutToLength(KeyLen);
+                if (IvLen > 0)
+                    hashed = hashed.StretchCutToLength(IvLen);               
+                KeyParameter keyParamStreamC = new KeyParameter(keyed);
+                CipherParameters = new ParametersWithIV(keyParamStreamC, hashed);
+            }
         }
 
         #region obsolete static members
