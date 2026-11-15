@@ -12,36 +12,16 @@ package eu.cqrxs.crypt.cipher;
 import eu.cqrxs.crypt.cipher.symmetric.JAes;
 import eu.cqrxs.crypt.cipher.symmetric.ZenMatrix;
 import org.bouncycastle.crypto.BlockCipher;
-import org.bouncycastle.crypto.engines.AESEngine;
-import org.bouncycastle.crypto.engines.AESLightEngine;
-import org.bouncycastle.crypto.engines.ARIAEngine;
-import org.bouncycastle.crypto.engines.BlowfishEngine;
-import org.bouncycastle.crypto.engines.TwofishEngine;
-import org.bouncycastle.crypto.engines.ThreefishEngine;
-import org.bouncycastle.crypto.engines.CamelliaEngine;
-import org.bouncycastle.crypto.engines.CamelliaLightEngine;
-import org.bouncycastle.crypto.engines.CAST5Engine;
-import org.bouncycastle.crypto.engines.CAST6Engine;
-import org.bouncycastle.crypto.engines.DESedeEngine;
-import org.bouncycastle.crypto.engines.DESEngine;
-import org.bouncycastle.crypto.engines.DSTU7624Engine;
-import org.bouncycastle.crypto.engines.GOST28147Engine;
-import org.bouncycastle.crypto.engines.IDEAEngine;
-import org.bouncycastle.crypto.engines.NoekeonEngine;
-import org.bouncycastle.crypto.engines.RC2Engine;
-import org.bouncycastle.crypto.engines.RC532Engine;
-import org.bouncycastle.crypto.engines.RC564Engine;
-import org.bouncycastle.crypto.engines.RC6Engine;
-import org.bouncycastle.crypto.engines.RijndaelEngine;
-import org.bouncycastle.crypto.engines.SEEDEngine;
-import org.bouncycastle.crypto.engines.SkipjackEngine;
-import org.bouncycastle.crypto.engines.SM4Engine;
-import org.bouncycastle.crypto.engines.TEAEngine;
-import org.bouncycastle.crypto.engines.TnepresEngine;
-import org.bouncycastle.crypto.engines.XTEAEngine;
+import org.bouncycastle.crypto.CipherParameters;
+import org.bouncycastle.crypto.StreamCipher;
+import org.bouncycastle.crypto.engines.*;
 // import org.bouncycastle.crypto.engines.
 import eu.cqrxs.crypt.hash.KeyHash;
 import eu.cqrxs.util.Constants;
+import org.bouncycastle.crypto.params.KeyParameter;
+import org.bouncycastle.crypto.params.ParametersWithIV;
+
+import java.nio.charset.StandardCharsets;
 
 
 /**
@@ -71,12 +51,13 @@ public class CryptParams {
     public CipherMode2 cmode2;
 
     public int size, blockSize;
-
     public int keyLen, ivLen;
 
-    public BlockCipher blockCipher;
-
     public KeyHash keyHashing;
+
+    public BlockCipher blockCipher;
+    public StreamCipher streamCipher;
+    public CipherParameters streamCipherParameters;
 
 
     /**
@@ -87,6 +68,7 @@ public class CryptParams {
         size = 256;
         keyLen = 32;
 		ivLen = 32;
+        ivLen = 32;
         cmode2 = CipherMode2.ECB;
         //noinspection deprecation
         blockCipher = new AESEngine();
@@ -104,6 +86,7 @@ public class CryptParams {
         cipher = cipherAlgo;
         size = 256;
         keyLen = 32;
+        ivLen = 32;
         cmode2 = CipherMode2.ECB;
         keyHashing = KeyHash.Hex;
 
@@ -112,69 +95,54 @@ public class CryptParams {
                 blockCipher = new  AESEngine();
                 break;
             case JAes:
-                size = 128;
                 blockCipher = new JAes(size);
+                size = 128;
                 break;
             case AesLight:
-                size = 128;
                 blockCipher = new AESLightEngine();
+                size = 128;
                 break;
             case Aria:
-                size = 128;
                 blockCipher = new ARIAEngine();
+                size = 128;
                 break;
-            case BlowFish:
-                size = 64;
-                keyLen = 8;
+            case BlowFish: ;
                 blockCipher = new BlowfishEngine();
+                setSizeKeyIvLen(64, 8,  8);
                 break;
             case Fish2:
-                size = 128;
-                keyLen = 16;
                 blockCipher = new TwofishEngine();
+                setSizeKeyIvLen(128, 16,  16);
                 break;
             case Fish3:
 				blockCipher = new ThreefishEngine(size);
                 break;                            
             case Camellia:
-                size = 128;
-                keyLen = 16;
                 blockCipher = new CamelliaEngine();
+                setSizeKeyIvLen(128, 16,  16);
                 break;
             case CamelliaLight:
-                size = 128;
-                keyLen = 16;
                 blockCipher = new CamelliaLightEngine();
+                setSizeKeyIvLen(128, 16,  16);
                 break;
             case Cast5:
-                size = 128;
-                keyLen = 16;
                 blockCipher = new CAST5Engine();
+                setSizeKeyIvLen(128, 16,  16);
                 break;
             case Cast6:
                 blockCipher = new CAST6Engine();
                 break;
             case Des:
-                size = 64;
-                keyLen = 8;
                 blockCipher = new DESEngine();
+                setSizeKeyIvLen(64, 8,  8);
                 break;
-            /*
-            case Des3Net: // TODO: implement IBlockCipher in Des3Net
-                size = 128;
-                keyLen = 16;
-                blockCipher = new Org.BouncyCastle.Crypto.Engines.DesEdeEngine();
-                break;
-            */
             case Des3:
-                size = 128;
-                keyLen = 16;
                 blockCipher = new DESedeEngine();
+                setSizeKeyIvLen(128, 16,  8);
                 break;
             case Dstu7624:
-                size = 128;
-                keyLen = 16;
                 blockCipher = new DSTU7624Engine(size);
+                setSizeKeyIvLen(128, 16,  16);
                 break;
             case Gost28147:
                 blockCipher = new GOST28147Engine();
@@ -183,22 +151,19 @@ public class CryptParams {
                 blockCipher = new IDEAEngine();
                 break;
             case Noekeon:
-                size = 128;
-                keyLen = 16;
                 blockCipher = new NoekeonEngine();
+                setSizeKeyIvLen(128, 16,  16);
                 break;
             case RC2:
-                size = 128;
-		        keyLen = 32;
                 blockCipher = new RC2Engine();
+                size = 128;
                 break;
             case RC532:
                 blockCipher = new RC532Engine();
                 break;
             case RC564:
-                size = 64;
-		        keyLen = 32;
                 blockCipher = new RC564Engine();
+                size = 64;
                 break;
             case RC6:
                 blockCipher = new RC6Engine();
@@ -208,40 +173,33 @@ public class CryptParams {
 				break;
             case Seed:
                 blockCipher = new SEEDEngine();
-                size = 128;
-                keyLen = 16;
+                setSizeKeyIvLen(128, 16,  16);
                 break;
             case Serpent:
                 blockCipher = new org.bouncycastle.crypto.engines.SerpentEngine();
-                size = 128;
-                keyLen = 16;
+                setSizeKeyIvLen(128, 16,  16);
                 break;
             case SM4:
                 blockCipher = new SM4Engine();
-                size = 128;
-                keyLen = 16;
+                setSizeKeyIvLen(128, 16,  16);
                 break;
             case SkipJack:
                 blockCipher = new SkipjackEngine();
                 break;
             case Tea:
-                size = 128;
-                keyLen = 16;
                 blockCipher = new TEAEngine();
+                setSizeKeyIvLen(128, 16,  16);
                 break;
             case Tnepres:
-                size = 128;
-                keyLen = 16;
                 blockCipher = new TnepresEngine();
+                setSizeKeyIvLen(128, 16,  16);
                 break;
             case XTea:
-				size = 128;
-                keyLen = 16;
                 blockCipher = new XTEAEngine();
+                setSizeKeyIvLen(128, 16,  16);
                 break;
             case ZenMatrix:
-                size = 16;
-                keyLen = 16;
+                setSizeKeyIvLen(16, 16,  16);
                 // TODO: port it to java
                 blockCipher = new ZenMatrix(size);
                 break;
@@ -254,17 +212,60 @@ public class CryptParams {
                 // blockCipher = new ZenMatrix2();
                 // break;
              */
+            case ChaCha:
+                streamCipher = new ChaChaEngine();
+                setKeyIvLen(32, 8);
+                break;
+            case ChaCha7539:
+                streamCipher = new ChaCha7539Engine();
+                setKeyIvLen(32, 12);
+                break;
+            case XChaCha20:
+                streamCipher = new XChaCha20Engine();
+                setKeyIvLen(32, 24);
+                break;
+            case HC128:
+                streamCipher = new HC128Engine();
+                setKeyIvLen(16, 16);
+                break;
+            case HC256:
+                streamCipher = new HC256Engine();
+                setKeyIvLen(32, 16);
+                break;
+            case RC4:
+                streamCipher = new RC4Engine();
+                setKeyIvLen(32, 32);
+                break;
+            case Isaac:
+                streamCipher = new ISAACEngine();
+                break;
+            case Salsa20:
+                streamCipher = new Salsa20Engine();
+                setKeyIvLen(32, 8);
+                break;
+            case XSalsa20:
+                streamCipher = new XSalsa20Engine();
+                setKeyIvLen(32, 24);
+                break;
+            case CipherEnum.Vmpc: // VmpcK
+                streamCipher = new VMPCEngine();
+                break;
+            case CipherEnum.VmpcKsa3: // VmpcK
+                streamCipher = new VMPCKSA3Engine();
+                break;
+
             default:
-                blockCipher = new  AESEngine();
+                blockCipher = new AESEngine();
                 break;
         }
-		
-		ivLen = keyLen;
 
-        blockSize = blockCipher.getBlockSize();
+        if (ivLen < 1)
+            ivLen = keyLen;
+
+        if (streamCipher == null)
+            blockSize = blockCipher.getBlockSize();
 
     }
-
 
     /**
      * CryptParams(CipherEnum constructor
@@ -316,6 +317,7 @@ public class CryptParams {
         cmode2 = cMode2;
         key = (secretKey == null || secretKey.isEmpty()) ? Constants.AUTHOR_EMAIL : secretKey;
         hash = (keyHashed == null || keyHashed.isEmpty()) ? keyHashing.hash(secretKey) : keyHashed;
+        setStreamCipherParameters(secretKey.getBytes(StandardCharsets.UTF_8),  hash.getBytes(StandardCharsets.UTF_8));
     }
 
     /***
@@ -340,26 +342,27 @@ public class CryptParams {
     }
 
 
-    /***
-     *  static way to get valid CryptParams for a requested  {@link CipherEnum}
-     * @param cipherAlgo {@link CipherEnum}
-     * @return new constructed CryptParams
-     */
-    @Deprecated
-    public static CryptParams RequestAlgorithm(CipherEnum cipherAlgo) {
-
-        return new CryptParams(cipherAlgo);
+    public void setStreamCipherParameters(byte[] keyed, byte[] hashed)  {
+        if (streamCipher != null)  {
+            if (keyLen > 0)
+                keyed = CryptHelper.stretchCutToLength(keyed, keyLen);
+            if (ivLen > 0)
+                hashed = CryptHelper.stretchCutToLength(hashed, ivLen);
+            KeyParameter keyParamStreamC = new KeyParameter(keyed);
+            streamCipherParameters = (cipher == CipherEnum.Isaac || cipher == CipherEnum.RC4) ?
+                    keyParamStreamC : new ParametersWithIV(keyParamStreamC, hashed);
+        }
     }
 
-    @Deprecated
-    public static CryptParams GetCryptParams(CryptParams cParams) {
 
-        return new CryptParams(cParams);
+    protected void setKeyIvLen(int keylen, int ivlen) {
+        keyLen = (keylen < 1) ? 32 : keylen;
+        ivLen = (ivlen < 1) ? 32 : ivlen;
     }
-
-    @Deprecated
-    public static BlockCipher GetBlockCipher(CipherEnum cipherAlgo) {
-        return (new CryptParams(cipherAlgo)).blockCipher;
+    protected void setSizeKeyIvLen(int blocksize, int keylen, int ivlen) {
+        size = (blocksize < 0) ? 256 : blocksize;
+        keyLen = (keylen < 1) ? 32 : keylen;
+        ivLen = (ivlen < 1) ? 32 : ivlen;
     }
 
 
