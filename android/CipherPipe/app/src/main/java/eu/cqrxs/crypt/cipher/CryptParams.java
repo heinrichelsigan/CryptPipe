@@ -142,7 +142,7 @@ public class CryptParams {
                 break;
             case Dstu7624:
                 blockCipher = new DSTU7624Engine(size);
-                setSizeKeyIvLen(128, 16,  16);
+                setSizeKeyIvLen(128, 32,  16);
                 break;
             case Gost28147:
                 blockCipher = new GOST28147Engine();
@@ -167,6 +167,7 @@ public class CryptParams {
                 break;
             case RC6:
                 blockCipher = new RC6Engine();
+                size = 128;
                 break;
 	        case Rijndael:
 				blockCipher = new RijndaelEngine();

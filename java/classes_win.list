@@ -41,6 +41,7 @@ eu\cqrxs\crypt\cipher\SecureCipherPipe.class
 eu\cqrxs\crypt\cipher\symmetric\ZenMatrix3.class
 eu\cqrxs\crypt\cipher\symmetric\JAes.class
 eu\cqrxs\crypt\cipher\symmetric\ZenMatrix.class
+eu\cqrxs\crypt\cipher\symmetrics\StreamCipherBC.class
 eu\cqrxs\crypt\cipher\symmetric\CryptBounceCastle.class
 eu\cqrxs\crypt\cipher\symmetric\CryptBounceCastle$1.class
 eu\cqrxs\crypt\cipher\symmetric\ZenMatrix2.class
@@ -107,6 +108,17 @@ eu\cqrxs\gui\img\gunzip.png
 eu\cqrxs\gui\img\bunzip2.png
 eu\cqrxs\gui\img\unzip.png
 eu\cqrxs\gui\img\decode_hex64.png
+eu\cqrxs\gui\img\salsa20.png
+eu\cqrxs\gui\img\xsalsa20.png
+eu\cqrxs\gui\img\chacha.png
+eu\cqrxs\gui\img\xchacha7539.png
+eu\cqrxs\gui\img\xchacha20.png
+eu\cqrxs\gui\img\isaac.png
+eu\cqrxs\gui\img\hc128.png
+eu\cqrxs\gui\img\hc256.png
+eu\cqrxs\gui\img\vmpc.png
+eu\cqrxs\gui\img\vmpcksa3.png
+eu\cqrxs\gui\img\rc4.png
 eu\cqrxs\gui\img\decrypted.png
 eu\cqrxs\gui\img\decpde_hex64.png
 eu\cqrxs\gui\img\decryptcipherpipe.png
