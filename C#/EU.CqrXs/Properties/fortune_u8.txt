@@ -9,10 +9,6 @@ answers you gave to the questions asked when you first installed a package.
 The 'configure-debian' package provides a unified front end for doing this,
 as well.
 %
-Debian Hint #3: You can use either 'apt search <words>' or
-'aptitude search <words>' to search for words in the descriptions of all
-available packages.
-%
 Debian Hint #4: You can see the available and installed versions for one
 or more available packages with the command 'apt policy <packages>'.
 %
