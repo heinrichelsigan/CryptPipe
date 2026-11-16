@@ -56,13 +56,21 @@ namespace EU.CqrXs.Test
                 string pipeText = spipe.PipeString;
 
                 string saveFile = "";
+                bool copyFile = !Constants.WIN32;
                 if (Constants.WIN32)
                 {
                     System.Drawing.Image bmp = new System.Drawing.Bitmap(spipe.GenerateEncryptPipeImage());
                     saveFile = Path.Combine(consoleDir, $"{spipe.PipeString}.png");
-                    bmp.Save(saveFile, System.Drawing.Imaging.ImageFormat.Png);
+                    try { 
+                        bmp.Save(saveFile, System.Drawing.Imaging.ImageFormat.Png);
+                    }
+                    catch (Exception exi)
+                    {
+                        Console.WriteLine($"{pipeText} \tException: {exi.GetType()} for {email} {cMode} \t{exi.Message}\r\n      \t{exi.StackTrace}");
+                        copyFile = true;
+                    }
                 }
-                else
+                if (copyFile)
                 {
                     saveFile = Path.Combine(consoleDir, $"{spipe.PipeString}.png");
                     File.Copy(fileByesTest, saveFile, true);

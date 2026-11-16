@@ -106,7 +106,7 @@ namespace EU.CqrXs.Gui.Forms
             // menuForms
             // 
             menuForms.BackColor = SystemColors.MenuBar;
-            menuForms.DropDownItems.AddRange(new ToolStripItem[] { menuOptionsModesComplex, menuModeZenMatrix, menuOptionsModesSimple, menuOptionsModes123Fish });
+            menuForms.DropDownItems.AddRange(new ToolStripItem[] { menuOptionsModesComplex, menuOptionsModesSimple, menuOptionsModes123Fish, menuModeZenMatrix });
             menuForms.Font = new Font("Lucida Sans Typewriter", 10F);
             menuForms.ForeColor = SystemColors.MenuText;
             menuForms.Name = "menuForms";
@@ -143,7 +143,7 @@ namespace EU.CqrXs.Gui.Forms
             // menuOptionsModes123Fish
             // 
             menuOptionsModes123Fish.BackColor = SystemColors.Menu;
-            menuOptionsModes123Fish.Enabled = false;
+            menuOptionsModes123Fish.Enabled = true;
             menuOptionsModes123Fish.ForeColor = SystemColors.MenuText;
             menuOptionsModes123Fish.Name = "menuOptionsModes123Fish";
             menuOptionsModes123Fish.Size = new Size(180, 22);

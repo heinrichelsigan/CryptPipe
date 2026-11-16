@@ -4,7 +4,6 @@ using EU.CqrXs.Util;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Parameters;
-using System;
 using System.Text;
 
 namespace EU.CqrXs.Crypt.Cipher
@@ -48,6 +47,10 @@ namespace EU.CqrXs.Crypt.Cipher
 
         public string Hash { get; set; }
 
+        public byte[] keyed = new byte[32];
+        public byte[] hashed = new byte[32];
+
+
         public string Mode { get => CMode2.ToString(); set => CMode2 = CipherModeExtensions.ParseText(value); }
 
         public System.Security.Cryptography.CipherMode CMode
@@ -90,7 +93,7 @@ namespace EU.CqrXs.Crypt.Cipher
             Mode = "ECB";
             CMode2 = CipherModeExtensions.defaultCipherMode2;
             BlockCipher = new AesEngine();
-            KeyHashing = KeyHash.Hex;
+            KeyHashing = KeyHash.Hex;            
         }
 
         /// <summary>
@@ -98,89 +101,120 @@ namespace EU.CqrXs.Crypt.Cipher
         /// for parameter <see cref="Cipher"/>
         /// </summary>
         /// <param name="cipherAlgo"><see cref="CipherEnum"/></param>
-        public CryptParams(CipherEnum cipherAlgo)
+        public CryptParams(CipherEnum cipherAlgo) : 
+            this()
         {
             Cipher = cipherAlgo;
-            Size = 256;
-            KeyLen = 32;
-            IvLen = 32;
-            Mode = "ECB";
-            CMode2 = CipherModeExtensions.defaultCipherMode2;            
-            
-            switch (Cipher)
-            {                
+            SetCioherEngine(cipherAlgo);
+            // if (IvLen < 1) IvLen = KeyLen;
+        }
+
+
+        public CryptParams(CipherEnum cipherAlgo, string key, string hash, KeyHash keyHash, CipherMode2 cmode = CipherMode2.ECB) : 
+            this()
+        {
+            Cipher = cipherAlgo;
+            Key = key;
+            KeyHashing = keyHash;
+            Hash = (string.IsNullOrEmpty(hash)) ? keyHash.Hash(key) : hash;
+            keyed = Encoding.UTF8.GetBytes(Key);
+            hashed = Encoding.UTF8.GetBytes(Hash);
+            CMode2 = cmode;
+            Mode = cmode.ToString();
+
+            SetCioherEngine(cipherAlgo);
+            SetCipherParameters(keyed, hashed);            
+        }
+
+
+        public CryptParams(CipherEnum cipherAlgo, string key, KeyHash keyHash, CipherMode2 cmode = CipherMode2.ECB) :
+            this(cipherAlgo, key, keyHash.Hash(key), keyHash, cmode) { }
+
+        /// <summary>
+        /// constructs a <see cref="CryptParams"/> object by <see cref="CipherEnum"/>
+        /// with additional <see cref="Key"/> and <see cref="Hash"/>
+        /// </summary>
+        /// <param name="cipherAlgo"><see cref="CipherEnum"/></param>
+        /// <param name="key">secret key</param>
+        /// <param name="hash">corresponding key hash</param>
+        public CryptParams(CipherEnum cipherAlgo, string key, string hash) : 
+            this(cipherAlgo, key, hash, KeyHash.Hex) { }
+
+       
+        /// <summary>
+        /// Constructs instance via another object instance
+        /// </summary>
+        /// <param name="cryptParams">another instance</param>
+        public CryptParams(CryptParams cryptParams) : 
+            this(cryptParams.Cipher, cryptParams.Key, cryptParams.Hash, cryptParams.KeyHashing) { }
+
+        #endregion Constructors
+
+        #region helper members
+
+        /// <summary>
+        /// SetCioherEngine sets bouncycastle SteeamCipher or BlockCipher-Engne
+        /// </summary>
+        /// <param name="cipher"><see cref="CipherEnum"/></param>
+        public void SetCioherEngine(CipherEnum cipher)
+        {
+
+            switch (cipher)
+            {
                 case CipherEnum.Aes:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
                     break;
                 case CipherEnum.AesLight:
-                    Size = 128;
+                    SetBlockSizeKeyIvLen(128, 32, 32);
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesLightEngine();
                     break;
                 case CipherEnum.AesNet: // TODO: Implement interface IBlockCipher in AesNet                    
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
                     break;
                 case CipherEnum.Aria:
-                    Size = 128;
+                    SetBlockSizeKeyIvLen(128, 32, 32);
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AriaEngine();
                     break;
                 case CipherEnum.BlowFish:
-                    Size = 64;
-                    KeyLen = 8;
-                    IvLen = 8;
+                    SetBlockSizeKeyIvLen(64, 8, 8);
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.BlowfishEngine();
                     break;
                 case CipherEnum.Fish2:
-                    Size = 128;
-                    KeyLen = 16;
-                    IvLen = 16;
+                    SetBlockSizeKeyIvLen();
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.TwofishEngine();
                     break;
                 case CipherEnum.Fish3:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(Size);
-                    break;                
+                    break;
                 case CipherEnum.Camellia:
-                    Size = 128;
-                    KeyLen = 16;
-                    IvLen = 16;
+                    SetBlockSizeKeyIvLen();
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaEngine();
-                    break;                
+                    break;
                 case CipherEnum.CamelliaLight:
-                    Size = 128;
-                    KeyLen = 16;
-                    IvLen = 16;
+                    SetBlockSizeKeyIvLen();
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.CamelliaLightEngine();
                     break;
                 case CipherEnum.Cast5:
-                    Size = 128;
-                    KeyLen = 16;
-                    IvLen = 16;
+                    SetBlockSizeKeyIvLen();
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.Cast5Engine();
                     break;
                 case CipherEnum.Cast6:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.Cast6Engine();
                     break;
                 case CipherEnum.Des:
-                    Size = 64;
-                    KeyLen = 8;
-                    IvLen = 8;
+                    SetBlockSizeKeyIvLen(64, 8, 8);
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.DesEngine();
                     break;
                 case CipherEnum.Des3:
-                    Size = 128;
-                    KeyLen = 16;
-                    IvLen = 8;
+                    SetBlockSizeKeyIvLen(128, 16, 8);
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.DesEdeEngine();
                     break;
                 case CipherEnum.Des3Net: // TODO: implement IBlockCipher in Des3Net
-                    Size = 128;
-                    KeyLen = 16;
-                    IvLen = 8;
+                    SetBlockSizeKeyIvLen(128, 16, 8);
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.DesEdeEngine();
                     break;
                 case CipherEnum.Dstu7624:
-                    Size = 128;
-                    KeyLen = 16;
-                    IvLen = 16;
+                    SetBlockSizeKeyIvLen();
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.Dstu7624Engine(Size);
                     break;
                 case CipherEnum.Gost28147:
@@ -190,15 +224,11 @@ namespace EU.CqrXs.Crypt.Cipher
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.IdeaEngine();
                     break;
                 case CipherEnum.Noekeon:
-                    Size = 128;
-                    KeyLen = 16;
-                    IvLen = 16;
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.NoekeonEngine();
+                    SetBlockSizeKeyIvLen(128, 16, 16);  
                     break;
                 case CipherEnum.RC2:
-                    Size = 128;
-                    KeyLen = 32;
-                    IvLen = 32;
+                    SetBlockSizeKeyIvLen(128, 32, 32);
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC2Engine();
                     break;
                 case CipherEnum.RC532:
@@ -216,98 +246,75 @@ namespace EU.CqrXs.Crypt.Cipher
                     break;
                 case CipherEnum.Seed:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SeedEngine();
-                    Size = 128;
-                    KeyLen = 16;
-                    IvLen = 16;
+                    SetBlockSizeKeyIvLen();
                     break;
                 case CipherEnum.Serpent:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SerpentEngine();
-                    Size = 128;
-                    KeyLen = 16;
-                    IvLen = 16;
+                    SetBlockSizeKeyIvLen();
                     break;
                 case CipherEnum.SM4:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SM4Engine();
-                    Size = 128;
-                    KeyLen = 16;
-                    IvLen = 16;
+                    SetBlockSizeKeyIvLen();
                     break;
                 case CipherEnum.SkipJack:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SkipjackEngine();
                     break;
                 case CipherEnum.Tea:
-                    Size = 128;
-                    KeyLen = 16;
-                    IvLen = 16;
+                    SetBlockSizeKeyIvLen();
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.TeaEngine();
                     break;
                 case CipherEnum.Tnepres:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.TnepresEngine();
-                    Size = 128;
-                    KeyLen = 16;
-                    IvLen = 16;
+                    SetBlockSizeKeyIvLen();
                     break;
                 case CipherEnum.XTea:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
-                    Size = 128;
-                    KeyLen = 16;
-                    IvLen = 16;
+                    SetBlockSizeKeyIvLen();
                     break;
                 case CipherEnum.ZenMatrix:
-                    Size = 16;
-                    KeyLen = 16;
-                    IvLen = 16;
+                    SetBlockSizeKeyIvLen(16, 16, 16);
                     BlockCipher = new ZenMatrix(Size);
                     break;
                 case CipherEnum.ZenMatrix2:
                     // throw new NotImplementedException("ZenMatrix2 IBlockCipher interface not implemented");)
-                    Size = 256;
-                    KeyLen = 256;
-                    IvLen = 256;
+                    SetBlockSizeKeyIvLen(256, 256, 256);
                     BlockCipher = new ZenMatrix2();
                     break;
-                
+
                 case CipherEnum.ChaCha:
                     StreamCipher = new ChaChaEngine();
-                    KeyLen = 32;
-                    IvLen = 8;
+                    SetKeyIvLen(32, 8);
                     break;
                 case CipherEnum.ChaCha7539:
                     StreamCipher = new ChaCha7539Engine();
-                    KeyLen = 32;
-                    IvLen = 12;
+                    SetKeyIvLen(32, 12);
                     break;
                 case CipherEnum.XChaCha20:
                     StreamCipher = new XChaCha20Engine();
-                    KeyLen = 32;
-                    IvLen = 24;
+                    SetKeyIvLen(32, 24);
                     break;
                 case CipherEnum.HC128:
                     StreamCipher = new HC128Engine();
-                    KeyLen = 16;
+                    SetKeyIvLen(16, 16);
                     break;
                 case CipherEnum.HC256:
                     StreamCipher = new HC256Engine();
-                    KeyLen = 32;
-                    IvLen = 16;
+                    SetKeyIvLen(32, 16);
                     break;
                 case CipherEnum.RC4:
                     StreamCipher = new RC4Engine();
                     break;
                 case CipherEnum.Isaac:
                     StreamCipher = new IsaacEngine();
-                    KeyLen = 32;
-                    IvLen = 32;
+                    SetKeyIvLen();
                     break;
                 case CipherEnum.Salsa20:
                     StreamCipher = new Salsa20Engine();
-                    KeyLen = 32;
-                    IvLen = 8;
+                    SetKeyIvLen(32, 8);
                     break;
                 case CipherEnum.XSalsa20:
                     StreamCipher = new XSalsa20Engine();
-                    KeyLen = 32;
-                    IvLen = 24;
+                    SetKeyIvLen(32, 24);
                     break;
                 case CipherEnum.Vmpc: // VmpcK 
                     StreamCipher = new VmpcEngine();
@@ -315,66 +322,22 @@ namespace EU.CqrXs.Crypt.Cipher
                 case CipherEnum.VmpcKsa3: // VmpcK 
                     StreamCipher = new VmpcKsa3Engine();
                     break;
-                    
+
                 default:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.AesEngine();
                     break;
             }
-            
-            if (IvLen < 1)
-                IvLen = KeyLen;
 
         }
 
-
-        public CryptParams(CipherEnum cipherAlgo, string key, string hash, KeyHash keyHash, CipherMode2 cmode = CipherMode2.ECB) : this(cipherAlgo)
-        {
-            Key = key;
-            KeyHashing = keyHash;
-            Hash = (string.IsNullOrEmpty(hash)) ? keyHash.Hash(key) : hash;
-            SetCipherParameters(Encoding.UTF8.GetBytes(Key), Encoding.UTF8.GetBytes(Hash));
-            CMode2 = cmode;
-            Mode = cmode.ToString();
-        }
-
-
-        public CryptParams(CipherEnum cipherAlgo, string key, KeyHash keyHash, CipherMode2 cmode = CipherMode2.ECB) : this(cipherAlgo, key, keyHash.Hash(key), keyHash)
-        { 
-            CMode2 = cmode;
-            Mode = cmode.ToString();
-        }
-
-        /// <summary>
-        /// constructs a <see cref="CryptParams"/> object by <see cref="CipherEnum"/>
-        /// with additional <see cref="Key"/> and <see cref="Hash"/>
-        /// </summary>
-        /// <param name="cipherAlgo"><see cref="CipherEnum"/></param>
-        /// <param name="key">secret key</param>
-        /// <param name="hash">corresponding key hash</param>
-        public CryptParams(CipherEnum cipherAlgo, string key, string hash) : this(cipherAlgo)
-        {
-            Key = key;
-            Hash = (string.IsNullOrEmpty(hash)) ? KeyHashing.Hash(key) : hash;
-            SetCipherParameters(Encoding.UTF8.GetBytes(Key), Encoding.UTF8.GetBytes(Hash));
-        }
-
-       
-        /// <summary>
-        /// Constructs instance via another object instance
-        /// </summary>
-        /// <param name="cryptParams">another instance</param>
-        public CryptParams(CryptParams cryptParams) : this(cryptParams.Cipher, cryptParams.Key, cryptParams.Hash, cryptParams.KeyHashing) { }
-
-        #endregion Constructors
-
-        public void SetCipherParameters(byte[] keyed, byte[] hashed)
+        public void SetCipherParameters(byte[] keyBytes, byte[] hashBytes)
         {
             if (StreamCipher != null)
             {                
                 if (KeyLen > 0)
-                    keyed = keyed.StretchCutToLength(KeyLen);
+                    keyed = keyBytes.StretchCutToLength(KeyLen);
                 if (IvLen > 0)
-                    hashed = hashed.StretchCutToLength(IvLen);               
+                    hashed = hashBytes.StretchCutToLength(IvLen);               
                 KeyParameter keyParamStreamC = new KeyParameter(keyed);
                 CipherParameters = (Cipher == CipherEnum.Isaac || Cipher == CipherEnum.RC4) ?
                     keyParamStreamC : new ParametersWithIV(keyParamStreamC, hashed);
@@ -382,40 +345,24 @@ namespace EU.CqrXs.Crypt.Cipher
             else
             {
                 if (KeyLen > 0)
-                    keyed = keyed.StretchCutToLength(KeyLen);
+                    keyed = keyBytes.StretchCutToLength(KeyLen);
                 if (IvLen > 0)
-                    hashed = hashed.StretchCutToLength(IvLen);               
+                    hashed = hashBytes.StretchCutToLength(IvLen);               
                 KeyParameter keyParamStreamC = new KeyParameter(keyed);
                 CipherParameters = new ParametersWithIV(keyParamStreamC, hashed);
             }
         }
 
-        #region obsolete static members
-
-        /// <summary>
-        /// static way to get valid <see cref="CryptParams"/> for a requested <see cref="CipherEnum"/>
-        /// </summary>
-        /// <param name="cipherAlgo"><see cref="CipherEnum"/></param>
-        /// <returns><see cref="CryptParams"/></returns>
-        [Obsolete("RequestAlgorithm no mote used", true)]
-        public static CryptParams RequestAlgorithm(CipherEnum cipherAlgo)
+        void SetBlockSizeKeyIvLen(int blockSize = 128,int keyLen = 16, int ivLen = 16)
         {
-            return new CryptParams(cipherAlgo);
+            Size = (blockSize < 1) ? 256 : blockSize;
+            KeyLen = (keyLen < 1) ? 32 : keyLen;
+            IvLen = (ivLen < 0) ? 32 : ivLen;
         }
 
-        [Obsolete("GetCryptParams no mote used", true)]
-        public static CryptParams GetCryptParams(CryptParams cParams)
-        {
-            return new CryptParams(cParams);
-        }
+        void SetKeyIvLen(int keyLen = 32, int ivLen = 32) => SetBlockSizeKeyIvLen(256, keyLen, ivLen);
 
-        [Obsolete("GetBlockCipher no mote used", true)]
-        public static IBlockCipher GetBlockCipher(CipherEnum cipherAlgo)
-        {
-            return (new CryptParams(cipherAlgo)).BlockCipher;
-        }
-
-        #endregion obsolete static members
+        #endregion helper members
 
     }
 

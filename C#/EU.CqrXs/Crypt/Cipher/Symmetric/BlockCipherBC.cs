@@ -124,7 +124,16 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
                 Area23Log.LogOriginMsgEx("CryptBounceCastle",
                     $"CryptBounceCastle CryptoBlockCipher {CryptoBlockCipher.AlgorithmName}: Exceptíon on cipherMode.Init with IV, trying without IV",
                     exInit);
-                CryptoBlockCipher.Init(forEncryption, keyParam);
+                try
+                {
+                    CryptoBlockCipher.Init(forEncryption, keyParam);
+                }
+                catch (Exception exInit2)
+                {
+                    Area23Log.LogOriginMsgEx("CryptBounceCastle",
+                        $"BlockCipherBC CryptoBlockCipher {CryptoBlockCipher.AlgorithmName}: Exceptíon on cipherMode.Init with IV, trying without IV",
+                        exInit2);
+                }
             }
             
             BufBlockCiffre = new PaddedBufferedBlockCipher(new EcbBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
@@ -179,14 +188,22 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
                     $"CryptBounceCastle {BufBlockCiffre.AlgorithmName}: Exceptíon on cipherMode.Init with IV, trying without IV",
                     exInit);
                 CipherParameters = keyParam;
-                BufBlockCiffre.Init(forEncryption, CipherParameters);
+                try
+                {
+                    BufBlockCiffre.Init(forEncryption, CipherParameters);
+                }
+                catch (Exception exInit2)
+                {
+                    Area23Log.LogOriginMsgEx("CryptBounceCastle",
+                        $"BlockCipherBC {BufBlockCiffre.AlgorithmName}: Exceptíon on cipherMode.Init with IV, trying without IV",
+                        exInit2);
+                }
             }
             
             initialised = true;
         }
         
         
-
         public int GetBlockSize() => CryptoBlockCipher.GetBlockSize();
 
         public int ProcessBlock(byte[] inBuf, int inOff, byte[] outBuf, int outOff)

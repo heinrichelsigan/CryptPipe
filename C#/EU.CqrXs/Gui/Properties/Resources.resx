@@ -288,10 +288,6 @@
   <data name="Blank_640x108" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Blank_640x108.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="sound_space" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sounds\sound_space.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-    <comment>sound_space</comment>
-  </data>
   <data name="sound_breakpoint" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sounds\sound_breakpoint.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     <comment>sound_breakpoint</comment>

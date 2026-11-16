@@ -27,19 +27,19 @@ namespace EU.CqrXs.Gui
 
         #region static fields
 
-        private static readonly Lock _lock = new();      
+        private static readonly Lock _lock = new();
         // private static Thread t;
         public static readonly string ProgFilePath = ExecFullPath ?? "";
         public static readonly string ProgName = string.IsNullOrEmpty(ProgFilePath) ? Constants.APP_NAME_WINFORM : Path.GetFileName(ProgFilePath);
         public static readonly string ProgDirPazh = Path.GetDirectoryName(ProgFilePath);
-        
-        static Mutex? mutex;
 
-        static EncryptFormBase[] formsLaunched = new EncryptFormBase[5] { null, null, null, null, null };
+        // static Mutex? mutex;
+
+        static EncryptFormBase[] formsLaunched = new EncryptFormBase[4] { null, null, null, null };
 
         internal static string mainFormName = "";
 
-        static ApplicationContext applicationContext;        
+        static ApplicationContext applicationContext;
         static FormMode formMode = FormMode.Complex;
         // internal static CipherPipe? ciperPipe;
         #endregion static fields
@@ -101,12 +101,7 @@ namespace EU.CqrXs.Gui
             get => (formsLaunched[3] != null && formsLaunched[3] is ZenMatrixForm) ? (ZenMatrixForm)formsLaunched[3] : null;
             set => formsLaunched[3] = value;
         }
-        internal static EncryptFormAsymmetric formAsymmetric
-        {
-            get => (formsLaunched[4] != null && formsLaunched[4] is EncryptFormAsymmetric) ? (EncryptFormAsymmetric)formsLaunched[4] : null;
-            set => formsLaunched[4] = value;
-        }
-        
+
         #endregion Properties
 
         #region Main
@@ -118,7 +113,6 @@ namespace EU.CqrXs.Gui
         [STAThread]
         internal static void Main(string[] args)
         {
-
             if (args.Length > 0)
             {
                 foreach (string arg in args)
@@ -129,7 +123,6 @@ namespace EU.CqrXs.Gui
                         ColorMode = SystemColorMode.Classic;
                     if (arg.Contains("system", StringComparison.CurrentCultureIgnoreCase))
                         ColorMode = SystemColorMode.System;
-
 
                     if (arg.Contains("simple", StringComparison.CurrentCultureIgnoreCase))
                         formMode = FormMode.Simple;
@@ -149,14 +142,14 @@ namespace EU.CqrXs.Gui
             }
 
 
-            mutex = (mutex == null) ? new Mutex(false, Constants.APP_NAME_WINFORM) : mutex;
+            // mutex = (mutex == null) ? new Mutex(false, Constants.APP_NAME_WINFORM) : mutex;
 
-            if (!mutex.WaitOne(2000, false))
-            {
-                // show MsgBox and exit
-                MessageBox.Show($"Another instance of {ProgName} is already running!", "Attention");
-                return;
-            }
+            // if (!mutex.WaitOne(2000, false))
+            // {
+            // show MsgBox and exit
+            // MessageBox.Show($"Another instance of {ProgName} is already running!", "Attention");
+            // return;
+            // }
 
             // set Application basic settings
             Application.EnableVisualStyles();
@@ -192,14 +185,13 @@ namespace EU.CqrXs.Gui
                 applicationContext.MainForm = Program.formZenMatrix;
                 applicationContext.Tag = Program.formZenMatrix.Name;
             }
-            else 
-            {                
+            else
+            {
                 Program.formComplex = new EncryptFormMultiControls();
                 Program.mainFormName = Program.formComplex.Name;
                 applicationContext.MainForm = Program.formComplex;
                 applicationContext.Tag = formComplex.Name;
             }
-
 
             // Run application
             Application.Run(applicationContext);
@@ -215,53 +207,53 @@ namespace EU.CqrXs.Gui
 
         public static void ReleaseCloseDisposeMutex()
         {
-            Exception? ex = null;
-            if (Program.mutex != null)
-            {
-                var safeWaitHandle = Program.mutex.GetSafeWaitHandle();
-                if (safeWaitHandle != null && !safeWaitHandle.IsInvalid && !safeWaitHandle.IsClosed)
-                {
-                    try
-                    {
-                        Program.mutex.ReleaseMutex();
-                    }
-                    catch (Exception exRelease)
-                    {
-                        ex = exRelease;
-                    }
-                    try
-                    {
-                        Program.mutex.Close();
-                    }
-                    catch (Exception exClose)
-                    {
-                        if (ex == null)
-                            ex = exClose;
-                    }
-                    try
-                    {
-                        Program.mutex.Dispose();
-                    }
-                    catch (Exception exDispose)
-                    {
-                        ex = exDispose;
-                    }
+            //Exception? ex = null;
+            //if (Program.mutex != null)
+            //{
+            //    var safeWaitHandle = Program.mutex.GetSafeWaitHandle();
+            //    if (safeWaitHandle != null && !safeWaitHandle.IsInvalid && !safeWaitHandle.IsClosed)
+            //    {
+            //        try
+            //        {
+            //            Program.mutex.ReleaseMutex();
+            //        }
+            //        catch (Exception exRelease)
+            //        {
+            //            ex = exRelease;
+            //        }
+            //        try
+            //        {
+            //            Program.mutex.Close();
+            //        }
+            //        catch (Exception exClose)
+            //        {
+            //            if (ex == null)
+            //                ex = exClose;
+            //        }
+            //        try
+            //        {
+            //            Program.mutex.Dispose();
+            //        }
+            //        catch (Exception exDispose)
+            //        {
+            //            ex = exDispose;
+            //        }
 
-                }
-            }
-            try
-            {
-                Program.mutex = null;
-            }
-            catch (Exception exNull)
-            {
-                ex = exNull;
-            }
-            finally
-            {
-                if (ex != null)
-                    throw ex;
-            }
+            //    }
+            //}
+            //try
+            //{
+            //    Program.mutex = null;
+            //}
+            //catch (Exception exNull)
+            //{
+            //    ex = exNull;
+            //}
+            //finally
+            //{
+            //    if (ex != null)
+            //        throw ex;
+            //}
         }
 
         #endregion ReleaseCloseDisposeMutex

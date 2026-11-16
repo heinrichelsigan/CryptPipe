@@ -10,8 +10,7 @@ namespace EU.CqrXs.Crypt.Cipher
     [DefaultValue("Aes")]
     public enum CipherEnum : byte
     {
-        Aes = 0x0,
-
+        Aes = 0x0, 
         BlowFish = 0x1,
         Camellia = 0x2,
         Cast6 = 0x3,
@@ -40,36 +39,39 @@ namespace EU.CqrXs.Crypt.Cipher
         CamelliaLight = 0x19,
         Dstu7624 = 0x1a,        
         AesLight = 0x1b,
-        ZenMatrix = 0x1c,        
-        Des3Net = 0x1d,
-        AesNet = 0x1e,
-
-        ZenMatrix2 = 0x1f,
+        ZenMatrix = 0x1c,     
+                        
+        Salsa20 = 0x1d,
+        ChaCha = 0x1e,
+        ChaCha7539 = 0x1f,
+        RC4 = 0x20,
+        Isaac = 0x21,
+        HC128 = 0x22,
+        HC256 = 0x23,
+        Vmpc = 0x24,
+        VmpcKsa3 = 0x25,
+        XChaCha20 = 0x26,
+        XSalsa20 = 0x27,
         
-        Salsa20 = 0x20,
-        ChaCha = 0x21,
-        ChaCha7539 = 0x22,
-        RC4 = 0x23,
-        Isaac = 0x24,
-        HC256 = 0x25,
-        HC128 = 0x26,
-        Vmpc = 0x27,
-        VmpcKsa3 = 0x28,
-        XChaCha20 = 0x29,
-        XSalsa20 = 0x2a,
 
-        Rsa = 0x30
-        // Dsa = 0x31,
-        // DH = 0x32,
-        // Ecdsa = 0x33,
-        // Ed25519 = 0x34,
-        // Ed448 = 0x35,
-        // X25519 = 0x36,
-        // X448 = 0x37,
-        // GPG = 0x38
+        Des3Net = 0x30,
+        AesNet = 0x31,
+        ZenMatrix2 = 0x32,
+
+        Rsa = 0x40,
+        // Dsa = 0x41,
+        // DH = 0x42,
+        // Ecdsa = 0x43,
+        // Ed25519 = 0x44,
+        // Ed448 = 0x45,
+        // X25519 = 0x46,
+        // X448 = 0x47,
+        // GPG = 0x48
 
 
         // Ascon = 0x1d
+
+        None = 0xff
 
     }
 

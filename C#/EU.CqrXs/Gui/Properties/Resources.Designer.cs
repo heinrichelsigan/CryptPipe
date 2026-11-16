@@ -491,15 +491,6 @@ namespace EU.CqrXs.Gui.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream sound_space {
-            get {
-                return ResourceManager.GetStream("sound_space", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
-        /// </summary>
         internal static System.IO.UnmanagedMemoryStream sound_suction {
             get {
                 return ResourceManager.GetStream("sound_suction", resourceCulture);

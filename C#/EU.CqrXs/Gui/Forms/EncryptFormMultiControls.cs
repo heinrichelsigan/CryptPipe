@@ -68,7 +68,7 @@ namespace EU.CqrXs.Gui.Forms
                 => await menuAbout_Click(sender, e));
             menuHelpHelp.Click += new System.EventHandler(async (sender, e)
                 => await menuHelp_Click(sender, e));
-            menuMainItemExperimental.Click += new System.EventHandler(async (sender, e)
+            menuMainFormComplex.Click += new System.EventHandler(async (sender, e)
                  => await menuMainFormExperimental_Click(sender, e));
 
             menuVisualModesItemClassic.Click += menuVisualMode_Change;
@@ -76,10 +76,9 @@ namespace EU.CqrXs.Gui.Forms
             menuVisualModesItemSystem.Click += menuVisualMode_Change;
 
 
-            menuMainItemOneTwoThreeFish.Click += menuMainItemOneTwoThreeFish_Click;
-            menuMainItemSimple.Click += menuMainFormSimple_Click;
-            menuMainAsymmetric.Click += menuMainAsymmetric_Click;
-            menuMainItemZenMatrixTest.Click += menuMainItemZenMatrixTest_Click;
+            menuMainFormOneTwoThreeFish.Click += menuMainFormOneTwoThreeFish_Click;
+            menuMainFormSimple.Click += menuMainFormSimple_Click;
+            menuMainFormZenMatrix.Click += menuMainFormZenMatrix_Click;
 
             foreach (ToolStripMenuItem encodingMenu in menuEncodings)
                 encodingMenu.Click += new System.EventHandler(async (sender, e) => await menuEncodingKind_Click(sender, e));
@@ -685,8 +684,9 @@ namespace EU.CqrXs.Gui.Forms
             this.textBoxPipe.Text = string.Empty;
             if (string.IsNullOrEmpty(this.textBoxHash.Text))
                 Hash_Click(sender, e);
-
-            cPipe = new CipherPipe(this.textBoxHash.Text, this.textBoxKey.Text, GetEncoding(), GetZip(), GetHash(), GetCipherMode2());
+            
+            cPipe = new CipherPipe(this.textBoxHash.Text, this.textBoxKey.Text, 
+                GetEncoding(), GetZip(), GetHash(), GetCipherMode2(), menuItemIncludeStreamCiphers.Checked);
             foreach (CipherEnum cipher in cPipe.InPipe)
             {
                 this.textBoxPipe.Text += cipher.ToString() + ";";
@@ -711,7 +711,8 @@ namespace EU.CqrXs.Gui.Forms
             if (string.IsNullOrEmpty(this.textBoxHash.Text))
                 Hash_Click(sender, e);
 
-            cPipe = new CipherPipe(this.textBoxKey.Text, this.textBoxHash.Text, GetEncoding(), GetZip(), GetHash(), GetCipherMode2());
+            cPipe = new CipherPipe(this.textBoxKey.Text, this.textBoxHash.Text,
+                GetEncoding(), GetZip(), GetHash(), GetCipherMode2(), menuItemIncludeStreamCiphers.Checked);
             foreach (CipherEnum cipher in cPipe.InPipe)
             {
                 this.textBoxPipe.Text += cipher.ToString() + ";";
@@ -1190,7 +1191,7 @@ namespace EU.CqrXs.Gui.Forms
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <returns><see cref="T:Task"</returns>
-        protected internal virtual void menuMainItemOneTwoThreeFish_Click(object sender, EventArgs e)
+        protected internal virtual void menuMainFormOneTwoThreeFish_Click(object sender, EventArgs e)
         {
 
             try
@@ -1261,7 +1262,7 @@ namespace EU.CqrXs.Gui.Forms
 
 
 
-        internal void menuMainItemZenMatrixTest_Click(object sender, EventArgs e)
+        internal void menuMainFormZenMatrix_Click(object sender, EventArgs e)
         {
             if (Program.formZenMatrix == null || Program.formZenMatrix.Disposing)
             {
@@ -1290,35 +1291,6 @@ namespace EU.CqrXs.Gui.Forms
             Program.formZenMatrix.Focus();
         }
 
-
-        internal void menuMainAsymmetric_Click(object sender, EventArgs e)
-        {
-            if (Program.formAsymmetric == null || Program.formAsymmetric.Disposing)
-            {
-                Program.formAsymmetric = new EncryptFormAsymmetric();
-            }
-            try
-            {
-                Program.formAsymmetric.Show();
-            }
-            catch (Exception exShow)
-            {
-                Area23Log.LogOriginEx("EncryptFormMultiControls.menuMainFormAsymmetric_Click", exShow, 1);
-                Program.formAsymmetric = new EncryptFormAsymmetric();
-                Program.formAsymmetric.Show();
-            }
-            try
-            {
-                HideAllOtherForms("EncryptFormAsymmetric");
-            }
-            catch (Exception exHide)
-            {
-                Area23Log.LogOriginEx("EncryptFormMultiControls.menuMainItemZenMatrixTest_Click", exHide, 1);
-            }
-            this.Hide();
-
-            Program.formAsymmetric.Focus();
-        }
 
         /// <summary>
         /// menuFileOpen_Click opens a file dialog to select a file to encrypt/decrypt
