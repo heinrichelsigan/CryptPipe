@@ -817,82 +817,84 @@ public class CqrJFrameSimple extends CqrBaseFrame {
 		public void actionPerformed(ActionEvent event) {
 			Object object = event.getSource();
 
-			if (object == menuMain_itemExit)
-				exit_action(event);								
-			else if (object == menuMain_itemOpen)
-				open_action();
-			else if (object == menuMain_itemSave)
-				save_action();
-			else if (object == menuZip_itemNone) 
-				selectItemByString(jComboBox_Zip, menuZip, "None");
-			else if (object == menuZip_itemGz)
-				selectItemByString(jComboBox_Zip, menuZip, "GZip");
-			else if (object == menuZip_itemZip) 
-				selectItemByString(jComboBox_Zip, menuZip, "Zip"); 
-			else if (object == menuZip_itemBz)
-				selectItemByString(jComboBox_Zip, menuZip, "BZip2");
-			else if (object == menuZip_item7z)
-				selectItemByString(jComboBox_Zip, menuZip, "7z"); 
-			else if (object == menuEncoding_itemNone)
-				selectItemByString(jComboBox_Encoding, menuEncoding, "None"); 
-			else if (object == menuEncoding_itemBase16)
-				selectItemByString(jComboBox_Encoding, menuEncoding, "Base16"); 
-			else if (object == menuEncoding_itemHex16)
-				selectItemByString(jComboBox_Encoding, menuEncoding, "Hex16");
-			else if (object == menuEncoding_itemBase32)
-				selectItemByString(jComboBox_Encoding, menuEncoding, "Base32");
-			else if (object == menuEncoding_itemUu)
-				selectItemByString(jComboBox_Encoding, menuEncoding, "Uu"); 
-			else if (object == menuEncoding_itemXx)
-				selectItemByString(jComboBox_Encoding, menuEncoding, "Xx");
-			else if (object == menuEncoding_itemHex64)
-				selectItemByString(jComboBox_Encoding, menuEncoding, "Hex64");
-			else if (object == menuEncoding_itemBase64)
-				selectItemByString(jComboBox_Encoding, menuEncoding, "Base64");
-			else if (object == menuEncoding_itemAscii85)
-				selectItemByString(jComboBox_Encoding, menuEncoding, "Ascii85");
-			else if (object == menuOptions_otherCiphers)
-				toogleMenuItemByString(menuOptions_otherCiphers);
-			else if (object == menuOptions_menuWarnings_itemWarnOnDoubleZipping)
-				toogleMenuItemByString(menuOptions_menuWarnings_itemWarnOnDoubleZipping);
-			else if (object == menuOptions_menuWarnings_itemWarnOnEmptyPipe)
-				toogleMenuItemByString(menuOptions_menuWarnings_itemWarnOnEmptyPipe);
+			if (object != null) {
+				if (object.equals(menuMain_itemExit))
+					exit_action(event);
+				else if (object.equals(menuMain_itemOpen))
+					open_action();
+				else if (object.equals(menuMain_itemSave))
+					save_action();
+				else if (object.equals(menuZip_itemNone))
+					selectItemByString(jComboBox_Zip, menuZip, "None");
+				else if (object.equals(menuZip_itemGz))
+					selectItemByString(jComboBox_Zip, menuZip, "GZip");
+				else if (object.equals(menuZip_itemZip))
+					selectItemByString(jComboBox_Zip, menuZip, "Zip");
+				else if (object.equals(menuZip_itemBz))
+					selectItemByString(jComboBox_Zip, menuZip, "BZip2");
+				else if (object.equals(menuZip_item7z))
+					selectItemByString(jComboBox_Zip, menuZip, "7z");
+				else if (object.equals(menuEncoding_itemNone))
+					selectItemByString(jComboBox_Encoding, menuEncoding, "None");
+				else if (object.equals(menuEncoding_itemBase16))
+					selectItemByString(jComboBox_Encoding, menuEncoding, "Base16");
+				else if (object.equals(menuEncoding_itemHex16))
+					selectItemByString(jComboBox_Encoding, menuEncoding, "Hex16");
+				else if (object.equals(menuEncoding_itemBase32))
+					selectItemByString(jComboBox_Encoding, menuEncoding, "Base32");
+				else if (object.equals(menuEncoding_itemUu))
+					selectItemByString(jComboBox_Encoding, menuEncoding, "Uu");
+				else if (object.equals(menuEncoding_itemXx))
+					selectItemByString(jComboBox_Encoding, menuEncoding, "Xx");
+				else if (object.equals(menuEncoding_itemHex64))
+					selectItemByString(jComboBox_Encoding, menuEncoding, "Hex64");
+				else if (object.equals(menuEncoding_itemBase64))
+					selectItemByString(jComboBox_Encoding, menuEncoding, "Base64");
+				else if (object.equals(menuEncoding_itemAscii85))
+					selectItemByString(jComboBox_Encoding, menuEncoding, "Ascii85");
+				else if (object.equals(menuOptions_otherCiphers))
+					toogleMenuItem(menuOptions_otherCiphers);
+				else if (object.equals(menuOptions_menuWarnings_itemWarnOnDoubleZipping))
+					toogleMenuItem(menuOptions_menuWarnings_itemWarnOnDoubleZipping);
+				else if (object.equals(menuOptions_menuWarnings_itemWarnOnEmptyPipe))
+					toogleMenuItem(menuOptions_menuWarnings_itemWarnOnEmptyPipe);
 
 
-			else if (object == menuCMode2_ECB)
-				selectCipherMode2MenuItem(menuCMode2, CipherMode2.ECB);
-			else if (object == menuCMode2_CBC)
-				selectCipherMode2MenuItem(menuCMode2, CipherMode2.CBC);
-			else if (object == menuCMode2_CFB)
-				selectCipherMode2MenuItem(menuCMode2, CipherMode2.CFB);
-			else if (object == menuCMode2_CCM)
-				selectCipherMode2MenuItem(menuCMode2, CipherMode2.CCM);
-			else if (object == menuCMode2_CTS)
-				selectCipherMode2MenuItem(menuCMode2, CipherMode2.CTS);
-			else if (object == menuCMode2_EAX)
-				selectCipherMode2MenuItem(menuCMode2, CipherMode2.EAX);
-			else if (object == menuCMode2_GOFB)
-				selectCipherMode2MenuItem(menuCMode2, CipherMode2.GOFB);
+				else if (object.equals(menuCMode2_ECB))
+					selectCipherMode2MenuItem(menuCMode2, CipherMode2.ECB);
+				else if (object.equals(menuCMode2_CBC))
+					selectCipherMode2MenuItem(menuCMode2, CipherMode2.CBC);
+				else if (object.equals(menuCMode2_CFB))
+					selectCipherMode2MenuItem(menuCMode2, CipherMode2.CFB);
+				else if (object.equals(menuCMode2_CCM))
+					selectCipherMode2MenuItem(menuCMode2, CipherMode2.CCM);
+				else if (object.equals(menuCMode2_CTS))
+					selectCipherMode2MenuItem(menuCMode2, CipherMode2.CTS);
+				else if (object.equals(menuCMode2_EAX))
+					selectCipherMode2MenuItem(menuCMode2, CipherMode2.EAX);
+				else if (object.equals(menuCMode2_GOFB))
+					selectCipherMode2MenuItem(menuCMode2, CipherMode2.GOFB);
 
-			else if (object == menuHelp_itemAbout)
-				about_action(event, cqrJFrameSimple);
-			else if (object == menuHelp_itemHelp)
-				help_action(event);
+				else if (object.equals(menuHelp_itemAbout))
+					about_action(event, cqrJFrameSimple);
+				else if (object.equals(menuHelp_itemHelp))
+					help_action(event);
 
-			else if (object == jButton_encrypt || object == menuMain_itemEncrypt)
-				encrypt_action(event);
-			else if (object == jButton_decrypt || object == menuMain_itemDecrypt)
-				decrypt_action(event);
-			else if (object == jButton_setPipe || object == menuMain_itemSetPipe)
-				setPipe_action(event);			
-			else if (object == jButton_hashPipe || object == menuMain_itemHashPipe)
-				hashPipe_action(event);
-			else if (object == jButton_randomText || object == menuMain_itemRandomText)
-				randomText_action(event);
-			else if (object == jButton_resetForm || object == menuMain_itemReset)
-				resetForm_action(event);
-			else if (object == menuMain_itemShowComplex)
-                showComplex_action(event);
+				else if (object.equals(jButton_encrypt) || object.equals(menuMain_itemEncrypt))
+					encrypt_action(event);
+				else if (object.equals(jButton_decrypt) || object.equals(menuMain_itemDecrypt))
+					decrypt_action(event);
+				else if (object.equals(jButton_setPipe) || object.equals(menuMain_itemSetPipe))
+					setPipe_action(event);
+				else if (object.equals(jButton_hashPipe) || object.equals(menuMain_itemHashPipe))
+					hashPipe_action(event);
+				else if (object.equals(jButton_randomText) || object.equals(menuMain_itemRandomText))
+					randomText_action(event);
+				else if (object.equals(jButton_resetForm) || object.equals(menuMain_itemReset))
+					resetForm_action(event);
+				else if (object.equals(menuMain_itemShowComplex))
+					showComplex_action(event);
+			}
 		}
 	}
 
@@ -1231,23 +1233,23 @@ public class CqrJFrameSimple extends CqrBaseFrame {
 	protected void MouseEventAction(MouseEvent e) {
 		Object object = e.getSource();
 		if (object != null) {
-			if (object == jLabelImgAddAlgo) {
+			if (object.equals(jLabelImgAddAlgo)) {
 				cipherString = cipherEnum.toString();
 				String pipeText = jTextField_Pipe.getText();
 				jTextField_Pipe.setText(pipeText + cipherString + ";");
-			} else if (object == jLabelImgKey) {
+			} else if (object.equals(jLabelImgKey)) {
 				// keyHash.Hash(
-			} else if (object == jLabelImgX) {
+			} else if (object.equals(jLabelImgX)) {
 				jTextField_Pipe.setText("");
-			// } else if (object == dropPanel.jLabelImgIn) {
+			// } else if (object.equals(dropPanel.jLabelImgIn)) {
 			// 	if (openFileBytes == null || openFileBytes.length < 1)
 			// 		open_action();
-			//  } else if (object == dropPanel.jLabelImgOut) {
+			//  } else if (object.equals(dropPanel.jLabelImgOut)) {
 			//  if (saveFileBytes == null || saveFileBytes.length < 1)
 			//  save_action();
-			} else {
-
-			}
+			} // else {
+			//
+			// }
 		}
 	}
 

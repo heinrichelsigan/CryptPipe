@@ -255,7 +255,7 @@ public class CqrBaseFrame extends JFrame {
 		if (cb != null) {
 			for (int i = 0; i < cb.getItemCount(); i++) {
 				if (cb.getItemAt(i).toString().equals(s) ||
-						cb.getItemAt(i).toString().toLowerCase().equals(s.toLowerCase())) {
+						cb.getItemAt(i).toString().equalsIgnoreCase(s)) {
 					cb.setSelectedIndex(i);
 					break;
 				}
@@ -274,7 +274,7 @@ public class CqrBaseFrame extends JFrame {
 		if (m != null) {
 			for (int i = 0; i < m.getItemCount(); i++) {
 				JMenuItem item = m.getItem(i);
-				if (item.getText().equals(s))
+				if (item.getText().equalsIgnoreCase(s))
 					item.setBackground(selectionBg); // item.setEnabled(enable);
 				else
 					item.setBackground(defaultMenuItemBg);
@@ -284,10 +284,10 @@ public class CqrBaseFrame extends JFrame {
 
 
 	/**
-	 * toogleMenuItemByString marks and unmarks MenuItem
+	 * toogleMenuItem marks and unmarks MenuItem
 	 * @param item {@link JMenuItem}
 	 */
-	protected static void toogleMenuItemByString(JMenuItem item) {
+	protected static void toogleMenuItem(JMenuItem item) {
 
 		if (item != null) {
 			if (item.getBackground().equals(selectionBg))
