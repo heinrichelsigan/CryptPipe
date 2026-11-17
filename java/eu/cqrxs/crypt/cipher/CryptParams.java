@@ -56,7 +56,7 @@ public class CryptParams {
 
     public BlockCipher blockCipher;
     public StreamCipher streamCipher;
-    public CipherParameters streamCipherParameters;
+    public CipherParameters cipherParameters;
 
 
     /**
@@ -66,38 +66,107 @@ public class CryptParams {
         cipher = CipherEnum.Aes;
         size = 256;
         keyLen = 32;
-		ivLen = 32;
         ivLen = 32;
         cmode2 = CipherMode2.ECB;
         //noinspection deprecation
-        blockCipher = new AESEngine();
+        blockCipher = null;
+        streamCipher = null;
         keyHashing = KeyHash.Hex;
-        blockSize = blockCipher.getBlockSize();
+        // blockSize = blockCipher.getBlockSize();
     }
 
 
-
     /**
      * CryptParams(CipherEnum constructor
      * @param cipherAlgo {@link CipherEnum}
+     * @param secretKey user key for encryption {@link String}
+     * @param keyHashed hashed user key
+     * @param keyHash {@link KeyHash}
+     * @param cMode2 {@link CipherMode2}
      */
-
-    /**
-     * CryptParams(CipherEnum constructor
-     * @param cipherAlgo {@link CipherEnum}
-     */
-    public CryptParams(CipherEnum cipherAlgo) {
+    public CryptParams(CipherEnum cipherAlgo,
+                       String secretKey,
+                       String keyHashed,
+                       KeyHash keyHash,
+                       CipherMode2 cMode2
+                    ) {
         this();
         cipher = cipherAlgo;
-        size = 256;
-        keyLen = 32;
-        ivLen = 32;
-        cmode2 = CipherMode2.ECB;
-        keyHashing = KeyHash.Hex;
+        keyHashing = keyHash;
+        key = (secretKey == null || secretKey.isEmpty()) ? Constants.AUTHOR_EMAIL : secretKey;
+        hash = (keyHashed == null || keyHashed.isEmpty()) ? keyHashing.hash(secretKey) : keyHashed;
+        cmode2 = cMode2;
+
+        setCipherEngineWithKeyIvSize(cipher,
+                secretKey.getBytes(StandardCharsets.UTF_8),
+                hash.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /**
+     * CryptParams(CipherEnum constructor
+     * @param cipherAlgo {@link CipherEnum}
+     * @param secretKey user key for encryption {@link String}
+     * @param keyHash {@link KeyHash}
+     * @param cMode2 {@link CipherMode2}
+     */
+    public CryptParams(CipherEnum cipherAlgo,
+                       String secretKey,
+                       KeyHash keyHash,
+                       CipherMode2 cMode2) {
+        this(cipherAlgo, secretKey, keyHash.hash(secretKey), keyHash, cMode2);
+    }
+
+    /***
+     * constructs a  CryptParams object by {@link CipherEnum}
+     * @param cipherAlgo {@link CipherEnum}
+     * @param secretKey user key for encryption {@link String}
+     * @param keyHashed hashed user key
+     * @param cMode2 {@link CipherMode2}
+     */
+    public CryptParams(CipherEnum cipherAlgo,
+                       String secretKey,
+                       String keyHashed,
+                       CipherMode2 cMode2) {
+        this(cipherAlgo, secretKey, keyHashed, KeyHash.Hex, cMode2);
+    }
+
+    /***
+     * constructs a  CryptParams object by {@link CipherEnum}
+     * @param cipherAlgo {@link CipherEnum}
+     * @param secretKey user key for encryption {@link String}
+     * @param keyHashed hashed user key
+     */
+    public CryptParams(CipherEnum cipherAlgo,
+                       String secretKey,
+                       String keyHashed) {
+        this(cipherAlgo, secretKey, keyHashed, CipherMode2.ECB);
+    }
+
+    /***
+     * Constructs instance via another object instance
+     * @param cryptParams another instance
+     */
+    public CryptParams(CryptParams cryptParams) {
+        this(cryptParams.cipher, cryptParams.key, cryptParams.hash,
+            cryptParams.keyHashing, cryptParams.cmode2);
+    }
+
+
+    /**
+     * setCipherEngineWithKeyIvSize
+     * creates a blockCipherEngine or StreamCipherEngine with correct sizes
+     * @param cipher {@link CipherEnum}
+     * @param keyed byze[]  array of key
+     * @param hashed byze[]  array of hash iv
+     */
+    public void setCipherEngineWithKeyIvSize(
+            CipherEnum cipher, byte[] keyed, byte[] hashed)  {
+
+        KeyParameter keyParam;;
 
         switch (cipher) {
             case Aes:
-                blockCipher = new  AESEngine();
+                blockCipher = new AESEngine();
                 break;
             case JAes:
                 blockCipher = new JAes(size);
@@ -265,107 +334,26 @@ public class CryptParams {
                 break;
         }
 
-        if (ivLen < 1)
-            ivLen = keyLen;
-
         if (streamCipher == null)
             blockSize = blockCipher.getBlockSize();
-    }
 
-    /**
-     * CryptParams(CipherEnum constructor
-     * @param cipherAlgo {@link CipherEnum}
-     * @param secretKey user key for encryption {@link String}
-     * @param keyHashed hashed user key
-     * @param keyHash {@link KeyHash}
-     * @param cMode2 {@link CipherMode2}
-     */
-    public CryptParams(CipherEnum cipherAlgo,
-                       String secretKey,
-                       String keyHashed,
-                       KeyHash keyHash,
-                       CipherMode2 cMode2
-                    ) {
-        this(cipherAlgo);
-        keyHashing = keyHash;
-        cmode2 = cMode2;
-        key = (secretKey == null || secretKey.isEmpty()) ? Constants.AUTHOR_EMAIL : secretKey;
-        hash = (keyHashed == null || keyHashed.isEmpty()) ? keyHashing.hash(secretKey) : keyHashed;
-    }
+        if (keyLen > 0)
+            keyed = CryptHelper.stretchCutToLength(keyed, keyLen);
+        if (ivLen > 0)
+            hashed = CryptHelper.stretchCutToLength(hashed, ivLen);
 
-    /**
-     * CryptParams(CipherEnum constructor
-     * @param cipherAlgo {@link CipherEnum}
-     * @param secretKey user key for encryption {@link String}
-     * @param keyHash {@link KeyHash}
-     * @param cMode2 {@link CipherMode2}
-     */
-    public CryptParams(CipherEnum cipherAlgo,
-                       String secretKey,
-                       KeyHash keyHash,
-                       CipherMode2 cMode2) {
-        this(cipherAlgo, secretKey, keyHash.hash(secretKey), keyHash, cMode2);
-    }
+        keyParam = new KeyParameter(keyed);
+        cipherParameters =  new ParametersWithIV(keyParam, hashed);
 
-    /***
-     * constructs a  CryptParams object by {@link CipherEnum}
-     * @param cipherAlgo {@link CipherEnum}
-     * @param secretKey user key for encryption {@link String}
-     * @param keyHashed hashed user key
-     * @param cMode2 {@link CipherMode2}
-     */
-    public CryptParams(CipherEnum cipherAlgo,
-                       String secretKey,
-                       String keyHashed,
-                       CipherMode2 cMode2) {
-        this(cipherAlgo);
-        cmode2 = cMode2;
-        key = (secretKey == null || secretKey.isEmpty()) ? Constants.AUTHOR_EMAIL : secretKey;
-        hash = (keyHashed == null || keyHashed.isEmpty()) ? keyHashing.hash(secretKey) : keyHashed;
-        setStreamCipherParameters(secretKey.getBytes(StandardCharsets.UTF_8),  hash.getBytes(StandardCharsets.UTF_8));
-    }
-
-    /***
-     * constructs a  CryptParams object by {@link CipherEnum}
-     * @param cipherAlgo {@link CipherEnum}
-     * @param secretKey user key for encryption {@link String}
-     * @param keyHashed hashed user key
-     */
-    public CryptParams(CipherEnum cipherAlgo,
-                       String secretKey,
-                       String keyHashed) {
-        this(cipherAlgo, secretKey, keyHashed, CipherMode2.ECB);
-    }
-
-    /***
-     * Constructs instance via another object instance
-     * @param cryptParams another instance
-     */
-    public CryptParams(CryptParams cryptParams) {
-        this(cryptParams.cipher, cryptParams.key, cryptParams.hash,
-            cryptParams.keyHashing, cryptParams.cmode2);
-    }
-
-
-    public void setStreamCipherParameters(byte[] keyed, byte[] hashed)  {
         if (streamCipher != null)  {
-            if (keyLen > 0)
-                keyed = CryptHelper.stretchCutToLength(keyed, keyLen);
-            if (ivLen > 0)
-                hashed = CryptHelper.stretchCutToLength(hashed, ivLen);
-            KeyParameter keyParamStreamC = new KeyParameter(keyed);
-            streamCipherParameters = (cipher == CipherEnum.Isaac || cipher == CipherEnum.RC4) ?
-                    keyParamStreamC : new ParametersWithIV(keyParamStreamC, hashed);
-        } else {
-            if (keyLen > 0)
-                keyed = CryptHelper.stretchCutToLength(keyed, keyLen);
-            if (ivLen > 0)
-                hashed = CryptHelper.stretchCutToLength(hashed, ivLen);
-            KeyParameter keyParamStreamC = new KeyParameter(keyed);
-            streamCipherParameters =  new ParametersWithIV(keyParamStreamC, hashed);
+            cipherParameters = (cipher == CipherEnum.Isaac || cipher == CipherEnum.RC4) ?
+                    keyParam : new ParametersWithIV(keyParam, hashed);
         }
-    }
 
+        // return ;
+
+    }
+    
 
     protected void setKeyIvLen(int keylen, int ivlen) {
         keyLen = (keylen < 1) ? 32 : keylen;
@@ -373,9 +361,8 @@ public class CryptParams {
     }
 
     protected void setSizeKeyIvLen(int blocksize, int keylen, int ivlen) {
+        setKeyIvLen(keylen, ivlen);
         size = (blocksize < 0) ? 256 : blocksize;
-        keyLen = (keylen < 1) ? 32 : keylen;
-        ivLen = (ivlen < 1) ? 32 : ivlen;
     }
 
 }

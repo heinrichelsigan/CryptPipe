@@ -221,7 +221,6 @@ public class SecureCipherPipe extends CipherPipe {
                 encryptBytes = sbc.encrypt(inBytes);
                 break;
 
-
             default:
                 //CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
                 // encryptBytes = cryptBounceCastle.encrypt(inBytes);

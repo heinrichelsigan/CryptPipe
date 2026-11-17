@@ -20,7 +20,6 @@ import eu.cqrxs.zip.ZipType;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -32,8 +31,6 @@ import java.awt.image.BufferedImage;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
@@ -55,24 +52,14 @@ import javax.swing.event.MenuKeyEvent;
 /**
  * class CqrJdFrame is main form for PermAgainCrypt in java
  */
-public class CqrJdFrame extends JFrame {
+public class CqrJdFrame extends CqrBaseFrame {
 
 	public static CqrJdFrame cqrJdFrame;
-    public static CqrJFrameSimple cqrJFrameSimple;
-	protected static byte[] openFileBytes, saveFileBytes;
-	/// at/net/res/img/crypt/file.png");/
-	 		
-	public KeyHash keyHash = KeyHash.Empty;
-	public eu.cqrxs.zip.ZipType zipType = eu.cqrxs.zip.ZipType.None;
-	public CipherEnum cipherEnum = CipherEnum.Aes;
-	protected String cipherString, encodeString, openFileName, saveFileName, saveFileSuffix = "";
-	protected EncodeEnum encodeType = EncodeEnum.Base64;
-	protected CipherMode2 cmode2 = CipherMode2.ECB;
-
+	public static CqrJFrameSimple cqrJFrameSimple;
 	JButton jButton_setPipe, jButton_hashPipe, jButton_encrypt, jButton_decrypt, jButton_randomText, jButton_resetForm;
 	JComboBox<String> jComboBox_Hash, jComboBox_Zip, jComboBox_Algo, jComboBox_Encoding;
 	// JPanel jPanelCenter = new JPanel();
-	JLabel jLabel_infoMessage, jLabel_statusSource, jLabel_statusDestination,
+	JLabel jLabel_statusSource, jLabel_statusDestination,
 			jLabelImgKey, jLabelImgHash, jLabelImgAddAlgo, jLabelImgX;
 
 	JTextField jTextField_Key, jTextField_Hash, jTextField_Pipe;
@@ -80,10 +67,7 @@ public class CqrJdFrame extends JFrame {
 	JScrollPane scrollSource, scrollDestination;
 
 	eu.cqrxs.gui.DropPanel dropPanel;
-	eu.cqrxs.gui.CqrJDialog cqrJDialog;
-	
-	Font menuFont, cryptFont, monoSpaceFont, monoSpaced = new Font("Monospaced", Font.PLAIN, 10);
-	static Color defaultMenuItemBg, selectionBg, backColor, bgColor;
+
 	
 	JMenuBar jBar = new JMenuBar();
 	// JMenuBar jMenuBar = new JMenuBar();
@@ -107,7 +91,7 @@ public class CqrJdFrame extends JFrame {
 
 	JMenuItem menuCMode2_ECB, menuCMode2_CBC, menuCMode2_CFB, menuCMode2_CCM, menuCMode2_CTS, menuCMode2_EAX, menuCMode2_GOFB;
 
-	JMenuItem menuOptions_menuWarnings_itemWarnOnEmptyPipe, menuOptions_menuWarnings_itemWarnOnDoubleZipping;
+	JMenuItem menuOptions_otherCiphers, menuOptions_menuWarnings_itemWarnOnEmptyPipe, menuOptions_menuWarnings_itemWarnOnDoubleZipping;
 	
 	JMenuItem menuHelp_itemAbout = new JMenuItem(), menuHelp_itemHelp = new JMenuItem();		
 	//}}
@@ -147,9 +131,9 @@ public class CqrJdFrame extends JFrame {
      * main constructor for CqrJdFrame
      */
 	public CqrJdFrame() {
-
+		super();
 		Init();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	/**
@@ -628,7 +612,7 @@ public class CqrJdFrame extends JFrame {
 		menuOptions.setText("Options");
 		menuOptions.setActionCommand("Options");
 		jBar.add(menuOptions);
-		
+
 		menuOptions_menuWarnings = new JMenu();
 		menuOptions_menuWarnings.setText("Warnings");
 		menuOptions_menuWarnings.setActionCommand("Warnings");
@@ -640,6 +624,7 @@ public class CqrJdFrame extends JFrame {
 		menuOptions_menuWarnings_itemWarnOnEmptyPipe.setText("Warn on empty pipe");
 		menuOptions_menuWarnings_itemWarnOnEmptyPipe.setActionCommand("WarnOnEmptyPipe");
 		menuOptions_menuWarnings_itemWarnOnEmptyPipe.setFont(menuFont);
+		menuOptions_menuWarnings_itemWarnOnEmptyPipe.addActionListener(aSymAction);
 		menuOptions_menuWarnings.add(menuOptions_menuWarnings_itemWarnOnEmptyPipe);
 				
 		menuOptions_menuWarnings_itemWarnOnDoubleZipping = new JMenuItem();
@@ -647,8 +632,16 @@ public class CqrJdFrame extends JFrame {
 		menuOptions_menuWarnings_itemWarnOnDoubleZipping.setText("Warn on double zipping");
 		menuOptions_menuWarnings_itemWarnOnDoubleZipping.setActionCommand("WarnOnDoubleZipping");
 		menuOptions_menuWarnings_itemWarnOnDoubleZipping.setFont(menuFont);
+		menuOptions_menuWarnings_itemWarnOnDoubleZipping.addActionListener(aSymAction);
 		menuOptions_menuWarnings.add(menuOptions_menuWarnings_itemWarnOnDoubleZipping);
-		
+
+		menuOptions_otherCiphers = new JMenuItem();
+		menuOptions_otherCiphers.setText("Include other ciphers");
+		menuOptions_otherCiphers.setActionCommand("otherciphers");
+		menuOptions_otherCiphers.setFont(menuFont);
+		menuOptions_otherCiphers.addActionListener(aSymAction);
+		menuOptions.add(menuOptions_otherCiphers);
+
 		menuHelp = new JMenu();
 		menuHelp.setFont(menuFont);
 		menuHelp.setText("?");
@@ -681,18 +674,13 @@ public class CqrJdFrame extends JFrame {
 	 * main init method of graphical JFrame
 	 */
 	public void Init() {
-		
+		super.Init();
+
 		// getRootPane().putClientProperty("defeatSystemEventQueueCheck", Boolean.TRUE);					
 		setLayout(null);
 		setSize(1024, 768);
 		setResizable(false);
-		
-        monoSpaceFont = new Font(Font.MONOSPACED, Font.PLAIN, 11);
-		cryptFont = new Font("Dialog", Font.PLAIN, 11);
-		bgColor = Color.LIGHT_GRAY;
-		backColor = Color.decode("#acdccc");		
-		// setBackground(backColor);
-		
+
 		SymAction lSymAction = new SymAction();
 		SymMouse aSymMouse = new SymMouse();
 		
@@ -1060,7 +1048,13 @@ public class CqrJdFrame extends JFrame {
 				selectItemByString(jComboBox_Encoding, menuEncoding, "Base64");
 			else if (object == menuEncoding_itemAscii85)
 				selectItemByString(jComboBox_Encoding, menuEncoding, "Ascii85");
-			
+			else if (object == menuOptions_otherCiphers)
+				toogleMenuItemByString(menuOptions_otherCiphers);
+			else if (object == menuOptions_menuWarnings_itemWarnOnDoubleZipping)
+				toogleMenuItemByString(menuOptions_menuWarnings_itemWarnOnDoubleZipping);
+			else if (object == menuOptions_menuWarnings_itemWarnOnEmptyPipe)
+				toogleMenuItemByString(menuOptions_menuWarnings_itemWarnOnEmptyPipe);
+
 			else if (object == menuHash_BCrypt) {
 				keyHash = KeyHash.BCrypt;
 				selectItemByString(jComboBox_Hash, menuHash, "BCrypt");
@@ -1138,7 +1132,7 @@ public class CqrJdFrame extends JFrame {
 				selectCipherMode2MenuItem(CipherMode2.GOFB);
 
 			else if (object == menuHelp_itemAbout)
-				about_action(event);
+				about_action(event, cqrJdFrame);
 			else if (object == menuHelp_itemHelp)
 				help_action(event);
 
@@ -1169,92 +1163,8 @@ public class CqrJdFrame extends JFrame {
 		selectMenuItemByString(menuCMode2, cmod2.getName());
 	}
 
-	/**
-	 * selectItemByString sets a JComboBox and JMenu with selected string s
-	 * @param cb {@link JComboBox}
-	 * @param m {@link JMenu}
-	 * @param s {@link String}
-	 */
-	protected static void selectItemByString(JComboBox cb, JMenu m, String s) {
-		if (cb != null) {
-			for (int i = 0; i < cb.getItemCount(); i++) {
-				if (cb.getItemAt(i).toString().equals(s) ||
-						cb.getItemAt(i).toString().toLowerCase().equals(s.toLowerCase())) {
-					cb.setSelectedIndex(i);
-					break;
-				}
-			}
-		}
-		selectMenuItemByString(m, s);
-	}
-
-	/**
-	 * selectMenuItemByString marks inside a JMenu MenuItem that names like s
-	 * @param m {@link JMenu}
-	 * @param s {@link String}
-	 */
-	protected static void selectMenuItemByString(JMenu m, String s) {
-
-		if (m != null) {
-			for (int i = 0; i < m.getItemCount(); i++) {
-				JMenuItem item = m.getItem(i);
-				if (item.getText().equals(s))
-					item.setBackground(selectionBg); // item.setEnabled(enable);
-				else
-					item.setBackground(defaultMenuItemBg);
-			}
-		}
-	}
 
 
-	/**
-	 * setInfoMsg - displays an info message
-	 * @param msg the message
-	 */
-	protected void setInfoMsg(String msg) {
-		jLabel_infoMessage.setText(msg);
-	}
-
-
-	/**
-	 * saveFileToTemp saves an binary content to file in temp directory
-	 * @param fileName {@link String}
-	 * @param fileBytes {@link byte[]}
-	 * @return file name of savaed file without path
-	 */
-	protected String saveFileToTemp(String fileName, byte[] fileBytes) {
-		String temp = System.getenv("TEMP");
-		if (temp.isEmpty())
-			temp = System.getenv("TMP");
-		if (temp.isEmpty())
-			temp = System.getenv("temp");
-		if (temp.isEmpty())
-			temp = ".";
-
-		String dirSep = (File.pathSeparatorChar == ':') ? "/" : "\\";
-		String destName = fileName;
-		int idx = 0;
-		while ((idx = destName.indexOf(dirSep)) > -1) {
-			int len = destName.length();
-			destName = destName.substring(idx + 1, len -1);
-		}
-
-		String desPath = temp + dirSep + destName;
-		DbgWriter.msg("original file name: " + fileName + " destination name: " + destName + " desPath = " + desPath, false);
-		Path fpath = java.nio.file.Paths.get(desPath);
-
-		try {
-			if (fileBytes != null && fileBytes.length > 0) {
-				Files.write(fpath, fileBytes);
-				DbgWriter.msg("file: " + destName + " " + fileBytes.length + " bytes written.", false);
-			} else
-				throw new java.lang.IllegalStateException("fileBytes is null or len == 0");
-		} catch (Exception ex) {
-			setInfoMsg("Exception during file save.");
-		}
-
-		return destName;
-	}
 
 	/**
 	 * open_delegate
@@ -1431,6 +1341,7 @@ public class CqrJdFrame extends JFrame {
 			String key = jTextField_Key.getText().toString();
 			String hashed = keyHash.hash(key);
 			jTextField_Hash.setText(hashed);
+			boolean otherCiphers = isMenuItemChecked(menuOptions_otherCiphers);
 
 			CipherPipe pipe = new CipherPipe(hashed, key, encodeType, zipType, keyHash, cmode2);
 
@@ -1643,19 +1554,6 @@ public class CqrJdFrame extends JFrame {
 		}
 	}
 
-	/**
-	 * about_action
-	 * shows about dialog
-	 * @param event {@link ActionEvent)
-	 */
-	protected void about_action(ActionEvent event) {
-        try {
-			cqrJDialog = new CqrJDialog();
-			cqrJDialog.showDialog(cqrJdFrame);
-		} catch (Exception exIO) {
-			DbgWriter.msgex(exIO, true);
-		}
-	}
 
 	/**
 	 * showSimple_action
@@ -1675,54 +1573,6 @@ public class CqrJdFrame extends JFrame {
 		} catch (Exception exIO) {
 			DbgWriter.msgex(exIO, true);
 		}
-	}
-
-	/**
-	 * help_action
-	 * shows online help im browser
-	 * @param event {@link ActionEvent}}
-	 */
-	@SuppressWarnings("deprecation")
-    protected void help_action(ActionEvent event) {
-	
-		String os = System.getProperty("os.name").toLowerCase();
-		Runtime rt = Runtime.getRuntime();
-		String url = "https://io.cqrxs.eu/help";
-		boolean success = false;
-		
-		if (Desktop.isDesktopSupported()) {
-            Desktop desktop = Desktop.getDesktop();
-            try {
-                desktop.browse(new URI(url));
-				success = true;            
-            } catch (URISyntaxException e) {
-				DbgWriter.msgex(e, true);
-			} catch (Exception ex) {
-				DbgWriter.msgex(ex, true);
-			}
-		}
-		if (!success) {
-			try {
-				if (os.contains("win"))
-					rt.exec("rundll32 url.dll,FileProtocolHandler " + url);
-				else if (os.contains("mac"))
-					rt.exec("open " + url);
-				else // if (os.indexOf("x") >=0 || os.indexOf("bsd") >= 0)
-					rt.exec("xdg-open "  + url);	
-			} catch (Exception rtException) {
-				DbgWriter.msgex(rtException, true);
-			}
-		}		
-	}
-
-	/**
-	 * exit_action
-	 * exits the application
-	 * @param event {@link ActionEvent)
-	 */
-	protected void exit_action(ActionEvent event) {
-		// We don't log exit events ;)
-		System.exit(0);
 	}
 
 }

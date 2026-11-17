@@ -12,7 +12,6 @@ package eu.cqrxs.zip;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import org.apache.commons.io.input.CloseShieldInputStream;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
 

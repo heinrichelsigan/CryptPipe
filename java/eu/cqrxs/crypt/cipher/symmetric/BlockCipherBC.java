@@ -44,8 +44,6 @@ public class BlockCipherBC implements BlockCipher {
 
     public CipherMode2 cmode2;
 
-
-
     //region BlockCipher Interface
 
     public void init(boolean forEncryption, CipherParameters parameters) {
@@ -83,27 +81,22 @@ public class BlockCipherBC implements BlockCipher {
 
         cipherParameters = keyParamIV;
 
-        try
-        {
+        try  {
             cryptoBlockCipher.init(forEncryption, cipherParameters);
         }
-        catch (Exception exInit)
-        {
+        catch (Exception exInit) {
             DbgWriter.msgInfoEx("BlockCiphherBC CryptoBlockCipher {CryptoBlockCipher.AlgorithmName}:"  +
                             "Exceptíon on cipherMode.Init with IV, trying without IV", exInit, false);
-            try
-            {
+            try {
                 cryptoBlockCipher.init(forEncryption, keyParam);
             }
-            catch (Exception exInit2)
-            {
+            catch (Exception exInit2) {
                 DbgWriter.msgInfoEx("BlockCipherBC CryptoBlockCipher {CryptoBlockCipher.AlgorithmName}: Exceptíon on " +
                         "cipherMode.Init with IV, trying without IV", exInit2, false);
             }
         }
 
-        switch (cmode2)
-        {
+        switch (cmode2) {
             case CipherMode2.CBC:
                 bufBChipher = new PaddedBufferedBlockCipher(new CBCBlockCipher(cryptoBlockCipher), cryptoBlockCipherPadding);
                 break;
@@ -141,21 +134,17 @@ public class BlockCipherBC implements BlockCipher {
         if (cmode2 == CipherMode2.ECB || !canAlgoKeyIV(cryptoBlockCipher))
             cipherParameters = keyParam;
 
-        try
-        {
+        try {
             bufBChipher.init(forEncryption, cipherParameters);
         }
-        catch (Exception exInit)
-        {
+        catch (Exception exInit) {
             DbgWriter.msgInfoEx("CryptBounceCastle {BufBlockCiffre.AlgorithmName}: Exceptíon on cipherMode.Init with IV, trying without IV",
                     exInit, false);
             cipherParameters = keyParam;
-            try
-            {
+            try {
                 bufBChipher.init(forEncryption, cipherParameters);
             }
-            catch (Exception exInit2)
-            {
+            catch (Exception exInit2) {
                 DbgWriter.msgInfoEx("BlockCipherBC " + bufBChipher.getUnderlyingCipher().getAlgorithmName() +
                     " Exceptíon on cipherMode.Init with IV, trying without IV", exInit2, false);
             }
@@ -179,7 +168,6 @@ public class BlockCipherBC implements BlockCipher {
     public String getAlgorithmName() {
         return cryptoBlockCipher.getAlgorithmName();
     }
-
 
 
     public void reset() {
@@ -209,7 +197,7 @@ public class BlockCipherBC implements BlockCipher {
         if (cryptoBlockCipher.getAlgorithmName() == "RC564" || cryptoBlockCipher.getAlgorithmName() == "RC5-64")
             cryptoBlockCipher = new RC564Engine();
         cryptoBlockCipherPadding = new ZeroBytePadding();
-        cipherParameters = cparams.streamCipherParameters;
+        cipherParameters = cparams.cipherParameters;
         size = Math.min(cparams.size, cryptoBlockCipher.getBlockSize());
 
         cmode2 = cparams.cmode2;
@@ -242,8 +230,6 @@ public class BlockCipherBC implements BlockCipher {
         return true;
     }
 
-
-
     /**
      * Generic CryptBounceCastle encrypt member function
      * @param plainData plain data byte[] array
@@ -274,13 +260,11 @@ public class BlockCipherBC implements BlockCipher {
         byte[] plainData = new byte[outputSize];
         byte[] decryptedData = new byte[outputSize];
         int result = 0;
-        try
-        {
+        try {
             result = bufBChipher.processBytes(cipherData, 0, cipherData.length, plainData, 0);
             bufBChipher.doFinal(plainData, result);
         }
-        catch (Exception exDecrypt)
-        {
+        catch (Exception exDecrypt) {
             DbgWriter.msgInfoEx("BlockCipherBC "  +  bufBChipher.getUnderlyingCipher().getAlgorithmName() +
                             ": Exceptíon on decrypting final block",
                     exDecrypt, false);
@@ -288,8 +272,7 @@ public class BlockCipherBC implements BlockCipher {
                 plainData = new byte[outputSize];
                 result = bufBChipher.processBytes(plainData, 0, cipherData.length, cipherData, 0);
             }
-            catch (Exception exDecrypt2)
-            {
+            catch (Exception exDecrypt2) {
                 DbgWriter.msgInfoEx("BlockCipherBC"  +  bufBChipher.getUnderlyingCipher().getAlgorithmName() +
                         ": Exceptíon on 2x decrypting final block",
                         exDecrypt2, false);

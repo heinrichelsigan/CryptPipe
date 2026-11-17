@@ -73,7 +73,7 @@ public class StreamCipherBC implements StreamCipher {
     public StreamCipherBC(CryptParams cparams, boolean init)  {
 
         cryptoStreamCipher = (cparams.streamCipher== null) ? new ChaChaEngine() : cparams.streamCipher;
-        streamCipherParameters = cparams.streamCipherParameters;
+        streamCipherParameters = cparams.cipherParameters;
         init(init, streamCipherParameters);
     }
 
