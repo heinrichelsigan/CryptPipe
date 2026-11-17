@@ -87,6 +87,7 @@ public class CryptParams {
      * @param cipherAlgo {@link CipherEnum}
      */
     public CryptParams(CipherEnum cipherAlgo) {
+        this();
         cipher = cipherAlgo;
         size = 256;
         keyLen = 32;
@@ -355,6 +356,13 @@ public class CryptParams {
             KeyParameter keyParamStreamC = new KeyParameter(keyed);
             streamCipherParameters = (cipher == CipherEnum.Isaac || cipher == CipherEnum.RC4) ?
                     keyParamStreamC : new ParametersWithIV(keyParamStreamC, hashed);
+        } else {
+            if (keyLen > 0)
+                keyed = CryptHelper.stretchCutToLength(keyed, keyLen);
+            if (ivLen > 0)
+                hashed = CryptHelper.stretchCutToLength(hashed, ivLen);
+            KeyParameter keyParamStreamC = new KeyParameter(keyed);
+            streamCipherParameters =  new ParametersWithIV(keyParamStreamC, hashed);
         }
     }
 
