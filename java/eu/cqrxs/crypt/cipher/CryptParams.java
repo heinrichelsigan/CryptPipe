@@ -215,8 +215,8 @@ public class CryptParams {
                 setSizeKeyIvLen(128, 16,  8);
                 break;
             case Dstu7624:
-                blockCipher = new DSTU7624Engine(size);
                 setSizeKeyIvLen(128, 32,  16);
+                blockCipher = new DSTU7624Engine(size);
                 break;
             case Gost28147:
                 blockCipher = new GOST28147Engine();
@@ -353,7 +353,7 @@ public class CryptParams {
         // return ;
 
     }
-    
+
 
     protected void setKeyIvLen(int keylen, int ivlen) {
         keyLen = (keylen < 1) ? 32 : keylen;
