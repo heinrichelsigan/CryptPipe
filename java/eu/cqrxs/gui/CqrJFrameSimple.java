@@ -1014,8 +1014,8 @@ public class CqrJFrameSimple extends CqrBaseFrame {
 		try {
 			String key = jTextField_Key.getText().toString();
 			String hashed = keyHash.hash(key);
-
-			SecureCipherPipe pipe = new SecureCipherPipe(key, cmode2);
+			boolean otherCiphers = isMenuItemChecked(menuOptions_otherCiphers);
+			SecureCipherPipe pipe = new SecureCipherPipe(key, cmode2, otherCiphers);
 
 			CipherEnum[] cipherEnums = pipe.getInPipe();
 			String pipeSting = "";
@@ -1038,8 +1038,8 @@ public class CqrJFrameSimple extends CqrBaseFrame {
 			String key = jTextField_Key.getText().toString();
 			String hashed = KeyHash.Whirlpool.hash(KeyHash.SCrypt.hash(key));
 
-
-			SecureCipherPipe pipe = new SecureCipherPipe(hashed, cmode2);
+			boolean otherCiphers = isMenuItemChecked(menuOptions_otherCiphers);
+			SecureCipherPipe pipe = new SecureCipherPipe(hashed, cmode2, otherCiphers);
 
 			CipherEnum[] cipherEnums = pipe.getInPipe();
 			String pipeSting = "";

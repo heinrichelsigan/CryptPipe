@@ -243,6 +243,12 @@ public class SimpleActivity extends BaseActivity{
             else if (mItemId == R.id.action_action_restart)
                 appRestart();
 
+            if (mItemId == R.id.include_streamciphers) {
+                includeStreamCiphers = !includeStreamCiphers;
+                item.setChecked(includeStreamCiphers);
+                return true;
+            }
+
             if (mItemId == R.id.action_exit) {
                 appExit();
                 return true;
@@ -332,7 +338,7 @@ public class SimpleActivity extends BaseActivity{
         String key = editEncryptKey.getText().toString();
         String hashed = keyHash.hash(key);
 
-        seCipherPipe = new SecureCipherPipe(key, cmode);
+        seCipherPipe = new SecureCipherPipe(key, cmode, includeStreamCiphers);
         drawCipherPipe(seCipherPipe);
     }
 
@@ -343,7 +349,7 @@ public class SimpleActivity extends BaseActivity{
         String key = editEncryptKey.getText().toString();
         String hashed = KeyHash.Whirlpool.hash(KeyHash.SCrypt.hash(key));
 
-        seCipherPipe = new SecureCipherPipe(hashed, cmode);
+        seCipherPipe = new SecureCipherPipe(hashed, cmode, includeStreamCiphers);
         drawCipherPipe(seCipherPipe);
     }
 

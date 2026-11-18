@@ -308,6 +308,12 @@ public class MainActivity extends BaseActivity{
                 return true;
             }
 
+            if (mItemId == R.id.include_streamciphers) {
+                includeStreamCiphers = !includeStreamCiphers;
+                item.setChecked(includeStreamCiphers);
+                return true;
+            }
+
             if (mItemId == R.id.action_about) {
                 startAboutActivity();
                 return true;
@@ -449,6 +455,8 @@ public class MainActivity extends BaseActivity{
             encodeType = EncodeEnum.Base64;
         else if (mItemId == R.id.action_encoding_ascii85)
             encodeType = EncodeEnum.Ascii85;
+        else if (mItemId == R.id.action_encoding_ascii85)
+            encodeType = EncodeEnum.Ascii85;
         else
             encodeType = EncodeEnum.Base64;
     }
@@ -532,7 +540,7 @@ public class MainActivity extends BaseActivity{
         String hashed = keyHash.hash(key);
         editKeyHash.setText(hashed);
 
-        cipherPipe = new CipherPipe(key, hashed, encodeType, zipType, keyHash, cmode);
+        cipherPipe = new CipherPipe(key, hashed, encodeType, zipType, keyHash, cmode, includeStreamCiphers);
         drawCipherPipe(cipherPipe);
     }
 
@@ -544,7 +552,7 @@ public class MainActivity extends BaseActivity{
         String hashed = keyHash.hash(key);
         editKeyHash.setText(hashed);
 
-        cipherPipe = new CipherPipe(hashed, key, encodeType, zipType, keyHash, cmode);
+        cipherPipe = new CipherPipe(hashed, key, encodeType, zipType, keyHash, cmode, includeStreamCiphers);
         drawCipherPipe(cipherPipe);
     }
 

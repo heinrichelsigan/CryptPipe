@@ -23,7 +23,8 @@ public class Constants {
 	public final static  int PIPE_IMG_WIDTH_OFFSET = 60; // 57;
 	public final static  int PIPE_REVERSE_FROM = 7; // 0xb;
 	public final static  int PIPE_KEY_HASH_LEN = 0x10; // 0x20;
-
+	public final static  int PIPE_MODULO_BLOCKCIPHER = 0x1d;
+	public final static  int PIPE_MODULO_STREAMCIPHER = 0x28;
 
 	public final static boolean CQR_ENCRYPT = true;
 	public final static boolean ZEN_MATRIX_SYMMETRIC = false;

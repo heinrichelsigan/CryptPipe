@@ -1300,7 +1300,8 @@ public class CqrJdFrame extends CqrBaseFrame {
 			String hashed = keyHash.hash(key);
 			jTextField_Hash.setText(hashed);
 
-			CipherPipe pipe = new CipherPipe(key, hashed, encodeType, zipType, keyHash, cmode2);
+			boolean otherCiphers = isMenuItemChecked(menuOptions_otherCiphers);
+			CipherPipe pipe = new CipherPipe(key, hashed, encodeType, zipType, keyHash, cmode2, otherCiphers);
 
 			CipherEnum[] cipherEnums = pipe.getInPipe();
 			String pipeSting = "";
@@ -1329,7 +1330,7 @@ public class CqrJdFrame extends CqrBaseFrame {
 			jTextField_Hash.setText(hashed);
 			boolean otherCiphers = isMenuItemChecked(menuOptions_otherCiphers);
 
-			CipherPipe pipe = new CipherPipe(hashed, key, encodeType, zipType, keyHash, cmode2);
+			CipherPipe pipe = new CipherPipe(hashed, key, encodeType, zipType, keyHash, cmode2, otherCiphers);
 
 			CipherEnum[] cipherEnums = pipe.getInPipe();
 			String pipeSting = "";

@@ -60,6 +60,7 @@ public class BaseActivity extends AppCompatActivity {
     protected static int errNum = 0;
 
 
+    protected boolean includeStreamCiphers = false;
     protected android.view.View rootView = null;
     protected Menu myMenu;
 

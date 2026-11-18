@@ -297,7 +297,7 @@ public class CqrBaseFrame extends JFrame {
 		}
 	}
 
-	protected static boolean isMenuItemChecked(JMenuItem menuItem) {
+	public static boolean isMenuItemChecked(JMenuItem menuItem) {
 		boolean isChecked = false;
 		isChecked = (menuItem.getBackground().equals(selectionBg));
 		return isChecked;

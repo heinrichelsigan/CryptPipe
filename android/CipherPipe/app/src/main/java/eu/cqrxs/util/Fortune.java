@@ -29,7 +29,7 @@ public class Fortune {
 		"Mike is an excellent programmer and scientist, but always sells himself under market value,\nbut everyone else is happy then, because some money is still there for risk buffer of others.\n\n\t-- Mr. president Wolfman\n",
 		"FW_ALLOW_SOURCE_SQUENCH: ... otherwise you will be open to a DDOS attack, so choose your poison.\n\t-- SuSE kernel\n",
 		"I don't know, what will happen, if we fork() a next step application.\n\t-- Thomas B.\n",
-		"\tI have the right to choose my OS in lab, I said:\n\t\t\"I don't want Mikey Mouse DOS, I choose linux,\n\t\tbut that couldn't damage anything.\n\t\tNext day DOS will be still intact here again.\"\n\n\tAssistant Prof. didn't believe me,\n\tbut at midnight DOS was reinstalled\n\tper dhcp, bootp, tftp from the server.\n\n\ttom@logic\n\n(I saw it with my own eyes)\n",
+		"\tI have the right to choose my OS in lab, I said:\n\t\t\"I don't want Mikey Mouse DOS, I choose linux,\n\t\tbut that couldn't damage anything.\n\t\tNext day DOS will be still intact here again.\"\n\n\tAssistant Prof. didn't believe me,\n\tbut at midnight DOS was reinstalled\n\tper dhcp, bootp, tftp from the server.\n\n\ttom@logic claiming freedom of OS act!\n\t1992 TU Vienna EPROG LAB\n\n(I saw it with my own eyes)\n",
 		"\tGod created the albino\npigementation fault (core dump)\n\n\t-- me myself (zen@area23.at)\n",
 		"AT&T believed the world is a 32bit VAX little endian.\n\n\t-- mike@rainbow\n",
 		"Software is like sex, if it's free it's better.\n\n\t-- Linus Torvalds\n",

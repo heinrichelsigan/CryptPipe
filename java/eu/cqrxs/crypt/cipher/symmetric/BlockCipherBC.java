@@ -25,8 +25,6 @@ import org.bouncycastle.crypto.paddings.ZeroBytePadding;
 import org.bouncycastle.crypto.params.KeyParameter;
 import org.bouncycastle.crypto.params.ParametersWithIV;
 
-import static javax.swing.text.StyleConstants.Size;
-
 /**
  * BlockCipherBC generic crypt wrapper class
  * great thanks to the legion of bouncycastle.com

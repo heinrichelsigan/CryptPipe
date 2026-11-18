@@ -44,9 +44,9 @@ public class StreamCipherBC implements StreamCipher {
     public int processBytes(byte[] in, int inOff, int len, byte[] out, int outOff) {
 
         out = new byte[in.length];
-        int i = inOff, j = outOff, l = 0;
+        int i = inOff,  j = outOff, l= 0;
         for (i = inOff; i < (inOff + len); l++) {
-            out[j++] = cryptoStreamCipher.returnByte(in[i++]);;
+            out[j++] = cryptoStreamCipher.returnByte(in[i++]);
         }
 
         return  l;
@@ -73,7 +73,7 @@ public class StreamCipherBC implements StreamCipher {
     public StreamCipherBC(CryptParams cparams, boolean init)  {
 
         cryptoStreamCipher = (cparams.streamCipher== null) ? new ChaChaEngine() : cparams.streamCipher;
-        streamCipherParameters = cparams.streamCipherParameters;
+        streamCipherParameters = cparams.cipherParameters;
         init(init, streamCipherParameters);
     }
 

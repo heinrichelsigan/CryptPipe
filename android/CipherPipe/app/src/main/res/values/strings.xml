@@ -65,6 +65,7 @@
     <string name="action_action_encrypt">Encrypt</string>
     <string name="action_action_decrypt">Decrypt</string>
     <string name="action_action_restart">Restart</string>
+    <string name="include_streamciphers">#StreamCipher</string>
     <string name="action_complex">Complex</string>
     <string name="action_simple">Simple</string>
     <string name="action_help">Help</string>

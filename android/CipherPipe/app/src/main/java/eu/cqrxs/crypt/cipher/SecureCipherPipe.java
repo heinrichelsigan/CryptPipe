@@ -9,11 +9,8 @@
 
 package eu.cqrxs.crypt.cipher;
 
-import eu.cqrxs.crypt.cipher.symmetric.CryptBounceCastle;
-import eu.cqrxs.crypt.cipher.symmetric.JAes;
-import eu.cqrxs.crypt.cipher.symmetric.StreamCipherBC;
-import eu.cqrxs.crypt.cipher.symmetric.ZenMatrix;
-import eu.cqrxs.crypt.cipher.symmetric.ZenMatrix2;
+// import eu.cqrxs.crypt.cipher.asymmetric.RsaCipher;
+import eu.cqrxs.crypt.cipher.symmetric.*;
 import eu.cqrxs.crypt.encoding.EncodeEnum;
 import eu.cqrxs.crypt.hash.KeyHash;
 import eu.cqrxs.util.CException;
@@ -36,17 +33,16 @@ public class SecureCipherPipe extends CipherPipe {
 
     String cipherKeyHash = "";
 
-    final static KeyHash[] secureHashes = {
-        KeyHash.BCrypt,  	// KeyHash.CShake, KeyHash.Dstu7564,
-        KeyHash.MD5,
-        KeyHash.Hex,        // KeyHash.Oct,
-        KeyHash.OpenBSDCrypt,
-        KeyHash.SCrypt,     // KeyHash.Sha1,
-        KeyHash.Sha256,     // KeyHash.Sha384, KeyHash.Sha512,
-        KeyHash.RipeMD256,  // KeyHash.TupleHash,
-        KeyHash.Whirlpool
-    };
-
+	final static KeyHash[] secureHashes = {
+		KeyHash.BCrypt,  	// KeyHash.CShake, KeyHash.Dstu7564,
+		KeyHash.MD5,
+		KeyHash.Hex,        // KeyHash.Oct, 
+		KeyHash.OpenBSDCrypt,
+		KeyHash.SCrypt,     // KeyHash.Sha1,
+		KeyHash.Sha256,     // KeyHash.Sha384, KeyHash.Sha512,
+		KeyHash.RipeMD256,  // KeyHash.TupleHash,
+		KeyHash.Whirlpool
+	};
 
     /**
      * parameterless constructor of SecureCipherPipe
@@ -120,16 +116,18 @@ public class SecureCipherPipe extends CipherPipe {
      * @param maxpipe maximum length {@link Constants}.MAX_PIPE_LEN
      * @param cmode2 {@link CipherMode2}
      */
-    public SecureCipherPipe(byte[] keyBytes, int maxpipe, CipherMode2 cmode2) {
+    public SecureCipherPipe(byte[] keyBytes, int maxpipe, CipherMode2 cmode2, boolean  includeStreamCiphers) {
         // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
         maxpipe = ((maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe); // if somebody wants more, he/she/it gets less
-
         short scnt = 0;
+        int modulo = includeStreamCiphers ?
+                Constants.PIPE_MODULO_STREAMCIPHER :
+                Constants.PIPE_MODULO_BLOCKCIPHER;
         List<CipherEnum> pipeList = new ArrayList<CipherEnum>();
 
         HashSet<Byte> hashBytes = new HashSet<Byte>();
         for (int i = 0; i < keyBytes.length && pipeList.size() < maxpipe; i++) {
-            byte bb = (byte)((int)((int)keyBytes[i] % 0x1d));
+            byte bb = (byte)((int)((int)keyBytes[i] % modulo));
             Byte cb = Byte.valueOf(bb);
             if (!hashBytes.contains(cb)) {
                 hashBytes.add(cb);
@@ -159,9 +157,9 @@ public class SecureCipherPipe extends CipherPipe {
      * @param key users secret key per default email address
      * @param cmode2 {@link CipherMode2}
      */
-    public SecureCipherPipe(String key, CipherMode2 cmode2) {
+    public SecureCipherPipe(String key, CipherMode2 cmode2, boolean  includeStreamCiphers) {
 
-        this(CryptHelper.getKeyBytesSingle(key, 16), Constants.MAX_PIPE_LEN, cmode2);
+        this(CryptHelper.getKeyBytesSingle(key, 16), Constants.MAX_PIPE_LEN, cmode2, includeStreamCiphers);
         cipherKeyHash = key;
     }
 
@@ -170,8 +168,8 @@ public class SecureCipherPipe extends CipherPipe {
      * all other parameters are set to default
      * @param key only users secret key
      */
-    public SecureCipherPipe(String key) {
-        this(key, CipherMode2.ECB);
+    public SecureCipherPipe(String key, boolean  includeStreamCiphers) {
+        this(key, CipherMode2.ECB, includeStreamCiphers);
         cipherKeyHash = key;
     }
 
@@ -197,7 +195,10 @@ public class SecureCipherPipe extends CipherPipe {
             case CipherEnum.JAes:
                 JAes jAes = new JAes(128, hashKey);
                 encryptBytes = jAes.encrypt(inBytes);
-				break;         
+				break;
+            // case Rsa:
+            //    encryptBytes = rsa.encrypt(inBytes);
+            //    break;
             case ZenMatrix:
                 encryptBytes = (new ZenMatrix(hashKey, hashKey, false, KeyHash.Hex)).encrypt(inBytes, true);
                 break;
@@ -222,8 +223,10 @@ public class SecureCipherPipe extends CipherPipe {
                 break;
 
             default:
-                CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
-                encryptBytes = cryptBounceCastle.encrypt(inBytes);
+                //CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
+                // encryptBytes = cryptBounceCastle.encrypt(inBytes);
+                BlockCipherBC bcbc = new BlockCipherBC(cpParams, true);
+                encryptBytes = bcbc.encrypt(inBytes);
                 break;
         }
 
@@ -252,7 +255,11 @@ public class SecureCipherPipe extends CipherPipe {
             case CipherEnum.JAes:
                 JAes jAes = new JAes(128, hashKey);
                 decryptBytes = jAes.decrypt(cipherBytes);
-                break;                 
+                break;
+            // case Rsa:
+            //     RsaCipher rsa = new RsaCipher(Constants.RSA_PUB, Constants.RSA_PRV);
+            //     decryptBytes = rsa.decrypt(cipherBytes);
+            //     break;
             case ZenMatrix:
                 decryptBytes = (new ZenMatrix(hashKey, hashKey, false, KeyHash.Hex)).decrypt(cipherBytes);
                 break;
@@ -277,8 +284,10 @@ public class SecureCipherPipe extends CipherPipe {
                 break;
 
             default:
-                CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
-                decryptBytes = cryptBounceCastle.decrypt(cipherBytes);
+                // CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
+                // decryptBytes = cryptBounceCastle.decrypt(cipherBytes);
+                BlockCipherBC bcbc = new BlockCipherBC(cpParams, false);
+                decryptBytes = bcbc.decrypt(cipherBytes);
                 break;
         }
 
