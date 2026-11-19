@@ -274,7 +274,7 @@ public class CryptParams {
                 blockCipher = new TnepresEngine();                
                 break;
             case XTea:
-				SetBlockSizeKeyIvLen(256, 32, 32);
+                setSizeKeyIvLen(256, 32, 32);
                 blockCipher = new XTEAEngine();                
                 break;
             case ZenMatrix:

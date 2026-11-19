@@ -176,21 +176,26 @@ public class CipherPipe {
                       ZipType zpType,
                       KeyHash kh,
                       CipherMode2 cmode2,
-                      boolean includeStreamCiphers) {
+                      boolean otherCiphers) {
         // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
-        maxpipe = (Math.min(maxpipe, Constants.MAX_PIPE_LEN)); // if somebody wants more, he/she/it gets less
+        maxpipe = ((maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe); // if somebody wants more, he/she/it gets less
 
         String dmsg = "";
         short scnt = 0;
-        List<CipherEnum> pipeList = new ArrayList<>();
-        int modulo = includeStreamCiphers ?
+        int modulo = otherCiphers ?
                 Constants.PIPE_MODULO_STREAMCIPHER :
                 Constants.PIPE_MODULO_BLOCKCIPHER;
 
-        HashSet<Byte> hashBytes = new HashSet<>();
+        List<CipherEnum> pipeList = new ArrayList<CipherEnum>();
+        HashSet<Byte> hashBytes = new HashSet<Byte>();
+
         for (int i = 0; i < keyBytes.length && pipeList.size() < maxpipe; i++) {
             byte bb = (byte)((int)((int)keyBytes[i] % modulo));
             Byte cb = Byte.valueOf(bb);
+            if (hashBytes.contains(cb) && otherCiphers) {
+                bb = (byte)((int)(cb + Math.pow(2, i) + keyBytes.length) % modulo);
+                cb = Byte.valueOf(bb);
+            }
             if (!hashBytes.contains(cb)) {
                 hashBytes.add(cb);
                 CipherEnum cipherEnm = CipherEnum.getByteCipherDict().get(cb);

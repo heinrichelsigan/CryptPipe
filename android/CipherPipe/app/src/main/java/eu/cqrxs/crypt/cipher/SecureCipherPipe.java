@@ -110,25 +110,24 @@ public class SecureCipherPipe extends CipherPipe {
     }
 
 
-    /**
-     * SecureCipherPipe ctor with array of user key bytes
-     * @param keyBytes user key bytes
-     * @param maxpipe maximum length {@link Constants}.MAX_PIPE_LEN
-     * @param cmode2 {@link CipherMode2}
-     */
-    public SecureCipherPipe(byte[] keyBytes, int maxpipe, CipherMode2 cmode2, boolean  includeStreamCiphers) {
+    public SecureCipherPipe(byte[] keyBytes, int maxpipe, CipherMode2 cmode2, boolean otherCiphers) {
         // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
         maxpipe = ((maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe); // if somebody wants more, he/she/it gets less
         short scnt = 0;
-        int modulo = includeStreamCiphers ?
+        int modulo = otherCiphers ?
                 Constants.PIPE_MODULO_STREAMCIPHER :
                 Constants.PIPE_MODULO_BLOCKCIPHER;
-        List<CipherEnum> pipeList = new ArrayList<CipherEnum>();
 
+        List<CipherEnum> pipeList = new ArrayList<CipherEnum>();
         HashSet<Byte> hashBytes = new HashSet<Byte>();
+
         for (int i = 0; i < keyBytes.length && pipeList.size() < maxpipe; i++) {
             byte bb = (byte)((int)((int)keyBytes[i] % modulo));
             Byte cb = Byte.valueOf(bb);
+            if (hashBytes.contains(cb) && otherCiphers) {
+                bb = (byte)((int)(cb + Math.pow(2, i) + keyBytes.length) % modulo);
+                cb = Byte.valueOf(bb);
+            }
             if (!hashBytes.contains(cb)) {
                 hashBytes.add(cb);
                 CipherEnum cipherEnm = CipherEnum.getByteCipherDict().get(cb);

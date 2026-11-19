@@ -59,22 +59,23 @@ public enum CipherEnum  {
     AesLight(0x1b),
     ZenMatrix(0x1c),
 
-
     Salsa20(0x1d),
     ChaCha( 0x1e),
     ChaCha7539(0x1f),
     RC4 ( 0x20),
     Isaac (0x21),
-    HC256 (0x22),
-    HC128 ( 0x23),
+    HC128 (0x22),
+    HC256 ( 0x23),
     Vmpc ( 0x24),
     VmpcKsa3 ( 0x25),
     XChaCha20 ( 0x26),
     XSalsa20 ( 0x27),
 
+
     ZenMatrix3(0x30),
     JAes(0x31),
     ZenMatrix2(0x32),
+
 
     Rsa(0x40)
     /* DH(0x22) */
@@ -327,4 +328,3 @@ public enum CipherEnum  {
     }
 
 }
-

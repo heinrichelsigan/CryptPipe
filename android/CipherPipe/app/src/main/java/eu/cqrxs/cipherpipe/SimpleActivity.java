@@ -371,7 +371,7 @@ public class SimpleActivity extends BaseActivity{
 
         String pipeSting = seCipherPipe.getPipeString();
         showMsg(String.format("pipe[%s] encrypt with key=%s, cmode=%s",
-                pipeSting, key, cmode), 4, false);
+                pipeSting, key, cmode), 4, includeStreamCiphers);
 
         String encrypted = "";
         try {
@@ -397,7 +397,7 @@ public class SimpleActivity extends BaseActivity{
 
         String pipeSting = seCipherPipe.getPipeString();
         showMsg(String.format("pipe[%s] decrypt with key=%s, cmode=%s",
-                pipeSting, key, cmode), 4, true);
+                pipeSting, key, cmode), 4, includeStreamCiphers);
 
         Bitmap bmp = seCipherPipe.drawDecryptCipherPipe(getBaseContext());
         imgViewCipherPipe.setImageBitmap(bmp);
