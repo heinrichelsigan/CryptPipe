@@ -597,7 +597,7 @@ public class MainActivity extends BaseActivity{
 
         String pipeSting = cipherPipe.getPipeString();
         showMsg(String.format("pipe[%s] decrypt with key=%s, hash=%s, \nencode=%s keyHash=%s, zip=%s",
-                pipeSting, key, hashed, encodeType.getName(), keyHash.getName(), zipType.getName()), 4, true);
+                pipeSting, key, hashed, encodeType.getName(), keyHash.getName(), zipType.getName()), 4, includeStreamCiphers);
 
         Bitmap bmp = cipherPipe.drawDecryptCipherPipe(getBaseContext());
         imgViewCipherPipe.setImageBitmap(bmp);
