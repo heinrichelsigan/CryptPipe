@@ -18,6 +18,7 @@ eu\cqrxs\gui\CqrJDialog$SymAction.class
 eu\cqrxs\gui\CqrJFrameSimple$SymAction.class
 eu\cqrxs\gui\CqrJFrameSimple$ZipChangeListener.class
 eu\cqrxs\gui\CqrJFrameSimple.class
+eu\cqrxs\gui\CqrJFrameSimple$1.class
 eu\cqrxs\gui\CqrJdFrame$JComboBoxChangeListener.class
 eu\cqrxs\gui\CqrJdFrame$SymMouse.class
 eu\cqrxs\gui\CqrJdFrame$SymAction.class

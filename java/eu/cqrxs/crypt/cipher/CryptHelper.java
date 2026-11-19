@@ -74,8 +74,12 @@ public class CryptHelper {
         byte[] outBytes = new byte[length];
         if (bytes == null || bytes.length == 0)
             return (CryptHelper.fillWithZeros(outBytes, length));
-        while (bytes.length < length)
-            bytes = CryptHelper.tarBytes(bytes, bytes);
+        while (bytes.length < length) {
+            int deltalen = length - bytes.length;
+			byte[] deltaBytes = new byte[deltalen];
+			deltaBytes = CryptHelper.fillWithZeros(deltaBytes, deltalen);
+			bytes = CryptHelper.tarBytes(bytes, deltaBytes);			
+		}
         System.arraycopy(bytes,0, outBytes, 0, length);
 
         return outBytes;
