@@ -119,18 +119,21 @@ public class SecureCipherPipe extends CipherPipe {
     public SecureCipherPipe(byte[] keyBytes, int maxpipe, CipherMode2 cmode2, boolean otherCiphers) {
         // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
         maxpipe = ((maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe); // if somebody wants more, he/she/it gets less
-
         short scnt = 0;
-        List<CipherEnum> pipeList = new ArrayList<CipherEnum>();
-
         int modulo = otherCiphers ?
                 Constants.PIPE_MODULO_STREAMCIPHER :
                 Constants.PIPE_MODULO_BLOCKCIPHER;
-
+				
+        List<CipherEnum> pipeList = new ArrayList<CipherEnum>();
         HashSet<Byte> hashBytes = new HashSet<Byte>();
+		
         for (int i = 0; i < keyBytes.length && pipeList.size() < maxpipe; i++) {
             byte bb = (byte)((int)((int)keyBytes[i] % modulo));
-            Byte cb = Byte.valueOf(bb);
+			Byte cb = Byte.valueOf(bb);
+            if (hashBytes.contains(cb) && otherCiphers) {
+				bb = (byte)((int)(cb + Math.pow(2, i) + keyBytes.length) % modulo);
+				cb = Byte.valueOf(bb);
+			}
             if (!hashBytes.contains(cb)) {
                 hashBytes.add(cb);
                 CipherEnum cipherEnm = CipherEnum.getByteCipherDict().get(cb);
@@ -171,7 +174,8 @@ public class SecureCipherPipe extends CipherPipe {
      * @param key only users secret key
      */
     public SecureCipherPipe(String key, boolean otherCiphers) {
-        this(key, CipherMode2.ECB, otherCiphers);
+
+		this(key, CipherMode2.ECB, otherCiphers);
         cipherKeyHash = key;
     }
 

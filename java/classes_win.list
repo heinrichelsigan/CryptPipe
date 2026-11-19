@@ -6,6 +6,7 @@ eu\cqrxs\zip\BZ2.class
 eu\cqrxs\zip\WZ.class
 eu\cqrxs\gui\CqrJFrameSimple$EncodeChangeListener.class
 eu\cqrxs\gui\CqrJFrameSimple$SymMouse.class
+eu\cqrxs\gui\CqrBaseFrame.class
 eu\cqrxs\gui\CqrJdFrame.class
 eu\cqrxs\gui\CqrJDialog.class
 eu\cqrxs\gui\ImageHelper.class
@@ -13,7 +14,6 @@ eu\cqrxs\gui\DropPanel$DropTargetHandler.class
 eu\cqrxs\gui\DropPanel.class
 eu\cqrxs\gui\DropPanel$DragUpdate.class
 eu\cqrxs\gui\CqrJFrameSimple$CipherChangeListener.class
-eu\cqrxs\gui\CqrJFrameSimple$1.class
 eu\cqrxs\gui\CqrJDialog$SymAction.class
 eu\cqrxs\gui\CqrJFrameSimple$SymAction.class
 eu\cqrxs\gui\CqrJFrameSimple$ZipChangeListener.class

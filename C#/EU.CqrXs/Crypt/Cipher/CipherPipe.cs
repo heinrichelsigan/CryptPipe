@@ -225,13 +225,13 @@ namespace EU.CqrXs.Crypt.Cipher
             int moduloMax = (includeStremCiphers) ? 
                 Constants.PIPE_STREAM_AUTO_MODULO_MAX :
                 Constants.PIPE_AUTO_MODULO_MAX;
-
             // What ever is entered here as parameter, maxpipe has to be not greater Constants.PIPE_MAX_LEN, because of no such agency
             maxpipe = (maxpipe > Constants.PIPE_MAX_LEN) ? Constants.PIPE_MAX_LEN : maxpipe; // if somebody wants more, he/she/it gets less
+            
 
             List<CipherEnum> pipeList = new List<CipherEnum>();
-
             HashSet<byte> hashBytes = new HashSet<byte>();
+
             for (int i = 0; i < keyBytes.Length && pipeList.Count < maxpipe; i++)
             {
                 byte cb = (byte)((int)((int)keyBytes[i] % moduloMax));
@@ -244,9 +244,7 @@ namespace EU.CqrXs.Crypt.Cipher
                 if (addCipherToPUpe) 
                 {
                     if (!hashBytes.Contains(cb)) // TODO: future design
-                    {
                         hashBytes.Add(cb);
-                    }
 
                     CipherEnum cipherEnm = CipherEnumExtensions.ByteCipherDict[cb];
                     pipeList.Add(cipherEnm);

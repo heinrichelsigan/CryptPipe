@@ -110,13 +110,12 @@ javac.exe -classpath %MYCLASSPATH% -Xlint:unchecked -Xlint:deprecation eu\cqrxs\
 
 echo "build finished"
 
+echo "Making jar file CryptPipe.jar"
+jar --create --file CryptPipe.jar --main-class eu.cqrxs.gui.CqrJdFrame @classes_win.list
 
-echo "testing Cosnole java.exe -classpath %MYCLASSPATH% eu\cqrxs\console\CryptConsole.java"
-java.exe -classpath %MYCLASSPATH% eu\cqrxs\console\CryptConsole.java
-
-
-echo "launching JFrame java.exe -classpath %MYCLASSPATH% eu\cqrxs\gui\CqrJdFrame.java"
-java.exe -classpath %MYCLASSPATH% eu\cqrxs\gui\CqrJdFrame.java
+echo "starting jar package CryptPipe.jar"
+echo "java.exe -jar CryptPipe.jar"
+java.exe -jar CryptPipe.jar
 
 :ende
 

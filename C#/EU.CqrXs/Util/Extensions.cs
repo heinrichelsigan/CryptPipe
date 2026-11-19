@@ -498,7 +498,8 @@ namespace EU.CqrXs.Util
             {
                 int deltalen = length - bytes.Length;
                 byte[] deltaBytes = new byte[deltalen];
-                bytes = bytes.TarBytes(deltaBytes.FillWithZeros(deltalen));
+                deltaBytes = deltaBytes.FillWithZeros(deltalen);
+                bytes = bytes.TarBytes(deltaBytes);
             }
             System.Array.Copy(bytes, outBytes, length);
             
