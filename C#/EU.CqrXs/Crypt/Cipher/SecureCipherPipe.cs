@@ -152,34 +152,39 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="keyBytes">user key bytes</param>
         /// <param name="maxpipe">maximum lentgh <see cref="Constants.PIPE_MAX_LEN"/></param>        
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
-        /// <param name="verbose"></param>
+        /// <param name="streaCipher"></param>
         /// <exception cref="ArgumentException"></exception>
-        public SecureCipherPipe(byte[] keyBytes, uint maxpipe, CipherMode2 cmode2, bool verbose = false)
+        public SecureCipherPipe(byte[] keyBytes, uint maxpipe, CipherMode2 cmode2, bool otherCiphers = false)
         {
             // What ever is entered here as parameter, maxpipe has to be not greater Constants.PIPE_MAX_LEN, because of no such agency
             maxpipe = (maxpipe > Constants.PIPE_MAX_LEN) ? Constants.PIPE_MAX_LEN : maxpipe; // if somebody wants more, he/she/it gets less
+           
+            includeStremCiphers = otherCiphers;
+            int modulo = (otherCiphers) ?
+                Constants.PIPE_STREAM_AUTO_MODULO_MAX :
+                Constants.PIPE_AUTO_MODULO_MAX;
 
             List<CipherEnum> pipeList = new List<CipherEnum>();
-
             HashSet<byte> hashBytes = new HashSet<byte>();
+
             for (int i = 0, j = 0; i < keyBytes.Length && j < maxpipe && pipeList.Count < maxpipe; i++)
             {
-                byte cb = (byte)((int)((int)keyBytes[i] % 0x1d));
-                bool addCipherToPUpe = (Constants.PIPE_BUILD_MULTI_SAME_CIPHERS || (maxpipe < 0x16 && !hashBytes.Contains(cb)));
+                byte cb = (byte)((int)((int)keyBytes[i] % modulo));
+                // mit magic add to generate deterministic more on same bytes
+                if (hashBytes.Contains(cb) && otherCiphers)
+                    cb = (byte)((int)(cb + Math.Pow(2, i) + keyBytes.Length) % modulo);
+
+                bool addCipherToPUpe = (Constants.PIPE_BUILD_MULTI_SAME_CIPHERS || 
+                    (maxpipe < 0x16 && !hashBytes.Contains(cb)));
                 if (addCipherToPUpe && pipeList.Count < maxpipe + 1)
                 {
-                    if (!hashBytes.Contains(cb)) // TODO: future design
-                    {                        
-                        // // mit magic add to generate deterministic more on same bytes
-                        // cb = (byte)((int)(cb + Math.Pow(2, i) + keyBytes.Length) % 0x1d);                
-                        hashBytes.Add(cb);
-                    }
-                    
-                    hashBytes.Add(cb);
+                    if (!hashBytes.Contains(cb)) 
+                        hashBytes.Add(cb);                 
+                                        
                     CipherEnum cipherEnm = CipherEnumExtensions.ByteCipherDict[cb];
                     pipeList.Add(cipherEnm);
 
-                    if (verbose)
+                    if (!Constants.NOLog)
                         Console.Out.WriteLine("keybyts[" + i + "]=" + keyBytes[i] + " byte cb = " + (int)cb + " CipherEnum: " + cipherEnm);
                     j++;
                 }
@@ -201,9 +206,9 @@ namespace EU.CqrXs.Crypt.Cipher
         /// </summary>
         /// <param name="keyHash">secret key to generate pipe</param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
-        /// <param name="verbose"></param>
-        public SecureCipherPipe(string keyHash, CipherMode2 cmode2, bool verbose = false)
-            : this(CryptHelper.GetKeyBytesSingle(keyHash, Constants.PIPE_KEY_HASH_LEN), Constants.PIPE_MAX_LEN, cmode2, verbose)
+        /// <param name="streamCiopher"></param>
+        public SecureCipherPipe(string keyHash, CipherMode2 cmode2, bool streamCiopher = false)
+            : this(CryptHelper.GetKeyBytesSingle(keyHash, Constants.PIPE_KEY_HASH_LEN), Constants.PIPE_MAX_LEN, cmode2, streamCiopher)
         {
             cipherKeyHash = keyHash;
             cipherKey = cipherKeyHash;
@@ -343,8 +348,10 @@ namespace EU.CqrXs.Crypt.Cipher
                     break;
 
                 default:
-                    CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
-                    encryptBytes = cryptBounceCastle.Encrypt(inBytes);
+                    // CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
+                    // encryptBytes = cryptBounceCastle.Encrypt(inBytes); 
+                    BlockCipherBC bbc = new BlockCipherBC(cpParams, true);
+                    encryptBytes = bbc.Encrypt(inBytes);
                     break;
             }
 
@@ -408,8 +415,10 @@ namespace EU.CqrXs.Crypt.Cipher
                     break;
 
                  default:
-                    CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
-                    decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
+                    // CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
+                    // decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
+                    BlockCipherBC bbc = new BlockCipherBC(cpParams, false);
+                    decryptBytes = bbc.Decrypt(cipherBytes);
                     break;
             }
 

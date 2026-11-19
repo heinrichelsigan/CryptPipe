@@ -6,7 +6,7 @@
  *
  * Coded 2021-2026 by
  * <a href="mailto:he@area23.at">Heinrich.Elsigan</a><a href="https://area23.at">area23.at</a>
- */
+
 
 package eu.cqrxs.crypt.cipher.symmetric;
 
@@ -33,10 +33,9 @@ import org.bouncycastle.crypto.paddings.BlockCipherPadding;
 import org.bouncycastle.crypto.paddings.PaddedBufferedBlockCipher;
 import org.bouncycastle.crypto.params.ParametersWithIV;
 
-/**
- * CryptBouncyCastle generic crypt wrapper class
- * great thanks to the legion of bouncycastle.com
- */
+// CryptBouncyCastle generic crypt wrapper class
+// great thanks to the legion of bouncycastle.com
+
 public class CryptBounceCastle  {
 
     private String privateKey = "";
@@ -59,9 +58,7 @@ public class CryptBounceCastle  {
     protected BufferedBlockCipher BufBChipher;
 
 
-    /**
-     * parameterless default constructor
-     */
+    // parameterless default constructor
     public CryptBounceCastle()  {
         CryptoBlockCipher = null;
         CryptoBlockCipherPadding = null;
@@ -83,23 +80,11 @@ public class CryptBounceCastle  {
 
 		key = new byte[keyLen];
 		iv = new byte[ivLen];
-		/*
-		for (int i = 0; i < keyLen; i++) {
-			key[i] = (byte)0;
-			tmpKey[i] = (byte)0;			
-			if (i < ivLen) {
-				iv[i] = (byte)0;
-				tmpIv[i] = (byte)0;
-			}
-		}
-		*/
 	}
 
-    /**
-     * Generic CryptBounceCastle constructor
-     * @param cparams parameters to crypt
-     * @param init init first time with a new key
-     */
+    // Generic CryptBounceCastle constructor
+    // @param cparams parameters to crypt
+    // @param init init first time with a new key
     @SuppressWarnings("deprecation")
     public CryptBounceCastle(CryptParams cparams, boolean init)  {
 
@@ -145,12 +130,10 @@ public class CryptBounceCastle  {
     }
 
 
-    /**
-     * getUserKeyBytes gets symmetric cipher private byte[KeyLen] encryption / decryption key
-     * @param secretKey user secret key, default email address
-     * @param secretHash user host ip address
-     * @return array of bytes with length keyLen
-     */
+    // getUserKeyBytes gets symmetric cipher private byte[KeyLen] encryption / decryption key
+    // @param secretKey user secret key, default email address
+    // @param secretHash user host ip address
+    // @return array of bytes with length keyLen
     protected byte[] getUserKeyBytes(String secretKey, String secretHash) {
         privateKey = secretKey;
         privateHash = secretHash;
@@ -183,12 +166,10 @@ public class CryptBounceCastle  {
         return keyBytes;
     }
 	
-	
-	/**
-	 * canAlgoKeyIV
-	 * @param cryptoBlockCipher {@link BlockCipher}
-	 * @return true, if algo handles initialization with key and initialization vector
-	 */
+
+    // canAlgoKeyIV
+    // @param cryptoBlockCipher {@link BlockCipher}
+    // @return true, if algo handles initialization with key and initialization vector
 	protected boolean canAlgoKeyIV(BlockCipher cryptoBlockCipher)
 	{
 		if (cryptoBlockCipher == null)
@@ -202,7 +183,7 @@ public class CryptBounceCastle  {
 			return false;
 		if (algoName.startsWith("RC") || algoName.startsWith("IDEA"))
 			return false;
-		if (algoName.startsWith("SKIPJACK") || algoName == "DESEDE")
+		if (algoName.startsWith("SKIPJACK") || algoName.equals("DESEDE"))
 			return false;
 		if (algoName.startsWith("TEA") || algoName.startsWith("XTEA"))
 			return false;
@@ -210,12 +191,10 @@ public class CryptBounceCastle  {
 	}
 
 
-    /***
-     *  Generic CryptBounceCastle encrypt member function
-     *  difference between out parameter encryptedData and return value, are 2 different encryption methods, but with the same result at the end
-     * @param plainData plain data byte[] array
-     * @return encrypted byte[] array
-     */
+     //  Generic CryptBounceCastle encrypt member function
+     //  difference between out parameter encryptedData and return value, are 2 different encryption methods, but with the same result at the end
+     //  @param plainData plain data byte[] array
+     // @return encrypted byte[] array
     @SuppressWarnings("deprecation")
     public byte[] encrypt(byte[] plainData)  throws InvalidCipherTextException {
         var cipher = CryptoBlockCipher;
@@ -290,12 +269,10 @@ public class CryptBounceCastle  {
         return cipherData;
     }
 
-    /**
-     * Generic CryptBounceCastle decrypt member function
-     * difference between out parameter decryptedData and return value, are 2 different decryption methods, but with the same result at the end
-     * @param cipherData encrypted byte[] arrey
-     * @return decrypted plain byte[] data
-     */
+    // Generic CryptBounceCastle decrypt member function
+    // difference between out parameter decryptedData and return value, are 2 different decryption methods, but with the same result at the end
+    // @param cipherData encrypted byte[] arrey
+    // @return decrypted plain byte[] data
     @SuppressWarnings("deprecation")
     public byte[] decrypt(byte[] cipherData) throws InvalidCipherTextException {
         var cipher = CryptoBlockCipher;
@@ -395,14 +372,12 @@ public class CryptBounceCastle  {
         return plainData;
     }
 
-    /***
-     * Generic CryptBounceCastle encryptString method
-     * @param inString plain String to encrypt
-     * @param encodingType {@link EncodeEnum} beware to use uu in TestWebForm in C#
-     *                                       because Form validation thinks,
-     *                                       that brackets are HTML, XML injection
-     * @return encoded encrypted String, default base64 encoded
-     */
+    // Generic CryptBounceCastle encryptString method
+    // @param inString plain String to encrypt
+    // @param encodingType {@link EncodeEnum} beware to use uu in TestWebForm in C#
+    //                                        because Form validation thinks,
+    //                                        that brackets are HTML, XML injection
+    // @return encoded encrypted String, default base64 encoded
     public String encryptString(String inString, EncodeEnum encodingType)
             throws InvalidCipherTextException, IOException {
 
@@ -414,12 +389,10 @@ public class CryptBounceCastle  {
     }
 
 
-    /***
-     * Generic CryptBounceCastle decryptString method
-     * @param inCryptString encoded encrypted String, default base64 encoded
-     * @param encodingType {@link EncodeEnum}
-     * @return plain text decrypted String
-     */
+    // Generic CryptBounceCastle decryptString method
+    // @param inCryptString encoded encrypted String, default base64 encoded
+    // @param encodingType {@link EncodeEnum}
+    // @return plain text decrypted String
     public String decryptString(String inCryptString, EncodeEnum encodingType)
             throws InvalidCipherTextException, IOException {
 
@@ -443,5 +416,5 @@ public class CryptBounceCastle  {
 		return true;		
 	}
 
-
 }
+*/

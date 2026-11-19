@@ -62,7 +62,7 @@ namespace EU.CqrXs.Gui.Forms
             menuMainComplex.Click += menuMainComplex_Click;   
             menuMainItemOneTwoThreeFish.Click += new System.EventHandler(async (sender, e)
                  => await menuMainItemOneTwoThreeFish_Click(sender, e));
-            menuMainAsymmetric.Click += menuMainAsymmetric_Click;
+            menuMainZenMatrix.Click += menuMainItemZenMatrixTest_Click;
 
             menuVisualModesItemClassic.Click += menuVisualMode_Change;
             menuVisualModesItemDark.Click += menuVisualMode_Change;
@@ -300,7 +300,7 @@ namespace EU.CqrXs.Gui.Forms
 
             this.textBoxPipe.Text = string.Empty;
             string hashhash = KeyHash.Whirlpool.Hash(KeyHash.SCrypt.Hash(this.textBoxKey.Text));
-            cPipe = new SecureCipherPipe(hashhash, GetCipherMode2());
+            cPipe = new SecureCipherPipe(hashhash, GetCipherMode2(), menuItemIncludeStreamCiphers.Checked);
             foreach (CipherEnum cipher in cPipe.InPipe)
             {
                 this.textBoxPipe.Text += cipher.ToString() + ";";
@@ -323,7 +323,7 @@ namespace EU.CqrXs.Gui.Forms
 
             this.textBoxPipe.Text = string.Empty;
 
-            cPipe = new SecureCipherPipe(this.textBoxKey.Text, GetCipherMode2());
+            cPipe = new SecureCipherPipe(this.textBoxKey.Text, GetCipherMode2(), menuItemIncludeStreamCiphers.Checked);
             foreach (CipherEnum cipher in cPipe.InPipe)
             {
                 this.textBoxPipe.Text += cipher.ToString() + ";";
@@ -820,7 +820,7 @@ namespace EU.CqrXs.Gui.Forms
         }
 
 
-        
+        #region change forms
 
         /// <summary>
         /// Shows OneTwoThreeFish Demo form 
@@ -891,36 +891,38 @@ namespace EU.CqrXs.Gui.Forms
             Program.formComplex.Focus();
         }
 
-        protected internal virtual void menuMainAsymmetric_Click(object sender, EventArgs e)
+
+        internal void menuMainItemZenMatrixTest_Click(object sender, EventArgs e)
         {
-            if (Program.formAsymmetric == null || Program.formAsymmetric.Disposing)
+            if (Program.formZenMatrix == null || Program.formZenMatrix.Disposing)
             {
-                Program.formAsymmetric = new EncryptFormAsymmetric();
+                Program.formZenMatrix = new ZenMatrixForm();
             }
             try
             {
-                Program.formAsymmetric.Show();
+                Program.formZenMatrix.Show();
             }
             catch (Exception exShow)
             {
-                Area23Log.LogOriginEx("EncryptFormSimple.menuMainAsymmetric_Click", exShow, 1);
-                Program.formAsymmetric = new EncryptFormAsymmetric();
-                Program.formAsymmetric.Show();
+                Area23Log.LogOriginEx("EncryptFormMultiControls.menuMainItemZenMatrixTest_Click", exShow, 1);
+                Program.formZenMatrix = new ZenMatrixForm();
+                Program.formZenMatrix.Show();
             }
             try
             {
-                HideAllOtherForms("EncryptFormAsymmetric");
+                HideAllOtherForms("ZenMatrixForm");
             }
             catch (Exception exHide)
             {
-                Area23Log.LogOriginEx("EncryptFormSimple.menuMainAsymmetric_Click", exHide, 1);
+                Area23Log.LogOriginEx("EncryptFormMultiControls.menuMainItemZenMatrixTest_Click", exHide, 1);
             }
-
             this.Hide();
-            Program.formAsymmetric.Focus();
+
+            Program.formZenMatrix.Focus();
         }
 
-        
+        #endregion change forms
+
 
         /// <summary>
         /// menuFileOpen_Click opens a file dialog to select a file to encrypt/decrypt

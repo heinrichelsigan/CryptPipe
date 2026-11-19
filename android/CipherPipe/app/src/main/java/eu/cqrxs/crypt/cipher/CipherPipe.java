@@ -23,8 +23,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import eu.cqrxs.cipherpipe.R;
+import eu.cqrxs.crypt.cipher.symmetric.BlockCipherBC;
 import eu.cqrxs.crypt.cipher.symmetric.CryptBounceCastle;
 import eu.cqrxs.crypt.cipher.symmetric.JAes;
+import eu.cqrxs.crypt.cipher.symmetric.StreamCipherBC;
 import eu.cqrxs.crypt.cipher.symmetric.ZenMatrix;
 import eu.cqrxs.crypt.cipher.symmetric.ZenMatrix3;
 import eu.cqrxs.crypt.encoding.EncodeEnum;
@@ -173,18 +175,27 @@ public class CipherPipe {
                       EncodeEnum encType,
                       ZipType zpType,
                       KeyHash kh,
-                      CipherMode2 cmode2) {
+                      CipherMode2 cmode2,
+                      boolean otherCiphers) {
         // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
-        maxpipe = (Math.min(maxpipe, Constants.MAX_PIPE_LEN)); // if somebody wants more, he/she/it gets less
+        maxpipe = ((maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe); // if somebody wants more, he/she/it gets less
 
         String dmsg = "";
         short scnt = 0;
-        List<CipherEnum> pipeList = new ArrayList<>();
+        int modulo = otherCiphers ?
+                Constants.PIPE_MODULO_STREAMCIPHER :
+                Constants.PIPE_MODULO_BLOCKCIPHER;
 
-        HashSet<Byte> hashBytes = new HashSet<>();
+        List<CipherEnum> pipeList = new ArrayList<CipherEnum>();
+        HashSet<Byte> hashBytes = new HashSet<Byte>();
+
         for (int i = 0; i < keyBytes.length && pipeList.size() < maxpipe; i++) {
-            byte bb = (byte)((int)((int)keyBytes[i] % 0x1d));
+            byte bb = (byte)((int)((int)keyBytes[i] % modulo));
             Byte cb = Byte.valueOf(bb);
+            if (hashBytes.contains(cb) && otherCiphers) {
+                bb = (byte)((int)(cb + Math.pow(2, i) + keyBytes.length) % modulo);
+                cb = Byte.valueOf(bb);
+            }
             if (!hashBytes.contains(cb)) {
                 hashBytes.add(cb);
                 CipherEnum cipherEnm = CipherEnum.getByteCipherDict().get(cb);
@@ -221,10 +232,12 @@ public class CipherPipe {
      */
     public CipherPipe(String key, String hash,
                       EncodeEnum encType, ZipType zpType,
-                      KeyHash kh, CipherMode2 cmode2) {
+                      KeyHash kh, CipherMode2 cmode2,
+                      boolean includeStreamCiphers) {
 
         this(CryptHelper.getKeyBytesSimple(key, hash, 16),
-                Constants.MAX_PIPE_LEN, encType, zpType, kh, cmode2);
+                Constants.MAX_PIPE_LEN, encType, zpType, kh, cmode2,
+                includeStreamCiphers);
         cipherKey = key;
         cipherHash = hash;
     }
@@ -234,8 +247,9 @@ public class CipherPipe {
      * all other parameters are set to default
      * @param key only users secret key
      */
-    public CipherPipe(String key) {
-        this(key, KeyHash.Hex.hash(key), EncodeEnum.Base64, ZipType.None, KeyHash.Hex, CipherMode2.ECB);
+    public CipherPipe(String key,
+                      boolean includeStreamCiphers) {
+        this(key, KeyHash.Hex.hash(key), EncodeEnum.Base64, ZipType.None, KeyHash.Hex, CipherMode2.ECB, includeStreamCiphers);
         cipherKey = key;
     }
     /*
@@ -268,6 +282,7 @@ public class CipherPipe {
 
 
 
+
     /**
      *  Generic encrypt bytes to bytes
      * @param inBytes array of bytes
@@ -282,13 +297,13 @@ public class CipherPipe {
             CipherEnum cipherAlgo,
             String secretKey, String hashedKey,
             CipherMode2 cmode2)
-        throws InvalidCipherTextException {
+            throws InvalidCipherTextException {
 
-        if (secretKey == null || secretKey.isEmpty())
+        if (secretKey == null || secretKey.length() < 1)
             throw new IllegalArgumentException("seretkey");
-        if (hashedKey == null || hashedKey.isEmpty())
+        if (hashedKey == null || hashedKey.length() == 0)
             hashedKey = "";
-            // throw new IllegalArgumentException("hashedKey");
+        // throw new IllegalArgumentException("hashedKey");
 
         byte[] encryptBytes = inBytes;
         CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hashedKey, cmode2);
@@ -297,87 +312,34 @@ public class CipherPipe {
             case CipherEnum.JAes:
                 JAes jAes = new JAes(128, secretKey);
                 encryptBytes = jAes.encrypt(inBytes);
-				break;            
+                break;
+            // case Rsa:
+            //     RsaCipher rsa = new RsaCipher(Constants.RSA_PUB, Constants.RSA_PRV);
+            //     encryptBytes = rsa.encrypt(inBytes);
+            //     break;
             case ZenMatrix:
                 encryptBytes = (new ZenMatrix(secretKey, hashedKey, false, KeyHash.Hex)).encrypt(inBytes, true);
                 break;
             case ZenMatrix3:
                 encryptBytes = (new ZenMatrix3(secretKey, hashedKey, false)).encrypt(inBytes, true);
                 break;
-            case Aes:
-            case AesLight:
-            case Aria:
-            case BlowFish:
-            case Camellia:
-            case Cast5:
-            case Cast6:
-            case Des:
-            case Des3:
-            case Dstu7624:
-            case Fish2:
-            case Fish3:
-            case Gost28147:
-            case Idea:
-            case Noekeon:
-            case RC2:
-            case RC532:
-			case RC564:
-            case RC6:
-            case Rijndael:
-            case Seed:
-            case Serpent:
-            case SM4:
-            case SkipJack:
-            case Tea:
-            case Tnepres:
-            case XTea:
-            case ZenMatrix2:
-            default:
-                CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
-                encryptBytes = cryptBounceCastle.encrypt(inBytes);
+
+            case ChaCha:
+            case ChaCha7539:
+            case Salsa20:
+            case XChaCha20:
+            case XSalsa20:
+            case HC128:
+            case HC256:
+            case Isaac:
+            case RC4:
+            case Vmpc:
+            case VmpcKsa3:
+                cpParams = new CryptParams(cipherAlgo, secretKey, hashedKey, cmode2);
+                StreamCipherBC sbc = new StreamCipherBC(cpParams, true);
+                encryptBytes = sbc.encrypt(inBytes);
                 break;
-        }
 
-        return encryptBytes;
-    }
-
-
-    /**
-     * Generic decrypt bytes to bytes
-     * @param cipherBytes enrypted bytes
-     * @param cipherAlgo {@link CipherEnum}
-     * @param secretKey users secret key
-     * @param hash users key hashed
-     * @param cmode2 {@link CipherMode2}
-     * @return decrypted bytes for one cipher algo
-     */
-    public static byte[] decryptBytesFast(
-            byte[] cipherBytes,
-            CipherEnum cipherAlgo,
-            String secretKey,
-            String hash,
-            CipherMode2 cmode2)
-            throws InvalidCipherTextException {
-        if (secretKey == null || secretKey.isEmpty())
-            throw new IllegalArgumentException("seretkey");
-        if (hash == null || hash.isEmpty())
-            hash = "";
-            // throw new IllegalArgumentException("hash");
-
-        byte[] decryptBytes = cipherBytes; 
-        CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hash, cmode2);
-
-        switch (cipherAlgo) {
-            case CipherEnum.JAes:
-                JAes jAes = new JAes(128, secretKey);
-                decryptBytes = jAes.decrypt(cipherBytes);
-                break;            
-            case ZenMatrix:
-                decryptBytes = (new ZenMatrix(secretKey, hash, false, KeyHash.Hex)).decrypt(cipherBytes);
-                break;
-            case ZenMatrix3:
-                 decryptBytes = (new ZenMatrix3(secretKey, hash, false)).decrypt(cipherBytes);
-                 break;
             case Aes:
             case AesLight:
             case Aria:
@@ -405,13 +367,110 @@ public class CipherPipe {
             case Tea:
             case Tnepres:
             case XTea:
-            // case ZenMatrix:
             case ZenMatrix2:
             default:
-                CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
-                decryptBytes = cryptBounceCastle.decrypt(cipherBytes);
-                // TODO: full port standard bouncycastle wrapper to java
-                // TODO: compare and test with C#
+                // CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
+                // encryptBytes = cryptBounceCastle.encrypt(inBytes);
+                BlockCipherBC bcbc = new BlockCipherBC(cpParams, true);
+                encryptBytes = bcbc.encrypt(inBytes);
+                break;
+        }
+
+        return encryptBytes;
+    }
+
+
+    /**
+     * Generic decrypt bytes to bytes
+     * @param cipherBytes enrypted bytes
+     * @param cipherAlgo {@link CipherEnum}
+     * @param secretKey users secret key
+     * @param hash users key hashed
+     * @param cmode2 {@link CipherMode2}
+     * @return decrypted bytes for one cipher algo
+     */
+    public static byte[] decryptBytesFast(
+            byte[] cipherBytes,
+            CipherEnum cipherAlgo,
+            String secretKey,
+            String hash,
+            CipherMode2 cmode2)
+            throws InvalidCipherTextException {
+        if (secretKey == null || secretKey.length() == 0)
+            throw new IllegalArgumentException("seretkey");
+        if (hash == null || hash.length() == 0)
+            hash = "";
+        // throw new IllegalArgumentException("hash");
+
+        byte[] decryptBytes = cipherBytes;
+        CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hash, cmode2);
+
+        switch (cipherAlgo) {
+            case CipherEnum.JAes:
+                JAes jAes = new JAes(128, secretKey);
+                decryptBytes = jAes.decrypt(cipherBytes);
+                break;
+            case ZenMatrix:
+                decryptBytes = (new ZenMatrix(secretKey, hash, false, KeyHash.Hex)).decrypt(cipherBytes);
+                break;
+            case ZenMatrix3:
+                decryptBytes = (new ZenMatrix3(secretKey, hash, false)).decrypt(cipherBytes);
+                break;
+            // case Rsa:
+            //      RsaCipher rsa = new RsaCipher(Constants.RSA_PUB, Constants.RSA_PRV);
+            //      decryptBytes = rsa.decrypt(cipherBytes);
+            //     break;
+
+            case ChaCha:
+            case ChaCha7539:
+            case Salsa20:
+            case XChaCha20:
+            case XSalsa20:
+            case HC128:
+            case HC256:
+            case Isaac:
+            case RC4:
+            case Vmpc:
+            case VmpcKsa3:
+                cpParams = new CryptParams(cipherAlgo, secretKey, hash, cmode2);
+                StreamCipherBC sbc = new StreamCipherBC(cpParams, false);
+                decryptBytes = sbc.decrypt(cipherBytes);
+                break;
+
+            case Aes:
+            case AesLight:
+            case Aria:
+            case BlowFish:
+            case Camellia:
+            case Cast5:
+            case Cast6:
+            case Des:
+            case Des3:
+            case Dstu7624:
+            case Fish2:
+            case Fish3:
+            case Gost28147:
+            case Idea:
+            case Noekeon:
+            case RC2:
+            case RC532:
+            case RC564:
+            case RC6:
+            case Rijndael:
+            case Seed:
+            case Serpent:
+            case SM4:
+            case SkipJack:
+            case Tea:
+            case Tnepres:
+            case XTea:
+                // case ZenMatrix:
+            case ZenMatrix2:
+            default:
+                // CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
+                // decryptBytes = cryptBounceCastle.decrypt(cipherBytes);
+                BlockCipherBC bcbc = new BlockCipherBC(cpParams, false);
+                decryptBytes = bcbc.decrypt(cipherBytes);
                 break;
         }
 

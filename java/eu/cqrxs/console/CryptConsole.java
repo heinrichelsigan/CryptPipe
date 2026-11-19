@@ -16,6 +16,7 @@ import eu.cqrxs.crypt.cipher.CipherPipe;
 import eu.cqrxs.crypt.cipher.SecureCipherPipe;
 import eu.cqrxs.crypt.encoding.EncodeEnum;
 import eu.cqrxs.crypt.hash.KeyHash;
+import eu.cqrxs.gui.CqrBaseFrame;
 import eu.cqrxs.util.Constants;
 import eu.cqrxs.util.DbgWriter;
 import eu.cqrxs.zip.ZipType;
@@ -248,7 +249,7 @@ public class CryptConsole  {
                 scPipe =  new SecureCipherPipe(algos,Constants.MAX_PIPE_LEN, cMode2);
                 verbout("Created SecureCipherPipe without passkey: " + scPipe.getPipeString());
             } else {
-                scPipe = new SecureCipherPipe(passKey, cMode2); // TODO: fix it!
+                scPipe = new SecureCipherPipe(passKey, cMode2, false); // TODO: fix it!
                 verbout("Created SecureCipherPipe with passkey=" + passKey + " pipe=" + scPipe.getPipeString());
             }
 
@@ -269,7 +270,7 @@ public class CryptConsole  {
 
         }
         else {
-
+            boolean otherCiphers = false;
 
             // Create cipher pipe for en-/decryption
             if (passKey == null || passKey.isEmpty() || algos.length > 0) {
@@ -277,8 +278,9 @@ public class CryptConsole  {
                         encodingType, zipType, keyHash, cMode2);
                 verbout("Created pipe without passkey: " + pipe.getPipeString());
             } else {
+
                 pipe = new CipherPipe(passKey, keyHash.hash(passKey),
-                        encodingType, zipType, keyHash, cMode2); // TODO: fix it!
+                        encodingType, zipType, keyHash, cMode2, otherCiphers); // TODO: fix it!
                 verbout("Created pipe with passkey=" + passKey + " pipe=" + pipe.getPipeString());
             }
 

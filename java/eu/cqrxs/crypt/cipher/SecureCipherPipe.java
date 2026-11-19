@@ -116,17 +116,24 @@ public class SecureCipherPipe extends CipherPipe {
      * @param maxpipe maximum length {@link Constants}.MAX_PIPE_LEN
      * @param cmode2 {@link CipherMode2}
      */
-    public SecureCipherPipe(byte[] keyBytes, int maxpipe, CipherMode2 cmode2) {
+    public SecureCipherPipe(byte[] keyBytes, int maxpipe, CipherMode2 cmode2, boolean otherCiphers) {
         // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
         maxpipe = ((maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe); // if somebody wants more, he/she/it gets less
-
         short scnt = 0;
+        int modulo = otherCiphers ?
+                Constants.PIPE_MODULO_STREAMCIPHER :
+                Constants.PIPE_MODULO_BLOCKCIPHER;
+				
         List<CipherEnum> pipeList = new ArrayList<CipherEnum>();
-
         HashSet<Byte> hashBytes = new HashSet<Byte>();
+		
         for (int i = 0; i < keyBytes.length && pipeList.size() < maxpipe; i++) {
-            byte bb = (byte)((int)((int)keyBytes[i] % 0x1d));
-            Byte cb = Byte.valueOf(bb);
+            byte bb = (byte)((int)((int)keyBytes[i] % modulo));
+			Byte cb = Byte.valueOf(bb);
+            if (hashBytes.contains(cb) && otherCiphers) {
+				bb = (byte)((int)(cb + Math.pow(2, i) + keyBytes.length) % modulo);
+				cb = Byte.valueOf(bb);
+			}
             if (!hashBytes.contains(cb)) {
                 hashBytes.add(cb);
                 CipherEnum cipherEnm = CipherEnum.getByteCipherDict().get(cb);
@@ -155,9 +162,9 @@ public class SecureCipherPipe extends CipherPipe {
      * @param key users secret key per default email address
      * @param cmode2 {@link CipherMode2}
      */
-    public SecureCipherPipe(String key, CipherMode2 cmode2) {
+    public SecureCipherPipe(String key, CipherMode2 cmode2, boolean otherCiphers) {
 
-        this(CryptHelper.getKeyBytesSingle(key, 16), Constants.MAX_PIPE_LEN, cmode2);
+        this(CryptHelper.getKeyBytesSingle(key, 16), Constants.MAX_PIPE_LEN, cmode2, otherCiphers);
         cipherKeyHash = key;
     }
 
@@ -166,8 +173,9 @@ public class SecureCipherPipe extends CipherPipe {
      * all other parameters are set to default
      * @param key only users secret key
      */
-    public SecureCipherPipe(String key) {
-        this(key, CipherMode2.ECB);
+    public SecureCipherPipe(String key, boolean otherCiphers) {
+
+		this(key, CipherMode2.ECB, otherCiphers);
         cipherKeyHash = key;
     }
 
@@ -221,10 +229,11 @@ public class SecureCipherPipe extends CipherPipe {
                 encryptBytes = sbc.encrypt(inBytes);
                 break;
 
-
             default:
-                CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
-                encryptBytes = cryptBounceCastle.encrypt(inBytes);
+                //CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
+                // encryptBytes = cryptBounceCastle.encrypt(inBytes);
+                BlockCipherBC bcbc = new BlockCipherBC(cpParams, true);
+                encryptBytes = bcbc.encrypt(inBytes);
                 break;
         }
 
@@ -282,8 +291,10 @@ public class SecureCipherPipe extends CipherPipe {
                 break;
 
             default:
-                CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
-                decryptBytes = cryptBounceCastle.decrypt(cipherBytes);
+                // CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
+                // decryptBytes = cryptBounceCastle.decrypt(cipherBytes);
+                BlockCipherBC bcbc = new BlockCipherBC(cpParams, false);
+                decryptBytes = bcbc.decrypt(cipherBytes);
                 break;
         }
 

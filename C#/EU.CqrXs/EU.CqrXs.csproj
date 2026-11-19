@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	<TargetFramework>net10.0</TargetFramework>
+	<TargetFramework>net11.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
@@ -72,9 +72,7 @@
     <Compile Include="Crypt\Cipher\CipherPipe.cs" />
     <Compile Include="Crypt\Cipher\CryptHelper.cs" />
     <Compile Include="Crypt\Cipher\CryptParams.cs" />
-    <Compile Include="Crypt\Cipher\AsymmetricCipherPipe.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\AesNet.cs" />
-    <Compile Include="Crypt\Cipher\Symmetric\CryptBounceCastle.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\Des3Net.cs" />
     <Compile Include="Crypt\Cipher\SecureCipherPipe.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\ZenMatrix.cs" />
@@ -152,8 +150,6 @@
   <ItemGroup>
     <PackageReference Include="BouncyCastle.Cryptography" Version="2.7.0" />
     <PackageReference Include="Microsoft.Bcl.TimeProvider" Version="11.0.0" />
-    <PackageReference Include="Microsoft.NETCore.Platforms" Version="7.0.4" />
-    <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="runtime.osx.10.10-x64.CoreCompat.System.Drawing" Version="6.0.5.128" />
     <PackageReference Include="SharpZipLib" Version="1.4.2" />

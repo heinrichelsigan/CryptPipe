@@ -4,6 +4,7 @@ using EU.CqrXs.Crypt.Hash;
 using EU.CqrXs.Zip;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO.Pipelines;
@@ -11,6 +12,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Xml.Linq;
+using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 
 namespace EU.CqrXs.Util
@@ -487,13 +489,18 @@ namespace EU.CqrXs.Util
             return true;
         }
 
-        public static byte[] StretchCutToLength(this byte[] bytes, int length = 32)
+        public static byte[] StretchCutToLength(this byte[] bytes, int length)
         {
             byte[] outBytes = new byte[length];
             if (bytes == null || bytes.Length == 0)
                 return (outBytes.FillWithZeros(length));
             while (bytes.Length < length)
-                bytes = bytes.TarBytes(bytes);
+            {
+                int deltalen = length - bytes.Length;
+                byte[] deltaBytes = new byte[deltalen];
+                deltaBytes = deltaBytes.FillWithZeros(deltalen);
+                bytes = bytes.TarBytes(deltaBytes);
+            }
             System.Array.Copy(bytes, outBytes, length);
             
             return outBytes;
@@ -1339,33 +1346,35 @@ namespace EU.CqrXs.Util
             if (!fileName.IsPermAgainCryptFile())
                 return strippedFileName;
 
-            KeyHash kHash = KeyHash.Hex;
-
+            KeyHash kHash = KeyHash.Hex;            
             EncodingType eType = EncodingType.None;
+            ZipType[] zipTypes = { ZipType.BZip2, ZipType.GZip, ZipType.Zip };
+            ZipType zipTyp = ZipType.None;
+            CipherMode2[] cmodes2 = { CipherMode2.CBC, CipherMode2.CFB, CipherMode2.CTS, CipherMode2.ECB, CipherMode2.GOFB };
+            CipherMode2 cmode2 = CipherMode2.ECB;
+
             foreach (EncodingType encTyp in EncodingTypesExtensions.GetEncodingTypes())
             {
-                if (fileName.EndsWith("." + encTyp.ToString(), StringComparison.CurrentCultureIgnoreCase))
+                if ((fileName.EndsWith("." + encTyp.ToString(), StringComparison.CurrentCultureIgnoreCase)) ||
+                    (strippedFileName.Contains("." + encTyp.ToString(), StringComparison.CurrentCultureIgnoreCase)))
                 {
                     eType = encTyp;
                     strippedFileName = fileName.Replace("." + encTyp.ToString(), "").Replace("." + encTyp.ToString().ToLower(), "");
+                    // strippedFileName = strippedFileName.Replace("." + encTyp.ToString(), "", StringComparison.InvariantCultureIgnoreCase);
                     break;
-                }
+                }                
             }
 
-            ZipType[] zipTypes = { ZipType.BZip2, ZipType.GZip, ZipType.Zip };            
-            ZipType zipTyp = ZipType.None;
+            
             foreach (ZipType zType in zipTypes)
             {
-                if (strippedFileName.EndsWith(zType.GetZipTypeExtension(), StringComparison.CurrentCultureIgnoreCase))
+                if ((strippedFileName.EndsWith(zType.GetZipTypeExtension(), StringComparison.CurrentCultureIgnoreCase)) ||
+                    (strippedFileName.Contains(zType.GetZipTypeExtension() + ".", StringComparison.CurrentCultureIgnoreCase)))
                 {
                     zipTyp = zType;
-                    strippedFileName = strippedFileName.Replace(zipTyp.GetZipTypeExtension(), "");
-                }
-                else if (strippedFileName.Contains(zType.GetZipTypeExtension() + ".", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    zipTyp = zType;
-                    strippedFileName = strippedFileName.Replace(zipTyp.GetZipTypeExtension() + ".", ".");
-                }
+                    strippedFileName = strippedFileName.Replace(zipTyp.GetZipTypeExtension(), "", StringComparison.InvariantCultureIgnoreCase);
+                    break;
+                }                
             }
             
 
@@ -1375,24 +1384,19 @@ namespace EU.CqrXs.Util
                 {
                     kHash = kh;
                     strippedFileName = strippedFileName.Replace("." + kh.ToString(), "").Replace("." + kh.ToString().ToLower(), "");
-
                     break;
                 }
             }
 
-            CipherMode2[] cmodes2 = { CipherMode2.CBC, CipherMode2.CFB, CipherMode2.CTS, CipherMode2.ECB, CipherMode2.GOFB };
-            CipherMode2 cmode2 = CipherMode2.ECB;
+            
             foreach (CipherMode2 cMode in cmodes2)
             {
-                if (strippedFileName.EndsWith("." + cMode.ToString(), StringComparison.CurrentCultureIgnoreCase))
+                if ((strippedFileName.EndsWith("." + cMode.ToString(), StringComparison.CurrentCultureIgnoreCase)) ||
+                    (strippedFileName.Contains("." + cMode.ToString(), StringComparison.CurrentCultureIgnoreCase)))
                 {
                     cmode2 = cMode;
                     strippedFileName = strippedFileName.Replace("." + cMode.ToString(), "");
-                }
-                else if (strippedFileName.Contains("." + cMode.ToString(), StringComparison.CurrentCultureIgnoreCase))
-                {
-                    cmode2 = cMode;
-                    strippedFileName = strippedFileName.Replace("." + cMode.ToString(), "");
+                    break;
                 }
             }
 
@@ -1444,11 +1448,16 @@ namespace EU.CqrXs.Util
                 return strippedFileName;
 
             KeyHash kHash = KeyHash.Empty;
-
             EncodingType eType = EncodingType.None;
+            CipherMode2[] cmodes2 = { CipherMode2.CBC, CipherMode2.CFB, CipherMode2.CTS, CipherMode2.ECB, CipherMode2.GOFB };
+            CipherMode2 cmode2 = CipherMode2.ECB;
+            ZipType[] zipTypes = { ZipType.BZip2, ZipType.GZip, ZipType.Zip };
+            ZipType zipTyp = ZipType.None;
+
             foreach (EncodingType encTyp in EncodingTypesExtensions.GetEncodingTypes())
             {
-                if (fileName.EndsWith("." + encTyp.ToString(), StringComparison.CurrentCultureIgnoreCase))
+                if ((fileName.EndsWith("." + encTyp.ToString(), StringComparison.CurrentCultureIgnoreCase)) ||
+                    (fileName.Contains("." + encTyp.ToString(), StringComparison.CurrentCultureIgnoreCase)))
                 {
                     eType = encTyp;
                     strippedFileName = fileName.Replace("." + encTyp.ToString(), "").Replace("." + encTyp.ToString().ToLower(), "");
@@ -1456,35 +1465,26 @@ namespace EU.CqrXs.Util
                 }
             }
 
-            CipherMode2[] cmodes2 = { CipherMode2.CBC, CipherMode2.CFB,  CipherMode2.CTS, CipherMode2.ECB, CipherMode2.GOFB };
-            CipherMode2 cmode2 = CipherMode2.ECB;
-            ZipType[] zipTypes = { ZipType.BZip2, ZipType.GZip, ZipType.Zip };
-            ZipType zipTyp = ZipType.None;
+           
             foreach (ZipType zType in zipTypes)
             {
-                if (strippedFileName.EndsWith(zType.GetZipTypeExtension(), StringComparison.CurrentCultureIgnoreCase))
+                if ((strippedFileName.EndsWith(zType.GetZipTypeExtension(), StringComparison.CurrentCultureIgnoreCase)) ||
+                    (strippedFileName.Contains(zType.GetZipTypeExtension(), StringComparison.CurrentCultureIgnoreCase)))
                 {
                     zipTyp = zType;
-                    strippedFileName = strippedFileName.Replace(zipTyp.GetZipTypeExtension(), "");
-                }
-                else if (strippedFileName.Contains(zType.GetZipTypeExtension() + ".", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    zipTyp = zType;
-                    strippedFileName = strippedFileName.Replace(zipTyp.GetZipTypeExtension() + ".", ".");
-                }
+                    strippedFileName = strippedFileName.Replace(zipTyp.GetZipTypeExtension(), "", StringComparison.InvariantCultureIgnoreCase);
+                    break;
+                }                
             }
 
             foreach (CipherMode2 cMode in cmodes2)
             {
-                if (strippedFileName.EndsWith("." + cMode.ToString(), StringComparison.CurrentCultureIgnoreCase))
+                if ((strippedFileName.EndsWith("." + cMode.ToString(), StringComparison.CurrentCultureIgnoreCase)) ||
+                    (strippedFileName.Contains("." + cMode.ToString(), StringComparison.CurrentCultureIgnoreCase)))
                 {
                     cmode2 = cMode;
-                    strippedFileName = strippedFileName.Replace("." + cMode.ToString(), "");
-                }
-                else if (strippedFileName.Contains("." + cMode.ToString(), StringComparison.CurrentCultureIgnoreCase))
-                {
-                    cmode2 = cMode;
-                    strippedFileName = strippedFileName.Replace("." + cMode.ToString(), "");
+                    strippedFileName = strippedFileName.Replace("." + cMode.ToString(), "", StringComparison.InvariantCultureIgnoreCase);
+                    break;
                 }
             }
 
@@ -1516,169 +1516,7 @@ namespace EU.CqrXs.Util
         }
 
 
-        public static string StripAsymmetricCipherPipeFromFileName(this string fileName, out AsymmetricCipherPipe? aCPipe)
-        {
-            if (string.IsNullOrEmpty(fileName))
-                throw new ArgumentNullException(nameof(fileName));
-
-            aCPipe = null;
-            string strippedFileName = fileName;
-
-            if (!fileName.IsPermAgainCryptFile())
-                return strippedFileName;
-
-            KeyHash kHash = KeyHash.Empty;
-
-            EncodingType eType = EncodingType.None;
-            foreach (EncodingType encTyp in EncodingTypesExtensions.GetEncodingTypes())
-            {
-                if (fileName.EndsWith("." + encTyp.ToString(), StringComparison.CurrentCultureIgnoreCase))
-                {
-                    eType = encTyp;
-                    strippedFileName = fileName.Replace("." + encTyp.ToString(), "").Replace("." + encTyp.ToString().ToLower(), "");
-                    break;
-                }
-            }
-
-            CipherMode2[] cmodes2 = { CipherMode2.ECB };
-            CipherMode2 cmode2 = CipherMode2.ECB;
-            ZipType[] zipTypes = { ZipType.BZip2, ZipType.GZip, ZipType.Zip };
-            ZipType zipTyp = ZipType.None;
-            foreach (ZipType zType in zipTypes)
-            {
-                if (strippedFileName.EndsWith(zType.GetZipTypeExtension(), StringComparison.CurrentCultureIgnoreCase))
-                {
-                    zipTyp = zType;
-                    strippedFileName = strippedFileName.Replace(zipTyp.GetZipTypeExtension(), "");
-                }
-                else if (strippedFileName.Contains(zType.GetZipTypeExtension() + ".", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    zipTyp = zType;
-                    strippedFileName = strippedFileName.Replace(zipTyp.GetZipTypeExtension() + ".", ".");
-                }
-            }
-
-            foreach (CipherMode2 cMode in cmodes2)
-            {
-                if (strippedFileName.EndsWith("." + cMode.ToString(), StringComparison.CurrentCultureIgnoreCase))
-                {
-                    cmode2 = cMode;
-                    strippedFileName = strippedFileName.Replace("." + cMode.ToString(), "");
-                }
-                else if (strippedFileName.Contains("." + cMode.ToString(), StringComparison.CurrentCultureIgnoreCase))
-                {
-                    cmode2 = cMode;
-                    strippedFileName = strippedFileName.Replace("." + cMode.ToString(), "");
-                }
-            }
-
-
-            List<CipherEnum> cipherEnums = new List<CipherEnum>();
-            string pipeRestString = strippedFileName.Substring(strippedFileName.LastIndexOf("."));
-            foreach (char ch in pipeRestString)
-            {
-                foreach (CipherEnum cipher in CipherEnumExtensions.GetCipherTypes())
-                {
-                    if (cipher.GetCipherChar() == ch)
-                        cipherEnums.Add(cipher);
-                }
-            }
-
-            if (cipherEnums.Count > 0)
-            {
-                aCPipe = new AsymmetricCipherPipe(cipherEnums.ToArray(), Constants.PIPE_MAX_LEN, cmode2);
-                if (strippedFileName.Contains("." + aCPipe.PipeString))
-                {
-                    strippedFileName = strippedFileName.Replace("." + aCPipe.PipeString, "");
-                }
-            }
-
-            if (aCPipe == null || aCPipe.InPipe.Length == 0)
-                aCPipe = new AsymmetricCipherPipe(cipherEnums.ToArray(), Constants.PIPE_MAX_LEN, cmode2);
-
-            return strippedFileName;
-        }
-
-
-        /*
-        public static string StripSymmCipherPipeFromFileName(this string fileName, out SymmCipherPipe? symmCipherPipe)
-        {
-            if (string.IsNullOrEmpty(fileName))
-                throw new ArgumentNullException(nameof(fileName));
-
-            symmCipherPipe = null;
-            string strippedFileName = fileName;
-
-            if (!fileName.IsPermAgainCryptFile())
-                return strippedFileName;
-
-            KeyHash kHash = KeyHash.Hex;
-
-            EncodingType eType = EncodingType.None;
-            foreach (EncodingType encTyp in EncodingTypesExtensions.GetEncodingTypes())
-            {
-                if (fileName.EndsWith("." + encTyp.ToString(), StringComparison.CurrentCultureIgnoreCase))
-                {
-                    eType = encTyp;
-                    strippedFileName = fileName.Replace("." + encTyp.ToString(), "").Replace("." + encTyp.ToString().ToLower(), "");
-                    break;
-                }
-            }
-            
-            ZipType[] zipTypes = { ZipType.BZip2, ZipType.GZip, ZipType.Zip };
-            ZipType zipTyp = ZipType.None;
-            foreach (ZipType zType in zipTypes)
-            {
-                if (strippedFileName.EndsWith(zType.GetZipTypeExtension(), StringComparison.CurrentCultureIgnoreCase))
-                {
-                    zipTyp = zType;
-                    strippedFileName = strippedFileName.Replace(zipTyp.GetZipTypeExtension(), "");
-                }
-                else if (strippedFileName.Contains(zType.GetZipTypeExtension() + ".", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    zipTyp = zType;
-                    strippedFileName = strippedFileName.Replace(zipTyp.GetZipTypeExtension() + ".", ".");
-                }
-            }
-
-
-            foreach (KeyHash kh in KeyHash_Extensions.GetHashTypes())
-            {
-                if (strippedFileName.Contains("." + kh.ToString(), StringComparison.CurrentCultureIgnoreCase))
-                {
-                    kHash = kh;
-                    strippedFileName = strippedFileName.Replace("." + kh.ToString(), "").Replace("." + kh.ToString().ToLower(), "");
-
-                    break;
-                }
-            }
-
-            List<SymmCipherEnum> symmCipherEnums = new List<SymmCipherEnum>();
-            string pipeRestString = strippedFileName.Substring(strippedFileName.LastIndexOf("."));
-            foreach (char ch in pipeRestString)
-            {
-                foreach (SymmCipherEnum symmCipher in SymmCipherEnumExtensions.GetSymmCipherTypes())
-                {
-                    if (symmCipher.GetSymmCipherChar() == ch)
-                        symmCipherEnums.Add(symmCipher);
-                }
-            }
-
-            if (symmCipherEnums.Count > 0)
-            {
-                symmCipherPipe = new SymmCipherPipe(symmCipherEnums.ToArray(), Constants.PIPE_MAX_LEN, eType, zipTyp, kHash, CipherMode2.CFB);
-                
-                if (strippedFileName.Contains("." + symmCipherPipe.PipeString))
-                    strippedFileName = strippedFileName.Replace("." + symmCipherPipe.PipeString, "");               
-            }
-
-            if (symmCipherPipe == null)
-                symmCipherPipe = new SymmCipherPipe(symmCipherEnums.ToArray(), Constants.PIPE_MAX_LEN, eType, zipTyp, kHash, CipherMode2.CFB);
-
-            return strippedFileName;
-        }
-        */
-
+        
 
         /// <summary>
         /// Extension <see cref="string"/>.StripCiphersInFileName() 

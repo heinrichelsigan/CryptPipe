@@ -59,6 +59,7 @@ The implementation is based on my blog article: \href{https://area23-at.blogspot
     \item \href{https://en.wikipedia.org/wiki/SEED}{Seed}, \href{https://en.wikipedia.org/wiki/SM4_(cipher)}{SM4}
     \item \href{https://en.wikipedia.org/wiki/Serpent_(cipher)}{Serpent}, Tnepres
     \item \href{https://de.wikipedia.org/wiki/Tiny_Encryption_Algorithm}{Tea}, \href{https://en.wikipedia.org/wiki/XTEA}{XTea}
+    \item symmetric Streamciphers like HC256, ChaCha20, Salsa20. RC4, ISAAC, 
     \item and my own simplest below average symmetric block cipher alogrithms: ZenMatrix, ZenMatrix2
 \end{itemize}
 
@@ -407,19 +408,19 @@ Implementation is based on my blog article: \href{https://area23-at.blogspot.com
 \item \href{https://en.wikipedia.org/wiki/SEED}{SEED}, \href{https://en.wikipedia.org/wiki/SM4_(cipher)}{SM4}
 \item \href{https://en.wikipedia.org/wiki/Serpent_(cipher)}{Serpent}, Tnepres
 \item \href{https://de.wikipedia.org/wiki/Tiny_Encryption_Algorithm}{Tea}, \href{https://en.wikipedia.org/wiki/XTEA}{XTea}
+\item \href{https://en.wikipedia.org/wiki/Stream_cipher}{StreamCiphers} like ChaCha20, Salsa20, HC256, ISAAC, RC4, VMPC
 \item and my own simplest symmetric block cipher alogrithms: ZenMatrix, ZenMatrix2
 \end{itemize}
-
-
-\subsection{What are advantages and disadvantages of Symmetric Block Cipher}
-
-\subsubsection{Advantages}
-Since symmetric block cipher ciphers each block in the same encrypting way
 
 \begin{figure}
 \includegraphics[width=1\textwidth]{SymmetricBlockCipher_Structure0.png}
 \caption{\label{fig:SymmetricBlockCipherStructure}Symmetric BlockCipher Structure}
 \end{figure}
+
+\subsection{What are advantages and disadvantages of Symmetric Block Cipher}
+
+\subsubsection{Advantages}
+Since symmetric block cipher ciphers each block in the same encrypting way
 
 parallel processing can be implemented quiet easy with average performance bust on huge multiprocessor machines.
 
@@ -452,6 +453,22 @@ sudo nice -n -17 dd if=/dev/zero of=/mnt/h/zeros.txt bs=4k  count=64
 
 That is why we have added a gzip, bzip2, zip before to compress illegal character blocks inside the file to encrypt.
 
+\pagebreak 
+
+\subsection{StreamCiphers}
+
+A stream cipher is a symmetric key cipher where plaintext digits are combined with a pseudorandom cipher digit stream (keystream). In a stream cipher, each plaintext digit is encrypted one at a time with the corresponding digit of the keystream, to give a digit of the ciphertext stream. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\linewidth]{StreamCipherx.png}
+    \caption{StreamCipherAbstraction}
+    \label{fig:placeholder}
+\end{figure}
+
+
+
+\pagebreak 
 
 \subsection{Mathematical theory}
 

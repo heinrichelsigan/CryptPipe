@@ -77,7 +77,7 @@ public class CqrJDialog extends JDialog { /* implements MouseListener  { */
 	/**
 	 * init method of graphical components of JDialog
 	 */
-	public void Init() {
+	public void Init	() {
 		
 		setLayout(null);
 		setSize(800, 492);

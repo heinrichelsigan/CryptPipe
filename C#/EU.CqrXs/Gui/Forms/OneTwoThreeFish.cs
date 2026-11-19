@@ -69,7 +69,7 @@ namespace EU.CqrXs.Gui.Forms
             menuOptionsModesComplex.Click += menuOptionsModesComplex_Click;
             menuOptionsModesSimple.Click += new System.EventHandler(async (sender, e)
                  => await menuOptionsModesSimple_Click(sender, e));
-            menuOptionsModesAsymmetric.Click += menuOptionsModesAsymmetric_Click;
+            menuOptionsModeZenMatrix.Click += menuOptionsModeZenMatrix_Click;
 
             menuVisualModesItemClassic.Click += menuVisualMode_Change;
             menuVisualModesItemDark.Click += menuVisualMode_Change;
@@ -1263,7 +1263,8 @@ namespace EU.CqrXs.Gui.Forms
         }
 
         #endregion OpenSave    
-            
+
+        #region change forms
 
         /// <summary>
         /// Switches to complex WinForm <see cref="EncryptFormMultiControls"/>
@@ -1296,34 +1297,6 @@ namespace EU.CqrXs.Gui.Forms
             }
             this.Hide();
             Program.formComplex.Focus();
-        }
-
-        protected internal virtual void menuOptionsModesAsymmetric_Click(object sender, EventArgs e)
-        {
-            if (Program.formAsymmetric == null || Program.formAsymmetric.Disposing)
-            {
-                Program.formAsymmetric = new EncryptFormAsymmetric();
-            }
-            try
-            {
-                Program.formAsymmetric.Show();
-            }
-            catch (Exception exShow)
-            {
-                Area23Log.LogOriginEx("OneTwoThreeFish.menuOptionsModesAsymmetric_Click", exShow, 1);
-                Program.formAsymmetric = new EncryptFormAsymmetric();
-                Program.formAsymmetric.Show();
-            }
-            try
-            {
-                HideAllOtherForms("EncryptFormAsymmetric");
-            }
-            catch (Exception exHide)
-            {
-                Area23Log.LogOriginEx("OneTwoThreeFish.menuOptionsModesAsymmetric_Click", exHide, 1);
-            }
-            this.Hide();
-            Program.formAsymmetric.Focus();
         }
 
         /// <summary>
@@ -1360,6 +1333,37 @@ namespace EU.CqrXs.Gui.Forms
 
             Program.formSimple.Focus();
         }
+
+        internal void menuOptionsModeZenMatrix_Click(object sender, EventArgs e)
+        {
+            if (Program.formZenMatrix == null || Program.formZenMatrix.Disposing)
+            {
+                Program.formZenMatrix = new ZenMatrixForm();
+            }
+            try
+            {
+                Program.formZenMatrix.Show();
+            }
+            catch (Exception exShow)
+            {
+                Area23Log.LogOriginEx("EncryptFormMultiControls.menuMainItemZenMatrixTest_Click", exShow, 1);
+                Program.formZenMatrix = new ZenMatrixForm();
+                Program.formZenMatrix.Show();
+            }
+            try
+            {
+                HideAllOtherForms("ZenMatrixForm");
+            }
+            catch (Exception exHide)
+            {
+                Area23Log.LogOriginEx("EncryptFormMultiControls.menuMainItemZenMatrixTest_Click", exHide, 1);
+            }
+            this.Hide();
+
+            Program.formZenMatrix.Focus();
+        }
+
+        #endregion change forms
 
         #region Media Methods
 

@@ -6779,6 +6779,7 @@
 ./eu/cqrxs/zip/WZ.class
 ./eu/cqrxs/gui/CqrJFrameSimple$EncodeChangeListener.class
 ./eu/cqrxs/gui/CqrJFrameSimple$SymMouse.class
+./eu/cqrxs/gui/CqrBaseFrame.class
 ./eu/cqrxs/gui/CqrJdFrame.class
 ./eu/cqrxs/gui/CqrJDialog.class
 ./eu/cqrxs/gui/ImageHelper.class
@@ -6814,9 +6815,9 @@
 ./eu/cqrxs/crypt/cipher/symmetric/ZenMatrix3.class
 ./eu/cqrxs/crypt/cipher/symmetric/JAes.class
 ./eu/cqrxs/crypt/cipher/symmetric/ZenMatrix.class
-./eu/cqrxs/crypt/cipher/symmetric/CryptBounceCastle.class
 ./eu/cqrxs/crypt/cipher/symmetric/StreamCipherBC.class
-./eu/cqrxs/crypt/cipher/symmetric/CryptBounceCastle$1.class
+./eu/cqrxs/crypt/cipher/symmetric/BlockCipherBC.class
+./eu/cqrxs/crypt/cipher/symmetric/BlockCipherBC$1.class
 ./eu/cqrxs/crypt/cipher/symmetric/ZenMatrix2.class
 ./eu/cqrxs/crypt/cipher/CryptParams$1.class
 ./eu/cqrxs/crypt/cipher/CipherEnum$1.class

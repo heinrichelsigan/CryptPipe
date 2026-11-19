@@ -77,7 +77,7 @@ namespace EU.CqrXs.Gui.Forms
             menuOptionsModes123Fish = new ToolStripMenuItem();
             menuOptionsModesComplex = new ToolStripMenuItem();
             menuOptionsModesSimple = new ToolStripMenuItem();
-            menuOptionsModesAsymmetric = new ToolStripMenuItem();
+            menuOptionsModeZenMatrix = new ToolStripMenuItem();
             optionsToolStripMenuItem = new ToolStripMenuItem();
             menuOptionsItemsWarnings = new ToolStripMenuItem();
             warnOnEmptyPipeToolStripMenuItem = new ToolStripMenuItem();
@@ -466,7 +466,7 @@ namespace EU.CqrXs.Gui.Forms
             // menuForms
             // 
             menuForms.BackColor = SystemColors.Menu;
-            menuForms.DropDownItems.AddRange(new ToolStripItem[] { menuOptionsModes123Fish, menuOptionsModesComplex, menuOptionsModesSimple, menuOptionsModesAsymmetric });
+            menuForms.DropDownItems.AddRange(new ToolStripItem[] { menuOptionsModesComplex, menuOptionsModesSimple, menuOptionsModes123Fish, menuOptionsModeZenMatrix });
             menuForms.Font = new Font("Lucida Sans Typewriter", 10F);
             menuForms.ForeColor = SystemColors.MenuText;
             menuForms.Name = "menuForms";
@@ -498,14 +498,13 @@ namespace EU.CqrXs.Gui.Forms
             menuOptionsModesSimple.Size = new Size(170, 22);
             menuOptionsModesSimple.Text = "Mode Simple";
             // 
-            // menuOptionsModesAsymmetric
+            // menuOptionsModeZenMatrix
             // 
-            menuOptionsModesAsymmetric.BackColor = SystemColors.Menu;
-            menuOptionsModesAsymmetric.Enabled = false;
-            menuOptionsModesAsymmetric.ForeColor = SystemColors.MenuText;
-            menuOptionsModesAsymmetric.Name = "menuOptionsModesAsymmetric";
-            menuOptionsModesAsymmetric.Size = new Size(170, 22);
-            menuOptionsModesAsymmetric.Text = "Asymmetric";
+            menuOptionsModeZenMatrix.BackColor = SystemColors.Menu;
+            menuOptionsModeZenMatrix.Enabled = true;            
+            menuOptionsModeZenMatrix.Name = "menuOptionsModeZenMatrix";
+            menuOptionsModeZenMatrix.Size = new Size(170, 22);
+            menuOptionsModeZenMatrix.Text = "ZenMatrix";
             // 
             // optionsToolStripMenuItem
             // 
@@ -1205,7 +1204,7 @@ namespace EU.CqrXs.Gui.Forms
         private ToolStripMenuItem menuOptionsModes123Fish;
         protected internal ToolStripMenuItem menuOptionsModesComplex;
         protected internal ToolStripMenuItem menuOptionsModesSimple;
-        private ToolStripMenuItem menuOptionsModesAsymmetric;
+        private ToolStripMenuItem menuOptionsModeZenMatrix;
         private ToolStripMenuItem menuOptionsMenuVisualModes;
         private ToolStripMenuItem menuVisualModesItemClassic;
         private ToolStripMenuItem menuVisualModesItemDark;

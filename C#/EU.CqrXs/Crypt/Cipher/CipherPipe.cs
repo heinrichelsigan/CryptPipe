@@ -44,6 +44,7 @@ namespace EU.CqrXs.Crypt.Cipher
         protected internal CipherEnum[] inPipe;
         protected internal EncodingType encodeType = EncodingType.Base64;
         protected internal KeyHash kHash = KeyHash.Empty;
+        protected internal bool includeStremCiphers = false;
         // private readonly string pipeString;
 
         /// <summary>
@@ -74,6 +75,8 @@ namespace EU.CqrXs.Crypt.Cipher
         public virtual CipherMode2 CMode2 { get; set; } = CipherMode2.CFB;
 
         public virtual CipherMode CMode { get => CMode2.ToCipherMode(); set => CMode2 = value.FromCipherMode(); }
+
+        public virtual bool IncludeStreamCiphers { get => includeStremCiphers; }
 
         /// <summary>
         /// PipeString will always be generated on the fly from <see cref="InPipe"/>
@@ -212,35 +215,41 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="zpType"><see cref="Zip.ZipType"/></param>
         /// <param name="kh"><see cref="KeyHash"/></param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
-        /// <param name="verbose"></param>
+        /// <param name="streamCiphers"></param>
         /// <exception cref="ArgumentException"></exception>
         public CipherPipe(byte[] keyBytes, uint maxpipe = Constants.PIPE_MAX_LEN,
             EncodingType encType = EncodingType.Base64, ZipType zpType = ZipType.None, KeyHash kh = KeyHash.Hex,
-            CipherMode2 cmode2 = CipherMode2.ECB, bool verbose = false)
+            CipherMode2 cmode2 = CipherMode2.ECB, bool streamCiphers = false)
         {
+            includeStremCiphers = streamCiphers;
+            int moduloMax = (includeStremCiphers) ? 
+                Constants.PIPE_STREAM_AUTO_MODULO_MAX :
+                Constants.PIPE_AUTO_MODULO_MAX;
             // What ever is entered here as parameter, maxpipe has to be not greater Constants.PIPE_MAX_LEN, because of no such agency
             maxpipe = (maxpipe > Constants.PIPE_MAX_LEN) ? Constants.PIPE_MAX_LEN : maxpipe; // if somebody wants more, he/she/it gets less
+            
 
             List<CipherEnum> pipeList = new List<CipherEnum>();
-
             HashSet<byte> hashBytes = new HashSet<byte>();
+
             for (int i = 0; i < keyBytes.Length && pipeList.Count < maxpipe; i++)
             {
-                byte cb = (byte)((int)((int)keyBytes[i] % 0x1d));                                
-                bool addCipherToPUpe = (Constants.PIPE_BUILD_MULTI_SAME_CIPHERS || (maxpipe < 0x16 && !hashBytes.Contains(cb)));
+                byte cb = (byte)((int)((int)keyBytes[i] % moduloMax));
+                // mit magic add to generate deterministic more on same bytes
+                if (hashBytes.Contains(cb) && includeStremCiphers)
+                    cb = (byte)((int)(cb + Math.Pow(2, i) + keyBytes.Length) % moduloMax);
+
+                bool addCipherToPUpe = (Constants.PIPE_BUILD_MULTI_SAME_CIPHERS || 
+                    (maxpipe < 0x16 && !hashBytes.Contains(cb)));
                 if (addCipherToPUpe) 
                 {
                     if (!hashBytes.Contains(cb)) // TODO: future design
-                    {
-                        // // mit magic add to generate deterministic more on same bytes
-                        // cb = (byte)((int)(cb + Math.Pow(2, i) + keyBytes.Length) % 0x1d);               
                         hashBytes.Add(cb);
-                    }
 
                     CipherEnum cipherEnm = CipherEnumExtensions.ByteCipherDict[cb];
                     pipeList.Add(cipherEnm);
 
-                    if (verbose)
+                    if (!Constants.NOLog)
                         Console.Out.WriteLine("keybyts[" + i + "]=" + keyBytes[i] + " byte cb = " + (int)cb + " CipherEnum: " + cipherEnm);
                 }
             }
@@ -264,11 +273,11 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="zpType"></param>
         /// <param name="kh"></param>
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
-        /// <param name="verbose"></param>
+        /// <param name="streamCiphers"></param>
         public CipherPipe(string key, string hash, EncodingType encType = EncodingType.Base64,
             ZipType zpType = ZipType.None, KeyHash kh = KeyHash.Hex,
-            CipherMode2 cmode2 = CipherMode2.ECB, bool verbose = false)
-            : this(CryptHelper.GetKeyBytesSimple(key, hash, Constants.PIPE_KEY_HASH_LEN), Constants.PIPE_MAX_LEN, encType, zpType, kh, cmode2, verbose)
+            CipherMode2 cmode2 = CipherMode2.ECB, bool streamCiphers = false)
+            : this(CryptHelper.GetKeyBytesSimple(key, hash, Constants.PIPE_KEY_HASH_LEN), Constants.PIPE_MAX_LEN, encType, zpType, kh, cmode2, streamCiphers)
         {
             cipherKey = key;
             cipherHash = hash;
@@ -278,10 +287,10 @@ namespace EU.CqrXs.Crypt.Cipher
         /// CipherPipe ctor with only key
         /// </summary>
         /// <param name="key"></param>
-        /// <param name="verbose"></param>
-        public CipherPipe(string key, bool verbose = false)
+        /// <param name="streamCiphers"></param>
+        public CipherPipe(string key, bool streamCiphers = false)
             : this(key, EnDeCodeHelper.KeyToHex(key), EncodingType.Base64, ZipType.None, KeyHash.Hex,
-                  CipherMode2.ECB, verbose)
+                  CipherMode2.ECB, streamCiphers)
         {
             cipherKey = key;
         }
@@ -381,8 +390,10 @@ namespace EU.CqrXs.Crypt.Cipher
                     break;
 
                 default:
-                    CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
-                    encryptBytes = cryptBounceCastle.Encrypt(inBytes);
+                    // CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
+                    // encryptBytes = cryptBounceCastle.Encrypt(inBytes); 
+                    BlockCipherBC bbc = new BlockCipherBC(cpParams, true);
+                    encryptBytes = bbc.Encrypt(inBytes);
                     break;
             }
 
@@ -447,8 +458,10 @@ namespace EU.CqrXs.Crypt.Cipher
                     break;    
                 
                 default:
-                    CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
-                    decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
+                    // CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
+                    // decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
+                    BlockCipherBC bbc = new BlockCipherBC(cpParams, false);
+                    decryptBytes = bbc.Decrypt(cipherBytes);
                     break;
             }
             
@@ -486,7 +499,7 @@ namespace EU.CqrXs.Crypt.Cipher
         {
             byte[] stringBytes = new List<byte>().ToArray();
             // construct symmetric cipher pipeline with cryptKey, keyIv, encopding, zipBefore, keyHash and cmode2
-            CipherPipe cipherPipe = new CipherPipe(cryptKey, hashIv, encoding, zipBefore, kayHash, cmode2, true);
+            CipherPipe cipherPipe = new CipherPipe(cryptKey, hashIv, encoding, zipBefore, kayHash, cmode2, false);
 
             if (tinSource is string inString)   // Transform string to bytes
                 stringBytes = Encoding.UTF8.GetBytes(inString);
@@ -549,7 +562,7 @@ namespace EU.CqrXs.Crypt.Cipher
             hashIv = hashIv ?? keyHash.Hash(cryptKey);
             byte[] stringBytes = new List<byte>().ToArray();
             // create symmetric cipher pipe for decryption with crypt key and pass pipeString as out param
-            CipherPipe cPipe = new CipherPipe(cryptKey, hashIv, decoding, unzipAfter, keyHash, cmode2, true);
+            CipherPipe cPipe = new CipherPipe(cryptKey, hashIv, decoding, unzipAfter, keyHash, cmode2, false);
             string pipeString = cPipe.PipeString;
             string incomingEncoded = string.Empty;
 

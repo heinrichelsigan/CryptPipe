@@ -164,19 +164,28 @@ public class CipherPipe {
                       EncodeEnum encType,
                       ZipType zpType,
                       KeyHash kh,
-                      CipherMode2 cmode2) {
+                      CipherMode2 cmode2,
+                      boolean otherCiphers) {
         // What ever is entered here as parameter, maxpipe has to be not greater 8, because of no such agency
         maxpipe = ((maxpipe > Constants.MAX_PIPE_LEN) ? Constants.MAX_PIPE_LEN : maxpipe); // if somebody wants more, he/she/it gets less
 
         String dmsg = "";
-        short scnt = 0;
-        List<CipherEnum> pipeList = new ArrayList<CipherEnum>();
-
+        short scnt = 0;      
+        int modulo = otherCiphers ?
+                Constants.PIPE_MODULO_STREAMCIPHER :
+                Constants.PIPE_MODULO_BLOCKCIPHER;
+				
+		List<CipherEnum> pipeList = new ArrayList<CipherEnum>();
         HashSet<Byte> hashBytes = new HashSet<Byte>();
+		
         for (int i = 0; i < keyBytes.length && pipeList.size() < maxpipe; i++) {
-            byte bb = (byte)((int)((int)keyBytes[i] % 0x1d));
+            byte bb = (byte)((int)((int)keyBytes[i] % modulo));
             Byte cb = Byte.valueOf(bb);
-            if (!hashBytes.contains(cb)) {
+            if (hashBytes.contains(cb) && otherCiphers) {
+				bb = (byte)((int)(cb + Math.pow(2, i) + keyBytes.length) % modulo);
+				cb = Byte.valueOf(bb);
+			}
+			if (!hashBytes.contains(cb)) {
                 hashBytes.add(cb);
                 CipherEnum cipherEnm = CipherEnum.getByteCipherDict().get(cb);
                 dmsg += "keybyts[" + i + "]="+ keyBytes[i] + " byte bb = " + (int)bb + " CipherEnum: " + cipherEnm.getName() + "\n \t";
@@ -212,10 +221,11 @@ public class CipherPipe {
      */
     public CipherPipe(String key, String hash,
                       EncodeEnum encType, ZipType zpType,
-                      KeyHash kh, CipherMode2 cmode2) {
+                      KeyHash kh, CipherMode2 cmode2,
+                      boolean includeStreamCiphers) {
 
         this(CryptHelper.getKeyBytesSimple(key, hash, 16),
-                Constants.MAX_PIPE_LEN, encType, zpType, kh, cmode2);
+                Constants.MAX_PIPE_LEN, encType, zpType, kh, cmode2, includeStreamCiphers);
         cipherKey = key;
         cipherHash = hash;
     }
@@ -225,8 +235,9 @@ public class CipherPipe {
      * all other parameters are set to default
      * @param key only users secret key
      */
-    public CipherPipe(String key) {
-        this(key, KeyHash.Hex.hash(key), EncodeEnum.Base64, ZipType.None, KeyHash.Hex, CipherMode2.ECB);
+    public CipherPipe(String key, boolean includeStreamCiphers) {
+        this(key, KeyHash.Hex.hash(key), EncodeEnum.Base64, ZipType.None, KeyHash.Hex,
+                CipherMode2.ECB, includeStreamCiphers);
         cipherKey = key;
     }
     /*
@@ -345,8 +356,10 @@ public class CipherPipe {
             case XTea:
             case ZenMatrix2:
             default:
-                CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
-                encryptBytes = cryptBounceCastle.encrypt(inBytes);
+                // CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
+                // encryptBytes = cryptBounceCastle.encrypt(inBytes);
+                BlockCipherBC bcbc = new BlockCipherBC(cpParams, true);
+                encryptBytes = bcbc.encrypt(inBytes);
                 break;
         }
 
@@ -441,10 +454,10 @@ public class CipherPipe {
             // case ZenMatrix:
             case ZenMatrix2:
             default:
-                CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
-                decryptBytes = cryptBounceCastle.decrypt(cipherBytes);
-                // TODO: full port standard bouncycastle wrapper to java
-                // TODO: compare and test with C#
+                // CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
+                // decryptBytes = cryptBounceCastle.decrypt(cipherBytes);
+                BlockCipherBC bcbc = new BlockCipherBC(cpParams, false);
+                decryptBytes = bcbc.decrypt(cipherBytes);
                 break;
         }
 

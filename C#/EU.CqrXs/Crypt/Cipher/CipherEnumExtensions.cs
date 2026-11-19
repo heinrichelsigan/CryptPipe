@@ -29,9 +29,11 @@ namespace EU.CqrXs.Crypt.Cipher
             {
                 Dictionary<byte, CipherEnum> hexCipherDict = new Dictionary<byte, CipherEnum>();
                 foreach (CipherEnum cipher in CipherEnumExtensions.GetCipherTypes())
-                    hexCipherDict.Add((byte)cipher, cipher);
+                    hexCipherDict.Add((byte)((int)cipher), cipher);
                 return hexCipherDict;
+            
             }
+
         }
 
         /// <summary>

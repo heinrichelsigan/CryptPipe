@@ -10,14 +10,10 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
     /// </summary>
     public class StreamCipherBC : IStreamCipher
     {
-
-        #region fields
-
+        
+        #region fields and properties
+        
         protected internal bool initialised = false, encryption;
-
-        #endregion fields
-
-        #region properties
         
         /// <summary>
         /// Base symmetric key block cipher interface, contains at runtime block cipher instance to constructor
@@ -26,15 +22,11 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
 
         public ICipherParameters StreamCipherParameters { get; private set; } 
         
-        #endregion properties
+        #endregion fields and properties
         
-        #region IStreamCipher interface
-
-        private const string SYMMCIPHERALGONAME2 = "StreamCipher";
-
-        public new string AlgorithmName => (CryptoStreamCipher.AlgorithmName == null)
-            ? SYMMCIPHERALGONAME2
-            : CryptoStreamCipher.AlgorithmName; 
+        #region IStreamCipher interface imlementation
+        
+        public new string AlgorithmName =>  CryptoStreamCipher.AlgorithmName;
 
         public void Reset() => CryptoStreamCipher.Reset();
 
@@ -53,9 +45,7 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
         public void ProcessBytes(byte[] input, int inOff, int length, byte[] output, int outOff)
         {            
             output = new byte[input.Length];
-            
-            int i = inOff;
-            int j = outOff;
+            int i = inOff, j = outOff;
             for (i = inOff; i < (inOff + length); i++)
             {
                 output[j++] = CryptoStreamCipher.ReturnByte(input[i]);
@@ -65,48 +55,57 @@ namespace EU.CqrXs.Crypt.Cipher.Symmetric
         public void ProcessBytes(ReadOnlySpan<byte> input, Span<byte> output)
         {           
             output = new byte[input.Length];
-            
             for (int i = 0; i < input.Length; i++)
             {
                 output[i] = ReturnByte(input[i]);
             }
         }
 
-        #endregion IStreamCipher interface
+        #endregion IStreamCipher interface imlementation
 
-
-        public StreamCipherBC(CryptParams cparams, bool init = true)
+        
+        /// <summary>
+        /// vtor og <see cref="StreamCipherBC"/>
+        /// </summary>
+        /// <param name="cparams">CryptParams</param>
+        /// <param name="encrytion">true for encrytion, false for decrytion</param>
+        public StreamCipherBC(CryptParams cparams, bool encrytion = true)
         {
             CryptoStreamCipher = cparams.StreamCipher == null ? new ChaChaEngine() : cparams.StreamCipher;
-
-            StreamCipherParameters = cparams.StreamCipherParameters;
-            Init(init, StreamCipherParameters);
+            StreamCipherParameters = cparams.CipherParameters;
+            Init(encrytion, StreamCipherParameters);
         }
-
-
-        public byte[] Encrypt(byte[] plainTextData)
+        
+        /// <summary>
+        /// generic Encryt for<see cref="StreamCipherBC"/>
+        /// </summary>
+        /// <param name="plainData">lain data bytes</param>
+        /// <returns>ciher data bytes</returns>
+        public byte[] Encrypt(byte[] plainData)
         {           
-            byte[] cipherTextData = new byte[plainTextData.Length];
-            
-            for (int j = 0; j < plainTextData.Length; j++)
+            byte[] cipherData = new byte[plainData.Length];
+            for (int j = 0; j < plainData.Length; j++)
             {
-                cipherTextData[j] = ReturnByte(plainTextData[j]);
+                cipherData[j] = ReturnByte(plainData[j]);
             }
 
-            return cipherTextData;
+            return cipherData;
         }
 
-
-        public byte[] Decrypt(byte[] cipherTextData)
+        /// <summary>
+        /// generic Decryt for <see cref="StreamCipherBC"/>
+        /// </summary>
+        /// <param name="cipherData">encryted ciher data<see cref="T:byte[]"/></param>
+        /// <returns>lain data  data <see cref="T:byte[]"/></returns>
+        public byte[] Decrypt(byte[] cipherData)
         {
-            byte[] plainTextData = new byte[cipherTextData.Length];
-            
-            for (int j = 0; j < cipherTextData.Length; j++)
+            byte[] plainData = new byte[cipherData.Length];
+            for (int j = 0; j < cipherData.Length; j++)
             {
-                plainTextData[j] = ReturnByte(cipherTextData[j]);
+                plainData[j] = ReturnByte(cipherData[j]);
             }
 
-            return plainTextData;
+            return plainData;
         }
     }
 }

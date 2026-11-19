@@ -468,23 +468,6 @@ namespace EU.CqrXs.Gui.Forms
             return null;
         }
 
-        public AsymmetricCipherPipe? GetACPipeFromFileName(string fileName)
-        {
-            if (string.IsNullOrEmpty(fileName))
-                throw new ArgumentNullException(nameof(fileName));
-
-            string origName = fileName.StripAsymmetricCipherPipeFromFileName(out AsymmetricCipherPipe? aCPipe);
-            if (aCPipe != null &&
-                (!string.IsNullOrEmpty(aCPipe.PipeString) || aCPipe.ZType != ZipType.None || aCPipe.EncodeType != EncodingType.None || aCPipe.KHash != KeyHash.Hex))
-            {
-                aCPipe = new AsymmetricCipherPipe(aCPipe);
-                return aCPipe;
-            }
-
-            return null;
-        }
-
-
         public CipherPipe? GetCPipeFromFileName(string fileName)
         {
             if (string.IsNullOrEmpty(fileName))
@@ -600,13 +583,13 @@ namespace EU.CqrXs.Gui.Forms
             {
                 Program.formZenMatrix.Hide();
                 if (closeInsteadHide && Program.formZenMatrix != null && !Program.formZenMatrix.Disposing)
-                    Program.formZenMatrix.Close();                    
+                    Program.formZenMatrix.Close();
             }
             if (Program.form123Fish != null && !Program.form123Fish.Disposing && Program.form123Fish.Name != formToKeepVisibleName)
             {
                 Program.form123Fish.Hide();
                 if (closeInsteadHide && Program.form123Fish != null && !Program.form123Fish.Disposing)
-                    Program.form123Fish.Close();                     
+                    Program.form123Fish.Close();
             }
             if (Program.formSimple != null && !Program.formSimple.Disposing && Program.formSimple.Name != formToKeepVisibleName)
             {
@@ -619,13 +602,7 @@ namespace EU.CqrXs.Gui.Forms
                 Program.formComplex.Hide();
                 // if (closeInsteadHide && Program.formComplex != null && !Program.formComplex.Disposing)
                 //     Program.formComplex.Close();
-            }
-            if (Program.formAsymmetric != null && !Program.formAsymmetric.Disposing && Program.formAsymmetric.Name != formToKeepVisibleName)
-            {
-                Program.formAsymmetric.Hide();
-                if (closeInsteadHide && Program.formAsymmetric != null && !Program.formAsymmetric.Disposing)
-                    Program.formAsymmetric.Close();
-            }
+            }        
         }
     }
 }

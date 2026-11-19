@@ -230,7 +230,7 @@ namespace EU.CqrXs.SelfExtract
                 // Create cipher pipe for en-/decryption
                 SecureCipherPipe cpipe = (algos.Length > 0 || string.IsNullOrEmpty(passKey)) ?
                                 new SecureCipherPipe(algos, Constants.PIPE_MAX_LEN, cmode2) :
-                                new SecureCipherPipe(passKey, cmode2, verbose);
+                                new SecureCipherPipe(passKey, cmode2, false);
 
                 PrintSecureCipherPipe(cpipe, reverseDirection);
                 outBytes = cpipe.CryptCodeBytes(inBytes, passKey ?? "", reverseDirection, cmode2);
@@ -255,7 +255,7 @@ namespace EU.CqrXs.SelfExtract
             // Create cipher pipe for en-/decryption
             CipherPipe pipe = (algos.Length > 0 || string.IsNullOrEmpty(passKey)) ?
                             new CipherPipe(algos, Constants.PIPE_MAX_LEN, encodingType, zipType, keyHash, cmode2) :
-                            new CipherPipe(passKey, keyHash.Hash(passKey), encodingType, zipType, keyHash, cmode2, verbose);
+                            new CipherPipe(passKey, keyHash.Hash(passKey), encodingType, zipType, keyHash, cmode2, false);
 
             PrintCipherPipe(pipe, reverseDirection);
             outBytes = pipe.CryptCodeBytes(inBytes,

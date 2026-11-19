@@ -44,14 +44,9 @@ public class StreamCipherBC implements StreamCipher {
     public int processBytes(byte[] in, int inOff, int len, byte[] out, int outOff) {
 
         out = new byte[in.length];
-
-        int i = inOff;
-        int j = outOff;
-        int l= 0;
-        // simulate stream
-        for (i = inOff; i < (inOff + len); i++) {
-            out[j++] = cryptoStreamCipher.returnByte(in[i]);
-            l++;
+        int i = inOff,  j = outOff, l= 0;
+        for (i = inOff; i < (inOff + len); l++) {
+            out[j++] = cryptoStreamCipher.returnByte(in[i++]);
         }
 
         return  l;
@@ -78,7 +73,7 @@ public class StreamCipherBC implements StreamCipher {
     public StreamCipherBC(CryptParams cparams, boolean init)  {
 
         cryptoStreamCipher = (cparams.streamCipher== null) ? new ChaChaEngine() : cparams.streamCipher;
-        streamCipherParameters = cparams.streamCipherParameters;
+        streamCipherParameters = cparams.cipherParameters;
         init(init, streamCipherParameters);
     }
 
@@ -91,7 +86,6 @@ public class StreamCipherBC implements StreamCipher {
     public byte[] encrypt(byte[] plainData) {
 
         byte[] cipherData = new byte[plainData.length];
-
         for (int j = 0; j < plainData.length; j++)  {
             cipherData[j] = returnByte(plainData[j]);
         }
@@ -107,7 +101,6 @@ public class StreamCipherBC implements StreamCipher {
     public byte[] decrypt(byte[] cipherData) {
 
         byte[] plainData = new byte[cipherData.length];
-
         for (int j = 0; j < cipherData.length; j++) {
             plainData[j] = returnByte(cipherData[j]);
         }

@@ -300,7 +300,7 @@ namespace EU.CqrXs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to VisualStudio 2026 C# 10.0.
+        ///   Looks up a localized string similar to VisualStudio 2026 C# 11.0.
         /// </summary>
         internal static string build_with {
             get {
