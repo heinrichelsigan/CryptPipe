@@ -184,6 +184,7 @@ namespace EU.CqrXs.Crypt.Cipher
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.TwofishEngine();
                     break;
                 case CipherEnum.Fish3:
+                    SetBlockSizeKeyIvLen(512, 32, 32);
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(Size);
                     break;
                 case CipherEnum.Camellia:
