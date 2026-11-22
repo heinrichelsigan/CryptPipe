@@ -80,7 +80,7 @@ public class CryptHelper {
 			deltaBytes = CryptHelper.fillWithZeros(deltaBytes, deltalen);
 			bytes = CryptHelper.tarBytes(bytes, deltaBytes);			
 		}
-        System.arraycopy(bytes,0, outBytes, 0, length);
+        System.arraycopy(bytes, 0, outBytes, 0, length);
 
         return outBytes;
     }

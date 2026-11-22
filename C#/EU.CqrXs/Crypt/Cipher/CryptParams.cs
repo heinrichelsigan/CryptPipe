@@ -159,6 +159,8 @@ namespace EU.CqrXs.Crypt.Cipher
         public void SetCioherEngine(CipherEnum cipher)
         {
 
+            SetBlockSizeKeyIvLen(256, 32, 32);
+
             switch (cipher)
             {
                 case CipherEnum.Aes:
@@ -183,8 +185,7 @@ namespace EU.CqrXs.Crypt.Cipher
                     SetBlockSizeKeyIvLen();
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.TwofishEngine();
                     break;
-                case CipherEnum.Fish3:
-                    SetBlockSizeKeyIvLen(256, 32, 32);
+                case CipherEnum.Fish3:                    
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.ThreefishEngine(Size);
                     break;
                 case CipherEnum.Camellia:
@@ -236,14 +237,13 @@ namespace EU.CqrXs.Crypt.Cipher
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC532Engine();
                     break;
                 case CipherEnum.RC564:
-                    Size = 64;
+                    SetBlockSizeKeyIvLen(54, 32, 32);
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC564Engine();
                     break;
                 case CipherEnum.RC6:
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RC6Engine();
                     break;
                 case CipherEnum.Rijndael:
-                    SetBlockSizeKeyIvLen(256, 32, 32);
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.RijndaelEngine();
                     break;
                 case CipherEnum.Seed:
@@ -259,7 +259,6 @@ namespace EU.CqrXs.Crypt.Cipher
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SM4Engine();                    
                     break;
                 case CipherEnum.SkipJack:
-                    SetBlockSizeKeyIvLen(256, 32, 32);
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.SkipjackEngine();
                     break;
                 case CipherEnum.Tea:                    
@@ -271,7 +270,6 @@ namespace EU.CqrXs.Crypt.Cipher
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.TnepresEngine();                    
                     break;
                 case CipherEnum.XTea:
-                    SetBlockSizeKeyIvLen(256, 32, 32);
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
                     break;
                 case CipherEnum.ZenMatrix:
@@ -285,39 +283,38 @@ namespace EU.CqrXs.Crypt.Cipher
                     break;
 
                 case CipherEnum.ChaCha:
-                    StreamCipher = new ChaChaEngine();
                     SetKeyIvLen(32, 8);
+                    StreamCipher = new ChaChaEngine();                   
                     break;
                 case CipherEnum.ChaCha7539:
-                    StreamCipher = new ChaCha7539Engine();
                     SetKeyIvLen(32, 12);
+                    StreamCipher = new ChaCha7539Engine();                    
                     break;
                 case CipherEnum.XChaCha20:
-                    StreamCipher = new XChaCha20Engine();
                     SetKeyIvLen(32, 24);
+                    StreamCipher = new XChaCha20Engine();                    
                     break;
                 case CipherEnum.HC128:
-                    StreamCipher = new HC128Engine();
                     SetKeyIvLen(16, 16);
+                    StreamCipher = new HC128Engine();                    
                     break;
                 case CipherEnum.HC256:
-                    StreamCipher = new HC256Engine();
                     SetKeyIvLen(32, 16);
+                    StreamCipher = new HC256Engine();                    
                     break;
                 case CipherEnum.RC4:
                     StreamCipher = new RC4Engine();
                     break;
                 case CipherEnum.Isaac:
-                    StreamCipher = new IsaacEngine();
-                    SetKeyIvLen();
+                    StreamCipher = new IsaacEngine();                    
                     break;
                 case CipherEnum.Salsa20:
-                    StreamCipher = new Salsa20Engine();
                     SetKeyIvLen(32, 8);
+                    StreamCipher = new Salsa20Engine();                    
                     break;
                 case CipherEnum.XSalsa20:
-                    StreamCipher = new XSalsa20Engine();
                     SetKeyIvLen(32, 24);
+                    StreamCipher = new XSalsa20Engine();                    
                     break;
                 case CipherEnum.Vmpc: // VmpcK 
                     StreamCipher = new VmpcEngine();

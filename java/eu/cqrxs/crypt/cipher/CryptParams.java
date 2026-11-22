@@ -163,6 +163,7 @@ public class CryptParams {
             CipherEnum cipher, byte[] keyed, byte[] hashed)  {
 
         KeyParameter keyParam;;
+		setSizeKeyIvLen(256, 32, 32);
 
         switch (cipher) {
             case Aes:
@@ -173,12 +174,12 @@ public class CryptParams {
                 size = 128;
                 break;
             case AesLight:
+				setSizeKeyIvLen(128, 32, 32);
                 blockCipher = new AESLightEngine();
-                size = 128;
                 break;
             case Aria:
+				setSizeKeyIvLen(128, 32, 32);
                 blockCipher = new ARIAEngine();
-                size = 128;
                 break;
             case BlowFish: ;
                 setSizeKeyIvLen(64, 8,  8);
@@ -210,14 +211,14 @@ public class CryptParams {
                 break;
             case Des:
                 blockCipher = new DESEngine();
-                setSizeKeyIvLen(64, 8,  8);
+                setSizeKeyIvLen(64, 8, 8);
                 break;
             case Des3:
 				setSizeKeyIvLen(128, 16,  8);
                 blockCipher = new DESedeEngine();                
                 break;
             case Dstu7624:
-                setSizeKeyIvLen(128, 32,  16);
+                setSizeKeyIvLen(128, 16,  16);
                 blockCipher = new DSTU7624Engine(size);
                 break;
             case Gost28147:
@@ -238,15 +239,14 @@ public class CryptParams {
                 blockCipher = new RC532Engine();
                 break;
             case RC564:
-                size = 64;
+				setSizeKeyIvLen(64, 32,  32);
 				blockCipher = new RC564Engine();                
                 break;
             case RC6:
-				size = 128;
+				// size = 128;
                 blockCipher = new RC6Engine();                
                 break;
             case Rijndael:
-				setSizeKeyIvLen(256, 32,  32);
                 blockCipher = new RijndaelEngine();
                 break;
             case Seed:
@@ -262,7 +262,6 @@ public class CryptParams {
                 blockCipher = new SM4Engine();                
                 break;
             case SkipJack:
-				setSizeKeyIvLen(256, 32,  32);
                 blockCipher = new SkipjackEngine();
                 break;
             case Tea:
@@ -292,39 +291,38 @@ public class CryptParams {
                 // break;
              */
             case ChaCha:
-                streamCipher = new ChaChaEngine();
-                setKeyIvLen(32, 8);
+				setKeyIvLen(32, 8);
+                streamCipher = new ChaChaEngine();                
                 break;
             case ChaCha7539:
-                streamCipher = new ChaCha7539Engine();
-                setKeyIvLen(32, 12);
+				setKeyIvLen(32, 12);
+                streamCipher = new ChaCha7539Engine();                
                 break;
             case XChaCha20:
-                streamCipher = new XChaCha20Engine();
-                setKeyIvLen(32, 24);
+				setKeyIvLen(32, 24);
+                streamCipher = new XChaCha20Engine();                
                 break;
             case HC128:
-                streamCipher = new HC128Engine();
-                setKeyIvLen(16, 16);
+				setKeyIvLen(16, 16);
+                streamCipher = new HC128Engine();                
                 break;
             case HC256:
-                streamCipher = new HC256Engine();
-                setKeyIvLen(32, 16);
+				setKeyIvLen(32, 16);
+                streamCipher = new HC256Engine();                
                 break;
             case RC4:
                 streamCipher = new RC4Engine();
-                setKeyIvLen(32, 32);
                 break;
             case Isaac:
                 streamCipher = new ISAACEngine();
                 break;
             case Salsa20:
-                streamCipher = new Salsa20Engine();
-                setKeyIvLen(32, 8);
+				setKeyIvLen(32, 8);
+                streamCipher = new Salsa20Engine();                
                 break;
             case XSalsa20:
-                streamCipher = new XSalsa20Engine();
-                setKeyIvLen(32, 24);
+				setKeyIvLen(32, 24);
+                streamCipher = new XSalsa20Engine();                
                 break;
             case CipherEnum.Vmpc: // VmpcK
                 streamCipher = new VMPCEngine();
