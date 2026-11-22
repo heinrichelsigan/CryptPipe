@@ -47,6 +47,8 @@ public class CryptParams {
 
     public String key, hash;
 
+    public byte[] keyBytes, hashBytes;
+
     public CipherMode2 cmode2;
 
     public int size, blockSize;
@@ -69,6 +71,8 @@ public class CryptParams {
         ivLen = 32;
         cmode2 = CipherMode2.ECB;
         //noinspection deprecation
+        keyBytes = new byte[keyLen];
+        hashBytes = new byte[ivLen];
         blockCipher = null;
         streamCipher = null;
         keyHashing = KeyHash.Hex;
@@ -96,6 +100,7 @@ public class CryptParams {
         key = (secretKey == null || secretKey.isEmpty()) ? Constants.AUTHOR_EMAIL : secretKey;
         hash = (keyHashed == null || keyHashed.isEmpty()) ? keyHashing.hash(secretKey) : keyHashed;
         cmode2 = cMode2;
+
 
         setCipherEngineWithKeyIvSize(cipher,
                 secretKey.getBytes(StandardCharsets.UTF_8),
@@ -273,7 +278,8 @@ public class CryptParams {
                 blockCipher = new TnepresEngine();                
                 break;
             case XTea:
-				setSizeKeyIvLen(256, 32, 32);
+                size = 128;
+				setSizeKeyIvLen(128, 32, 32);
                 blockCipher = new XTEAEngine();                
                 break;
             case ZenMatrix:
@@ -339,17 +345,23 @@ public class CryptParams {
         if (streamCipher == null)
             blockSize = blockCipher.getBlockSize();
 
+        keyBytes = new byte[keyLen];
+        hashBytes = new byte[ivLen];
+
         if (keyLen > 0)
             keyed = CryptHelper.stretchCutToLength(keyed, keyLen);
         if (ivLen > 0)
             hashed = CryptHelper.stretchCutToLength(hashed, ivLen);
 
-        keyParam = new KeyParameter(keyed);
-        cipherParameters =  new ParametersWithIV(keyParam, hashed);
+        System.arraycopy(keyBytes, 0, keyed, 0, keyLen);
+        System.arraycopy(hashBytes, 0, hashed, 0, ivLen);
+
+        keyParam = new KeyParameter(keyBytes);
+        cipherParameters =  new ParametersWithIV(keyParam, hashBytes);
 
         if (streamCipher != null)  {
             cipherParameters = (cipher == CipherEnum.Isaac || cipher == CipherEnum.RC4) ?
-                    keyParam : new ParametersWithIV(keyParam, hashed);
+                    keyParam : new ParametersWithIV(keyParam, hashBytes);
         }
 
         // return ;

@@ -1405,6 +1405,8 @@ public class CqrJdFrame extends CqrBaseFrame {
 		if (cipherPipeString.length() > 0) {
 			ciphers = CipherEnum.parsePipeText(cipherPipeString);
 		}
+		boolean otherCiphers = isMenuItemChecked(menuOptions_otherCiphers);
+
 		CipherPipe pipe = new CipherPipe(ciphers, 8, encodeType, zipType, keyHash, cmode2);
 
 		String encrypted = "";

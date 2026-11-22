@@ -230,10 +230,10 @@ public class SecureCipherPipe extends CipherPipe {
                 break;
 
             default:
-                //CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
-                // encryptBytes = cryptBounceCastle.encrypt(inBytes);
-                BlockCipherBC bcbc = new BlockCipherBC(cpParams, true);
-                encryptBytes = bcbc.encrypt(inBytes);
+                CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
+                encryptBytes = cryptBounceCastle.encrypt(inBytes);
+                // BlockCipherBC bcbc = new BlockCipherBC(cpParams, true);
+                // encryptBytes = bcbc.encrypt(inBytes);
                 break;
         }
 
@@ -257,6 +257,9 @@ public class SecureCipherPipe extends CipherPipe {
 
         byte[] decryptBytes = cipherBytes; 
         CryptParams cpParams = new CryptParams(cipherAlgo, hashKey, hashKey, cmode2);
+        DbgWriter.msg(String.format("Now algo is %s \n",
+                cipherAlgo.toString()), false);
+
 
         switch (cipherAlgo) {
             case CipherEnum.JAes:
@@ -291,10 +294,10 @@ public class SecureCipherPipe extends CipherPipe {
                 break;
 
             default:
-                // CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
-                // decryptBytes = cryptBounceCastle.decrypt(cipherBytes);
-                BlockCipherBC bcbc = new BlockCipherBC(cpParams, false);
-                decryptBytes = bcbc.decrypt(cipherBytes);
+                CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
+                decryptBytes = cryptBounceCastle.decrypt(cipherBytes);
+                // BlockCipherBC bcbc = new BlockCipherBC(cpParams, false);
+                // decryptBytes = bcbc.decrypt(cipherBytes);
                 break;
         }
 

@@ -294,6 +294,7 @@ public class CipherPipe {
 
         byte[] encryptBytes = inBytes;
         CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hashedKey, cmode2);
+        DbgWriter.msg(String.format("Now algo is %s \n", cipherAlgo.toString()), true);
 
         switch (cipherAlgo) {
             case CipherEnum.JAes:
@@ -356,10 +357,14 @@ public class CipherPipe {
             case XTea:
             case ZenMatrix2:
             default:
-                // CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
-                // encryptBytes = cryptBounceCastle.encrypt(inBytes);
-                BlockCipherBC bcbc = new BlockCipherBC(cpParams, true);
-                encryptBytes = bcbc.encrypt(inBytes);
+                if (cipherAlgo == CipherEnum.XTea) {
+                    BlockCipherBC bcbc = new BlockCipherBC(cpParams, true);
+                    encryptBytes = bcbc.encrypt(inBytes);
+                }
+                else {
+                    CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
+                    encryptBytes = cryptBounceCastle.encrypt(inBytes);
+                }
                 break;
         }
 
@@ -391,6 +396,7 @@ public class CipherPipe {
 
         byte[] decryptBytes = cipherBytes; 
         CryptParams cpParams = new CryptParams(cipherAlgo, secretKey, hash, cmode2);
+        DbgWriter.msg(String.format("Now algo is %s \n", cipherAlgo.toString()), false);
 
         switch (cipherAlgo) {
             case CipherEnum.JAes:
@@ -454,10 +460,15 @@ public class CipherPipe {
             // case ZenMatrix:
             case ZenMatrix2:
             default:
-                // CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
-                // decryptBytes = cryptBounceCastle.decrypt(cipherBytes);
-                BlockCipherBC bcbc = new BlockCipherBC(cpParams, false);
-                decryptBytes = bcbc.decrypt(cipherBytes);
+                if (cipherAlgo == CipherEnum.XTea) {
+                    BlockCipherBC bcbc = new BlockCipherBC(cpParams, false);
+                    decryptBytes = bcbc.decrypt(cipherBytes);
+                }
+                else {
+                    CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
+                    decryptBytes = cryptBounceCastle.decrypt(cipherBytes);
+                }
+
                 break;
         }
 
