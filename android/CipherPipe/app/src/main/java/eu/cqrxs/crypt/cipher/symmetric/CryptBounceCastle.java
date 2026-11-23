@@ -31,6 +31,7 @@ import org.bouncycastle.crypto.modes.EAXBlockCipher;
 import org.bouncycastle.crypto.modes.GOFBBlockCipher;
 import org.bouncycastle.crypto.paddings.BlockCipherPadding;
 import org.bouncycastle.crypto.paddings.PaddedBufferedBlockCipher;
+import org.bouncycastle.crypto.params.KeyParameter;
 import org.bouncycastle.crypto.params.ParametersWithIV;
 
 /**
@@ -45,7 +46,7 @@ public class CryptBounceCastle  {
 
     private byte[] tmpKey, tmpIv;
 
-    byte[] key, iv;
+    static byte[] key, iv;
 
     public int size, keyLen, ivLen;
     public String mode;
@@ -66,7 +67,7 @@ public class CryptBounceCastle  {
         CryptoBlockCipher = null;
         CryptoBlockCipherPadding = null;
         keyLen = 32;
-		ivLen = 32;
+        ivLen = 32;
         size = 256;
         mode = "ECB";
         cmode2 = CipherMode2.ECB;
@@ -74,26 +75,26 @@ public class CryptBounceCastle  {
         initKeys();
     }
 
-	public void initKeys() {
-		
-		privateKey = "";
-        privateHash = "";
-		tmpKey = new byte[keyLen];
-		tmpIv = new byte[ivLen];
+    public void initKeys() {
 
-		key = new byte[keyLen];
-		iv = new byte[ivLen];
+        privateKey = "";
+        privateHash = "";
+        tmpKey = new byte[keyLen];
+        tmpIv = new byte[ivLen];
+
+        key = new byte[keyLen];
+        iv = new byte[ivLen];
 		/*
 		for (int i = 0; i < keyLen; i++) {
 			key[i] = (byte)0;
-			tmpKey[i] = (byte)0;			
+			tmpKey[i] = (byte)0;
 			if (i < ivLen) {
 				iv[i] = (byte)0;
 				tmpIv[i] = (byte)0;
 			}
 		}
 		*/
-	}
+    }
 
     /**
      * Generic CryptBounceCastle constructor
@@ -111,12 +112,12 @@ public class CryptBounceCastle  {
         keyLen = cparams.keyLen;
         ivLen = cparams.ivLen;
         size = Math.min(cparams.size, CryptoBlockCipher.getBlockSize());
+        // size = cparams.size;
         mode = cparams.getMode();
         cmode2 = cparams.cmode2;
 
-        if (init)
-        {
-			initKeys();
+        if (init) {
+            initKeys();
 
             if (cparams.key == null || cparams.key.isEmpty())
                 throw new IllegalArgumentException("cparams.Key");
@@ -127,13 +128,12 @@ public class CryptBounceCastle  {
             tmpKey = privateKey.getBytes(Charset.forName("UTF-8"));
             tmpIv = privateHash.getBytes(Charset.forName("UTF-8"));
 
-			int minKeyLen = (keyLen < tmpKey.length) ? keyLen : tmpKey.length;
+            int minKeyLen = (keyLen < tmpKey.length) ? keyLen : tmpKey.length;
             int minIvLen = (ivLen < tmpIv.length) ? ivLen : tmpIv.length;
             System.arraycopy(tmpKey, 0, key, 0, minKeyLen);
             System.arraycopy(tmpIv, 0, iv, 0, minIvLen);
         }
-        else
-        {
+        else {
             if (tmpKey == null || tmpIv == null || tmpKey.length <= 1 || tmpIv.length <= 1)
             {
                 tmpKey = new byte[keyLen];
@@ -164,50 +164,49 @@ public class CryptBounceCastle  {
         tmpIv = new byte[ivLen];
         tmpIv = secretHash.getBytes(Charset.forName("UTF-8"));
 
-		int maxKeyLen = (keyLen > tmpKey.length) ? tmpKey.length : keyLen;
+        int maxKeyLen = (keyLen > tmpKey.length) ? tmpKey.length : keyLen;
         int maxIvLen = (ivLen > tmpIv.length) ? tmpIv.length : ivLen;
-		
+
         key = new byte[keyLen];
         iv = new byte[ivLen];
-		for (int i = 0; i < keyLen; i++) {
-			key[i] = (byte)0;
-			if (i < ivLen) {
-				iv[i] = (byte)0;
-			}
-		}
-		
+        for (int i = 0; i < keyLen; i++) {
+            key[i] = (byte)0;
+            if (i < ivLen) {
+                iv[i] = (byte)0;
+            }
+        }
+
         System.arraycopy(tmpKey, 0, key, 0, maxKeyLen);
         System.arraycopy(tmpIv, 0, iv, 0, maxIvLen);
 
         byte[] keyBytes = CryptHelper.tarBytes(key, iv);
         return keyBytes;
     }
-	
-	
-	/**
-	 * canAlgoKeyIV
-	 * @param cryptoBlockCipher {@link BlockCipher}
-	 * @return true, if algo handles initialization with key and initialization vector
-	 */
-	protected boolean canAlgoKeyIV(BlockCipher cryptoBlockCipher)
-	{
-		if (cryptoBlockCipher == null)
-			cryptoBlockCipher = CryptoBlockCipher;
-		String algoName = cryptoBlockCipher.getAlgorithmName().toUpperCase();
-		if (algoName.startsWith("AES") || algoName.startsWith("RIJNDAEL"))
-			return false;
-		if (algoName.startsWith("ARIA") || algoName.startsWith("ASCON"))
-			return false;
-		if (algoName.startsWith("CAST") || algoName.startsWith("GOST"))
-			return false;
-		if (algoName.startsWith("RC") || algoName.startsWith("IDEA"))
-			return false;
-		if (algoName.startsWith("SKIPJACK") || algoName == "DESEDE")
-			return false;
-		if (algoName.startsWith("TEA") || algoName.startsWith("XTEA"))
-			return false;
-		return true;
-	}
+
+
+    /**
+     * canAlgoKeyIV
+     * @param cryptoBlockCipher {@link BlockCipher}
+     * @return true, if algo handles initialization with key and initialization vector
+     */
+    protected boolean canAlgoKeyIV(BlockCipher cryptoBlockCipher) {
+        if (cryptoBlockCipher == null)
+            cryptoBlockCipher = CryptoBlockCipher;
+        String algoName = cryptoBlockCipher.getAlgorithmName().toUpperCase();
+        if (algoName.startsWith("AES") || algoName.startsWith("RIJNDAEL"))
+            return false;
+        if (algoName.startsWith("ARIA") || algoName.startsWith("ASCON"))
+            return false;
+        if (algoName.startsWith("CAST") || algoName.startsWith("GOST"))
+            return false;
+        if (algoName.startsWith("RC") || algoName.startsWith("IDEA"))
+            return false;
+        if (algoName.startsWith("SKIPJACK") || algoName == "DESEDE")
+            return false;
+        if (algoName.startsWith("TEA") || algoName.startsWith("XTEA"))
+            return false;
+        return true;
+    }
 
 
     /***
@@ -219,12 +218,11 @@ public class CryptBounceCastle  {
     @SuppressWarnings("deprecation")
     public byte[] encrypt(byte[] plainData)  throws InvalidCipherTextException {
         var cipher = CryptoBlockCipher;
-		plainData = (CryptoBlockCipher.getAlgorithmName() == "RC564" || CryptoBlockCipher.getAlgorithmName() == "RC5-64") ?
-			EnDeCodeHelper.getBytesFromBytes(plainData, 64, true) : plainData;
+        plainData = (CryptoBlockCipher.getAlgorithmName() == "RC564" || CryptoBlockCipher.getAlgorithmName() == "RC5-64") ?
+                EnDeCodeHelper.getBytesFromBytes(plainData, 64, true) : plainData;
         PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(CryptoBlockCipher, CryptoBlockCipherPadding);
 
-        switch (cmode2)
-        {
+        switch (cmode2) {
             case CipherMode2.CBC:
                 cipherMode = new PaddedBufferedBlockCipher(new CBCBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
                 break;
@@ -259,16 +257,16 @@ public class CryptBounceCastle  {
         }
 
         CipherParameters keyParam;
-		if (CryptoBlockCipher.getAlgorithmName() == "RC564" || CryptoBlockCipher.getAlgorithmName() == "RC5-64") 
+        if (CryptoBlockCipher.getAlgorithmName() == "RC564" || CryptoBlockCipher.getAlgorithmName() == "RC5-64")
             keyParam = new org.bouncycastle.crypto.params.RC5Parameters(key, 2);
-		else 
-			keyParam = new org.bouncycastle.crypto.params.KeyParameter(key);
+        else
+            keyParam = new org.bouncycastle.crypto.params.KeyParameter(key);
         CipherParameters keyParamIV = new org.bouncycastle.crypto.params.ParametersWithIV(keyParam, iv);
 
         if (cmode2 == CipherMode2.ECB || !canAlgoKeyIV(CryptoBlockCipher))
-			cipherMode.init(true, keyParam);
+            cipherMode.init(true, keyParam);
         else
-			cipherMode.init(true, keyParamIV);
+            cipherMode.init(true, keyParamIV);
 
         if (PadBufBChipger == null && cipherMode != null)
             PadBufBChipger = cipherMode;
@@ -294,8 +292,7 @@ public class CryptBounceCastle  {
         var cipher = CryptoBlockCipher;
         PaddedBufferedBlockCipher cipherMode = new PaddedBufferedBlockCipher(CryptoBlockCipher, CryptoBlockCipherPadding);
 
-        switch (cmode2)
-        {
+        switch (cmode2) {
             case CipherMode2.CBC:
                 cipherMode = new PaddedBufferedBlockCipher(new CBCBlockCipher(CryptoBlockCipher), CryptoBlockCipherPadding);
                 break;
@@ -330,20 +327,20 @@ public class CryptBounceCastle  {
         }
         // cipherMode.Reset()
 
-		CipherParameters keyParam;
-		if (CryptoBlockCipher.getAlgorithmName() == "RC564" || CryptoBlockCipher.getAlgorithmName() == "RC5-64") 
+        CipherParameters keyParam;
+        if (CryptoBlockCipher.getAlgorithmName() == "RC564" || CryptoBlockCipher.getAlgorithmName() == "RC5-64")
             keyParam = new org.bouncycastle.crypto.params.RC5Parameters(key, 2);
-		else 
-			keyParam = new org.bouncycastle.crypto.params.KeyParameter(key);
-        
+        else
+            keyParam = new org.bouncycastle.crypto.params.KeyParameter(key);
+
         CipherParameters keyParamIV = new ParametersWithIV(keyParam, iv);
 
         // Decrypt with initialization vector only when !ECB + algorithm is IV capable
 
         if (cmode2 == CipherMode2.ECB || !canAlgoKeyIV(CryptoBlockCipher))
-			cipherMode.init(false, keyParam);
+            cipherMode.init(false, keyParam);
         else
-			cipherMode.init(false, keyParamIV);
+            cipherMode.init(false, keyParamIV);
 
         // decryptedData = cipherMode.ProcessBytes(cipherData);
         if (cipherMode != null)
@@ -360,7 +357,7 @@ public class CryptBounceCastle  {
         }
         catch (Exception exDecrypt)
         {
-			DbgWriter.msg("CryptBounceCastle " + CryptoBlockCipher.getAlgorithmName() + ": Exceptíon on decrypting final block" + exDecrypt.toString(), false);
+            DbgWriter.msg("CryptBounceCastle " + CryptoBlockCipher.getAlgorithmName() + ": Exceptíon on decrypting final block" + exDecrypt.toString(), false);
             try
             {
                 plainData = new byte[outputSize];
@@ -368,14 +365,14 @@ public class CryptBounceCastle  {
             }
             catch (Exception exDecrypt2)
             {
-				DbgWriter.msg("CryptBounceCastle " + CryptoBlockCipher.getAlgorithmName() + ": Exceptíon on 2x decrypting final block: " + exDecrypt2.toString(), false);
+                DbgWriter.msg("CryptBounceCastle " + CryptoBlockCipher.getAlgorithmName() + ": Exceptíon on 2x decrypting final block: " + exDecrypt2.toString(), false);
                 // plainData = new byte[outputSize];
                 bs = cipherMode.doFinal(plainData, result);
             }
         }
 
-		if (CryptoBlockCipher.getAlgorithmName() == "RC564" || CryptoBlockCipher.getAlgorithmName() == "RC5-64") 
-			return EnDeCodeHelper.getBytesTrimNulls(plainData);
+        if (CryptoBlockCipher.getAlgorithmName() == "RC564" || CryptoBlockCipher.getAlgorithmName() == "RC5-64")
+            return EnDeCodeHelper.getBytesTrimNulls(plainData);
 
         return plainData;
     }
@@ -415,18 +412,18 @@ public class CryptBounceCastle  {
 
         return plaintexts;
     }
-	
-	
-	public boolean IsNullByteArray(byte[] bytes) {
-		if (bytes == null || bytes.length < 1)
-			return true;
-		for (int i = 0; i < bytes.length; i++) {
-			if (bytes[i] != (byte)0)
-				return false;
-		}
-		
-		return true;		
-	}
+
+
+    public boolean IsNullByteArray(byte[] bytes) {
+        if (bytes == null || bytes.length < 1)
+            return true;
+        for (int i = 0; i < bytes.length; i++) {
+            if (bytes[i] != (byte)0)
+                return false;
+        }
+
+        return true;
+    }
 
 
 }
