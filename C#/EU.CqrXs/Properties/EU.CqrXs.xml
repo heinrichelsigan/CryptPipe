@@ -1395,7 +1395,7 @@
             <param name="keyBytes">user key bytes</param>
             <param name="maxpipe">maximum lentgh <see cref="F:EU.CqrXs.Util.Constants.PIPE_MAX_LEN"/></param>        
             <param name="cmode2"><see cref="T:EU.CqrXs.Crypt.Cipher.CipherMode2"/></param>
-            <param name="streaCipher"></param>
+            <param name="otherCiphers"></param>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:EU.CqrXs.Crypt.Cipher.SecureCipherPipe.#ctor(System.String,EU.CqrXs.Crypt.Cipher.CipherMode2,System.Boolean)">

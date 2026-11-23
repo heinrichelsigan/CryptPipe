@@ -142,6 +142,10 @@ namespace EU.CqrXs.Gui
             }
 
 
+            MessageBox.Show($"{ProgName} v2.26.1115 isn't anymore backward compatible, because of correcting keysizes in serveral ciphers!\n" +
+                           "\nPlease use the previous version 2.25.1101 for decrypting old files, or use the new version for encrypting new files.\n",
+                            "Attention");
+
             // mutex = (mutex == null) ? new Mutex(false, Constants.APP_NAME_WINFORM) : mutex;
 
             // if (!mutex.WaitOne(2000, false))

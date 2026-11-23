@@ -58,7 +58,7 @@ namespace EU.CqrXs.Crypt.Cipher
         AesNet = 0x31,
         ZenMatrix2 = 0x32,
 
-        Rsa = 0x40,
+        Rsa = 0x40
         // Dsa = 0x41,
         // DH = 0x42,
         // Ecdsa = 0x43,
@@ -71,7 +71,7 @@ namespace EU.CqrXs.Crypt.Cipher
 
         // Ascon = 0x1d
 
-        None = 0xff
+        // None = 0xff
 
     }
 

@@ -152,7 +152,7 @@ namespace EU.CqrXs.Crypt.Cipher
         /// <param name="keyBytes">user key bytes</param>
         /// <param name="maxpipe">maximum lentgh <see cref="Constants.PIPE_MAX_LEN"/></param>        
         /// <param name="cmode2"><see cref="CipherMode2"/></param>
-        /// <param name="streaCipher"></param>
+        /// <param name="otherCiphers"></param>
         /// <exception cref="ArgumentException"></exception>
         public SecureCipherPipe(byte[] keyBytes, uint maxpipe, CipherMode2 cmode2, bool otherCiphers = false)
         {
