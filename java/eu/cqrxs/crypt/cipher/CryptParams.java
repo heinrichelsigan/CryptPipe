@@ -279,7 +279,7 @@ public class CryptParams {
                 break;
             case XTea:
                 size = 128;
-				setSizeKeyIvLen(128, 32, 32);
+				setSizeKeyIvLen(128, 16, 16);
                 blockCipher = new XTEAEngine();                
                 break;
             case ZenMatrix:

@@ -357,14 +357,14 @@ public class CipherPipe {
             case XTea:
             case ZenMatrix2:
             default:
-                if (cipherAlgo == CipherEnum.XTea) {
-                    BlockCipherBC bcbc = new BlockCipherBC(cpParams, true);
-                    encryptBytes = bcbc.encrypt(inBytes);
-                }
-                else {
+                // if (cipherAlgo != CipherEnum.XTea) {
+                //     BlockCipherBC bcbc = new BlockCipherBC(cpParams, true);
+                //     encryptBytes = bcbc.encrypt(inBytes);
+                // }
+                // else {
                     CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
                     encryptBytes = cryptBounceCastle.encrypt(inBytes);
-                }
+                // }
                 break;
         }
 
@@ -460,15 +460,14 @@ public class CipherPipe {
             // case ZenMatrix:
             case ZenMatrix2:
             default:
-                if (cipherAlgo == CipherEnum.XTea) {
-                    BlockCipherBC bcbc = new BlockCipherBC(cpParams, false);
-                    decryptBytes = bcbc.decrypt(cipherBytes);
-                }
-                else {
+                // if (cipherAlgo != CipherEnum.XTea) {
+                //     BlockCipherBC bcbc = new BlockCipherBC(cpParams, false);
+                //     decryptBytes = bcbc.decrypt(cipherBytes);
+                // }
+                // else {
                     CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
                     decryptBytes = cryptBounceCastle.decrypt(cipherBytes);
-                }
-
+                // }
                 break;
         }
 
