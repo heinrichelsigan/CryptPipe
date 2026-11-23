@@ -953,7 +953,7 @@ public class CipherPipe {
                 imgZ = BitmapFactory.decodeResource(context.getResources(), R.drawable.zip);
             } else {
                 imgZ = BitmapFactory.decodeResource(context.getResources(), R.drawable.pipestartblock);
-                zoffset = 32;
+                zoffset = 8;
             }
             Rect rectSrc = new Rect(0, 0, zoffset, h);
             Rect rectDest = new Rect(xoffset, 0, xoffset + zoffset, h);
