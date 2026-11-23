@@ -348,10 +348,16 @@ namespace EU.CqrXs.Crypt.Cipher
                     break;
 
                 default:
-                    // CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
-                    // encryptBytes = cryptBounceCastle.Encrypt(inBytes); 
-                    BlockCipherBC bbc = new BlockCipherBC(cpParams, true);
-                    encryptBytes = bbc.Encrypt(inBytes);
+                    if (cipherAlgo != CipherEnum.XTea)
+                    {
+                        CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
+                        encryptBytes = cryptBounceCastle.Encrypt(inBytes);
+                    }
+                    else
+                    {
+                        BlockCipherBC bbc = new BlockCipherBC(cpParams, true);
+                        encryptBytes = bbc.Encrypt(inBytes);
+                    }                    
                     break;
             }
 
@@ -415,10 +421,16 @@ namespace EU.CqrXs.Crypt.Cipher
                     break;
 
                  default:
-                    // CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
-                    // decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
-                    BlockCipherBC bbc = new BlockCipherBC(cpParams, false);
-                    decryptBytes = bbc.Decrypt(cipherBytes);
+                    if (cipherAlgo != CipherEnum.XTea)
+                    {
+                        CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
+                        decryptBytes = cryptBounceCastle.Decrypt(cipherBytes);
+                    }
+                    else
+                    {
+                        BlockCipherBC bbc = new BlockCipherBC(cpParams, false);
+                        decryptBytes = bbc.Decrypt(cipherBytes);
+                    }                    
                     break;
             }
 

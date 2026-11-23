@@ -43,6 +43,8 @@ eu\cqrxs\crypt\cipher\symmetric\ZenMatrix3.class
 eu\cqrxs\crypt\cipher\symmetric\JAes.class
 eu\cqrxs\crypt\cipher\symmetric\ZenMatrix.class
 eu\cqrxs\crypt\cipher\symmetric\StreamCipherBC.class
+eu\cqrxs\crypt\cipher\symmetric\CryptBounceCastle.class
+eu\cqrxs\crypt\cipher\symmetric\CryptBounceCastle$1.class
 eu\cqrxs\crypt\cipher\symmetric\BlockCipherBC.class
 eu\cqrxs\crypt\cipher\symmetric\BlockCipherBC$1.class
 eu\cqrxs\crypt\cipher\symmetric\ZenMatrix2.class

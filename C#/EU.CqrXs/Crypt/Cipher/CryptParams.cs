@@ -270,6 +270,7 @@ namespace EU.CqrXs.Crypt.Cipher
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.TnepresEngine();                    
                     break;
                 case CipherEnum.XTea:
+                    SetBlockSizeKeyIvLen(128, 16, 16);
                     BlockCipher = new Org.BouncyCastle.Crypto.Engines.XteaEngine();
                     break;
                 case CipherEnum.ZenMatrix:

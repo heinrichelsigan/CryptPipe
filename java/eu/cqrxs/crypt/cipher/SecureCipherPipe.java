@@ -230,10 +230,14 @@ public class SecureCipherPipe extends CipherPipe {
                 break;
 
             default:
-                CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
-                encryptBytes = cryptBounceCastle.encrypt(inBytes);
-                // BlockCipherBC bcbc = new BlockCipherBC(cpParams, true);
-                // encryptBytes = bcbc.encrypt(inBytes);
+				if (cipherAlgo == CipherEnum.XTea) {
+                    BlockCipherBC bcbc = new BlockCipherBC(cpParams, true);
+                    encryptBytes = bcbc.encrypt(inBytes);
+                }
+                else {
+                    CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
+                    encryptBytes = cryptBounceCastle.encrypt(inBytes);
+                }                
                 break;
         }
 
@@ -294,10 +298,14 @@ public class SecureCipherPipe extends CipherPipe {
                 break;
 
             default:
-                CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
-                decryptBytes = cryptBounceCastle.decrypt(cipherBytes);
-                // BlockCipherBC bcbc = new BlockCipherBC(cpParams, false);
-                // decryptBytes = bcbc.decrypt(cipherBytes);
+				if (cipherAlgo == CipherEnum.XTea) {
+                    BlockCipherBC bcbc = new BlockCipherBC(cpParams, false);
+                    decryptBytes = bcbc.decrypt(cipherBytes);
+                }
+                else {
+                    CryptBounceCastle cryptBounceCastle = new CryptBounceCastle(cpParams, true);
+                    decryptBytes = cryptBounceCastle.decrypt(cipherBytes);
+                }
                 break;
         }
 
