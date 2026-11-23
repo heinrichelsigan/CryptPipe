@@ -4,6 +4,7 @@ using EU.CqrXs.Crypt.EnDeCoding;
 using EU.CqrXs.Crypt.Hash;
 using EU.CqrXs.Util;
 using EU.CqrXs.Zip;
+using System.Reflection;
 
 namespace EU.CqrXs.Spooler
 {
@@ -399,7 +400,15 @@ namespace EU.CqrXs.Spooler
                     optEnum = OptSpoolEnum.Usage;
                     optArgs[0] = optEnum.ToString();
                     optArgs[1] = $"unrecognized option: {argument}.";
-                    Usage(optArgs[1]);
+                    string usageCmd = "";
+                    object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+                    if (attributes.Length > 0)
+                    {
+                        AssemblyTitleAttribute titleAttribute = (AssemblyTitleAttribute)attributes[0];
+                        usageCmd += titleAttribute.Title ?? "EU.CqrXs.Spooler";
+                    }
+                    usageCmd += $" v{Assembly.GetExecutingAssembly().GetName().Version} ";
+                    Usage(usageCmd);
                     break;
             }
 

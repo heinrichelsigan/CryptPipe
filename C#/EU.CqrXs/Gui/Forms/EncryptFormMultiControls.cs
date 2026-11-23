@@ -684,7 +684,13 @@ namespace EU.CqrXs.Gui.Forms
             this.textBoxPipe.Text = string.Empty;
             if (string.IsNullOrEmpty(this.textBoxHash.Text))
                 Hash_Click(sender, e);
-            
+
+            if (string.IsNullOrWhiteSpace(textBoxHash.Text)) 
+            {
+                SetInfoMessage("Hash is empty!", ToolTipIcon.Warning, 2000);
+                return;
+            }
+
             cPipe = new CipherPipe(this.textBoxHash.Text, this.textBoxKey.Text, 
                 GetEncoding(), GetZip(), GetHash(), GetCipherMode2(), menuItemIncludeStreamCiphers.Checked);
             foreach (CipherEnum cipher in cPipe.InPipe)

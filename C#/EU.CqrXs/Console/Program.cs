@@ -3,6 +3,7 @@ using EU.CqrXs.Crypt.EnDeCoding;
 using EU.CqrXs.Crypt.Hash;
 using EU.CqrXs.Util;
 using EU.CqrXs.Zip;
+using System.Reflection;
 using System.Text;
 
 namespace EU.CqrXs.Console
@@ -169,7 +170,16 @@ namespace EU.CqrXs.Console
                     case OptEnum.Help:
                     case OptEnum.Usage:
                     default:
-                        Usage(string.IsNullOrEmpty(optStr) ? "" : optStr);
+                        string usageCmd = "";
+                        object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+                        if (attributes.Length > 0)
+                        {
+                            AssemblyTitleAttribute titleAttribute = (AssemblyTitleAttribute)attributes[0];
+                            usageCmd += titleAttribute.Title ?? "EU.CqrXs.Console";
+                        }
+                        usageCmd += $" v{Assembly.GetExecutingAssembly().GetName().Version} ";
+                        usageCmd += string.IsNullOrEmpty(optStr) ? "" : "\n" + optStr;
+                        Usage(usageCmd);
                         break;
                 }
             }
@@ -259,7 +269,7 @@ namespace EU.CqrXs.Console
         {
             if (!string.IsNullOrEmpty(errMsg))
                 System.Console.Error.WriteLine(errMsg);
-
+            
             System.Console.Out.WriteLine("Usage:\t" + Path.GetFileName(progName) + @"
     -i  | --inFile= | --inText={string|EnviromentVariable} | --inStd    
     -k  | --key=passKey encrypt    
