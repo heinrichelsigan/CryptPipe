@@ -72,6 +72,7 @@ namespace EU.CqrXs.Gui.Forms
             menuItemCreatePipeSettingsFromFileName = new ToolStripMenuItem();
             menuFileSettingsItemAutomaticallySaveToTemp = new ToolStripMenuItem();
             menuFileSettingsItemSaveSettingsToJson = new ToolStripMenuItem();
+            menuItemIncludeStreamCiphers = new ToolStripMenuItem();
             menuOptionsMenuVisualModes = new ToolStripMenuItem();
             menuVisualModesItemClassic = new ToolStripMenuItem();
             menuVisualModesItemDark = new ToolStripMenuItem();
@@ -107,7 +108,6 @@ namespace EU.CqrXs.Gui.Forms
             comboBoxAlgo = new ComboBox();
             pictureBoxAddAlgo = new PictureBox();
             comboBoxCipherModes = new ComboBox();
-            menuItemIncludeStreamCiphers = new ToolStripMenuItem();
             menuStripEncrypt.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)enumOptionsBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxKey).BeginInit();
@@ -476,6 +476,14 @@ namespace EU.CqrXs.Gui.Forms
             menuFileSettingsItemSaveSettingsToJson.Size = new Size(346, 22);
             menuFileSettingsItemSaveSettingsToJson.Text = "Save Settings to json file";
             // 
+            // menuItemIncludeStreamCiphers
+            // 
+            menuItemIncludeStreamCiphers.BackColor = SystemColors.Menu;
+            menuItemIncludeStreamCiphers.CheckOnClick = true;
+            menuItemIncludeStreamCiphers.Name = "menuItemIncludeStreamCiphers";
+            menuItemIncludeStreamCiphers.Size = new Size(346, 22);
+            menuItemIncludeStreamCiphers.Text = "Include StreamCiphers";
+            // 
             // menuOptionsMenuVisualModes
             // 
             menuOptionsMenuVisualModes.BackColor = SystemColors.MenuBar;
@@ -558,10 +566,13 @@ namespace EU.CqrXs.Gui.Forms
             textBoxKey.Location = new Point(48, 27);
             textBoxKey.Margin = new Padding(1);
             textBoxKey.Name = "textBoxKey";
+            textBoxKey.PasswordChar = '*';
             textBoxKey.Size = new Size(581, 23);
             textBoxKey.TabIndex = 4;
             textBoxKey.Text = "ftp@ftp.cdrom.com";
             textBoxKey.TextChanged += textBoxKey_TextChanged;
+            textBoxKey.Leave += texxtBoxKey_Leave;
+            textBoxKey.MouseLeave += textBoxKey_MouseLeave;
             // 
             // pictureBoxKey
             // 
@@ -683,7 +694,7 @@ namespace EU.CqrXs.Gui.Forms
             // labelInfoMessage
             // 
             labelInfoMessage.BackColor = SystemColors.Info;
-            labelInfoMessage.Font = new Font("Lucida Fax", 9.25F);
+            labelInfoMessage.Font = new Font("Lucida Sans", 10F);
             labelInfoMessage.ForeColor = SystemColors.InfoText;
             labelInfoMessage.Location = new Point(516, 4);
             labelInfoMessage.Margin = new Padding(1);
@@ -850,16 +861,6 @@ namespace EU.CqrXs.Gui.Forms
             comboBoxCipherModes.Name = "comboBoxCipherModes";
             comboBoxCipherModes.Size = new Size(104, 23);
             comboBoxCipherModes.TabIndex = 47;
-            // 
-            // menuItemIncludeStreamCiphers
-            // 
-            menuItemIncludeStreamCiphers.BackColor = SystemColors.Menu;
-            menuItemIncludeStreamCiphers.Checked = false;
-            menuItemIncludeStreamCiphers.CheckOnClick = true;
-            menuItemIncludeStreamCiphers.CheckState = CheckState.Unchecked;
-            menuItemIncludeStreamCiphers.Name = "menuItemIncludeStreamCiphers";
-            menuItemIncludeStreamCiphers.Size = new Size(346, 22);
-            menuItemIncludeStreamCiphers.Text = "Include StreamCiphers";
             // 
             // EncryptFormSimple
             // 

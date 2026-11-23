@@ -6,6 +6,7 @@ using EU.CqrXs.Gui.Properties;
 using EU.CqrXs.Gui.Sound;
 using EU.CqrXs.Util;
 using EU.CqrXs.Zip;
+using Org.BouncyCastle.Crypto.Parameters;
 using System.Security.Cryptography;
 
 
@@ -19,7 +20,7 @@ namespace EU.CqrXs.Gui.Forms
     {
 
         protected internal SecureCipherPipe? cPipe = null;
-        protected internal string simg = "";        
+        protected internal string simg = "";
         protected internal ToolStripMenuItem[] mCipherModes;
 
         #region ctor and load
@@ -32,8 +33,8 @@ namespace EU.CqrXs.Gui.Forms
         public EncryptFormSimple()
         {
             InitializeComponent();
-            
-                     
+
+
             mCipherModes = new ToolStripMenuItem[] { menuCipherModeItemCBC, menuCipherModeItemCFB, menuCipherModeItemCTS, menuCipherModeItemECB, menuCipherModeItemGOFB };
 
             this.comboBoxCompression.SelectedItem = ZipType.GZip.ToString();
@@ -59,7 +60,7 @@ namespace EU.CqrXs.Gui.Forms
                 => await menuAbout_Click(sender, e));
             menuHelpHelp.Click += new System.EventHandler(async (sender, e)
                 => await menuHelp_Click(sender, e));
-            menuMainComplex.Click += menuMainComplex_Click;   
+            menuMainComplex.Click += menuMainComplex_Click;
             menuMainItemOneTwoThreeFish.Click += new System.EventHandler(async (sender, e)
                  => await menuMainItemOneTwoThreeFish_Click(sender, e));
             menuMainZenMatrix.Click += menuMainItemZenMatrixTest_Click;
@@ -102,16 +103,16 @@ namespace EU.CqrXs.Gui.Forms
 
             await menuCipherMode_Click(menuCipherModeItemECB, e);
             await groupBoxFiles.pictureBoxRunningPipe.SetImageTagVisibleAsync(Resources.BlankEncrypt_640x108, "", true);
-            await SetInfoMessageAsync($"{this.Name} started...", ToolTipIcon.Info, 2000);            
+            await SetInfoMessageAsync($"{this.Name} started...", ToolTipIcon.Info, 2000);
         }
 
         #endregion ctor and load
 
         #region MenuCompressionEncodingZipHash
 
-        
+
         protected internal KeyHash GetHash() => KeyHash.SCrypt;
-        
+
         protected internal ZipType GetZip() => ZipType.GZip;
 
         protected internal EncodingType GetEncoding() => EncodingType.Base64;
@@ -137,7 +138,7 @@ namespace EU.CqrXs.Gui.Forms
                 comboBoxCipherModes.SelectedIndex = ix;
 
                 CipherMode2 cmode2 = CipherModeExtensions.ParseText(cipherModeString);
-                CipherMode cmode = cmode2.ToCipherMode();                 
+                CipherMode cmode = cmode2.ToCipherMode();
 
                 if (cPipe != null)
                 {
@@ -163,11 +164,11 @@ namespace EU.CqrXs.Gui.Forms
             }
             switch (comboBoxCipherModes.Items[comboBoxCipherModes.SelectedIndex])
             {
-                case "CBC": await menuCipherMode_Click(menuCipherModeItemCBC, e); return;                
+                case "CBC": await menuCipherMode_Click(menuCipherModeItemCBC, e); return;
                 case "CFB": await menuCipherMode_Click(menuCipherModeItemCFB, e); return;
                 case "CTS": await menuCipherMode_Click(menuCipherModeItemCTS, e); return;
                 case "GOFB": await menuCipherMode_Click(menuCipherModeItemGOFB, e); return;
-                case "ECB": 
+                case "ECB":
                 default: await menuCipherMode_Click(menuCipherModeItemECB, e); break;
             }
         }
@@ -188,7 +189,7 @@ namespace EU.CqrXs.Gui.Forms
             }
 
             this.menuCipherModeItemECB.Checked = true;
-            this.menuCipherModeItemECB.CheckState = CheckState.Checked; 
+            this.menuCipherModeItemECB.CheckState = CheckState.Checked;
             // menuCipherModeItemCFB.Checked = true;
             return CipherMode2.ECB;
         }
@@ -234,7 +235,7 @@ namespace EU.CqrXs.Gui.Forms
             if (cPipe != null)
             {
                 cPipe.CMode2 = cMode2;
-                await groupBoxFiles.pictureBoxRunningPipe.SetImageTagVisibleAsync(cPipe?.GenerateEncryptPipeImage());                
+                await groupBoxFiles.pictureBoxRunningPipe.SetImageTagVisibleAsync(cPipe?.GenerateEncryptPipeImage());
             }
             await SetInfoMessageAsync($"CipherMode {cMode2.ToString()} set.", ToolTipIcon.Info, 2000);
 
@@ -264,9 +265,27 @@ namespace EU.CqrXs.Gui.Forms
         {
             ;
         }
-        
 
-   
+        private void textBoxKey_MouseLeave(object sender, EventArgs e)
+        {
+            texxtBoxKey_Leave(sender, (EventArgs)e);
+        }
+
+        private void texxtBoxKey_Leave(object sender, EventArgs e)
+        {
+            string textKey = this.textBoxKey.Text;
+            string msg = "";
+            for (int i = 0; i < textKey.Length; i++)
+            {
+                if (textKey[i] == '@' || textKey[i] == '-')
+                    msg += textKey[i];
+                else
+                    msg += (i % 3 == 0  || i == textKey.Length - 1) ? textKey[i] : '.';
+            }
+            SetInfoMessage(msg, ToolTipIcon.Info, 4000);
+        }
+
+
         /// <summary>
         /// pictureBoxDelete_Click - clears pipeline textbox
         /// </summary>
@@ -465,7 +484,7 @@ namespace EU.CqrXs.Gui.Forms
             Icon iconSandClock = new Icon(Properties.Resources.icon_sandclock, new Size(60, 60));
             if (string.IsNullOrEmpty(this.textBoxPipe.Text) && this.warnOnEmptyPipeToolStripMenuItem.Checked)
             {
-                string warnMsg = $"No encryption pipe is set, do you want to gzip with Base64 encode only?";                
+                string warnMsg = $"No encryption pipe is set, do you want to gzip with Base64 encode only?";
                 DialogResult result = MessageBox.Show(this, warnMsg, "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                 if (result == DialogResult.Cancel)
                     return;
@@ -514,7 +533,7 @@ namespace EU.CqrXs.Gui.Forms
                     }
                     return;
                 }
-                
+
                 await SetInfoMessageAsync("Starting encryption for file " + groupBoxFiles.labelFileIn.Text, ToolTipIcon.Info, -1);
 
                 Cursor.Current = new Cursor(iconSandClock.Handle);
@@ -625,7 +644,7 @@ namespace EU.CqrXs.Gui.Forms
                     await this.statusLabelSource.SetTextAsync($"source chars: {tabControlWithHexSrc.Text.Length}");
 
                     string decrypted = cPipe.DecryptTextRoundsGo(this.tabControlWithHexSrc.Text, this.textBoxKey.Text, GetCipherMode2());
-                    if (!decrypted.Contains("\r\n") && decrypted.Contains("\n")) 
+                    if (!decrypted.Contains("\r\n") && decrypted.Contains("\n"))
                         decrypted = decrypted.Replace("\n", Environment.NewLine);
                     // this.tabControlWithHexDest.EncoderType = GetEncoding();
                     this.tabControlWithHexDest.Text = decrypted;
@@ -787,7 +806,7 @@ namespace EU.CqrXs.Gui.Forms
                 {
                     cPipe = GetSPipeFromFileName(fileName);
                     if (cPipe != null)
-                    {                        
+                    {
                         this.textBoxPipe.Text = "";
                         foreach (CipherEnum cipher in cPipe.InPipe)
                         {
@@ -846,7 +865,7 @@ namespace EU.CqrXs.Gui.Forms
             }
             try
             {
-                HideAllOtherForms("OneTwoThreeFish");               
+                HideAllOtherForms("OneTwoThreeFish");
             }
             catch (Exception exHide)
             {
@@ -880,7 +899,7 @@ namespace EU.CqrXs.Gui.Forms
             }
             try
             {
-                HideAllOtherForms("EncryptFormMultiControls");                
+                HideAllOtherForms("EncryptFormMultiControls");
             }
             catch (Exception exHide)
             {
@@ -1066,7 +1085,7 @@ namespace EU.CqrXs.Gui.Forms
                     return true;
                 }
             }
-             
+
             return false;
         }
 
@@ -1212,6 +1231,7 @@ namespace EU.CqrXs.Gui.Forms
         #endregion Media Methods
 
 
+        
     }
 
 }
