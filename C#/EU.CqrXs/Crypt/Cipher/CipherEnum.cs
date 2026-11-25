@@ -61,9 +61,9 @@ namespace EU.CqrXs.Crypt.Cipher
         FF3_1_FPE = 0x2d,
 
 
-        Des3Net = 0x2e,
-        AesNet = 0x2f,
-        ZenMatrix2 = 0x30,
+        Des3Net = 0x30,
+        AesNet = 0x31,
+        ZenMatrix2 = 0x32,
 
         Rsa = 0x40
         // Dsa = 0x41,
