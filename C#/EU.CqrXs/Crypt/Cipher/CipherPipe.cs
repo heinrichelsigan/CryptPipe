@@ -1,10 +1,12 @@
-﻿using EU.CqrXs.Crypt.Cipher.Symmetric;
+﻿using EU.CqrXs.Crypt.Cipher.Aead;
+using EU.CqrXs.Crypt.Cipher.Symmetric;
 using EU.CqrXs.Crypt.EnDeCoding;
 using EU.CqrXs.Crypt.Hash;
 using EU.CqrXs.Util;
 using EU.CqrXs.Zip;
 using Newtonsoft.Json;
 using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Utilities;
 using System.Drawing;
 using System.Globalization;
@@ -223,8 +225,8 @@ namespace EU.CqrXs.Crypt.Cipher
         {
             includeStremCiphers = streamCiphers;
             int moduloMax = (includeStremCiphers) ? 
-                Constants.PIPE_STREAM_AUTO_MODULO_MAX :
-                Constants.PIPE_AUTO_MODULO_MAX;
+                Constants.PIPE_AEAD_AUTO_MODULO_MAX :
+                Constants.PIPE_SYMMCIPHER_AUTO_MODULO_MAX;
             // What ever is entered here as parameter, maxpipe has to be not greater Constants.PIPE_MAX_LEN, because of no such agency
             maxpipe = (maxpipe > Constants.PIPE_MAX_LEN) ? Constants.PIPE_MAX_LEN : maxpipe; // if somebody wants more, he/she/it gets less
             
@@ -389,6 +391,19 @@ namespace EU.CqrXs.Crypt.Cipher
                     encryptBytes = new StreamCipherBC(cpParams, true).Encrypt(inBytes);
                     break;
 
+                case CipherEnum.AES_CCM:
+                case CipherEnum.AES_GCM:
+                case CipherEnum.ASCON:
+                case CipherEnum.CHACHA_POLY:
+                case CipherEnum.WRAP_KEY_RFC3394:
+                case CipherEnum.FF3_1_FPE:
+                    cpParams = new CryptParams(cipherAlgo, secretKey, hash);
+                    KeyParameter keyParamC = new KeyParameter(cpParams.keyed);
+                    encryptBytes = AeadCipher.Encrypt(cipherAlgo, keyParamC, inBytes);
+                    break;
+
+
+
                 default:
                     //if (cipherAlgo == CipherEnum.XTea)
                     //{
@@ -461,8 +476,20 @@ namespace EU.CqrXs.Crypt.Cipher
                 case CipherEnum.VmpcKsa3:
                     cpParams = new CryptParams(cipherAlgo, secretKey, hash);
                     decryptBytes = new StreamCipherBC(cpParams, false).Decrypt(cipherBytes);
-                    break;    
-                
+                    break;
+
+                case CipherEnum.AES_CCM:
+                case CipherEnum.AES_GCM:
+                case CipherEnum.ASCON:
+                case CipherEnum.CHACHA_POLY:
+                case CipherEnum.WRAP_KEY_RFC3394:
+                case CipherEnum.FF3_1_FPE:
+                    cpParams = new CryptParams(cipherAlgo, secretKey, hash);
+                    KeyParameter keyParamC = new KeyParameter(cpParams.keyed);
+                    decryptBytes = AeadCipher.Decrypt(cipherAlgo, keyParamC, cipherBytes);
+                    break;
+
+
                 default:
                     //if (cipherAlgo == CipherEnum.XTea)
                     //{

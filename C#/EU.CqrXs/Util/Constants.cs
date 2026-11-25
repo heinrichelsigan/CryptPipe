@@ -47,8 +47,10 @@ namespace EU.CqrXs.Util
         public const int PIPE_REVERSE_FROM = 7; // 0xb;
         public const int PIPE_KEY_HASH_LEN = 0x10; // 0x20;
 
-        public const int PIPE_AUTO_MODULO_MAX = 0x1d; // up to ZenMatrix 0x1c
+        public const int PIPE_SYMMCIPHER_AUTO_MODULO_MAX = 0x1d; // up to ZenMatrix 0x1c
         public const int PIPE_STREAM_AUTO_MODULO_MAX = 0x28; // up to XSalsa20 = 0x27        
+        public const int PIPE_AEAD_AUTO_MODULO_MAX = 0x2e; // up to FF3_1_FPE = 0x2d
+        public const int PIPE_AUTO_MODULO_MAX = 0x31; // up to Matrix2 = 0x30,
 
         public const bool PIPE_BUILD_MULTI_SAME_CIPHERS = false;
 
@@ -252,6 +254,8 @@ namespace EU.CqrXs.Util
         public const string AUTHOR_EMAIL = "heinrich.elsigan@area23.at";
         public const string AUTHOR_IV = "6865696e726963682e656c736967616e406172656132332e6174";
         public const string AREA23_EMAIL = "zen@area23.at";
+
+        public const string AREA23_DOMAIN = "area23.";
         public const string AUTHOR_SIGNATURE = "-- \nHeinrich G.Elsigan\nTheresianumgasse 6/28, A-1040 Vienna\n phone: +43 650 752 79 28 \nmobile: +43 670 406 89 83 \nemails: heinrich.elsigan @gmail.com\n        heinrich.elsigan@live.at\n        sites: area23.at cqrxs.eu\nweblog: blog.area23.at\n   wko: https://firmen.wko.at/DetailsKontakt.aspx?FirmaID=19800fbd-84a2-456d-890e-eb1fa213100f";
 
         public static readonly string[] Author_Emails = {

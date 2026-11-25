@@ -52,11 +52,18 @@ namespace EU.CqrXs.Crypt.Cipher
         VmpcKsa3 = 0x25,
         XChaCha20 = 0x26,
         XSalsa20 = 0x27,
-        
 
-        Des3Net = 0x30,
-        AesNet = 0x31,
-        ZenMatrix2 = 0x32,
+        AES_CCM = 0x28,
+        AES_GCM = 0x29,
+        ASCON = 0x2a,
+        CHACHA_POLY = 0x2b,
+        WRAP_KEY_RFC3394 = 0x2c,
+        FF3_1_FPE = 0x2d,
+
+
+        Des3Net = 0x2e,
+        AesNet = 0x2f,
+        ZenMatrix2 = 0x30,
 
         Rsa = 0x40
         // Dsa = 0x41,

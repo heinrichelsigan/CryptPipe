@@ -41,9 +41,16 @@
     <Compile Remove="EnDeCoding\**" />
     <Compile Include="Crypt\Cipher\CipherEnumExtensions.cs" />
     <Compile Include="Crypt\Cipher\CipherModeExtensions.cs" />
+    <Compile Include="Crypt\Cipher\Aead\ChaCha20Poly.cs" />
+    <Compile Include="Crypt\Cipher\Aead\AsconAeadCipher.cs" />
+    <Compile Include="Crypt\Cipher\Aead\GcmAeadCipher.cs" />
+    <Compile Include="Crypt\Cipher\Aead\CcmAeadCipher.cs" />
+    <Compile Include="Crypt\Cipher\Aead\AeadCipher.cs" />
+    <Compile Include="Crypt\Cipher\Aead\FF3_1_FPE.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\BlockCipherBC.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\CryptBounceCastle.cs" />
     <Compile Include="Crypt\Cipher\Symmetric\StreamCipherBC.cs" />
+    <Compile Include="Crypt\Cipher\Aead\SymmKeyWrap.cs" />
     <Compile Include="Zip\ZipTypeExtensions.cs" />
     <EmbeddedResource Remove="Cipher\**" />
     <EmbeddedResource Remove="**" />
