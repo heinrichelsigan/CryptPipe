@@ -6,9 +6,19 @@ using System.Text;
 namespace EU.CqrXs.Crypt.Cipher.Aead
 {
 
+    /// <summary>
+    /// Ascon Aead Cipher
+    /// </summary>
     public class AsconAeadCipher
     {
-        public static byte[] asconAEADEncrypt(KeyParameter keyParam, byte[] plainTextData)
+
+        /// <summary>
+        /// ascon AEAD Encrypt
+        /// </summary>
+        /// <param name="keyParam"></param>
+        /// <param name="plainData"></param>
+        /// <returns>byte[] of encrypted data</returns>
+        public static byte[] asconAEADEncrypt(KeyParameter keyParam, byte[] plainData)
         {
             AsconEngine cipher = new AsconEngine(AsconEngine.AsconParameters.ascon128a);
             int macSize = 8 * cipher.GetKeyBytesSize();
@@ -18,14 +28,21 @@ namespace EU.CqrXs.Crypt.Cipher.Aead
             byte[] associatedText = Encoding.UTF8.GetBytes(Constants.AUTHOR_EMAIL);
             AeadParameters keyParamAead = new AeadParameters(keyParam, macSize, nonce, associatedText);
             cipher.Init(true, keyParamAead);
-            int outputSize = cipher.GetOutputSize(plainTextData.Length);
+            int outputSize = cipher.GetOutputSize(plainData.Length);
             byte[] cipherTextData = new byte[outputSize];
-            int result = cipher.ProcessBytes(plainTextData, 0, plainTextData.Length, cipherTextData, 0);
+            int result = cipher.ProcessBytes(plainData, 0, plainData.Length, cipherTextData, 0);
             cipher.DoFinal(cipherTextData, result);
             return cipherTextData;
         }
 
-        public static byte[] asconAEADDecrypt(KeyParameter keyParam, byte[] cipherTextData)
+
+        /// <summary>
+        /// Ascon AEAD Decrypt
+        /// </summary>
+        /// <param name="keyParam"></param>
+        /// <param name="cipherData"></param>
+        /// <returns>decrypted byte[]</returns>
+        public static byte[] asconAEADDecrypt(KeyParameter keyParam, byte[] cipherData)
         {
             AsconEngine cipher = new AsconEngine(AsconEngine.AsconParameters.ascon128a);
             int macSize = 8 * cipher.GetKeyBytesSize();
@@ -35,9 +52,9 @@ namespace EU.CqrXs.Crypt.Cipher.Aead
             byte[] associatedText = Encoding.UTF8.GetBytes(Constants.AUTHOR_EMAIL);
             AeadParameters keyParamAead = new AeadParameters(keyParam, macSize, nonce, associatedText);
             cipher.Init(false, keyParamAead);
-            int outputSize = cipher.GetOutputSize(cipherTextData.Length);
+            int outputSize = cipher.GetOutputSize(cipherData.Length);
             byte[] plainTextData = new byte[outputSize];
-            int result = cipher.ProcessBytes(cipherTextData, 0, cipherTextData.Length, plainTextData, 0);
+            int result = cipher.ProcessBytes(cipherData, 0, cipherData.Length, plainTextData, 0);
             cipher.DoFinal(plainTextData, result);
             return plainTextData;
         }
