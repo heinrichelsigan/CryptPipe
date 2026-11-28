@@ -34,6 +34,7 @@ including the follwing symmetric cipher algorithms:
 - [Serpent](https://en.wikipedia.org/wiki/Serpent_(cipher)), Tnepres
 - [Tea](https://de.wikipedia.org/wiki/Tiny_Encryption_Algorithm), [XTea](https://en.wikipedia.org/wiki/XTEA)
 - StreamCiphers like [ChaCha20](https://en.wikipedia.org/wiki/Salsa20#ChaCha_variant), [Isaac](https://rosettacode.org/wiki/The_ISAAC_cipher), [RC4](https://en.wikipedia.org/wiki/RC4), [Salsa2ß](https://en.wikipedia.org/wiki/Salsa2), [Vmpc](https://en.wikipedia.org/wiki/Variably_Modified_Permutation_Composition#External_links), ...
+- AeadCiphers experimental like ChaCha20PolyCipher, CcmBlockCipher, GcmBlockCipher, ...
 - and my own simplest below average symmetric block cipher alogrithms: ZenMatrix, ZenMatrix2	
 
 ### Online [latex help](https://cqrxs.eu/help/Making_symmetric_BlockCipher_meta_permutating_again.pdf)
