@@ -15,7 +15,8 @@ Allow empty hashes.
 Try to ensure compatibility with pure C libtom (linux, windows):
 [libtom.net](https://www.libtom.net/), git [libtom/libtomcrypt](https://github.com/libtom/libtomcrypt) 
 
-<img src="https://raw.githubusercontent.com/heinrichelsigan/PermAgainCrypt/refs/heads/main/docu/Symmetric_Cipher_Pipeline.png" />
+<img src="https://raw.githubusercontent.com/heinrichelsigan/PermAgainCrypt/refs/heads/main/docu/Crypt_Cipher_Pipeline.png" />
+<img width="865" height="396" alt="Crypt_Cipher_Pipeline" src="https://github.com/user-attachments/assets/48193017-e3a3-4adb-b67a-7b77b97ad816" />
 
 Before entering the encryption pipe, the file can be zipped to avoid huge amount of symmetric cipher blocks 
 and after exiting the encryption pipe the file can be ascii encoded with base64 mime, uuencode, xxencode or hex16, because symmetric chiphered binary files might lose their block padding.
