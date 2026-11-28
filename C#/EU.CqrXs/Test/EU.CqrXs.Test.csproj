@@ -1,7 +1,7 @@
 <Project Sdk="MSTest.Sdk/3.6.4">
 
   <PropertyGroup>
-	<TargetFramework>net11.0</TargetFramework>
+	<TargetFramework>net10.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -15,8 +15,8 @@
     <Title>EU.CqrXs.Test</Title>
     <Description>EU.CqrXs.Test integration tests project for CipherEnum CipherPipe en-/decryption for EncodingType CipherPipe en-/decoding for ZipType CipherPipe un-/zipping</Description>
     <RepositoryUrl>https://github.com/heinrichelsigan/CryptPipe/</RepositoryUrl>
-    <AssemblyVersion>2.26.1115</AssemblyVersion>
-    <FileVersion>2.26.1115</FileVersion>
+    <AssemblyVersion>2.26.1205</AssemblyVersion>
+    <FileVersion>2.26.1205</FileVersion>
     <StartupObject></StartupObject>
     <PackageReadmeFile>README.MD</PackageReadmeFile>
   </PropertyGroup>

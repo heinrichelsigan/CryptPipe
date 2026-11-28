@@ -62,6 +62,27 @@
             <param name="text">semicolon separated pipe string to CipherList </param>
             <returns><see cref="T:CipherMode2"/> array of ciphers for the pipe</returns>
         </member>
+        <member name="T:EU.CqrXs.Crypt.Cipher.Aead.AsconAeadCipher">
+            <summary>
+            Ascon Aead Cipher
+            </summary>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.Aead.AsconAeadCipher.asconAEADEncrypt(Org.BouncyCastle.Crypto.Parameters.KeyParameter,System.Byte[])">
+            <summary>
+            ascon AEAD Encrypt
+            </summary>
+            <param name="keyParam"></param>
+            <param name="plainData"></param>
+            <returns>byte[] of encrypted data</returns>
+        </member>
+        <member name="M:EU.CqrXs.Crypt.Cipher.Aead.AsconAeadCipher.asconAEADDecrypt(Org.BouncyCastle.Crypto.Parameters.KeyParameter,System.Byte[])">
+            <summary>
+            Ascon AEAD Decrypt
+            </summary>
+            <param name="keyParam"></param>
+            <param name="cipherData"></param>
+            <returns>decrypted byte[]</returns>
+        </member>
         <member name="T:EU.CqrXs.Crypt.Cipher.Aead.FF3_1_FPE">
             <summary>
             ff3_1FPE Encrypt / Decrypt functions
